@@ -1,0 +1,23 @@
+<nav class="navbar">
+	<div class="container">
+		<div class="navbar-brand">
+			<p class="navbar-item title title-page has-text-primary">
+				DigitalTrust
+			</p>
+			<span class="navbar-burger burger" data-target="navbarMenu">
+				<span></span>
+				<span></span>
+				<span></span>
+			</span>
+		</div>
+		<div id="navbarMenu" class="navbar-menu">
+			<div class="navbar-end">
+				{{#page 'about' '@navbar.url.a1' '' 'navbar-item is-size-5' }}{{/page}}
+				<a target="" href="#fqa" class="navbar-item is-size-5" id="">{{ navbar.url.a2 }}</a>
+				<a target="" href="#service" class="navbar-item is-size-5" id="">{{ navbar.url.a3 }}</a>
+				<a target="" href="#contact" class="navbar-item is-size-5" id="">{{ navbar.url.a4 }}</a>
+				<a target="" href="/app" class="navbar-item is-size-5 login" id="">{{ navbar.url.a5 }}</a>
+			</div>
+		</div>
+	</div>
+</nav>

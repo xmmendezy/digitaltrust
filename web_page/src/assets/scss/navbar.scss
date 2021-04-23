@@ -1,0 +1,27 @@
+nav.navbar {
+	padding: 1.5rem 9rem 0 9rem !important;
+
+	.title-page {
+		font-size: 24px !important;
+		margin: 0 !important;
+	}
+}
+
+a.navbar-item {
+	color: $gray;
+	margin-top: 0.5rem;
+	font-size: 16px !important;
+	font-weight: lighter;
+
+	&.login {
+		margin-left: 4rem;
+	}
+
+	&.title {
+		font-weight: 600;
+	}
+
+	&:hover {
+		color: #458ff6;
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+	],
+	"settings": {
+		"deno.enable": false
+	},
+	"extensions": {
+		"recommendations": [
+			"hookyqr.beautify",
+			"editorconfig.editorconfig",
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"ms-azuretools.vscode-docker"
+		]
+	}
+}
