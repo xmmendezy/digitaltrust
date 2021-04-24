@@ -80,6 +80,10 @@ $colors: mergeColorMaps(
 			$dark,
 			$dark-invert,
 		),
+		'gray': (
+			$gray,
+			$gray,
+		),
 		'primary': (
 			$primary,
 			$primary-invert,
@@ -145,6 +149,7 @@ $colors: mergeColorMaps(
 			$danger-invert,
 			$danger-light,
 			$danger-dark,
+			image1,
 		),
 	),
 	$custom-colors
@@ -208,7 +213,9 @@ body {
 .title-underline {
 	color: $black !important;
 	font-size: 38px !important;
-	padding-bottom: 1.5rem;
+	padding-bottom: 1rem;
+	margin-top: 2rem !important;
+	margin-bottom: 2rem !important;
 	display: inline-block;
 	border-bottom: 3px solid $black;
 }
@@ -218,5 +225,28 @@ body {
 		color: $gray;
 		font-size: 20px !important;
 		padding-top: 1.5rem;
+	}
+}
+
+#service_info {
+	.content > p {
+		width: 100%;
+		margin: 0 !important;
+	}
+
+	.content {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+		align-items: center;
+		height: 100%;
+
+		ul {
+			width: 80%;
+
+			li {
+				padding-bottom: 1rem;
+			}
+		}
 	}
 }
