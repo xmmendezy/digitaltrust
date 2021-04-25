@@ -10,4 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		});
 	}
+
+	(window as any).bulmaAccordion.attach();
 });
