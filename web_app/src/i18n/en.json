@@ -1,0 +1,11 @@
+{
+	"title": "DigitalTrust",
+	"login": {
+		"a": "Sign in",
+		"b": "Username",
+		"c": "Password",
+		"d": "Forgot Password?",
+		"e": "Sign in",
+		"f": "Sign up"
+	}
+}

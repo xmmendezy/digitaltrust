@@ -1,13 +1,37 @@
 import Vue from 'vue';
-import App from './App.vue';
+import Main from './Main.vue';
 import './registerServiceWorker';
-import router from './router';
-import store from './store';
+import { router } from './router';
+import { store } from './store';
+import VueMobileDetection from 'vue-mobile-detection';
+import Buefy from 'buefy';
+import VueFloatLabel from 'vue-float-label';
+import './styles/index.scss';
+import VueI18n from 'vue-i18n';
+import { locale, fallbackLocale, messages } from './i18n';
+import { CComponents } from './utils/components.utils';
+
+Vue.use(VueMobileDetection);
+
+Vue.use(Buefy, { defaultIconPack: 'fas' });
+
+Vue.use(VueI18n);
+
+Vue.component('simplebar', () => import('simplebar-vue'));
+
+Vue.use(VueFloatLabel);
+
+Vue.use(CComponents);
 
 Vue.config.productionTip = false;
 
 new Vue({
 	router,
 	store,
-	render: (h) => h(App),
+	i18n: new VueI18n({
+		locale,
+		fallbackLocale,
+		messages,
+	}),
+	render: h => h(Main),
 }).$mount('#app');

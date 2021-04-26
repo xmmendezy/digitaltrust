@@ -3,3 +3,6 @@ dist
 node_modules
 log.txt
 .env.*
+package-lock.json
+pnpm-lock.yaml
+.pnpm-debug.log

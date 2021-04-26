@@ -1,0 +1,25 @@
+body {
+	background-color: #f5f6f8;
+}
+
+#app {
+	font-family: $font-family;
+	font-style: normal;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: $black !important;
+}
+
+.title,
+.subtitle {
+	color: $black !important;
+	font-family: $font-family;
+	font-style: normal !important;
+	font-weight: normal !important;
+}
+
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
+@import '~bulma-divider';

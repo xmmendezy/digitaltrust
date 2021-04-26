@@ -1,0 +1,11 @@
+{
+	"title": "DigitalTrust",
+	"login": {
+		"a": "Iniciar sessión",
+		"b": "Usuario",
+		"c": "Contraseña",
+		"d": "He olvidado mi contraseña",
+		"e": "Ingresar",
+		"f": "Registrarse"
+	}
+}

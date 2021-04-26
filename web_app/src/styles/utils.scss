@@ -1,0 +1,18 @@
+.icon-pl {
+	margin-left: 0.3rem;
+}
+
+.icon-pr {
+	margin-right: 0.3rem;
+}
+
+.is-divider {
+	border-top: 0.1rem solid $primary;
+
+	&:after {
+		font-size: 1.5rem !important;
+		color: $primary !important;
+		padding-top: 0 !important;
+		transform: translateY(-1.3rem) !important;
+	}
+}
