@@ -10,7 +10,7 @@ addAliases({
 import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { ApiModule } from './api.module';
+import { ApiModule } from './app.module';
 import config from '@config';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -19,8 +19,7 @@ import { json, urlencoded } from 'body-parser';
 async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(ApiModule);
 	app.enableCors();
-	app.setViewEngine('hbs');
-	app.setGlobalPrefix('api');
+	app.useStaticAssets(join(__dirname, 'view'));
 	app.use(helmet());
 	app.use(
 		rateLimit({

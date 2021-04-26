@@ -1,7 +1,9 @@
 version: '3.7'
 
 services:
-  main:
+  main_core:
+    container_name: main_core
+    image: main_core
     build:
       context: .
       target: development
@@ -9,7 +11,7 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - 9300:9000
+      - 9000:9000
     command: npm run start
     env_file:
       - .env.development

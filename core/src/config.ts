@@ -1,4 +1,5 @@
 export default {
+	production: process.env.PRODUCTION === 'true',
 	port: parseInt(process.env.PORT),
 	url_root: process.env.URL_ROOT,
 	jwt_expiration: parseInt(process.env.JWT_EXPIRATION),

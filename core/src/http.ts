@@ -4,7 +4,9 @@ import {
 	Post,
 	Patch,
 	Delete,
+	Redirect,
 	Req,
+	Res,
 	Body,
 	Param,
 	Query,
@@ -14,9 +16,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response, NextFunction } from 'express';
-import { User } from '@api/auth/auth.entity';
 
-type RequestApi = Request & { user: User };
+type RequestApi = Request;
 
 export {
 	Controller,
@@ -24,7 +25,9 @@ export {
 	Post,
 	Patch,
 	Delete,
+	Redirect,
 	Req,
+	Res,
 	Body,
 	Param,
 	Query,
