@@ -489,6 +489,12 @@ body {
 		align-items: center;
 		height: 100%;
 	}
+
+	.content {
+		p:last-child {
+			font-weight: bold;
+		}
+	}
 }
 
 .footer {

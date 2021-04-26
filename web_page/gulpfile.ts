@@ -286,7 +286,7 @@ task('sitemap', () => {
 	})
 		.pipe(
 			sitemap({
-				siteUrl: 'http://www.digitaltrustonline.net',
+				siteUrl: 'http://www.{{ title }}online.net',
 			}),
 		)
 		.pipe((replace as any)('.html', ''))

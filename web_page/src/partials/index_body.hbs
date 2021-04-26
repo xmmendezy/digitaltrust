@@ -7,13 +7,12 @@
 					<div class="column is-5">
 						<div class="content">
 							<h1 class="title is-2 has-text-left title-info">
-								Haga crecer su dinero de forma segura
+								{{ info.a }}
 							</h1>
 							<p class="has-text-left subtitle-info">
-								Convierta su inversión en ganancias pasivas, haga que el dinero trabaje
-								para usted.
+								{{ info.b }}
 							</p>
-							<a href="#services" class="button is-primary is-rounded">Membresías</a>
+							<a href="#service" class="button is-primary is-rounded">{{ info.c }}</a>
 						</div>
 					</div>
 					<div class="column is-7">
@@ -38,8 +37,8 @@
 				<div class="columns">
 					<div class="column is-8 is-offset-2">
 						<div class="content is-medium">
-							<h1 class="title-underline">Nuestros servicios</h1>
-							<p class="subtitle-service">Tenemos algunas membresías para que usted comience a invertir
+							<h1 class="title-underline">{{ service.a }}</h1>
+							<p class="subtitle-service">{{ service.b }}
 							</p>
 						</div>
 					</div>
@@ -52,12 +51,12 @@
 									$5000
 								</p>
 								<p class="price-subtitle">
-									Bronze
+									{{ service.c.a.a }}
 								</p>
 								<ul class="has-text-left has-text-gray">
-									<li>Periodo de 16 meses</li>
-									<li>Interés mensual del 4%</li>
-									<li>Total de ganancia del 64%</li>
+									<li>{{ service.c.a.b }}</li>
+									<li>{{ service.c.a.c }}</li>
+									<li>{{ service.c.a.d }}</li>
 								</ul>
 							</div>
 						</div>
@@ -67,12 +66,12 @@
 									$10 000
 								</p>
 								<p class="price-subtitle">
-									Silver
+									{{ service.c.b.a }}
 								</p>
 								<ul class="has-text-left has-text-gray">
-									<li>Periodo de 14 meses</li>
-									<li>Interés mensual del 5%</li>
-									<li>Total de ganancia del 70%</li>
+									<li>{{ service.c.b.b }}</li>
+									<li>{{ service.c.b.c }}</li>
+									<li>{{ service.c.b.d }}</li>
 								</ul>
 							</div>
 						</div>
@@ -82,12 +81,12 @@
 									$25 000
 								</p>
 								<p class="price-subtitle">
-									Gold
+									{{ service.c.c.a }}
 								</p>
 								<ul class="has-text-left has-text-gray">
-									<li>Periodo de 12 meses</li>
-									<li>Interés mensual del 7%</li>
-									<li>Total de ganancia del 84%</li>
+									<li>{{ service.c.c.b }}</li>
+									<li>{{ service.c.c.c }}</li>
+									<li>{{ service.c.c.d }}</li>
 								</ul>
 							</div>
 						</div>
@@ -100,12 +99,12 @@
 									$50 000
 								</p>
 								<p class="price-subtitle">
-									Platinum
+									{{ service.c.d.a }}
 								</p>
 								<ul class="has-text-left has-text-gray">
-									<li>Periodo de 10 meses</li>
-									<li>Interés mensual del 8%</li>
-									<li>Total de ganancia del 80%</li>
+									<li>{{ service.c.d.b }}</li>
+									<li>{{ service.c.d.c }}</li>
+									<li>{{ service.c.d.d }}</li>
 								</ul>
 							</div>
 						</div>
@@ -115,18 +114,19 @@
 									$100 000
 								</p>
 								<p class="price-subtitle">
-									Platinum +
+									{{ service.c.e.a }}
 								</p>
 								<ul class="has-text-left has-text-gray">
-									<li>Periodo de 6 meses</li>
-									<li>Interés mensual del 10%</li>
-									<li>Total de ganancia del 60%</li>
+									<li>{{ service.c.e.b }}</li>
+									<li>{{ service.c.e.c }}</li>
+									<li>{{ service.c.e.d }}</li>
 								</ul>
 							</div>
 						</div>
 						<div class="column is-2"></div>
 					</div>
-					<a href="/app/register" class="button is-primary is-rounded is-outlined">Comenzar</a>
+					<a target="_blank" href="/app/register?i18n={{ i18n }}"
+						class="button is-primary is-rounded is-outlined">{{ service.d }}</a>
 				</div>
 
 				<div class="cloud_svg_1">
@@ -149,20 +149,14 @@
 					</div>
 					<div class="column">
 						<div class="content">
-							<h1 class="title-underline has-text-left">Servicio Confiable</h1>
+							<h1 class="title-underline has-text-left">{{ service_info.a }}</h1>
 							</p>
 							<ul class="has-text-left has-text-gray">
+								{{#each service_info.b}}
 								<li>
-									Sus ganancias son acreditadas automáticamente cada 24h en su cuenta DigitalTrust
+									{{ this }}
 								</li>
-								<li>
-									No dude en contactar con nuestro equipo de soporte, sus consultas y solicitudes son
-									atendidas puntualmente.
-								</li>
-								<li>
-									Usted puede retirar sus ganancias en cualquier momento las cuales son enviadas a un
-									monedero externo en un máximo de una semana.
-								</li>
+								{{/each}}
 							</ul>
 						</div>
 					</div>
@@ -181,20 +175,19 @@
 				<div class="columns">
 					<div class="column">
 						<div class="content">
-							<h1 class="title-underline has-text-left">¿Cómo invertir?</h1>
+							<h1 class="title-underline has-text-left">{{ service_what.a }}</h1>
 							</p>
 							<ul class="has-text-left has-text-gray">
+								{{#each service_what.b}}
 								<li>
-									Registrese
+									{{ this }}
 								</li>
-								<li>
-									Realice un depósito en una o varias membresías
-								</li>
-								<li>
-									Retira tus ganancias. Y a disfrutar...
-								</li>
+								{{/each}}
 							</ul>
-							<a href="/app/register" class="button is-primary is-rounded is-outlined">Registrarse</a>
+							<a target="_blank" href="/app/register?i18n={{ i18n }}"
+								class="button is-primary is-rounded is-outlined">
+								{{ service_what.c }}
+							</a>
 						</div>
 					</div>
 					<div class="column is-7">
@@ -211,120 +204,20 @@
 				<div class="columns">
 					<div class="column is-8 is-offset-2">
 						<div class="content is-medium">
-							<h1 class="title-underline">Preguntas frecuentes</h1>
+							<h1 class="title-underline">{{ fqa.a }}</h1>
 							<section class="accordions">
-								<article class="accordion is-active">
-									<div class="accordion-header toggle">
-										<p>¿Cuál es la inversión mínima?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											$5000
-										</div>
-									</div>
-								</article>
+								{{#each fqa.b}}
 								<article class="accordion">
 									<div class="accordion-header toggle">
-										<p>¿Cómo gana su empresa?</p>
+										<p>{{ this.a }}</p>
 									</div>
 									<div class="accordion-body">
 										<div class="accordion-content">
-											Ganamos nuestras comisiones sobre cualquier porcentaje que ganemos por
-											encima y más allá de su dividendo mensualmente.
+											{{ this.b }}
 										</div>
 									</div>
 								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Existe un período de espera?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											Sí, un período de retención de 6 meses. ¿Por qué? Nos da tiempo suficiente
-											para obtener los beneficios que le garantizan a usted, el inversor,
-											mensualmente y nos convierte en una empresa rentable. ¿Puedo liquidar antes
-											de los 6 meses? Sí, si surge una emergencia. Necesitaremos una carta escrita
-											a mano que indique el motivo y se le aplicará una multa del 10%.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Cómo recibiré mis dividendos mensuales?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											De la misma manera que ingresó fondos en su cuenta mediante transferencia
-											bancaria o cheque.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Es una empresa de inversión autorizada y regulada?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											Sí, somos una empresa estadounidense activa y destacada.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Cuánto tiempo has estado en el negocio?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											5 años.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Recibiré estados de cuenta y cuándo?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											Puede ver su cuenta en línea todos los días, que se actualiza cada 24 horas.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Su empresa es una empresa de corretaje de servicios completos?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											No. Nos concentramos en la gestión de carteras dentro de los mercados de
-											cifrado, ya que ahí es donde radica nuestra experiencia.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Esta inversión está libre de impuestos?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											No. No somos CPA's ni contadores. Usted es responsable de sus ganancias e
-											ingresos de acuerdo con su categoría impositiva. Hable con su contador
-											personal.
-										</div>
-									</div>
-								</article>
-								<article class="accordion">
-									<div class="accordion-header toggle">
-										<p>¿Cuáles son los riesgos frente a las recompensas?</p>
-									</div>
-									<div class="accordion-body">
-										<div class="accordion-content">
-											Bueno, primero tiene la garantía de recibir su dividendo mensual a tiempo y
-											por el% indicado en su acuerdo de inversión. Si no pudiéramos cumplir con
-											estos retornos mes tras mes no seríamos una empresa en funcionamiento o
-											rentable y en expansión mundial.
-										</div>
-									</div>
-								</article>
+								{{/each}}
 							</section>
 						</div>
 					</div>
@@ -351,7 +244,7 @@
 				<div class="columns">
 					<div class="column is-8 is-offset-2">
 						<div class="content is-medium">
-							<h1 class="title-underline">Contactenos</h1>
+							<h1 class="title-underline">{{ contact.a }}</h1>
 							</p>
 						</div>
 					</div>
@@ -364,25 +257,41 @@
 								<div class="control has-floating-label">
 									<input class="input is-medium with-floating-label" id="name" placeholder=" "
 										type="text" required>
-									<label class="label is-floating-label has-text-gray" for="name">Nombre</label>
+									<label class="label is-floating-label has-text-gray" for="name">
+										{{ contact.b }}
+									</label>
 								</div>
 							</div>
 							<div class="field">
 								<div class="control has-floating-label">
 									<input class="input is-medium with-floating-label" id="email" placeholder=" "
 										type="text" required>
-									<label class="label is-floating-label has-text-gray" for="email">Correo</label>
+									<label class="label is-floating-label has-text-gray" for="email">
+										{{ contact.c }}
+									</label>
 								</div>
 							</div>
 
 							<div class="field">
 								<div class="control has-floating-label">
-									<textarea class="textarea is-medium with-floating-label" id="email"
-										placeholder=" "></textarea>
-									<label class="label is-floating-label has-text-gray" for="email">Mensaje</label>
+									<input class="input is-medium with-floating-label" id="phone" placeholder=" "
+										type="text" required>
+									<label class="label is-floating-label has-text-gray" for="phone">
+										{{ contact.d }}
+									</label>
 								</div>
 							</div>
-							<button class="button is-primary">Enviar</button>
+
+							<div class="field">
+								<div class="control has-floating-label">
+									<textarea class="textarea is-medium with-floating-label" id="message"
+										placeholder=" "></textarea>
+									<label class="label is-floating-label has-text-gray" for="message">
+										{{ contact.e }}
+									</label>
+								</div>
+							</div>
+							<button class="button is-primary">{{ contact.f }}</button>
 						</form>
 					</div>
 					<div class="column">

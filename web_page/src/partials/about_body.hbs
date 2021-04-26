@@ -8,31 +8,14 @@
 					</div>
 					<div class="column is-6">
 						<div class="content is-medium has-text-centered">
-							<h1 class="title">Sobre nosotros</h1>
+							<h1 class="title">{{ about.a }}</h1>
 						</div>
 						<div class="content is-medium has-text-justified">
+							{{#each about.b}}
 							<p>
-								La misión principal de Digital Trust Investment Corp es proporcionar a sus usuarios
-								formas efectivas de recibir pagos de regalías. Con el uso de tecnologías cuántica,
-								criptomonedas, robots comerciales, traders profesionales, mercados de cambio de moneda
-								extranjera, plantaciones de cannabis en California, servicios de crédito personal en
-								América del Norte y América Latina, así como otorgar a sus usuarios acceso exclusivo a
-								la información de sus socios estratégicos.
+								{{ this }}
 							</p>
-
-
-							<p>
-								Sin embargo, al ser un modelo abierto en continua evolución, contamos con varias fuentes
-								de ingresos adicionales, que suman dando apoyo y fuerza al motor económico del proyecto
-								para hacerlo sostenible en el tiempo permitiendo a nuestra comunidad emprendedora de
-								todo el mundo formar un bloque sólido creando nuevas estrategias de ganancias.
-							</p>
-
-
-							<p>
-								Nuestra cartera nos permite tener un negocio muy rentable incluso en tiempos de crisis,
-								como ahora. Este 2021 iniciamos nuestro programa de expansión internacional.
-							</p>
+							{{/each}}
 						</div>
 					</div>
 				</div>

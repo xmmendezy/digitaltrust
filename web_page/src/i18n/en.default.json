@@ -1,0 +1,131 @@
+{
+	"title": "DigitalTrust",
+	"i18n": "en",
+	"i18n_to": "es",
+	"navbar": {
+		"url": {
+			"a1": "About us",
+			"a2": "FQA",
+			"a3": "Invest Now",
+			"a4": "Contact",
+			"a5": "ES",
+			"a6": "Login"
+		}
+	},
+	"info": {
+		"a": "Grow your money safely",
+		"b": "Convert your investment into passive earnings, make money work for you.",
+		"c": "Memberships"
+	},
+	"service": {
+		"a": "Our services",
+		"b": "We have some memberships for you to start investing",
+		"c": {
+			"a": {
+				"a": "Bronze",
+				"b": "16 months",
+				"c": "Monthly earnings 4%",
+				"d": "Total revenue 64%"
+			},
+			"b": {
+				"a": "Silver",
+				"b": "14 months",
+				"c": "Monthly earnings 5%",
+				"d": "Total revenue 70%"
+			},
+			"c": {
+				"a": "Gold",
+				"b": "12 months",
+				"c": "Monthly earnings 7%",
+				"d": "Total revenue 84%"
+			},
+			"d": {
+				"a": "Platinum",
+				"b": "8 months",
+				"c": "Monthly earnings 8%",
+				"d": "Total revenue 80%"
+			},
+			"e": {
+				"a": "Platinum",
+				"b": "6 months",
+				"c": "Monthly earnings 10%",
+				"d": "Total revenue 60%"
+			}
+		},
+		"d": "Start"
+	},
+	"service_info": {
+		"a": "Safe service",
+		"b": [
+			"Your earnings are automatically credited to your DigitalTrust account every 24 hours.",
+			"Do not hesitate to contact our support team, your questions and requests are dealt with promptly.",
+			"You can withdraw your winnings at any time, which are sent to an external wallet, bank transfer or check in a maximum of one week."
+		]
+	},
+	"service_what": {
+		"a": "How to invest?",
+		"b": ["Sign up", "Make a deposit to one or more memberships", "Withdraw your winnings. And to enjoy..."],
+		"c": "Sign up"
+	},
+	"fqa": {
+		"a": "Frequent questions",
+		"b": [
+			{
+				"a": "What`s your minimum investment?",
+				"b": "$5 000"
+			},
+			{
+				"a": "How does your company make money?",
+				"b": "We earn our commissions on whatever % we make above and beyond your dividend on a monthly basis."
+			},
+			{
+				"a": "Is there a holding period?",
+				"b": "Yes a 6 month holding period. Why? It gives us enough time to earn the returns guaranteed to you the investor on a monthly basis and makes us a profitable company. Can I liquidate before 6 months? Yes if emergency arises. We will need a hand written letter stating the reason and you will accrue a 10% penalty."
+			},
+			{
+				"a": "How will I receive my monthly dividends?",
+				"b": "The same way you funded your account via bank wire or check."
+			},
+			{
+				"a": "Are you a licensed and regulated investment company?",
+				"b": "Yes we are an upstanding active US corp."
+			},
+			{
+				"a": "How long have you been in the business?",
+				"b": "5 years."
+			},
+			{
+				"a": "Will and when do I receive statements?",
+				"b": "Yes. You can view your account online daily which is updated every 24 hours."
+			},
+			{
+				"a": "Is your company a full service brokerage firm?",
+				"b": "No. We concentrate on portfolio management within the crypto markets as that´s where our expertise lies."
+			},
+			{
+				"a": "Is this investment tax-free?",
+				"b": "No. We aren´t CPA´S or accountants. You are responsible for your earnings and or profits according to your tax bracket. Please discuss with your personal accountant."
+			},
+			{
+				"a": "What are the Risks vs Rewards?",
+				"b": "Well first your guaranteed to receive your monthly dividend on time and for the % stated in your investment agreement. If we couldn´t meet these returns month in and month out we wouldn´t be a functioning or profitable company and expanding worldwide."
+			}
+		]
+	},
+	"contact": {
+		"a": "Contact us",
+		"b": "Name",
+		"c": "Email",
+		"d": "Phone",
+		"e": "Message",
+		"f": "Send"
+	},
+	"about": {
+		"a": "Sobre nosotros",
+		"b": [
+			"The primary mission of Digital Trust Investment Corp is to provide its users with effective ways to receive royalty payments. With the use of quantum technologies, cryptocurrencies, trading robots, professional traders, foreign currency exchange markets, cannabis plantations in California, personal credit services in North America and Latin America, as well as granting its users exclusive access to the information from your strategic partners.",
+			"However, being an open model in continuous evolution, we have several additional sources of income, which add up by giving support and strength to the economic engine of the project to make it sustainable over time, allowing our entrepreneurial community around the world to form a solid block creating new profit strategies.",
+			"Our portfolio allows us to have a very profitable business even in times of crisis, like now. This 2021 we start our international expansion program."
+		]
+	}
+}

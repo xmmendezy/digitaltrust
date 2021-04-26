@@ -1,0 +1,131 @@
+{
+	"title": "DigitalTrust",
+	"i18n": "es",
+	"i18n_to": "",
+	"navbar": {
+		"url": {
+			"a1": "Sobre nosotros",
+			"a2": "Preguntas frecuentes",
+			"a3": "Invertir",
+			"a4": "Contactenos",
+			"a5": "EN",
+			"a6": "Ingresar"
+		}
+	},
+	"info": {
+		"a": "Haga crecer su dinero de forma segura",
+		"b": "Convierta su inversión en ganancias pasivas, haga que el dinero trabaje para usted.",
+		"c": "Membresías"
+	},
+	"service": {
+		"a": "Nuestros servicios",
+		"b": "Tenemos algunas membresías para que usted comience a invertir",
+		"c": {
+			"a": {
+				"a": "Bronze",
+				"b": "Período de 16 meses",
+				"c": "Interés mensual del 4%",
+				"d": "Total de ganancia del 64%"
+			},
+			"b": {
+				"a": "Silver",
+				"b": "Período de 14 meses",
+				"c": "Interés mensual del 5%",
+				"d": "Total de ganancia del 70%"
+			},
+			"c": {
+				"a": "Gold",
+				"b": "Período de 12 meses",
+				"c": "Interés mensual del 7%",
+				"d": "Total de ganancia del 84%"
+			},
+			"d": {
+				"a": "Platinum",
+				"b": "Período de 8 meses",
+				"c": "Interés mensual del 8%",
+				"d": "Total de ganancia del 80%"
+			},
+			"e": {
+				"a": "Platinum",
+				"b": "Período de 6 meses",
+				"c": "Interés mensual del 10%",
+				"d": "Total de ganancia del 60%"
+			}
+		},
+		"d": "Comenzar"
+	},
+	"service_info": {
+		"a": "Servicio Confiable",
+		"b": [
+			"Sus ganancias son acreditadas automáticamente cada 24h en su cuentaSus ganancias son acreditadas automáticamente cada 24h en su cuenta DigitalTrust",
+			"No dude en contactar con nuestro equipo de soporte, sus consultas y solicitudes son atendidas puntualmente.",
+			"Usted puede retirar sus ganancias en cualquier momento las cuales son enviadas a un monedero externo en un máximo de una semana."
+		]
+	},
+	"service_what": {
+		"a": "¿Cómo invertir?",
+		"b": ["Registrese", "Realice un depósito en una o varias membresías", "Retire sus ganancias. Y a disfrutar..."],
+		"c": "Registrarse"
+	},
+	"fqa": {
+		"a": "Preguntas frecuentes",
+		"b": [
+			{
+				"a": "¿Cuál es la inversión mínima?",
+				"b": "$5 000"
+			},
+			{
+				"a": "¿Cómo gana su empresa?",
+				"b": "Ganamos nuestras comisiones sobre cualquier porcentaje que ganemos por encima y más allá de su dividendo mensualmente."
+			},
+			{
+				"a": "¿Existe un período de espera?",
+				"b": "Sí, un período de retención de 6 meses. ¿Por qué? Nos da tiempo suficiente para obtener los beneficios que le garantizan a usted, el inversor, mensualmente y nos convierte en una empresa rentable. ¿Puedo liquidar antes de los 6 meses? Sí, si surge una emergencia. Necesitaremos una carta escrita a mano que indique el motivo y se le aplicará una multa del 10%."
+			},
+			{
+				"a": "¿Cómo recibiré mis dividendos mensuales?",
+				"b": "De la misma manera que ingresó fondos en su cuenta mediante transferencia bancaria o cheque."
+			},
+			{
+				"a": "¿Es una empresa de inversión autorizada y regulada?",
+				"b": "Sí, somos una empresa estadounidense activa y destacada."
+			},
+			{
+				"a": "¿Cuánto tiempo has estado en el negocio?",
+				"b": "5 años."
+			},
+			{
+				"a": "¿Recibiré estados de cuenta y cuándo?",
+				"b": "Puede ver su cuenta en línea todos los días, que se actualiza cada 24 horas."
+			},
+			{
+				"a": "¿Su empresa es una empresa de corretaje de servicios completos?",
+				"b": "No. Nos concentramos en la gestión de carteras dentro de los mercados de cifrado, ya que ahí es donde radica nuestra experiencia."
+			},
+			{
+				"a": "¿Esta inversión está libre de impuestos?",
+				"b": "No. No somos CPA's ni contadores. Usted es responsable de sus ganancias e ingresos de acuerdo con su categoría impositiva. Hable con su contador personal."
+			},
+			{
+				"a": "¿Cuáles son los riesgos frente a las recompensas?",
+				"b": "Bueno, primero tiene la garantía de recibir su dividendo mensual a tiempo y por el l0% indicado en su acuerdo de inversión. Si no pudiéramos cumplir con estos retornos mes tras mes no seríamos una empresa en funcionamiento o rentable y en expansión mundial."
+			}
+		]
+	},
+	"contact": {
+		"a": "Contactenos",
+		"b": "Nombre",
+		"c": "Correo",
+		"d": "Teléfono",
+		"e": "Mensaje",
+		"f": "Enviar"
+	},
+	"about": {
+		"a": "Sobre nosotros",
+		"b": [
+			"La misión principal de Digital Trust Investment Corp es proporcionar a sus usuarios formas efectivas de recibir pagos de regalías. Con el uso de tecnologías cuántica, criptomonedas, robots comerciales, traders profesionales, mercados de cambio de moneda extranjera, plantaciones de cannabis en California, servicios de crédito personal en América del Norte y América Latina, así como otorgar a sus usuarios acceso exclusivo a la información de sus socios estratégicos.",
+			"Sin embargo, al ser un modelo abierto en continua evolución, contamos con varias fuentes de ingresos adicionales, que suman dando apoyo y fuerza al motor económico del proyecto para hacerlo sostenible en el tiempo permitiendo a nuestra comunidad emprendedora de todo el mundo formar un bloque sólido creando nuevas estrategias de ganancias.",
+			"Nuestra cartera nos permite tener un negocio muy rentable incluso en tiempos de crisis, como ahora. Este 2021 iniciamos nuestro programa de expansión internacional."
+		]
+	}
+}

@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="navbar-brand">
 			<p class="navbar-item title title-page has-text-primary">
-				DigitalTrust
+				{{ title }}
 			</p>
 			<span class="navbar-burger burger" data-target="navbarMenu">
 				<span></span>
@@ -13,10 +13,11 @@
 		<div id="navbarMenu" class="navbar-menu">
 			<div class="navbar-end">
 				{{#page 'about' '@navbar.url.a1' '' 'navbar-item is-size-5' }}{{/page}}
-				<a target="" href="#fqa" class="navbar-item is-size-5" id="">{{ navbar.url.a2 }}</a>
-				<a target="" href="#service" class="navbar-item is-size-5" id="">{{ navbar.url.a3 }}</a>
-				<a target="" href="#contact" class="navbar-item is-size-5" id="">{{ navbar.url.a4 }}</a>
-				<a target="" href="/app" class="navbar-item is-size-5 login" id="">{{ navbar.url.a5 }}</a>
+				<a href="#fqa" class="navbar-item is-size-5" id="">{{ navbar.url.a2 }}</a>
+				<a href="#service" class="navbar-item is-size-5" id="">{{ navbar.url.a3 }}</a>
+				<a href="#contact" class="navbar-item is-size-5" id="">{{ navbar.url.a4 }}</a>
+				<a href="/{{ i18n_to }}" class="navbar-item is-size-5" id="">{{ navbar.url.a5 }}</a>
+				<a target="_blank" href="/app?i18n={{ i18n }}" class="navbar-item is-size-5 login" id="">{{ navbar.url.a6 }}</a>
 			</div>
 		</div>
 	</div>
