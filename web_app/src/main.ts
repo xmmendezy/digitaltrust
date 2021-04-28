@@ -9,6 +9,7 @@ import VueFloatLabel from 'vue-float-label';
 import './styles/index.scss';
 import VueI18n from 'vue-i18n';
 import { locale, fallbackLocale, messages } from './i18n';
+import VueTelInput from 'vue-tel-input';
 import { CComponents } from './utils/components.utils';
 
 Vue.use(VueMobileDetection);
@@ -17,9 +18,9 @@ Vue.use(Buefy, { defaultIconPack: 'fas' });
 
 Vue.use(VueI18n);
 
-Vue.component('simplebar', () => import('simplebar-vue'));
-
 Vue.use(VueFloatLabel);
+
+Vue.use(VueTelInput);
 
 Vue.use(CComponents);
 

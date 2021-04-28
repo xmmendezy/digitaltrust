@@ -6,13 +6,41 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
 	{
 		path: '',
-		name: 'App',
+		name: 'AppBase',
 		component: () => import(/* webpackChunkName: "app-base" */ '@app/pages/AppBase.vue'),
 		children: [
+			{
+				path: '',
+				name: 'App',
+				component: () => import(/* webpackChunkName: "app-main" */ '@app/pages/App/AppBase.vue'),
+				children: [
+					{
+						path: '',
+						name: 'Home',
+						component: () => import(/* webpackChunkName: "home" */ '@app/pages/App/Home.vue'),
+					},
+					{
+						path: 'setting',
+						name: 'Setting',
+						component: () => import(/* webpackChunkName: "setting" */ '@app/pages/App/Setting.vue'),
+					},
+				],
+			},
 			{
 				path: '/login',
 				name: 'Login',
 				component: () => import(/* webpackChunkName: "login" */ '@app/pages/Login.vue'),
+				meta: {
+					free_page: true,
+				},
+			},
+			{
+				path: '/register',
+				name: 'Register',
+				component: () => import(/* webpackChunkName: "register" */ '@app/pages/Register.vue'),
+				meta: {
+					free_page: true,
+				},
 			},
 		],
 	},

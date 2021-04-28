@@ -23,33 +23,28 @@
 		"c": {
 			"a": {
 				"a": "Bronze",
-				"b": "16 months",
-				"c": "Monthly earnings 4%",
-				"d": "Total revenue 64%"
+				"b": "12 months",
+				"c": "Monthly earnings 4%"
 			},
 			"b": {
 				"a": "Silver",
-				"b": "14 months",
-				"c": "Monthly earnings 5%",
-				"d": "Total revenue 70%"
+				"b": "12 months",
+				"c": "Monthly earnings 5%"
 			},
 			"c": {
 				"a": "Gold",
 				"b": "12 months",
-				"c": "Monthly earnings 7%",
-				"d": "Total revenue 84%"
+				"c": "Monthly earnings 7%"
 			},
 			"d": {
 				"a": "Platinum",
-				"b": "8 months",
-				"c": "Monthly earnings 8%",
-				"d": "Total revenue 80%"
+				"b": "10 months",
+				"c": "Monthly earnings 8%"
 			},
 			"e": {
-				"a": "Platinum",
-				"b": "6 months",
-				"c": "Monthly earnings 10%",
-				"d": "Total revenue 60%"
+				"a": "Platinum +",
+				"b": "10 months",
+				"c": "Monthly earnings 10%"
 			}
 		},
 		"d": "Start"
@@ -121,7 +116,7 @@
 		"f": "Send"
 	},
 	"about": {
-		"a": "Sobre nosotros",
+		"a": "About us",
 		"b": [
 			"The primary mission of Digital Trust Investment Corp is to provide its users with effective ways to receive royalty payments. With the use of quantum technologies, cryptocurrencies, trading robots, professional traders, foreign currency exchange markets, cannabis plantations in California, personal credit services in North America and Latin America, as well as granting its users exclusive access to the information from your strategic partners.",
 			"However, being an open model in continuous evolution, we have several additional sources of income, which add up by giving support and strength to the economic engine of the project to make it sustainable over time, allowing our entrepreneurial community around the world to form a solid block creating new profit strategies.",

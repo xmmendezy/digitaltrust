@@ -28,6 +28,7 @@ module.exports = {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-empty-function': 'off',
 		'@typescript-eslint/no-inferrable-types': 'off',
+		'@typescript-eslint/ban-types': 'off',
 		'@typescript-eslint/interface-name-prefix': 'off',
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',

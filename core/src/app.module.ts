@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApiController } from './app.controller';
-import { ApiService } from './app.service';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ApiModule } from './api/api.module';
 import { join } from 'path';
 import ormconfig from '@orm';
 
@@ -18,8 +19,9 @@ import ormconfig from '@orm';
 			serveRoot: '/app',
 		}),
 		TypeOrmModule.forRoot(ormconfig),
+		ApiModule,
 	],
-	controllers: [ApiController],
-	providers: [ApiService],
+	controllers: [AppController],
+	providers: [AppService],
 })
-export class ApiModule {}
+export class AppModule {}

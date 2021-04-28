@@ -24,18 +24,47 @@
 								</c-input>
 							</b-field>
 							<b-field>
-								<b-button @click="login()" type="is-text">{{ L('login.d') }}</b-button>
+								<b-button @click="isModalForgotPassword = true" type="is-text">
+									{{ L('login.d') }}
+								</b-button>
 							</b-field>
 							<b-field>
 								<b-button @click="login()" type="is-primary">{{ L('login.e') }}</b-button>
 							</b-field>
 						</section>
 						<div class="is-divider" data-content="o"></div>
-						<b-button @click="login()" type="is-primary" outlined>{{ L('login.f') }}</b-button>
+						<b-button tag="router-link" to="/register" type="is-primary" outlined>
+							{{ L('login.f') }}
+						</b-button>
 					</div>
 				</article>
 			</div>
 		</div>
+
+		<b-modal
+			v-model="isModalForgotPassword"
+			has-modal-card
+			trap-focus
+			:destroy-on-hide="false"
+			aria-role="dialog"
+			aria-label="Forgot password"
+			aria-modal
+		>
+			<div class="modal-card">
+				<section class="modal-card-body">
+					<p class="title">{{ L('login.forgot_password.a') }}</p>
+					<p class="subtitle has-text-justified">{{ L('login.forgot_password.b') }}</p>
+					<b-field>
+						<c-input v-model="email_forgot_password" :placeholder="L('login.forgot_password.c')"> </c-input>
+					</b-field>
+					<b-field>
+						<b-button @click="passowrd_forgot()" type="is-primary">{{
+							L('login.forgot_password.d')
+						}}</b-button>
+					</b-field>
+				</section>
+			</div>
+		</b-modal>
 	</div>
 </template>
 
@@ -46,6 +75,9 @@ import { LoginDto } from '../store';
 
 @Component
 export default class Login extends PageChildBase {
+	private isModalForgotPassword: boolean = false;
+	private email_forgot_password: string = '';
+
 	private login_form: LoginDto = {
 		email: '',
 		password: '',
@@ -67,19 +99,29 @@ export default class Login extends PageChildBase {
 	private async login() {
 		this.load_form_api(await this.store.auth.login(this.login_form), () => {}, {
 			e000: () => {
-				this.toastError('Ha ocurrido un error, confirme su usuario y contraseña y vuelva a intentar');
+				this.toastError(this.L('login.error.e000'));
 			},
 		});
 		this.auth_data = this.store.auth.auth_data;
 		if (await this.store.auth.isLogged()) {
-			if (this.auth_data.user?.is_admin) {
-				this.toastSuccess(`Bienvenido ${this.store.auth.name}`);
-				this.$router.push('/');
-			} else {
-				this.toastSuccess('No tiene permisos para acceder a esta sección.');
-				this.store.auth.logout();
-			}
+			this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.auth.name}`);
+			this.$router.push('/');
 		}
+	}
+
+	public async passowrd_forgot() {
+		this.load_form_api(
+			await this.store.auth.reset_password(this.email_forgot_password),
+			() => {
+				this.toastSuccess(this.L('login.success.a'));
+			},
+			{
+				u5: () => {
+					this.toastError(this.L('error.u5'));
+				},
+			},
+		);
+		this.isModalForgotPassword = false;
 	}
 }
 </script>
@@ -94,7 +136,7 @@ export default class Login extends PageChildBase {
 		position: relative;
 
 		.box {
-			width: 35%;
+			width: 40%;
 			border-radius: 24px;
 			margin: 0;
 			position: absolute;
@@ -102,6 +144,15 @@ export default class Login extends PageChildBase {
 			left: 50%;
 			-ms-transform: translate(-50%, -50%);
 			transform: translate(-50%, -50%);
+			transition: width 150ms ease-out;
+
+			@include until-widescreen {
+				width: 60%;
+			}
+
+			@include mobile {
+				width: 80%;
+			}
 
 			.media {
 				padding: 4rem 0;
@@ -138,6 +189,38 @@ export default class Login extends PageChildBase {
 					padding: 1.5rem 1rem;
 					margin: 1rem 0;
 					width: 35%;
+				}
+			}
+		}
+	}
+
+	.modal {
+		.animation-content {
+			width: 40%;
+
+			.modal-card {
+				width: 100%;
+				border-radius: 12px;
+
+				.modal-card-body {
+					padding: 3rem;
+
+					.title {
+						color: $dark;
+						font-size: 22px;
+						font-weight: bold !important;
+					}
+
+					.subtitle {
+						padding-top: 2rem;
+						font-size: 18px;
+					}
+				}
+
+				.button.is-primary {
+					padding: 1.5rem 1rem;
+					margin: 1rem 0;
+					width: 50%;
 				}
 			}
 		}

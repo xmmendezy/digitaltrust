@@ -16,3 +16,18 @@
 		transform: translateY(-1.3rem) !important;
 	}
 }
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background: $border;
+	-webkit-box-shadow: inset 0 0 6px $border;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: $border;
+}

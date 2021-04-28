@@ -45,7 +45,7 @@ export default class extends ComponentBase {
 	private get_new_value(new_value: string) {
 		if (this.content !== new_value) {
 			this.content = new_value;
-			this.$emit('input', this.content);
+			this.$emit('input', this.content.trim());
 		}
 	}
 
@@ -65,7 +65,7 @@ export default class extends ComponentBase {
 	}
 
 	private updateInput() {
-		this.$emit('input', this.content);
+		this.$emit('input', this.content.trim());
 	}
 
 	public getInputElement() {

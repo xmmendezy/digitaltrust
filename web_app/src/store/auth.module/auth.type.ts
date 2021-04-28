@@ -1,4 +1,9 @@
+import { IsNotEmpty, Matches, IsEmail, Length } from 'class-validator';
+import { ClassBase } from '@app/utils/base.utils';
 import { ICountry } from '../util.module/util.type';
+import { data_countries } from '../util.module/util.data';
+
+const ids_countries = Object.keys(data_countries);
 
 interface IAuthData {
 	expiresIn?: number;
@@ -49,11 +54,71 @@ interface IUpdateUserData {
 	data?: object;
 }
 
-interface SignupDto {
-	email: string;
-	telephone: string;
-	password: string;
-	country: string;
+class SignupDto extends ClassBase {
+	constructor() {
+		super();
+		this.firstname = '';
+		this.lastname = '';
+		this.email = '';
+		this.telephone = '';
+		this.password = '';
+		this.password_confirm = '';
+		this.state = '';
+		this.address = '';
+		this.country = '';
+		this.ref = '';
+	}
+
+	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	firstname!: string;
+
+	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.c' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	lastname!: string;
+
+	@IsEmail({}, { message: 'validator.auth.d' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	email!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	telephone!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	state!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	address!: string;
+
+	@Matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{5,}$/, { always: true, message: 'validator.auth.e' })
+	@Length(8, 50, { message: 'validator.auth.f' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	password!: string;
+
+	@Matches(/^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{5,}$/, { always: true, message: 'validator.auth.e' })
+	@Length(8, 50, { message: 'validator.auth.f' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	password_confirm!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	country!: string;
+
+	ref!: string;
+
+	public validate(): string[] {
+		const errors = super.validate();
+		if (!this.equalsPassword) {
+			errors.push('validator.auth.g');
+		}
+		if (this.country && !ids_countries.find(id => id === this.country)) {
+			errors.push('validator.auth.g');
+		}
+		return Array.from(new Set(errors));
+	}
+
+	get equalsPassword(): boolean {
+		return this.password === this.password_confirm;
+	}
 }
 
 interface LoginDto {

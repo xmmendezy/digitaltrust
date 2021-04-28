@@ -1,6 +1,6 @@
 import { createModule, action, mutation } from 'vuex-class-component';
 import { ICountry } from './util.type';
-import { HttpBase, ConfigStore, get_errors, DataDict } from '../store.utils';
+import { HttpBase, ConfigStore, DataDict } from '../store.utils';
 import { data_countries } from './util.data';
 
 const VuexModule = createModule({
@@ -23,7 +23,6 @@ export default class UtilStore extends VuexModule {
 
 	get url() {
 		return {
-			countries: `${UtilStore.config.Api}/util/countries`,
 			send_message: `${UtilStore.config.Api}/util/send_message`,
 		};
 	}
@@ -58,14 +57,20 @@ export default class UtilStore extends VuexModule {
 	}
 
 	@mutation
-	public watch_data(data: { key: string; id: string; callback: (newVal: DataDict, oldVal: DataDict) => void }) {
+	public watch_data(data: {
+		key: string;
+		id: string;
+		callback: null | ((newVal: DataDict, oldVal: DataDict) => void);
+	}) {
 		if (data.callback) {
 			if (this.data_obj[data.key]) {
 				if (this.data_obj[data.key][data.id]) {
 					const old_callback = this.data_obj[data.key][data.id];
 					this.data_obj[data.key][data.id] = (newVal: DataDict, oldVal: DataDict) => {
 						old_callback(newVal, oldVal);
-						data.callback(newVal, oldVal);
+						if (data.callback) {
+							data.callback(newVal, oldVal);
+						}
 					};
 				} else {
 					this.data_obj[data.key][data.id] = data.callback;
@@ -103,30 +108,11 @@ export default class UtilStore extends VuexModule {
 
 	@action
 	public async get_country(id: string): Promise<ICountry> {
-		if (!(id in this.data_countries)) {
-			this.set_countries(await this.getCountriesApi(id));
-		}
 		return this.data_countries[id];
 	}
 
 	@action
 	public async getCountries(): Promise<ICountry[]> {
 		return Object.values(this.data_countries);
-	}
-
-	@action
-	public async getCountriesApi(id?: string): Promise<ICountry[]> {
-		return await UtilStore.http
-			.get(id ? `${this.url.countries}/${id}` : this.url.countries)
-			.then((response) => {
-				const error = get_errors(response);
-				if (error) {
-					return error;
-				}
-				return response.data;
-			})
-			.catch((e) => {
-				return get_errors(e);
-			});
 	}
 }

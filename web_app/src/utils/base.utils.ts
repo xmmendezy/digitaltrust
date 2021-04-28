@@ -6,7 +6,7 @@ function extract_errors(obj: ValidationError): string[] {
 
 abstract class ClassBase {
 	public validate(): string[] {
-		return ([] as string[]).concat(...validateSync(this).map(extract_errors));
+		return Array.from(new Set(([] as string[]).concat(...validateSync(this).map(extract_errors))));
 	}
 }
 

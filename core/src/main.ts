@@ -2,7 +2,7 @@ import { addAliases } from 'module-alias';
 import { join } from 'path';
 
 addAliases({
-	'@api': __dirname,
+	'@app': __dirname,
 	'@config': join(__dirname, 'config'),
 	'@orm': join(__dirname, 'ormconfig'),
 });
@@ -10,14 +10,14 @@ addAliases({
 import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { ApiModule } from './app.module';
+import { AppModule } from './app.module';
 import config from '@config';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { json, urlencoded } from 'body-parser';
 
 async function bootstrap() {
-	const app = await NestFactory.create<NestExpressApplication>(ApiModule);
+	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 	app.enableCors();
 	app.useStaticAssets(join(__dirname, 'view'));
 	app.use(helmet());

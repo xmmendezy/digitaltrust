@@ -1,11 +1,83 @@
 {
 	"title": "DigitalTrust",
 	"login": {
-		"a": "Iniciar sessión",
+		"a": "Iniciar sesión",
 		"b": "Usuario",
 		"c": "Contraseña",
 		"d": "He olvidado mi contraseña",
 		"e": "Ingresar",
-		"f": "Registrarse"
+		"f": "Registrarse",
+		"forgot_password": {
+			"a": "Recuperar contraseña",
+			"b": "Ingrese su correo relacionado a su cuenta DigitalTrust, y le enviaremos un mensaje con su nueva contraseña temporal.",
+			"c": "Correo",
+			"d": "Enviar"
+		},
+		"success": {
+			"a": "Contraseña enviada al correo"
+		},
+		"error": {
+			"e000": "Ha ocurrido un error, confirme su usuario y contraseña, y vuelva a intentar",
+			"u1": "No se ha encontrado el usuario",
+			"u2": "La contraseña no coinciden",
+			"u3": "Sesión experada",
+			"u5": "No se ha podido recuperar la contraseña"
+		}
+	},
+	"register": {
+		"a": "Registro",
+		"b": "Bienvenido, has sido invitado por medio de",
+		"c": "Nombre",
+		"d": "Apellido",
+		"e": "Correo",
+		"f": "Teléfono",
+		"g": "Provincia",
+		"h": "Dirección postal",
+		"i": "Contraseña",
+		"j": "Confirmar contraseña",
+		"k": "Finalizar"
+	},
+	"home": {
+		"balance_now": {
+			"a": "Saldo",
+			"b": "Ganancia total",
+			"c": "Capital de inversión",
+			"d": "Ganancias"
+		},
+		"table_balance": {
+			"a": "Saldo",
+			"b": "Retiros",
+			"c": "Ganancias",
+			"d": "Mes"
+		}
+	},
+	"validator": {
+		"auth": {
+			"a": "No puede haber campos vacíos",
+			"b": "El nombre debe ser solo caracteres alfabéticos",
+			"c": "El apellido debe ser solo caracteres alfabéticos",
+			"d": "Debe ser un correo valido",
+			"e": "La contraseña debe ser solo caracteres alfabéticos",
+			"f": "La contraseña debe tener entre 8 y 50 caracteres",
+			"g": "Las contraseñas no coinciden",
+			"h": "Debe ser un teléfono valido",
+			"i": "País no valido",
+			"j": "Teléfono no disponible, ya registrado",
+			"k": "Correo no disponible, ya registrado"
+		}
+	},
+	"helper": {
+		"welcome": "Bienvenido",
+		"support": "Soporte",
+		"home": "Inicio",
+		"setting": "Configuración",
+		"logout": "Salir",
+		"locale": "Idioma"
+	},
+	"error": {
+		"e000": "Error inesperado, vuelva a intentarlo mas tarde",
+		"e001": "Su sessión ha expirado",
+		"e003": "Este usuario no tiene permiso para acceder",
+		"e004": "No se ha encontrado el recurso web"
 	}
 }

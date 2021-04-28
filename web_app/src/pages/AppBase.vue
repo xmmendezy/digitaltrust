@@ -12,8 +12,6 @@ import { Component } from 'vue-property-decorator';
 
 @Component
 export default class AppBase extends PageBase {
-	private isLoading: boolean = true;
-
 	private error: boolean = false;
 
 	public async created() {
@@ -28,7 +26,6 @@ export default class AppBase extends PageBase {
 			},
 			this.$isMobile() ? time_reload_mobile : time_reload_desktop,
 		);
-		this.isLoading = false;
 	}
 }
 </script>

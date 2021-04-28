@@ -1,13 +1,20 @@
 import { Vue } from 'vue-property-decorator';
-import { vxm } from '@app/store';
+import { vxm, Store, IAuthData } from '@app/store';
+import { DataDict } from '../store';
 import VueRouter, { Route } from 'vue-router';
+import { BuefyNamespace } from 'buefy';
+import { v4 as uuid } from 'uuid';
 
 export default abstract class ComponentBase extends Vue {
-	public store = vxm;
-	public auth_data = this.store.auth.auth_data;
-	private is_admin: boolean = false;
+	public store: Store = vxm;
+	public auth_data: IAuthData = this.store.auth.auth_data;
+	public is_admin: boolean = false;
+
+	private uuid = uuid();
+	private data_listener: Set<string> = new Set();
 
 	public $isMobile: any;
+	public $buefy!: BuefyNamespace;
 	public $router!: VueRouter;
 	public $route!: Route;
 
@@ -32,6 +39,50 @@ export default abstract class ComponentBase extends Vue {
 				}
 			});
 		};
+		this.$destroy = () => {
+			if (this.data_listener.size) {
+				for (const key of this.data_listener) {
+					this.store.util.watch_data({
+						key,
+						id: this.uuid,
+						callback: null,
+					});
+				}
+			}
+			super.$destroy();
+		};
+	}
+
+	public $WatchData(key: string, callback: (newVal: DataDict, oldVal: DataDict) => void) {
+		this.data_listener.add(key);
+		this.store.util.watch_data({
+			key,
+			id: this.uuid,
+			callback,
+		});
+	}
+
+	public exec_is_render(refs: string, callback: (ref?: Vue | Element | Vue[] | Element[]) => void, c: number = 0) {
+		this.sleep(100);
+		if (c < 10) {
+			if (this.$refs[refs] !== null) {
+				callback();
+			} else {
+				this.exec_is_render(refs, callback, c + 1);
+			}
+		}
+	}
+
+	public exec_is_auth(callback: () => void) {
+		this.sleep(100);
+		this.store.auth.isLogged().then(v => {
+			if (v) {
+				this.auth_data = this.store.auth.auth_data;
+				callback();
+			} else {
+				this.exec_is_auth(callback);
+			}
+		});
 	}
 
 	public async sleep(n: number) {
@@ -63,59 +114,29 @@ export default abstract class ComponentBase extends Vue {
 		});
 	}
 
-	public exec_is_render(refs: string, callback: (ref?: Vue | Element | Vue[] | Element[]) => void) {
-		const timer = setInterval(async () => {
-			if (this.$refs[refs] !== null) {
-				clearInterval(timer);
-				callback(this.$refs[refs]);
-			}
-		}, 100);
-	}
-
-	public exec_is_auth(callback: () => void) {
-		const timer = setInterval(async () => {
-			if (await this.store.auth.isLogged()) {
-				clearInterval(timer);
-				callback();
-			}
-		}, 100);
-	}
-
 	public load_form_api<T>(data: T | string, callback: (data: T) => void, custom_data_error?: { [key: string]: any }) {
 		if (typeof data === 'string' && data !== '') {
 			const data_error: { [key: string]: any } = {
-				e000: () => {
-					this.toastError('Error inesperado, vuelva a intentarlo mas tarde');
-				},
+				e000: () => {},
 				e001: () => {
-					this.toastError('Su sessión ha expirado');
+					this.toastError(this.L('error.e001'));
 					this.logout();
 				},
 				e003: () => {
-					this.toastError('Este usuario no tiene permiso para acceder a este espacio de trabajo');
+					this.toastError(this.L('error.e003'));
 					this.logout();
 				},
-				u26: () => {
-					this.toastError('No se ha encontrado el usuario');
-				},
-				u31: () => {
-					this.toastError('Sesión expirada');
-				},
-				u32: () => {
-					this.toastError('El usuario esta inactivo');
-				},
-				u33: () => {
-					this.toastError('Contraseña incorrecta');
-				},
-				u34: () => {
-					this.toastError('Usuario con rol no permitido');
-				},
-				p16: () => {
-					this.toastError('El usuario no tiene un perfil activo');
+				e004: () => {
+					this.toastError(this.L('error.e004'));
+					this.logout();
 				},
 				...custom_data_error,
 			};
-			data_error[data]();
+			if (data_error[data]) {
+				data_error[data]();
+			} else {
+				this.toastError(this.L(data));
+			}
 		} else {
 			callback(data as T);
 		}

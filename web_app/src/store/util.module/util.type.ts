@@ -12,5 +12,4 @@ interface ICountry {
 	time_zones: ITimeZone[];
 }
 
-
 export { ICountry, ITimeZone };

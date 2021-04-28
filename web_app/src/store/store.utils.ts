@@ -171,6 +171,9 @@ const get_errors = function (e: any): string {
 			if (e.response.status === 403) {
 				return 'e003';
 			}
+			if (e.response.status === 404) {
+				return 'e004';
+			}
 		}
 	}
 	if (e.data) {

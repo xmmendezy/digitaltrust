@@ -6,6 +6,78 @@
 		"c": "Password",
 		"d": "Forgot Password?",
 		"e": "Sign in",
-		"f": "Sign up"
+		"f": "Sign up",
+		"forgot_password": {
+			"a": "Recover password",
+			"b": "Enter your email related to your DigitalTrust account, and we will send you a message with your new temporary password.",
+			"c": "Email",
+			"d": "Send"
+		},
+		"success": {
+			"a": "Password sent to email"
+		},
+		"error": {
+			"e000": "An error has occurred, confirm your username and password, and try again",
+			"u1": "User not found",
+			"u2": "The password does not match",
+			"u3": "Expected session",
+			"u5": "The password could not be recovered"
+		}
+	},
+	"register": {
+		"a": "Sign up",
+		"b": "Welcome, you have been invited through",
+		"c": "Name",
+		"d": "Last Name",
+		"e": "Email",
+		"f": "Phone",
+		"g": "State",
+		"h": "Postal address",
+		"i": "Password",
+		"j": "Confirm Password",
+		"k": "Start"
+	},
+	"home": {
+		"balance_now": {
+			"a": "Balance",
+			"b": "Total earnings",
+			"c": "Investment capital",
+			"d": "Earnings"
+		},
+		"table_balance": {
+			"a": "Balance",
+			"b": "Withdrawals",
+			"c": "Earnings",
+			"d": "Month"
+		}
+	},
+	"validator": {
+		"auth": {
+			"a": "There can be no empty fields",
+			"b": "The name must be only alphabetic characters",
+			"c": "Last name must be alphabetic characters only",
+			"d": "It must be a valid email",
+			"e": "Password must be alphabetic characters only",
+			"f": "Password must be between 8 and 50 characters",
+			"g": "Passwords do not match",
+			"h": "It must be a valid phone",
+			"i": "Invalid country",
+			"j": "Phone not available, already registered",
+			"k": "Email not available, already registered"
+		}
+	},
+	"helper": {
+		"welcome": "Welcome",
+		"support": "Support",
+		"home": "Home",
+		"setting": "Setting",
+		"logout": "Sign out",
+		"locale": "Locale"
+	},
+	"error": {
+		"e000": "Unexpected error, please try again later",
+		"e001": "Your session has expired",
+		"e003": "This user does not have permission to access",
+		"e004": "Web resource not found"
 	}
 }

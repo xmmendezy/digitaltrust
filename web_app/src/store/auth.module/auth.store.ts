@@ -1,5 +1,5 @@
-import { createModule, mutation, action } from "vuex-class-component";
-import { ICountry, ITimeZone } from "../util.module/util.type";
+import { createModule, mutation, action } from 'vuex-class-component';
+import { ICountry, ITimeZone } from '../util.module/util.type';
 import {
 	IAuthData,
 	IUser,
@@ -8,7 +8,7 @@ import {
 	SignupDto,
 	LoginDto,
 	UserChangePasswordDto,
-} from "./auth.type";
+} from './auth.type';
 import {
 	HttpBase,
 	ConfigStore,
@@ -19,11 +19,11 @@ import {
 	DateTimeFunc,
 	DateTimeOptions,
 	DateObject,
-} from "../store.utils";
-import { DateTime } from "luxon";
+} from '../store.utils';
+import { DateTime } from 'luxon';
 
 const VuexModule = createModule({
-	namespaced: "auth",
+	namespaced: 'auth',
 	strict: false,
 });
 
@@ -36,12 +36,9 @@ export default class AuthStore extends VuexModule {
 		this.config = config;
 	}
 
-	private _access_token: string | undefined =
-		localStorage.getItem("accessToken") || undefined;
-	private _user: IUser | undefined = JSON.parse(
-		localStorage.getItem("user") || "{}"
-	);
-	private _is_admin: boolean = this._user?.role === "admin";
+	private _access_token: string | undefined = localStorage.getItem('accessToken') || undefined;
+	private _user: IUser | undefined = JSON.parse(localStorage.getItem('user') || '{}');
+	private _is_admin: boolean = this._user?.role === 'admin';
 
 	get url() {
 		return {
@@ -51,18 +48,19 @@ export default class AuthStore extends VuexModule {
 			update_user: `${AuthStore.config.Api}/auth/update`,
 			reset_password: `${AuthStore.config.Api}/auth/reset_password`,
 			change_password: `${AuthStore.config.Api}/auth/change_password`,
+			ref_user: `${AuthStore.config.Api}/auth/ref_user`,
 		};
 	}
 
 	get headers(): IHeader {
 		if (this._access_token) {
 			return {
-				Authorization: "Bearer " + this._access_token,
-				"Content-Type": "application/json",
+				Authorization: 'Bearer ' + this._access_token,
+				'Content-Type': 'application/json',
 			};
 		} else {
 			return {
-				"Content-Type": "application/json",
+				'Content-Type': 'application/json',
 			};
 		}
 	}
@@ -70,7 +68,7 @@ export default class AuthStore extends VuexModule {
 	get auth_data(): IAuthData {
 		return {
 			accessToken: this._access_token,
-			expiresIn: parseInt(localStorage.getItem("expiresIn") || "0"),
+			expiresIn: parseInt(localStorage.getItem('expiresIn') || '0'),
 			user: this._user,
 		};
 	}
@@ -91,14 +89,14 @@ export default class AuthStore extends VuexModule {
 		if (this.user) {
 			return this.user.email;
 		}
-		return "";
+		return '';
 	}
 
 	get telephone(): string {
 		if (this.user) {
 			return this.user.telephone;
 		}
-		return "";
+		return '';
 	}
 
 	get name(): string {
@@ -111,7 +109,7 @@ export default class AuthStore extends VuexModule {
 				return this.user.firstname;
 			}
 		}
-		return "";
+		return '';
 	}
 
 	get country(): ICountry {
@@ -121,10 +119,7 @@ export default class AuthStore extends VuexModule {
 	get time_zone(): ITimeZone {
 		const id_time_zone = this.user?.id_time_zone;
 		if (id_time_zone) {
-			return (
-				this.country.time_zones.find((tz) => tz.id === id_time_zone) ||
-				this.country.time_zones[0]
-			);
+			return this.country.time_zones.find(tz => tz.id === id_time_zone) || this.country.time_zones[0];
 		} else {
 			return this.country.time_zones[0];
 		}
@@ -133,10 +128,7 @@ export default class AuthStore extends VuexModule {
 	get DateTime(): DateTimeFunc {
 		return {
 			utc: () => DateTime.utc().setLocale(this.country.locale),
-			now: () =>
-				DateTime.now()
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
+			now: () => DateTime.now().setLocale(this.country.locale).setZone(this.time_zone.value),
 			local: (
 				year?: number,
 				month?: number,
@@ -144,47 +136,23 @@ export default class AuthStore extends VuexModule {
 				hour?: number,
 				minute?: number,
 				second?: number,
-				millisecond?: number
+				millisecond?: number,
 			) =>
-				DateTime.local(
-					year,
-					month,
-					day,
-					hour,
-					minute,
-					second,
-					millisecond
-				)
+				DateTime.local(year, month, day, hour, minute, second, millisecond)
 					.setLocale(this.country.locale)
 					.setZone(this.time_zone.value),
 			fromISO: (text: string, options?: DateTimeOptions) =>
-				DateTime.fromISO(text, options)
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
+				DateTime.fromISO(text, options).setLocale(this.country.locale).setZone(this.time_zone.value),
 			fromUnix: (seconds: number, options?: DateTimeOptions) =>
-				DateTime.fromSeconds(seconds, options)
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
+				DateTime.fromSeconds(seconds, options).setLocale(this.country.locale).setZone(this.time_zone.value),
 			fromDate: (date: Date, options?: DateTimeOptions) =>
-				DateTime.fromJSDate(date, options)
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
-			fromFormat: (
-				text: string,
-				format: string,
-				options?: DateTimeOptions
-			) =>
-				DateTime.fromFormat(text, format, options)
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
+				DateTime.fromJSDate(date, options).setLocale(this.country.locale).setZone(this.time_zone.value),
+			fromFormat: (text: string, format: string, options?: DateTimeOptions) =>
+				DateTime.fromFormat(text, format, options).setLocale(this.country.locale).setZone(this.time_zone.value),
 			fromObject: (obj: DateObject) =>
-				DateTime.fromObject(obj)
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
+				DateTime.fromObject(obj).setLocale(this.country.locale).setZone(this.time_zone.value),
 			clone: (datetime: DateTime) =>
-				DateTime.fromISO(datetime.toISO())
-					.setLocale(this.country.locale)
-					.setZone(this.time_zone.value),
+				DateTime.fromISO(datetime.toISO()).setLocale(this.country.locale).setZone(this.time_zone.value),
 		};
 	}
 
@@ -199,16 +167,16 @@ export default class AuthStore extends VuexModule {
 	@mutation
 	public set_auth_data(data?: IAuthData) {
 		if (data?.accessToken) {
-			localStorage.setItem("accessToken", data.accessToken);
+			localStorage.setItem('accessToken', data.accessToken);
 			this._access_token = data.accessToken;
 		}
 		if (data?.expiresIn) {
-			localStorage.setItem("expiresIn", data.expiresIn.toString());
+			localStorage.setItem('expiresIn', data.expiresIn.toString());
 		}
 		if (data?.user) {
-			localStorage.setItem("user", JSON.stringify(data.user));
+			localStorage.setItem('user', JSON.stringify(data.user));
 			this._user = data.user;
-			this._is_admin = this._user.role === "admin";
+			this._is_admin = this._user.role === 'admin';
 		}
 	}
 
@@ -218,8 +186,8 @@ export default class AuthStore extends VuexModule {
 			...this._user,
 			...data,
 		} as IUser;
-		this._is_admin = this._user.role === "admin";
-		localStorage.setItem("user", JSON.stringify(this._user));
+		this._is_admin = this._user.role === 'admin';
+		localStorage.setItem('user', JSON.stringify(this._user));
 	}
 
 	@action
@@ -233,36 +201,36 @@ export default class AuthStore extends VuexModule {
 	public async logout() {
 		localStorage.clear();
 		this._user = undefined;
-		this._access_token = "";
+		this._access_token = '';
 		this._is_admin = false;
 		await clear_data(this);
 	}
 
 	@action
 	public async isLogged(): Promise<boolean> {
-		return !!localStorage.getItem("accessToken");
+		return !!localStorage.getItem('accessToken');
 	}
 
 	@action
 	public async getUser(): Promise<boolean> {
 		await this.get_auth_user();
-		return !!localStorage.getItem("accessToken");
+		return !!localStorage.getItem('accessToken');
 	}
 
 	@action
 	public async signup(data: SignupDto): Promise<string> {
 		return await AuthStore.http
 			.post(this.url.signup, data)
-			.then(async (response) => {
+			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
 				}
 				this.set_auth_data(response.data);
 				await this.setCountry();
-				return "";
+				return response.data;
 			})
-			.catch((e) => {
+			.catch(e => {
 				return get_errors(e);
 			});
 	}
@@ -271,16 +239,16 @@ export default class AuthStore extends VuexModule {
 	public async login(data: LoginDto): Promise<string> {
 		return await AuthStore.http
 			.post(this.url.login, data)
-			.then(async (response) => {
+			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
 				}
 				this.set_auth_data(response.data);
 				await this.setCountry();
-				return "";
+				return response.data;
 			})
-			.catch((e) => {
+			.catch(e => {
 				return get_errors(e);
 			});
 	}
@@ -289,7 +257,7 @@ export default class AuthStore extends VuexModule {
 	public async get_auth_user(): Promise<IAuthData | string> {
 		return await AuthStore.http
 			.get(this.url.user, { headers: this.headers })
-			.then(async (response) => {
+			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
@@ -298,18 +266,16 @@ export default class AuthStore extends VuexModule {
 				await this.setCountry();
 				return this.auth_data;
 			})
-			.catch((e) => {
+			.catch(e => {
 				return get_errors(e);
 			});
 	}
 
 	@action
-	public async update_auth_user(
-		data: IUpdateUserData
-	): Promise<IAuthData | string> {
+	public async update_auth_user(data: IUpdateUserData): Promise<IAuthData | string> {
 		return await AuthStore.http
 			.patch(this.url.update_user, data, { headers: this.headers })
-			.then(async (response) => {
+			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
@@ -318,16 +284,16 @@ export default class AuthStore extends VuexModule {
 				await this.setCountry();
 				return this.auth_data;
 			})
-			.catch((e) => {
+			.catch(e => {
 				return get_errors(e);
 			});
 	}
 
 	@action
-	public async reset_password(): Promise<string> {
+	public async reset_password(email: string): Promise<string> {
 		return await AuthStore.http
-			.get(`${this.url.reset_password}/${this.email}`)
-			.then((response) => {
+			.post(`${this.url.reset_password}`, { email })
+			.then(response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
@@ -337,7 +303,7 @@ export default class AuthStore extends VuexModule {
 				});
 				return error;
 			})
-			.catch((e) => {
+			.catch(e => {
 				return get_errors(e);
 			});
 	}
@@ -346,10 +312,26 @@ export default class AuthStore extends VuexModule {
 	public async change_password(data: UserChangePasswordDto): Promise<string> {
 		return await AuthStore.http
 			.patch(this.url.change_password, data, { headers: this.headers })
-			.then((response) => {
+			.then(response => {
 				return get_errors(response);
 			})
-			.catch((e) => {
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async ref_user(id: string): Promise<{ ref: string; name: string }> {
+		return await AuthStore.http
+			.post(`${this.url.ref_user}`, { id })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
 				return get_errors(e);
 			});
 	}

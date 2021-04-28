@@ -23,33 +23,28 @@
 		"c": {
 			"a": {
 				"a": "Bronze",
-				"b": "Período de 16 meses",
-				"c": "Interés mensual del 4%",
-				"d": "Total de ganancia del 64%"
+				"b": "Período de 12 meses",
+				"c": "Interés mensual del 4%"
 			},
 			"b": {
 				"a": "Silver",
-				"b": "Período de 14 meses",
-				"c": "Interés mensual del 5%",
-				"d": "Total de ganancia del 70%"
+				"b": "Período de 12 meses",
+				"c": "Interés mensual del 5%"
 			},
 			"c": {
 				"a": "Gold",
 				"b": "Período de 12 meses",
-				"c": "Interés mensual del 7%",
-				"d": "Total de ganancia del 84%"
+				"c": "Interés mensual del 7%"
 			},
 			"d": {
 				"a": "Platinum",
-				"b": "Período de 8 meses",
-				"c": "Interés mensual del 8%",
-				"d": "Total de ganancia del 80%"
+				"b": "Período de 10 meses",
+				"c": "Interés mensual del 8%"
 			},
 			"e": {
-				"a": "Platinum",
-				"b": "Período de 6 meses",
-				"c": "Interés mensual del 10%",
-				"d": "Total de ganancia del 60%"
+				"a": "Platinum +",
+				"b": "Período de 10 meses",
+				"c": "Interés mensual del 10%"
 			}
 		},
 		"d": "Comenzar"
@@ -64,7 +59,11 @@
 	},
 	"service_what": {
 		"a": "¿Cómo invertir?",
-		"b": ["Registrese", "Realice un depósito en una o varias membresías", "Retire sus ganancias. Y a disfrutar..."],
+		"b": [
+			"Registrese",
+			"Realice un depósito en una o varias membresías",
+			"Retire sus ganancias. Y a disfrutar..."
+		],
 		"c": "Registrarse"
 	},
 	"fqa": {
