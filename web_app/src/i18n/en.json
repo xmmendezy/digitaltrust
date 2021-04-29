@@ -2,7 +2,7 @@
 	"title": "DigitalTrust",
 	"login": {
 		"a": "Sign in",
-		"b": "Username",
+		"b": "Email",
 		"c": "Password",
 		"d": "Forgot Password?",
 		"e": "Sign in",
@@ -35,20 +35,69 @@
 		"h": "Postal address",
 		"i": "Password",
 		"j": "Confirm Password",
-		"k": "Start"
+		"k": "Privacy policies",
+		"l": "Terms and Conditions",
+		"m": "Start",
+		"ref_error": "The invitation received is invalid, you can still register"
 	},
 	"home": {
 		"balance_now": {
 			"a": "Balance",
 			"b": "Total earnings",
 			"c": "Investment capital",
-			"d": "Earnings"
+			"d": "Earnings",
+			"e": "Withdrawal",
+			"f": "Deposit"
 		},
 		"table_balance": {
 			"a": "Balance",
 			"b": "Withdrawals",
 			"c": "Earnings",
 			"d": "Month"
+		},
+		"refer": {
+			"a": "Invite your friends",
+			"b": "Share your referral link and I receive a benefit of 7% extra for each deposit from your partner, and also 3% for each additional deposit.",
+			"c": "Referrals"
+		},
+		"membership": {
+			"a": "Invest more? Calculate your investment",
+			"b": "Choose a membership, you can increase the amount.",
+			"c": "Investment",
+			"d": "at the end of the period"
+		}
+	},
+	"setting": {
+		"user": {
+			"a": "User",
+			"b": "Name",
+			"c": "Last Name",
+			"d": "Email",
+			"e": "Phone",
+			"f": "State",
+			"g": "Postal address",
+			"h": "Password",
+			"i": "Confirm Password"
+		},
+		"accounts": {
+			"a": "Accounts",
+			"b": "PayPal",
+			"c": "Stripe",
+			"d": "CoinPayments"
+		},
+		"save": "Save",
+		"ok": "Data was saved",
+		"not_ok": "Some data was not saved"
+	},
+	"admin": {
+		"new_client": "Add client",
+		"save_client": "Save client",
+		"edit_client": "Edit client",
+		"table_client": {
+			"a": "Name",
+			"b": "Email",
+			"c": "Balance",
+			"d": "Last deposit"
 		}
 	},
 	"validator": {
@@ -57,7 +106,7 @@
 			"b": "The name must be only alphabetic characters",
 			"c": "Last name must be alphabetic characters only",
 			"d": "It must be a valid email",
-			"e": "Password must be alphabetic characters only",
+			"e": "The password must be only alphanumeric characters, begin with a capital letter, and contain at least one number.",
 			"f": "Password must be between 8 and 50 characters",
 			"g": "Passwords do not match",
 			"h": "It must be a valid phone",
@@ -72,7 +121,8 @@
 		"home": "Home",
 		"setting": "Setting",
 		"logout": "Sign out",
-		"locale": "Locale"
+		"locale": "Locale",
+		"see": "See"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",

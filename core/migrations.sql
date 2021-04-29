@@ -179,3 +179,21 @@ VALUES('bcb0679b-0c45-4c45-9a76-baa9cd0d20f2'::uuid, '2021-04-23 00:00:00.000', 
 INSERT INTO public.time_zone
 (id, created, updated, "version", value, "countryId")
 VALUES('791e5e0e-17c5-4e06-8716-4209e61aab4f'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'America/Tijuana', 'b9d0adc0-0e8c-4d21-a38c-6eb4bc391b0a'::uuid);
+INSERT INTO public.membership
+(id, created, updated, "version", name, money, months, interest, is_active)
+VALUES('b3b65c80-a8c3-46ea-92db-9374ec3a23e6'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'Bronze', 5000.0, 12, 0.04, true);
+INSERT INTO public.membership
+(id, created, updated, "version", name, money, months, interest, is_active)
+VALUES('205710a1-69b8-45f7-9bae-c989cf7568c0'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'Silver', 10000.0, 12, 0.05, true);
+INSERT INTO public.membership
+(id, created, updated, "version", name, money, months, interest, is_active)
+VALUES('98e95421-1c5d-4c8a-b763-ac7770e2ebc1'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'Gold', 25000.0, 12, 0.07, true);
+INSERT INTO public.membership
+(id, created, updated, "version", name, money, months, interest, is_active)
+VALUES('c8e8eea0-f646-4f69-91cb-90970364fdd6'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'Platinum', 50000.0, 10, 0.08, true);
+INSERT INTO public.membership
+(id, created, updated, "version", name, money, months, interest, is_active)
+VALUES('c4313e2f-0c3e-469b-8545-099b146c9468'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'Platinum +', 100000.0, 10, 0.1, true);
+INSERT INTO public."user"
+(id, created, updated, "version", email, telephone, "password", change_password, firstname, lastname, "role", status, "lastLogin", "lastQuery", "lastChangePassword", id_time_zone, "countryId", state, address, paypal_account, stripe_account, coinpayments_account, "ref")
+VALUES('8f84f3e6-fd37-46e1-ba8c-a6b5a05007f6'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'admin@digitaltrustonline.net', '+506 8678 8181', '$2a$10$NZcCff9myGOuZdnGVY2Na.GzA7C.B1eimb9NNze73RlwPrB8iAcFa', false, 'Admin', 'DigitalTrust', 'admin'::user_role_enum::user_role_enum, 'pending'::user_status_enum::user_status_enum, '2021-04-29 00:23:56.020', '2021-04-29 00:23:56.395', '2021-04-29 00:23:56.010', 'af892391-df95-4e0c-ad69-471b8e8e6fb0', 'e0bf3ed3-90ee-444c-a5e7-433c4c5deefb'::uuid, 'San José', 'Rohmoser, frente condominio el Estoril, zip code 10109', 'admin@digitaltrustonline.net', 'admin@digitaltrustonline.net', 'admin@digitaltrustonline.net', '');

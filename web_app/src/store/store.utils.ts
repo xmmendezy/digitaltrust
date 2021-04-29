@@ -8,7 +8,7 @@ import {
 	DurationObject,
 } from 'luxon';
 
-import { IUser } from './auth.module/auth.type';
+import { IUser } from './api.module/api.type';
 
 type DataDict = string | number | boolean | Date | null | undefined | DataDict[] | Dict;
 

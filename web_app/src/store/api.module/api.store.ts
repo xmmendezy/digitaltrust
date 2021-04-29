@@ -3,12 +3,14 @@ import { ICountry, ITimeZone } from '../util.module/util.type';
 import {
 	IAuthData,
 	IUser,
-	IUpdateUser,
-	IUpdateUserData,
+	UpdateDto,
 	SignupDto,
 	LoginDto,
 	UserChangePasswordDto,
-} from './auth.type';
+	IRefer,
+	IMembership,
+	IClient,
+} from './api.type';
 import {
 	HttpBase,
 	ConfigStore,
@@ -23,11 +25,11 @@ import {
 import { DateTime } from 'luxon';
 
 const VuexModule = createModule({
-	namespaced: 'auth',
+	namespaced: 'api',
 	strict: false,
 });
 
-export default class AuthStore extends VuexModule {
+export default class ApiStore extends VuexModule {
 	static http: HttpBase;
 	static config: ConfigStore;
 
@@ -42,13 +44,16 @@ export default class AuthStore extends VuexModule {
 
 	get url() {
 		return {
-			signup: `${AuthStore.config.Api}/signup`,
-			login: `${AuthStore.config.Api}/login`,
-			user: `${AuthStore.config.Api}/auth/user`,
-			update_user: `${AuthStore.config.Api}/auth/update`,
-			reset_password: `${AuthStore.config.Api}/auth/reset_password`,
-			change_password: `${AuthStore.config.Api}/auth/change_password`,
-			ref_user: `${AuthStore.config.Api}/auth/ref_user`,
+			signup: `${ApiStore.config.Api}/signup`,
+			login: `${ApiStore.config.Api}/login`,
+			user: `${ApiStore.config.Api}/user`,
+			reset_password: `${ApiStore.config.Api}/auth/reset_password`,
+			change_password: `${ApiStore.config.Api}/auth/change_password`,
+			ref_user: `${ApiStore.config.Api}/ref_user`,
+			is_refer: `${ApiStore.config.Api}/is_refer`,
+			memberships: `${ApiStore.config.Api}/memberships`,
+			clients: `${ApiStore.config.Api}/clients`,
+			client: `${ApiStore.config.Api}/client`,
 		};
 	}
 
@@ -181,10 +186,10 @@ export default class AuthStore extends VuexModule {
 	}
 
 	@mutation
-	public update_user_data(data: IUpdateUser) {
+	public update_user(data: UpdateDto | { country?: ICountry; change_password?: boolean }) {
 		this._user = {
 			...this._user,
-			...data,
+			...(data as any),
 		} as IUser;
 		this._is_admin = this._user.role === 'admin';
 		localStorage.setItem('user', JSON.stringify(this._user));
@@ -192,7 +197,7 @@ export default class AuthStore extends VuexModule {
 
 	@action
 	public async setCountry() {
-		this.update_user_data({
+		this.update_user({
 			country: await get_country(this, this.user?.country__id),
 		});
 	}
@@ -212,14 +217,8 @@ export default class AuthStore extends VuexModule {
 	}
 
 	@action
-	public async getUser(): Promise<boolean> {
-		await this.get_auth_user();
-		return !!localStorage.getItem('accessToken');
-	}
-
-	@action
-	public async signup(data: SignupDto): Promise<string> {
-		return await AuthStore.http
+	public async signup(data: SignupDto): Promise<IAuthData | string> {
+		return await ApiStore.http
 			.post(this.url.signup, data)
 			.then(async response => {
 				const error = get_errors(response);
@@ -236,8 +235,24 @@ export default class AuthStore extends VuexModule {
 	}
 
 	@action
-	public async login(data: LoginDto): Promise<string> {
-		return await AuthStore.http
+	public async register_client(data: SignupDto): Promise<IAuthData | string> {
+		return await ApiStore.http
+			.post(this.url.signup, data)
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async login(data: LoginDto): Promise<IAuthData | string> {
+		return await ApiStore.http
 			.post(this.url.login, data)
 			.then(async response => {
 				const error = get_errors(response);
@@ -254,33 +269,15 @@ export default class AuthStore extends VuexModule {
 	}
 
 	@action
-	public async get_auth_user(): Promise<IAuthData | string> {
-		return await AuthStore.http
-			.get(this.url.user, { headers: this.headers })
+	public async update(data: UpdateDto): Promise<IAuthData | string> {
+		return await ApiStore.http
+			.patch(this.url.user, data, { headers: this.headers })
 			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
 				}
-				this.update_user_data(response.data);
-				await this.setCountry();
-				return this.auth_data;
-			})
-			.catch(e => {
-				return get_errors(e);
-			});
-	}
-
-	@action
-	public async update_auth_user(data: IUpdateUserData): Promise<IAuthData | string> {
-		return await AuthStore.http
-			.patch(this.url.update_user, data, { headers: this.headers })
-			.then(async response => {
-				const error = get_errors(response);
-				if (error) {
-					return error;
-				}
-				this.update_user_data(response.data);
+				this.update_user(response.data);
 				await this.setCountry();
 				return this.auth_data;
 			})
@@ -291,14 +288,14 @@ export default class AuthStore extends VuexModule {
 
 	@action
 	public async reset_password(email: string): Promise<string> {
-		return await AuthStore.http
+		return await ApiStore.http
 			.post(`${this.url.reset_password}`, { email })
 			.then(response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;
 				}
-				this.update_user_data({
+				this.update_user({
 					change_password: true,
 				});
 				return error;
@@ -310,7 +307,7 @@ export default class AuthStore extends VuexModule {
 
 	@action
 	public async change_password(data: UserChangePasswordDto): Promise<string> {
-		return await AuthStore.http
+		return await ApiStore.http
 			.patch(this.url.change_password, data, { headers: this.headers })
 			.then(response => {
 				return get_errors(response);
@@ -321,10 +318,90 @@ export default class AuthStore extends VuexModule {
 	}
 
 	@action
-	public async ref_user(id: string): Promise<{ ref: string; name: string }> {
-		return await AuthStore.http
-			.post(`${this.url.ref_user}`, { id })
+	public async ref_user(id: string): Promise<IRefer> {
+		return await ApiStore.http
+			.get(`${this.url.ref_user}`, { params: { id } })
 			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async is_refer(): Promise<IRefer[]> {
+		return await ApiStore.http
+			.get(`${this.url.is_refer}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async memberships(): Promise<IMembership[]> {
+		return await ApiStore.http
+			.get(`${this.url.memberships}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async clients(): Promise<IClient[]> {
+		return await ApiStore.http
+			.get(`${this.url.clients}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async client(id: string): Promise<IUser> {
+		return await ApiStore.http
+			.get(`${this.url.client}`, { params: { id }, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async update_client(data: { id: string; data: UpdateDto }): Promise<IUser | string> {
+		return await ApiStore.http
+			.patch(this.url.client, data.data, { params: { id: data.id }, headers: this.headers })
+			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;

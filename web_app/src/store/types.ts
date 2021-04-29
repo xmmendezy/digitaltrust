@@ -1,2 +1,2 @@
-export * from './auth.module/auth.type';
+export * from './api.module/api.type';
 export * from './util.module/util.type';

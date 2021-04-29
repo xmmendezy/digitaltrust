@@ -42,7 +42,7 @@ abstract class Base extends BaseEntity {
 	@UpdateDateColumn({ type: 'timestamptz' })
 	public updated: Date;
 
-	@VersionColumn()
+	@VersionColumn({ default: 1 })
 	public version: number;
 
 	public errors: string[] = [];

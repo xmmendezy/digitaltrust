@@ -2,7 +2,7 @@
 	"title": "DigitalTrust",
 	"login": {
 		"a": "Iniciar sesión",
-		"b": "Usuario",
+		"b": "Correo",
 		"c": "Contraseña",
 		"d": "He olvidado mi contraseña",
 		"e": "Ingresar",
@@ -35,20 +35,69 @@
 		"h": "Dirección postal",
 		"i": "Contraseña",
 		"j": "Confirmar contraseña",
-		"k": "Finalizar"
+		"k": "Políticas de privacidad",
+		"l": "Términos y condiciones",
+		"m": "Finalizar",
+		"ref_error": "La invitación recibida es invalida, de todas formas puede registrarse"
 	},
 	"home": {
 		"balance_now": {
 			"a": "Saldo",
 			"b": "Ganancia total",
 			"c": "Capital de inversión",
-			"d": "Ganancias"
+			"d": "Ganancias",
+			"e": "Retirar",
+			"f": "Depositar"
 		},
 		"table_balance": {
 			"a": "Saldo",
 			"b": "Retiros",
 			"c": "Ganancias",
 			"d": "Mes"
+		},
+		"refer": {
+			"a": "Invita a tus socios",
+			"b": "Comparte tu enlace de referido y recibo un beneficio del 7% extra por cada deposito de su socio, y ademas un 3% por cada deposito adicional.",
+			"c": "Referidos"
+		},
+		"membership": {
+			"a": "¿Invertir más? Calcule su inversión",
+			"b": "Escoja una membresía, puede aumentar la cantidad.",
+			"c": "Inversión",
+			"d": "al finalizar el período"
+		}
+	},
+	"setting": {
+		"user": {
+			"a": "Usuario",
+			"b": "Nombre",
+			"c": "Apellido",
+			"d": "Correo",
+			"e": "Teléfono",
+			"f": "Provincia",
+			"g": "Dirección postal",
+			"h": "Contraseña",
+			"i": "Confirmar contraseña"
+		},
+		"accounts": {
+			"a": "Cuentas",
+			"b": "PayPal",
+			"c": "Stripe",
+			"d": "CoinPayments"
+		},
+		"save": "Guardar",
+		"ok": "Se guardaron los datos",
+		"not_ok": "No se guardaron algunos datos"
+	},
+	"admin": {
+		"new_client": "Nuevo cliente",
+		"save_client": "Registrar cliente",
+		"edit_client": "Editar cliente",
+		"table_client": {
+			"a": "Name",
+			"b": "Email",
+			"c": "Saldo",
+			"d": "Último depósito"
 		}
 	},
 	"validator": {
@@ -57,7 +106,7 @@
 			"b": "El nombre debe ser solo caracteres alfabéticos",
 			"c": "El apellido debe ser solo caracteres alfabéticos",
 			"d": "Debe ser un correo valido",
-			"e": "La contraseña debe ser solo caracteres alfabéticos",
+			"e": "La contraseña debe ser solo caracteres alfanuméricos, comenzar con mayúscula y contener al menos un número.",
 			"f": "La contraseña debe tener entre 8 y 50 caracteres",
 			"g": "Las contraseñas no coinciden",
 			"h": "Debe ser un teléfono valido",
@@ -72,7 +121,8 @@
 		"home": "Inicio",
 		"setting": "Configuración",
 		"logout": "Salir",
-		"locale": "Idioma"
+		"locale": "Idioma",
+		"see": "Ver"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

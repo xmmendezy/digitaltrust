@@ -33,7 +33,12 @@ export class User extends BaseEntity implements IUser {
 				this.id_time_zone = this.country.time_zones[0].id;
 			}
 			this.country.id_time_zone = this.id_time_zone;
-			this.data = data.data;
+			this.state = data.state;
+			this.address = data.address;
+			this.paypal_account = data.paypal_account || data.email;
+			this.stripe_account = data.stripe_account || data.email;
+			this.coinpayments_account = data.coinpayments_account || data.email;
+			this.ref = data.ref;
 		}
 	}
 
@@ -118,10 +123,35 @@ export class User extends BaseEntity implements IUser {
 	})
 	public id_time_zone: string;
 
-	@Column('jsonb', {
-		default: '{}',
+	@Column({
+		default: '',
 	})
-	public data: object;
+	public state: string;
+
+	@Column({
+		default: '',
+	})
+	public address: string;
+
+	@Column({
+		default: '',
+	})
+	public paypal_account: string;
+
+	@Column({
+		default: '',
+	})
+	public stripe_account: string;
+
+	@Column({
+		default: '',
+	})
+	public coinpayments_account: string;
+
+	@Column({
+		default: '',
+	})
+	public ref: string;
 
 	get name(): string {
 		if (this.firstname && this.lastname) {

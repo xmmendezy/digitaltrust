@@ -8,6 +8,9 @@
 						<p v-if="ref_name" class="subtitle">
 							{{ L('register.b') }} <b>{{ ref_name }}.</b>
 						</p>
+						<p v-else-if="ref_error" class="subtitle">
+							{{ L('register.ref_error') }}
+						</p>
 						<section class="form has-text-centered">
 							<div class="columns">
 								<div class="column">
@@ -78,8 +81,28 @@
 									></c-input>
 								</div>
 							</div>
+							<div class="columns">
+								<div class="column"></div>
+								<div class="column column-check is-6 has-text-left">
+									<b-field>
+										<b-checkbox v-model="check1">
+											{{ L('helper.see') }}
+											<a :href="publicPath + 'doc1.pdf'" target="_blank">{{ L('register.k') }}</a>
+										</b-checkbox>
+									</b-field>
+									<b-field>
+										<b-checkbox v-model="check2">
+											{{ L('helper.see') }}
+											<a :href="publicPath + 'doc2.pdf'" target="_blank">{{ L('register.l') }}</a>
+										</b-checkbox>
+									</b-field>
+								</div>
+								<div class="column"></div>
+							</div>
 							<b-field>
-								<b-button @click="signup()" type="is-primary">{{ L('register.k') }}</b-button>
+								<b-button @click="signup()" type="is-primary" :disabled="!(check1 && check2)">{{
+									L('register.m')
+								}}</b-button>
 							</b-field>
 						</section>
 					</div>
@@ -92,13 +115,17 @@
 <script lang="ts">
 import PageChildBase from '../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
-import { SignupDto, ICountry } from '../store';
+import { SignupDto, ICountry, IRefer } from '../store';
 
 @Component
 export default class Register extends PageChildBase {
 	private signup_form: SignupDto = new SignupDto();
 
-	private ref_name = '';
+	private ref_name: string = '';
+	private ref_error: boolean = false;
+
+	private check1: boolean = false;
+	private check2: boolean = false;
 
 	private telephoneInternational: string = '';
 	private validationTelephone: any;
@@ -114,10 +141,14 @@ export default class Register extends PageChildBase {
 		});
 		if ('ref' in this.$route.query) {
 			this.load_form_api(
-				await this.store.auth.ref_user(this.$route.query.ref as string),
-				ref_user => {
-					this.signup_form.ref = ref_user.ref;
-					this.ref_name = ref_user.name;
+				await this.store.api.ref_user(this.$route.query.ref as string),
+				(ref_user: IRefer) => {
+					if (ref_user.id) {
+						this.signup_form.ref = ref_user.id;
+						this.ref_name = ref_user.name;
+					} else {
+						this.ref_error = true;
+					}
 				},
 				{
 					e000: () => {
@@ -129,12 +160,35 @@ export default class Register extends PageChildBase {
 	}
 
 	private async mounted() {
-		const timer = setInterval(() => {
-			if (this.$refs.input) {
-				clearInterval(timer);
-				(this.$refs.input as any).focus();
+		this.exec_is_render('input', input => {
+			(input as any).focus();
+		});
+	}
+
+	private async signup() {
+		if (this.check1 && this.check2) {
+			const errors: string[] = this.signup_form.validate();
+			if (!this.validationTelephone) {
+				errors.push('validator.auth.h');
 			}
-		}, 10);
+			if (errors.length) {
+				this.toastError(this.L(errors[0]));
+			} else {
+				const telephone = this.signup_form.telephone;
+				this.signup_form.telephone = this.telephoneInternational;
+				this.load_form_api(await this.store.api.signup(this.signup_form), () => {}, {
+					e000: () => {
+						this.toastError(this.L('error.e000'));
+					},
+				});
+				this.auth_data = this.store.api.auth_data;
+				this.signup_form.telephone = telephone;
+				if (await this.store.api.isLogged()) {
+					this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.api.name}`);
+					this.$router.push('/');
+				}
+			}
+		}
 	}
 
 	public validateNumber(args: any) {
@@ -142,30 +196,6 @@ export default class Register extends PageChildBase {
 			this.validationTelephone = args.valid;
 			if (args.number) {
 				this.telephoneInternational = args.number;
-			}
-		}
-	}
-
-	private async signup() {
-		const errors: string[] = this.signup_form.validate();
-		if (!this.validationTelephone) {
-			errors.push('validator.auth.h');
-		}
-		if (errors.length) {
-			this.toastError(this.L(errors[0]));
-		} else {
-			const telephone = this.signup_form.telephone;
-			this.signup_form.telephone = this.telephoneInternational;
-			this.load_form_api(await this.store.auth.signup(this.signup_form), () => {}, {
-				e000: () => {
-					this.toastError(this.L('error.e000'));
-				},
-			});
-			this.auth_data = this.store.auth.auth_data;
-			this.signup_form.telephone = telephone;
-			if (await this.store.auth.isLogged()) {
-				this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.auth.name}`);
-				this.$router.push('/');
 			}
 		}
 	}
@@ -230,9 +260,9 @@ export default class Register extends PageChildBase {
 						margin: 1rem 0;
 					}
 
-					.button.is-text {
-						text-decoration-color: $primary;
-						text-underline-offset: 50%;
+					.column-check {
+						font-size: 12px;
+						margin-left: 2rem;
 					}
 
 					.button.is-primary {
@@ -240,18 +270,6 @@ export default class Register extends PageChildBase {
 						margin: 1rem 0;
 						width: 50%;
 					}
-				}
-
-				.is-divider {
-					margin-left: auto;
-					margin-right: auto;
-					width: 90%;
-				}
-
-				.button.is-primary {
-					padding: 1.5rem 1rem;
-					margin: 1rem 0;
-					width: 35%;
 				}
 			}
 		}

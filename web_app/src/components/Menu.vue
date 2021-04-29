@@ -5,8 +5,8 @@
 				<a class="icon-text data-user" @click="open()">
 					<b-image v-if="has_image_user" :src="require('../assets/images/avatar.png')"></b-image>
 					<span class="info-user">
-						<font class="name">{{ store.auth.name }} </font>
-						<font class="email">{{ store.auth.email }}</font>
+						<font class="name">{{ store.api.name }} </font>
+						<font class="email">{{ store.api.email }}</font>
 					</span>
 				</a>
 			</li>
@@ -15,13 +15,13 @@
 			<b-menu-item
 				icon="dashboard"
 				tag="router-link"
-				:to="{ name: 'Home' }"
+				:to="{ name: is_admin ? 'AdminHome' : 'Home' }"
 				:label="L('helper.home')"
 			></b-menu-item>
 			<b-menu-item
 				icon="ellipsis-h"
 				tag="router-link"
-				:to="{ name: 'Setting' }"
+				:to="{ name: is_admin ? 'AdminSetting' : 'Setting' }"
 				:label="L('helper.setting')"
 			></b-menu-item>
 			<b-menu-item icon="sign-out-alt" @click="logout()" :label="L('helper.logout')"></b-menu-item>

@@ -23,7 +23,12 @@ interface IUser {
 	readonly lastChangePassword?: Date;
 	readonly country?: any;
 	readonly id_time_zone?: string;
-	readonly data?: object;
+	readonly state?: string;
+	readonly address?: string;
+	readonly paypal_account?: string;
+	readonly stripe_account?: string;
+	readonly coinpayments_account?: string;
+	readonly ref?: string;
 }
 
 interface ITimeZone {
@@ -39,4 +44,12 @@ interface ICountry {
 	readonly time_zones?: ITimeZone[];
 }
 
-export { IUser, UserRole, UserStatus, ICountry, ITimeZone };
+interface IMembership {
+	readonly id?: string;
+	readonly name?: string;
+	readonly money?: number;
+	readonly months?: number;
+	readonly interest?: number;
+}
+
+export { IUser, UserRole, UserStatus, ICountry, ITimeZone, IMembership };

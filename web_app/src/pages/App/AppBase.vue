@@ -23,7 +23,7 @@
 							</b-dropdown-item>
 						</b-dropdown>
 					</b-navbar-item>
-					<b-navbar-item tag="div">
+					<b-navbar-item tag="div" class="is-hidden">
 						<b-button type="is-text" size="is-medium" class="has-text-gray" icon-left="comments">
 							{{ L('helper.support') }}
 						</b-button>
@@ -43,7 +43,7 @@
 					</a>
 				</template>
 			</b-navbar>
-			<section class="section-main columns">
+			<section class="section-main" :class="{ columns: isOpenSidebar }">
 				<b-sidebar
 					position="static"
 					fullheight
@@ -97,6 +97,7 @@ export default class AppBase extends PageBase {
 
 	public async created() {
 		await super.created();
+		this.$i18n.locale = this.store.api.country.locale || 'en';
 		this.statusSidebar();
 		window.addEventListener('resize', this.statusSidebar);
 	}
@@ -134,7 +135,7 @@ export default class AppBase extends PageBase {
 
 .app {
 	.body {
-		height: 100vh;
+		height: 100%;
 		position: relative;
 
 		.navbar {
@@ -240,6 +241,12 @@ export default class AppBase extends PageBase {
 							margin-bottom: 0;
 						}
 					}
+				}
+			}
+
+			&:not(.columns) {
+				.content-main {
+					padding-right: 1.5rem;
 				}
 			}
 

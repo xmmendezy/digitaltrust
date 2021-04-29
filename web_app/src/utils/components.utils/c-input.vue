@@ -1,7 +1,11 @@
 <template>
-	<float-label class="c-input">
+	<float-label
+		class="c-input control"
+		:class="{ 'is-clearfix': icon || password, 'has-icons-left': icon, 'has-icons-right': password }"
+	>
 		<input
 			ref="input"
+			class="input"
 			:class="{ password }"
 			v-model="content"
 			@input="updateInput"
@@ -11,12 +15,12 @@
 			:placeholder="placeholder"
 			:type="reveal_password ? type : 'password'"
 		/>
-		<i
-			class="fas"
-			:class="reveal_password ? 'fa-eye-slash' : 'fa-eye'"
-			v-if="password"
-			@click="toggle_password"
-		></i>
+		<span v-if="password" class="icon is-right is-clickable">
+			<i class="fas password" :class="reveal_password ? 'fa-eye-slash' : 'fa-eye'" @click="toggle_password"> </i>
+		</span>
+		<span v-if="icon" class="icon is-left is-clickable">
+			<i class="fa" :class="icon"></i>
+		</span>
 	</float-label>
 </template>
 
@@ -26,11 +30,12 @@ import ComponentBase from '../component_base.utils';
 
 @Component
 export default class extends ComponentBase {
-	@Prop({ type: String, default: null }) value!: string;
+	@Prop({ type: [String, Number], default: '' }) value!: string | number;
 	@Prop({ type: Boolean, default: false }) password!: boolean;
 	@Prop({ type: String, default: '' }) placeholder!: string;
+	@Prop({ type: String, default: '' }) icon!: string;
 
-	private content: string = this.value;
+	private content: string = this.value.toString();
 	private type: string = 'text';
 	private reveal_password: boolean = false;
 
@@ -43,8 +48,8 @@ export default class extends ComponentBase {
 
 	@Watch('value', { immediate: true })
 	private get_new_value(new_value: string) {
-		if (this.content !== new_value) {
-			this.content = new_value;
+		if (this.content !== new_value.toString()) {
+			this.content = new_value.toString();
 			this.$emit('input', this.content.trim());
 		}
 	}
@@ -96,19 +101,17 @@ export default class extends ComponentBase {
 		font-size: 18px !important;
 		width: 100%;
 		padding: 0.8rem 0;
-
-		&.password {
-			padding-right: 50px;
-		}
+		box-shadow: none;
+		border-radius: 0;
 	}
 
-	i {
+	.input:focus {
+		box-shadow: none;
+	}
+
+	i.password {
 		font-size: 18px !important;
-		margin-left: -50px;
-		width: 50px;
 		color: $primary;
-		border: 0;
-		-webkit-appearance: none;
 	}
 
 	.vfl-label {

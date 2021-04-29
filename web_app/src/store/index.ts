@@ -7,28 +7,28 @@ import { HttpBase } from './store.utils';
 import config from './config.store';
 import axios from 'axios';
 
-import AuthStore from './auth.module/auth.store';
+import ApiStore from './api.module/api.store';
 import UtilStore from './util.module/util.store';
 
 Vue.use(Vuex);
 
-AuthStore.setConfig(axios as HttpBase, config);
+ApiStore.setConfig(axios as HttpBase, config);
 UtilStore.setConfig(axios as HttpBase, config);
 
 const store = new Vuex.Store({
 	modules: {
-		...extractVuexModule(AuthStore),
+		...extractVuexModule(ApiStore),
 		...extractVuexModule(UtilStore),
 	},
 });
 
 type Store = {
-	auth: ProxyWatchers & AuthStore;
+	api: ProxyWatchers & ApiStore;
 	util: ProxyWatchers & UtilStore;
 };
 
 const vxm: Store = {
-	auth: createProxy(store, AuthStore),
+	api: createProxy(store, ApiStore),
 	util: createProxy(store, UtilStore),
 };
 
