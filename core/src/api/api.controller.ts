@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Patch, Body, Req, Request, Query } from '@app/http';
 import { ApiService } from './api.service';
 import { SignupDto, UpdateDto } from './api.dto';
+import { User } from './api.entity';
 
 @Controller('api')
 export class ApiController {
@@ -75,5 +76,19 @@ export class ApiController {
 		} else {
 			return await this.apiService.update_client(query.id, data);
 		}
+	}
+
+	@Get('records')
+	public async records(@Req() req: Request, @Query() query: { id: string }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.findOne(query.id);
+		}
+		return await this.apiService.records(user);
+	}
+
+	@Get('balance')
+	public async balance(@Req() req: Request) {
+		return await this.apiService.balance(req.user);
 	}
 }

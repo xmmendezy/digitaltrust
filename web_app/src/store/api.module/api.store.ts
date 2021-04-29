@@ -10,6 +10,8 @@ import {
 	IRefer,
 	IMembership,
 	IClient,
+	IRecord,
+	IBalance,
 } from './api.type';
 import {
 	HttpBase,
@@ -54,6 +56,8 @@ export default class ApiStore extends VuexModule {
 			memberships: `${ApiStore.config.Api}/memberships`,
 			clients: `${ApiStore.config.Api}/clients`,
 			client: `${ApiStore.config.Api}/client`,
+			records: `${ApiStore.config.Api}/records`,
+			balance: `${ApiStore.config.Api}/balance`,
 		};
 	}
 
@@ -402,6 +406,38 @@ export default class ApiStore extends VuexModule {
 		return await ApiStore.http
 			.patch(this.url.client, data.data, { params: { id: data.id }, headers: this.headers })
 			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async records(id?: string): Promise<IRecord[]> {
+		return await ApiStore.http
+			.get(`${this.url.records}`, { params: { id }, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async balance(): Promise<IBalance> {
+		return await ApiStore.http
+			.get(`${this.url.balance}`, { headers: this.headers })
+			.then(response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;

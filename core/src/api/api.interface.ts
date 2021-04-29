@@ -52,4 +52,61 @@ interface IMembership {
 	readonly interest?: number;
 }
 
-export { IUser, UserRole, UserStatus, ICountry, ITimeZone, IMembership };
+interface ISuscription {
+	readonly userId?: string;
+	readonly date_begin?: number;
+	readonly date_end?: number;
+	readonly membershipId?: string;
+}
+
+enum PaymentMethod {
+	BALANCE = 'balance',
+	PAYPAL = 'paypal',
+	STRIPE = 'stripe',
+	BLOCKCHAIN = 'blockchain',
+}
+
+enum WithdrawalMethod {
+	INVESTMENT = 'investment',
+	PAYPAL = 'paypal',
+	STRIPE = 'stripe',
+	BLOCKCHAIN = 'blockchain',
+}
+
+interface IDeposit {
+	readonly date?: number;
+	readonly suscriptionId?: string;
+	readonly money?: number;
+	readonly payment_method?: PaymentMethod;
+}
+
+interface IWithdrawal {
+	readonly date?: number;
+	readonly userId?: string;
+	readonly money?: number;
+	readonly withdrawal_method?: WithdrawalMethod;
+}
+
+interface IRecord {
+	userId?: string;
+	date?: number;
+	balance?: number;
+	withdrawal?: number;
+	earning?: number;
+	investment?: number;
+}
+
+export {
+	IUser,
+	UserRole,
+	UserStatus,
+	ICountry,
+	ITimeZone,
+	IMembership,
+	ISuscription,
+	IDeposit,
+	IWithdrawal,
+	PaymentMethod,
+	WithdrawalMethod,
+	IRecord,
+};

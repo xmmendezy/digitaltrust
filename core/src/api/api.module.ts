@@ -2,13 +2,15 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiController } from './api.controller';
 import { ApiService } from './api.service';
-import { User, Country, TimeZone, HQuery, HLogin, Membership } from './api.entity';
+import { User, Country, TimeZone, HQuery, HLogin, Membership, Suscription, Deposit, Withdrawal, Record } from './api.entity';
 import { LoginMiddleware, JwtMiddleware } from './api.middlewares';
 
 import { JwtStrategy, LocalStrategy } from './passport';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([User, Country, TimeZone, HQuery, HLogin, Membership])],
+	imports: [
+		TypeOrmModule.forFeature([User, Country, TimeZone, HQuery, HLogin, Membership, Suscription, Deposit, Withdrawal, Record]),
+	],
 	controllers: [ApiController],
 	providers: [ApiService, JwtStrategy, LocalStrategy],
 	exports: [ApiService],

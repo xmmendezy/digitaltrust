@@ -291,6 +291,10 @@ export default class Admin extends PageChildBase {
 		this.get_clients();
 	}
 
+	public reload() {
+		this.get_clients();
+	}
+
 	public async get_clients() {
 		this.load_form_api(await this.store.api.clients(), (data: IClient[]) => {
 			this.client_data = data;

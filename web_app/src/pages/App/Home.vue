@@ -15,45 +15,37 @@
 						<div class="column">{{ L('home.balance_now.c') }}</div>
 						<div class="column info-money is-4">{{ formatMoney(balance_data.investment) }}</div>
 					</div>
-					<div class="columns is-hidden-tablet-only">
-						<div class="column center has-text-left is-6">
-							<b-button type="is-primary" @click="show_earnings()">
-								{{ L('home.balance_now.d') }}
-							</b-button>
-						</div>
-						<div class="column center has-text-left">
-							<b-button type="is-warning" size="is-small" @click="show_withdrawal()">
-								{{ L('home.balance_now.e') }}
-							</b-button>
-						</div>
-						<div class="column center has-text-left">
-							<b-button type="is-success" size="is-large" @click="show_deposit()">
-								{{ L('home.balance_now.f') }}
-							</b-button>
-						</div>
+					<div class="columns has-text-left">
+						<div class="column">{{ L('home.balance_now.d') }}</div>
+						<div class="column info-money is-4">{{ formatMoney(balance_data.withdrawal) }}</div>
 					</div>
-					<div class="columns is-hidden-mobile is-hidden-desktop">
-						<div class="column">
-							<b-button type="is-primary" size="is-small" @click="show_earnings()">
-								{{ L('home.balance_now.d') }}
-							</b-button>
-						</div>
-						<div class="column">
-							<b-button type="is-warning" size="is-small" @click="show_withdrawal()">
-								{{ L('home.balance_now.e') }}
-							</b-button>
-						</div>
-						<div class="column">
-							<b-button type="is-success" size="is-small" @click="show_deposit()">
-								{{ L('home.balance_now.f') }}
-							</b-button>
-						</div>
+					<div class="buttons is-hidden-tablet-only is-fullwidth">
+						<b-button type="is-primary" @click="show_earnings()">
+							{{ L('home.balance_now.e') }}
+						</b-button>
+						<b-button type="is-warning" @click="show_withdrawal()">
+							{{ L('home.balance_now.f') }}
+						</b-button>
+						<b-button class="is-right" type="is-success" size="is-large" @click="show_deposit()">
+							{{ L('home.balance_now.g') }}
+						</b-button>
+					</div>
+					<div class="buttons is-hidden-mobile is-hidden-desktop is-centered">
+						<b-button type="is-primary" size="is-small" @click="show_earnings()">
+							{{ L('home.balance_now.e') }}
+						</b-button>
+						<b-button type="is-warning" size="is-small" @click="show_withdrawal()">
+							{{ L('home.balance_now.f') }}
+						</b-button>
+						<b-button type="is-success" size="is-small" @click="show_deposit()">
+							{{ L('home.balance_now.g') }}
+						</b-button>
 					</div>
 				</div>
 			</article>
 			<article class="box box-2">
 				<b-table
-					:data="history_data"
+					:data="records_data"
 					sticky-header
 					:mobile-cards="false"
 					@click="row => balance_nomth(row.date)"
@@ -83,6 +75,15 @@
 						v-slot="props"
 					>
 						<div class="has-text-left">{{ formatMoney(props.row.earning) }}</div>
+					</b-table-column>
+
+					<b-table-column
+						field="earning"
+						:label="L('home.table_balance.d')"
+						header-class="header"
+						v-slot="props"
+					>
+						<div class="has-text-left">{{ formatMoney(props.row.investment) }}</div>
 					</b-table-column>
 
 					<b-table-column
@@ -133,38 +134,36 @@
 						<h3 class="title">{{ L('home.membership.a') }}</h3>
 						<p>{{ L('home.membership.b') }}</p>
 					</div>
-					<div class="b-tabs" :class="{ 'is-vertical': isTabMembershipVertical }">
-						<nav class="tabs">
-							<ul>
-								<li v-for="(membership, i) in memberships_data" :key="membership.id">
-									<b-button
-										:type="tabMembershipActive === i ? 'is-primary' : 'is-text'"
-										:outlined="tabMembershipActive === i"
-										@click="selectTabMembership(i)"
-										>{{ membership.name }}
-									</b-button>
-								</li>
-							</ul>
-						</nav>
-						<section class="tab-content">
-							<div class="tab-item has-text-right">
-								<c-input
-									v-model="moneyMembershipActive"
-									:placeholder="L('home.membership.c')"
-									type="number"
-									:min="moneyMembershipMin"
-									icon="fa-dollar-sign"
-								>
-								</c-input>
-								<p class="money-membership">
-									{{ moneyMembership }}
-								</p>
-								<p class="info-membership">
-									{{ L('home.membership.d') }}
-								</p>
-							</div>
-						</section>
+					<div class="buttons">
+						<b-button
+							v-for="(membership, i) in memberships_data"
+							:key="membership.id"
+							:type="tabMembershipActive === i ? 'is-primary' : 'is-text'"
+							:outlined="tabMembershipActive === i"
+							@click="selectTabMembership(i)"
+							>{{ membership.name }}
+						</b-button>
 					</div>
+					<section class="memberships-content has-text-right">
+						<c-input
+							v-model="moneyMembershipActive"
+							:placeholder="L('home.membership.c')"
+							type="number"
+							:min="moneyMembershipMin"
+							icon="fa-dollar-sign"
+						>
+						</c-input>
+						<p class="money-membership is-hidden-touch is-hidden-desktop-only">
+							{{ moneyMembership }}
+						</p>
+
+						<p class="money-membership is-hidden-widescreen">
+							{{ moneyMembership }}
+						</p>
+						<p class="info-membership">
+							{{ L('home.membership.d') }}
+						</p>
+					</section>
 				</div>
 			</article>
 		</div>
@@ -174,20 +173,23 @@
 <script lang="ts">
 import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
-import { IRefer, IMembership } from '../../store';
+import { IRefer, IMembership, IRecord, IBalance } from '../../store';
 
 @Component
 export default class Home extends PageChildBase {
-	public balance_data: any = {};
+	public balance_data: IBalance = {
+		balance: 0,
+		earning: 0,
+		investment: 0,
+	};
 
-	public history_data: any[] = [];
+	public records_data: IRecord[] = [];
 
 	public url_refer: string = '';
 	public refers_data: IRefer[] = [];
 
 	public memberships_data: IMembership[] = [];
 	public tabMembershipActive: number = 0;
-	public isTabMembershipVertical: boolean = false;
 	public moneyMembershipActive: number = 0;
 	public moneyMembershipMin: number = 0;
 
@@ -202,25 +204,26 @@ export default class Home extends PageChildBase {
 
 	public async created() {
 		await super.created();
-		this.get_balance();
-		this.get_history();
-		this.get_refers();
 		this.get_memberships();
-		this.statusTabMembership();
-		window.addEventListener('resize', this.statusTabMembership);
+		this.get_refers();
+		await this.get_records();
+		await this.get_balance();
+	}
+
+	public reload() {
+		this.get_balance();
+		this.get_refers();
 	}
 
 	public async get_balance() {
-		this.balance_data = {
-			balance: 213000,
-			earning: 120000,
-			investment: 120333,
-		};
+		this.load_form_api(await this.store.api.balance(), (data: IBalance) => {
+			this.balance_data = data;
+		});
 	}
 
-	public async get_history() {
-		this.history_data = [...Array(10)].map(() => {
-			return { date: '2021-04', balance: 12500, withdrawal: 13045.3, earning: 2150, month: 'Mayo' };
+	public async get_records() {
+		this.load_form_api(await this.store.api.records(), (data: IRecord[]) => {
+			this.records_data = data;
 		});
 	}
 
@@ -242,15 +245,6 @@ export default class Home extends PageChildBase {
 				this.moneyMembershipMin = this.memberships_data[this.tabMembershipActive].money;
 			}
 		});
-	}
-
-	public statusTabMembership() {
-		const w = window.innerWidth;
-		if (w <= 768) {
-			this.isTabMembershipVertical = false;
-		} else {
-			this.isTabMembershipVertical = true;
-		}
 	}
 
 	public async show_earnings() {
@@ -283,7 +277,7 @@ export default class Home extends PageChildBase {
 	height: 100%;
 
 	.box-1 {
-		height: 35%;
+		height: 40%;
 		width: 100%;
 		padding: 2.5rem;
 
@@ -312,17 +306,27 @@ export default class Home extends PageChildBase {
 			.info-money {
 				padding-left: 1.5rem;
 			}
+
+			@include until-widescreen {
+				.balance-text {
+					font-size: 20px;
+				}
+
+				.balance-money {
+					font-size: 25px;
+				}
+			}
 		}
 	}
 
 	.box-2 {
-		height: 65%;
+		height: 60%;
 		width: 100%;
 		padding: 0.5rem 0 1rem 0;
 
 		.table-wrapper {
 			overflow-x: hidden;
-			height: 33rem;
+			height: 29rem;
 		}
 
 		.header {
@@ -432,55 +436,59 @@ export default class Home extends PageChildBase {
 				margin-bottom: 1rem;
 			}
 
-			.b-tabs {
+			.buttons {
 				padding: 1em 0.75em;
-				vertical-align: middle;
+				justify-content: space-around;
 
-				li {
+				.button {
 					padding: 0.25em;
-
-					.button {
-						&.is-text {
-							text-decoration: none;
-							color: $main-light-two;
-						}
-
-						&.is-primary {
-							font-size: 20px;
-						}
-					}
-				}
-
-				.tab-content {
-					margin-top: 2rem;
-
-					@include tablet {
-						width: calc(14vw);
+					&.is-text {
+						text-decoration: none;
+						color: $main-light-two;
 					}
 
-					@include widescreen {
-						width: 70%;
-					}
-
-					.c-input {
-						margin: auto;
-						margin-left: 50%;
-						width: 60%;
-					}
-
-					.money-membership {
-						margin-top: 2rem;
-						font-size: 3rem;
-						font-weight: bold;
-						color: $success;
-					}
-
-					.info-membership {
-						color: $gray;
+					&.is-primary {
+						font-size: 20px;
 					}
 				}
 			}
+
+			.memberships-content {
+				margin-top: 2rem;
+				width: 80%;
+
+				.c-input {
+					margin: auto;
+					margin-left: 40%;
+					width: 60%;
+				}
+
+				.money-membership {
+					margin-top: 2rem;
+					white-space: pre-wrap;
+					overflow-wrap: break-word;
+					font-weight: bold;
+					color: $success;
+
+					&.is-hidden-widescreen {
+						font-size: 1.5rem;
+					}
+
+					&.is-hidden-touch {
+						font-size: 3rem;
+					}
+				}
+
+				.info-membership {
+					color: $gray;
+				}
+			}
 		}
+	}
+
+	.buttons.is-fullwidth {
+		width: 100%;
+		justify-content: space-around;
 	}
 }
 </style>

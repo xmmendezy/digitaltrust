@@ -16,16 +16,6 @@ export default class AppBase extends PageBase {
 
 	public async created() {
 		await super.created();
-		const time_reload_mobile = 4000000;
-		const time_reload_desktop = 400000;
-		setInterval(
-			() => {
-				if (this.$refs.child_page) {
-					(this.$refs.child_page as any).reload();
-				}
-			},
-			this.$isMobile() ? time_reload_mobile : time_reload_desktop,
-		);
 	}
 }
 </script>

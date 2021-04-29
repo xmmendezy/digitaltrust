@@ -232,6 +232,32 @@ interface IClient {
 	email: string;
 	balance: number;
 	last_deposit: string;
+	has_message: boolean;
 }
 
-export { IAuthData, IUser, UpdateDto, SignupDto, LoginDto, UserChangePasswordDto, IRefer, IMembership, IClient };
+interface IRecord {
+	date: string;
+	balance: number;
+	withdrawal: number;
+	earning: number;
+}
+
+interface IBalance {
+	balance: number;
+	earning: number;
+	investment: number;
+}
+
+export {
+	IAuthData,
+	IUser,
+	UpdateDto,
+	SignupDto,
+	LoginDto,
+	UserChangePasswordDto,
+	IRefer,
+	IMembership,
+	IClient,
+	IRecord,
+	IBalance,
+};

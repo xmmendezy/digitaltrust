@@ -45,15 +45,17 @@
 			"a": "Saldo",
 			"b": "Ganancia total",
 			"c": "Capital de inversión",
-			"d": "Ganancias",
-			"e": "Retirar",
-			"f": "Depositar"
+			"d": "Retiros",
+			"e": "Ganancias",
+			"f": "Retirar",
+			"g": "Depositar"
 		},
 		"table_balance": {
 			"a": "Saldo",
 			"b": "Retiros",
 			"c": "Ganancias",
-			"d": "Mes"
+			"d": "Inversión",
+			"e": "Mes"
 		},
 		"refer": {
 			"a": "Invita a tus socios",

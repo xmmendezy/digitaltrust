@@ -45,15 +45,17 @@
 			"a": "Balance",
 			"b": "Total earnings",
 			"c": "Investment capital",
-			"d": "Earnings",
-			"e": "Withdrawal",
-			"f": "Deposit"
+			"d": "Withdrawals",
+			"e": "Earnings",
+			"f": "Withdrawal",
+			"g": "Deposit"
 		},
 		"table_balance": {
 			"a": "Balance",
 			"b": "Withdrawals",
 			"c": "Earnings",
-			"d": "Month"
+			"d": "Investment",
+			"e": "Month"
 		},
 		"refer": {
 			"a": "Invite your friends",

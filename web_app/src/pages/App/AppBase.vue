@@ -100,6 +100,7 @@ export default class AppBase extends PageBase {
 		this.$i18n.locale = this.store.api.country.locale || 'en';
 		this.statusSidebar();
 		window.addEventListener('resize', this.statusSidebar);
+		this.reload();
 	}
 
 	public statusSidebar() {
@@ -147,7 +148,7 @@ export default class AppBase extends PageBase {
 				.title {
 					font-size: 24px !important;
 					margin: 0 !important;
-					font-weight: 500 !important;
+					font-weight: bold !important;
 				}
 			}
 

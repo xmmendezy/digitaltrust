@@ -103,19 +103,13 @@ export class User extends BaseEntity implements IUser {
 	})
 	public lastChangePassword: Date;
 
-	@OneToMany(() => HLogin, (h_login) => h_login.user, {
-		eager: true,
-	})
+	@OneToMany(() => HLogin, (h_login) => h_login.user)
 	public h_login: HLogin[];
 
-	@OneToMany(() => HQuery, (h_query) => h_query.user, {
-		eager: true,
-	})
+	@OneToMany(() => HQuery, (h_query) => h_query.user)
 	public h_query: HQuery[];
 
-	@ManyToOne(() => Country, (country) => country.users, {
-		eager: true,
-	})
+	@ManyToOne(() => Country, (country) => country.users)
 	public country: Country;
 
 	@Column({

@@ -198,6 +198,22 @@ interface IClient {
 	email: string;
 	balance: number;
 	last_deposit: string;
+	has_message: boolean;
 }
 
-export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient };
+interface RecordDto {
+	date: string;
+	balance: number;
+	withdrawal: number;
+	earning: number;
+	investment: number;
+}
+
+interface IBalance {
+	balance: number;
+	earning: number;
+	withdrawal: number;
+	investment: number;
+}
+
+export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, RecordDto, IBalance };
