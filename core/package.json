@@ -5,7 +5,7 @@
 	"author": "Xavier Méndez (xmmendezy@gmail.com)",
 	"license": "ISC",
 	"scripts": {
-		"serve": "docker-compose --project-name core up",
+		"serve": "docker-compose --project-name main up",
 		"start": "nest start --watch",
 		"build": "nest build",
 		"prebuild": "rm -rf dist && npm run lint",

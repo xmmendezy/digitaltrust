@@ -379,8 +379,8 @@ export class ApiService {
 		};
 		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 		if (suscriptions.length) {
-			let date_begin = user.DateTime.now().startOf('month');
-			let date_end = user.DateTime.now();
+			const date_begin = user.DateTime.now().startOf('month');
+			const date_end = user.DateTime.now();
 			const days = date_end.day - date_begin.day + 1;
 			const daysInMonth = date_end.daysInMonth;
 			const memberships: Membership[] = await Membership.createQueryBuilder()

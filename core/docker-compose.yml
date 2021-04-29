@@ -1,9 +1,9 @@
 version: '3.7'
 
 services:
-  main_core:
-    container_name: main_core
-    image: main_core
+  core:
+    container_name: core
+    image: core
     build:
       context: .
       target: development

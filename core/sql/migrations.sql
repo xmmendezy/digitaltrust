@@ -58,7 +58,6 @@ VALUES('7a87a585-2a2f-4748-93bf-5221dbeb7f67'::uuid, '2021-04-23 00:00:00.000', 
 INSERT INTO public.country
 (id, created, updated, "version", "name", code, locale, telephone_code)
 VALUES('5e53915e-f305-4b09-bf81-0f392ca26570'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'Canadá', 'CA', 'es', '+1');
-SELECT * FROM public.country
 INSERT INTO public.time_zone
 (id, created, updated, "version", value, "countryId")
 VALUES('fec4754e-f711-4b2e-921a-3b9dc9fc6ad9'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'America/Bogota', 'c0771aec-6bc6-425d-a98a-e925e486fa01'::uuid);
