@@ -1,4 +1,4 @@
-FROM node:12.17-alpine As development
+FROM node:12.17-alpine As test
 
 WORKDIR /usr/src/app
 
@@ -6,8 +6,8 @@ COPY package.json ./
 
 RUN npm install --global pnpm
 
-RUN pnpm install
+RUN pnpm install --only=production
 
-COPY . .
+COPY dist ./
 
-RUN npm run build
+CMD ["node", "main"]

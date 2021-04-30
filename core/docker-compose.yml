@@ -1,20 +1,16 @@
 version: '3.7'
 
 services:
-  core:
-    container_name: core
-    image: core
-    build:
-      context: .
-      target: development
+  main:
+    container_name: main
+    image: xmmendezy/dt_core:latest
+    restart: always
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - main:/usr/src/app
     ports:
-      - 9000:9000
-    command: npm run start
+      - 80:9000
     env_file:
-      - .env.development
+      - .env.production
     networks:
       - webnet
     depends_on:
@@ -25,12 +21,13 @@ services:
     networks:
       - webnet
     env_file:
-      - .env.development
+      - .env.test
     ports:
-      - 9301:5432
+      - 5432:5432
     volumes:
       - pgdata:/var/lib/postgresql/data
 networks:
   webnet:
 volumes:
   pgdata:
+  main:

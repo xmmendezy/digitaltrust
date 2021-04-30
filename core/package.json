@@ -5,20 +5,14 @@
 	"author": "Xavier Méndez (xmmendezy@gmail.com)",
 	"license": "ISC",
 	"scripts": {
-		"serve": "docker-compose --project-name main up",
-		"start": "nest start --watch",
+		"docker": "docker build -t xmmendezy/dt_core .",
 		"build": "nest build",
-		"prebuild": "rm -rf dist && npm run lint",
-		"preserve": "npm run build",
-		"postbuild": "cp -r app dist/app && cp -r view dist/view",
-		"prestart:prod": "npm run build",
+		"start": "nest start",
 		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-		"prelint": "npm run prettier",
-		"prettier": "prettier --write '{src,test}/**/*.{ts,js,json}'",
-		"test": "jest --runInBand --detectOpenHandles",
-		"test:watch": "jest --watch --runInBand --detectOpenHandles",
-		"test:e2e": "jest --runInBand --detectOpenHandles --config ./test/jest-e2e.json",
-		"test:e2e-watch": "jest --watch --runInBand --detectOpenHandles --config ./test/jest-e2e.json"
+		"prebuild": "rm -rf dist && npm run lint",
+		"postbuild": "cp -r app dist/app && cp -r view dist/view",
+		"predocker": "npm run build",
+		"postdocker": "docker push xmmendezy/dt_core:latest"
 	},
 	"dependencies": {
 		"@nestjs/common": "^7.6.15",
