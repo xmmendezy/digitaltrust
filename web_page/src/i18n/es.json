@@ -59,11 +59,7 @@
 	},
 	"service_what": {
 		"a": "¿Cómo invertir?",
-		"b": [
-			"Registrese",
-			"Realice un depósito en una o varias membresías",
-			"Retire sus ganancias. Y a disfrutar..."
-		],
+		"b": ["Registrese", "Realice un depósito en una o varias membresías", "Retire sus ganancias. Y a disfrutar..."],
 		"c": "Registrarse"
 	},
 	"fqa": {

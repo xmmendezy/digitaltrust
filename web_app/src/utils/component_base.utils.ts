@@ -1,5 +1,5 @@
 import { Vue } from 'vue-property-decorator';
-import { vxm, Store, IAuthData } from '@app/store';
+import { vxm, Store, IAuthData, IUser } from '@app/store';
 import { DataDict } from '../store';
 import VueRouter, { Route } from 'vue-router';
 import { BuefyNamespace } from 'buefy';
@@ -103,6 +103,16 @@ export default abstract class ComponentBase extends Vue {
 		}
 	}
 
+	public formatName(user: IUser): string {
+		if (user.firstname && user.lastname) {
+			return `${user.firstname} ${user.lastname}`;
+		} else if (user.lastname) {
+			return user.lastname;
+		} else {
+			return user.firstname;
+		}
+	}
+
 	public calcMembershipMoney(data: { money: number; months: number; interest: number }) {
 		return data.money * data.interest * data.months;
 	}
@@ -150,6 +160,10 @@ export default abstract class ComponentBase extends Vue {
 				},
 				e004: () => {
 					this.toastError(this.L('error.e004'));
+					this.logout();
+				},
+				'login.error.u1': () => {
+					this.toastError(this.L('login.error.u1'));
 					this.logout();
 				},
 				...custom_data_error,

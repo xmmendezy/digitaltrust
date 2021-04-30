@@ -16,7 +16,7 @@
 					</div>
 				</b-table-column>
 				<b-table-column field="balance" :label="L('admin.table_client.c')" header-class="header" v-slot="props">
-					<div class="has-text-left" @click="balance_client(props.row.id)">
+					<div class="has-text-left" @click="records_client(props.row.id)">
 						{{ formatMoney(props.row.balance) }}
 					</div>
 				</b-table-column>
@@ -26,7 +26,7 @@
 					header-class="header header-date has-text-right"
 					v-slot="props"
 				>
-					<div class="has-text-right has-text-gray" @click="balance_client(props.row.id)">
+					<div class="has-text-right has-text-gray" @click="records_client(props.row.id)">
 						{{
 							store.api.DateTime.fromISO(props.row.last_deposit)
 								.setLocale($i18n.locale)
@@ -37,7 +37,7 @@
 			</b-table>
 		</article>
 
-		<b-modal v-model="isOpenNewClientModal" :can-cancel="['x']">
+		<b-modal v-model="isOpenNewClientModal" :can-cancel="['x', 'escape']">
 			<div class="card">
 				<div class="card-content modal-client">
 					<div class="media">
@@ -124,7 +124,7 @@
 			</div>
 		</b-modal>
 
-		<b-modal v-model="isOpenEditClientModal" :can-cancel="['x']">
+		<b-modal v-model="isOpenEditClientModal" :can-cancel="['x', 'escape']">
 			<div class="card">
 				<div class="card-content model-update-client">
 					<div class="columns">
@@ -256,13 +256,81 @@
 				</div>
 			</div>
 		</b-modal>
+
+		<b-modal v-model="isOpenRecordsClientModal" :can-cancel="['x', 'escape']">
+			<div class="card">
+				<div class="card-content model-records-client">
+					<p class="title" v-if="client_data_now">
+						{{ formatName(client_data_now) }}
+					</p>
+					<b-table
+						:data="records_client_data"
+						sticky-header
+						:mobile-cards="false"
+						@click="row => balance_nomth(row.date)"
+					>
+						<b-table-column
+							field="balance"
+							:label="L('home.table_balance.a')"
+							header-class="header"
+							centered
+							v-slot="props"
+						>
+							{{ formatMoney(props.row.balance) }}
+						</b-table-column>
+						<b-table-column
+							field="withdrawal"
+							:label="L('home.table_balance.b')"
+							header-class="header"
+							v-slot="props"
+						>
+							<div class="has-text-left">{{ formatMoney(props.row.withdrawal) }}</div>
+						</b-table-column>
+
+						<b-table-column
+							field="earning"
+							:label="L('home.table_balance.c')"
+							header-class="header"
+							v-slot="props"
+						>
+							<div class="has-text-left">{{ formatMoney(props.row.earning) }}</div>
+						</b-table-column>
+
+						<b-table-column
+							field="earning"
+							:label="L('home.table_balance.d')"
+							header-class="header"
+							v-slot="props"
+						>
+							<div class="has-text-left">{{ formatMoney(props.row.investment) }}</div>
+						</b-table-column>
+
+						<b-table-column
+							field="month"
+							:label="L('home.table_balance.d')"
+							header-class="header header-date has-text-right"
+							v-slot="props"
+						>
+							<div class="has-text-right has-text-gray">
+								{{
+									store.api.DateTime.fromFormat(props.row.date, 'yyyy-LL')
+										.setLocale($i18n.locale)
+										.setZone(client_timezone_now.value)
+										.toFormat('LLL yyyy')
+								}}
+							</div>
+						</b-table-column>
+					</b-table>
+				</div>
+			</div>
+		</b-modal>
 	</div>
 </template>
 
 <script lang="ts">
 import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
-import { ICountry, IClient, SignupDto, UpdateDto, IUser } from '../../store';
+import { ICountry, IClient, SignupDto, UpdateDto, IUser, ITimeZone, IRecord } from '../../store';
 
 @Component
 export default class Admin extends PageChildBase {
@@ -275,6 +343,12 @@ export default class Admin extends PageChildBase {
 	private edit_client_form: UpdateDto = new UpdateDto();
 	private id_edit_client: string = '';
 	private default_country: string = '';
+
+	private isOpenRecordsClientModal: boolean = false;
+	private records_client_data: IRecord[] = [];
+
+	private client_data_now: IUser = null as any;
+	private client_timezone_now: ITimeZone = null as any;
 
 	private telephoneInternational: string = '';
 	private validationTelephone: any;
@@ -405,8 +479,34 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async balance_client(id: string) {
-		console.log('Hola', id);
+	public async get_data_client_now(id: string) {
+		if (!this.client_data_now || this.client_data_now.id !== id) {
+			this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
+				this.client_data_now = data;
+				this.client_data_now.country = await this.store.util.get_country(data.country__id);
+				const id_time_zone = this.client_data_now.id_time_zone;
+				if (id_time_zone) {
+					this.client_timezone_now =
+						this.client_data_now.country.time_zones.find(tz => tz.id === id_time_zone) ||
+						this.client_data_now.country.time_zones[0];
+				} else {
+					this.client_timezone_now = this.client_data_now.country.time_zones[0];
+				}
+			});
+		}
+	}
+
+	public async records_client(id: string) {
+		await this.get_data_client_now(id);
+		this.load_form_api(await this.store.api.records(id), (data: IRecord[]) => {
+			this.records_client_data = data;
+			this.isOpenRecordsClientModal = true;
+		});
+	}
+
+	public async balance_nomth(date: string) {
+		date;
+		// console.log('Hola', date);
 	}
 }
 </script>
@@ -429,7 +529,7 @@ export default class Admin extends PageChildBase {
 			padding-top: 0.9rem;
 			padding-bottom: 0.9rem;
 
-			color: $border;
+			color: $gray;
 
 			&:first-child {
 				padding-left: 3rem;
@@ -527,6 +627,34 @@ export default class Admin extends PageChildBase {
 			padding: 1.5rem 1rem;
 			margin: 2rem;
 			width: 30%;
+		}
+	}
+
+	.model-records-client {
+		.title {
+			font-size: 25px;
+			font-weight: bold;
+		}
+
+		.table-wrapper {
+			overflow-x: hidden;
+			height: 29rem;
+		}
+
+		.header {
+			padding-top: 0.9rem;
+			padding-bottom: 0.9rem;
+
+			color: $gray;
+
+			&.header-date span {
+				width: 100%;
+			}
+		}
+
+		tbody tr td {
+			padding-top: 0.9rem;
+			padding-bottom: 0.9rem;
 		}
 	}
 }

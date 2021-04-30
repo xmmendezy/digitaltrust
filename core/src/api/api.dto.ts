@@ -73,12 +73,7 @@ class UserDto {
 		this.role = data.role;
 		this.status = data.status;
 		this.lastLogin = data.lastLogin;
-		this.country__id =
-			data instanceof User
-				? (data as User).country
-					? (data as User).country.id
-					: ''
-				: (data as UserDto).country__id;
+		this.country__id = data instanceof User ? data.country.id : data.country__id;
 		this.created = data.created;
 		this.state = data.state;
 		this.address = data.address;

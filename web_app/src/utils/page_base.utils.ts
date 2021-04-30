@@ -13,6 +13,8 @@ export default abstract class PageBase extends PageChildBase {
 				this.$router.push({ name: this.is_admin ? 'AdminHome' : 'Home' });
 			} else if (this.is_admin && !this.$route.meta.is_admin) {
 				this.$router.push({ name: 'AdminHome' });
+			} else if (!this.is_admin && this.$route.meta.is_admin) {
+				this.$router.push({ name: 'Home' });
 			}
 		} else {
 			if (!this.$route.meta.free_page) {

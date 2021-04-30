@@ -248,19 +248,20 @@ export default class Home extends PageChildBase {
 	}
 
 	public async show_earnings() {
-		console.log('Hola');
+		// console.log('Hola');
 	}
 
 	public async show_withdrawal() {
-		console.log('Hola');
+		// console.log('Hola');
 	}
 
 	public async show_deposit() {
-		console.log('Hola');
+		// console.log('Hola');
 	}
 
 	public async balance_nomth(date: string) {
-		console.log('Hola', date);
+		date;
+		// console.log('Hola', date);
 	}
 
 	public selectTabMembership(i: number) {
@@ -333,7 +334,7 @@ export default class Home extends PageChildBase {
 			padding-top: 0.9rem;
 			padding-bottom: 0.9rem;
 
-			color: $border;
+			color: $gray;
 
 			&.header-date span {
 				width: 100%;

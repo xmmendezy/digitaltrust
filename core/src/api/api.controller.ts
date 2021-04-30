@@ -82,7 +82,11 @@ export class ApiController {
 	public async records(@Req() req: Request, @Query() query: { id: string }) {
 		let user: User = req.user;
 		if (query.id) {
-			user = await User.findOne(query.id);
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
 		}
 		return await this.apiService.records(user);
 	}

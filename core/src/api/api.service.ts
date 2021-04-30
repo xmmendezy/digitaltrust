@@ -3,6 +3,7 @@ import { Error } from '@app/util/base.util';
 import { User, Country, Membership, Record, Suscription, Deposit, Withdrawal } from './api.entity';
 import { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, IBalance, RecordDto } from './api.dto';
 import { Decimal } from 'decimal.js';
+import { DateTime } from 'luxon';
 
 import jwt from 'jsonwebtoken';
 import config from '@config';
@@ -146,7 +147,12 @@ export class ApiService {
 	}
 
 	public async client(id: string): Promise<UserDto> {
-		return new UserDto(await User.findOne(id));
+		return new UserDto(
+			await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.where('user.id = :id', { id })
+				.getOne(),
+		);
 	}
 
 	public async update_client(id: string, data: UpdateDto): Promise<UserDto | Error> {
@@ -213,158 +219,45 @@ export class ApiService {
 	public async records(user: User): Promise<RecordDto[]> {
 		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 		if (suscriptions.length) {
-			const memberships: Membership[] = await Membership.createQueryBuilder()
-				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
-				.getMany();
 			const records: Record[] = [];
-			const date_begin = user.DateTime.fromDate(user.created);
-			const date_end = user.DateTime.now();
-			let i = 0;
-			let date_i = user.DateTime.clone(date_begin);
-			while (date_i.startOf('month').toSeconds() < date_end.startOf('month').toSeconds()) {
-				date_i = date_begin.plus({ months: i });
-				let record = await Record.createQueryBuilder()
-					.where('"userId" = :id')
-					.andWhere('date = :date')
-					.setParameters({ id: user.id, date: date_i.startOf('month').toSeconds() })
-					.getOne();
-				if (record) {
-					records.push(record);
-				} else {
-					let date_i_begin = user.DateTime.clone(date_i);
-					let date_i_end = user.DateTime.clone(date_end);
-					if (i !== 0) {
-						date_i_begin = date_i_begin.startOf('month');
-					}
-					if (date_i_begin.startOf('month').toSeconds() !== date_end.startOf('month').toSeconds()) {
-						date_i_end = date_i_begin.endOf('month');
-					}
-					const irecord: IRecord = {
-						userId: user.id,
-						date: date_i_begin.startOf('month').toSeconds(),
-						balance: 0,
-						withdrawal: 0,
-						earning: 0,
-						investment: 0,
-					};
-					const days = date_i_end.day - date_i_begin.day + 1;
-					const daysInMonth = date_i_end.daysInMonth;
-					for (const suscription of suscriptions) {
-						const deposits: Deposit[] = [];
-						if (
-							user.DateTime.fromUnix(suscription.date_begin).startOf('month').toSeconds() <=
-								date_i_begin.startOf('month').toSeconds() &&
-							user.DateTime.fromUnix(suscription.date_end).startOf('month').toSeconds() >=
-								date_i_end.startOf('month').toSeconds()
-						) {
-							deposits.push(
-								...(await Deposit.createQueryBuilder()
-									.where('"suscriptionId" = :id')
-									.andWhere('date >= :date_begin')
-									.andWhere('date <= :date_end')
-									.setParameters({
-										id: suscription.id,
-										date_begin:
-											date_i_begin.toSeconds() > suscription.date_begin
-												? date_i_begin.toSeconds()
-												: suscription.date_begin,
-										date_end:
-											suscription.date_end > date_i_end.toSeconds()
-												? date_i_end.toSeconds()
-												: suscription.date_end,
-									})
-									.getMany()),
-							);
-							if (date_i_begin.toSeconds() > suscription.date_begin) {
-								deposits.push(
-									...(await Deposit.createQueryBuilder()
-										.where('"suscriptionId" = :id')
-										.andWhere('date < :date_begin')
-										.setParameters({
-											id: suscription.id,
-											date_begin: date_i_begin.toSeconds(),
-										})
-										.getMany()),
-								);
-							}
-						}
-						if (deposits.length) {
-							const membership = memberships.find((m) => m.id === suscription.membershipId);
-							// Corregir
-							const money = deposits.map((d) => d.money).reduce((d1, d2) => d1 + d2, 0);
-							if (days === days) {
-								irecord.earning += new Decimal(money).times(membership.interest).toNumber();
-							} else {
-								irecord.earning += new Decimal(money)
-									.times(membership.interest)
-									.times(days)
-									.div(daysInMonth)
-									.toNumber();
-							}
-							irecord.investment += money;
-						}
-					}
-					const withdrawals: Withdrawal[] = await Withdrawal.createQueryBuilder()
+			const record = (await this.record(
+				user,
+				user.DateTime.now().startOf('month'),
+				user.DateTime.now().minus({ days: 1 }),
+				suscriptions,
+			)) as Record;
+			if (record) {
+				record.date = user.DateTime.now().startOf('month').toSeconds();
+				records.push(record);
+			}
+			const months = user.DateTime.now().minus({ months: 1 }).diff(user.DateTime.fromDate(user.created), 'months')
+				.months;
+			if (months) {
+				const month_i = user.DateTime.now().minus({ months: 1 });
+				records.push(
+					...(await Record.createQueryBuilder()
 						.where('"userId" = :id')
-						.andWhere('date >= :date_begin')
-						.andWhere('date <= :date_end')
+						.andWhere('date in (:...dates)')
 						.setParameters({
 							id: user.id,
-							date_begin: date_i_begin.toSeconds(),
-							date_end: date_i_end.toSeconds(),
+							dates: [...Array(Math.ceil(months))].map((_, i) => {
+								return month_i.minus({ months: i }).startOf('month').toSeconds();
+							}),
 						})
-						.getMany();
-					if (withdrawals.length) {
-						irecord.withdrawal = withdrawals.map((w) => w.money).reduce((d1, d2) => d1 + d2, 0);
-					}
-					if (irecord.date > date_begin.toSeconds()) {
-						const prev_record = await Record.createQueryBuilder()
-							.where('"userId" = :id')
-							.andWhere('date = :date')
-							.setParameters({
-								id: user.id,
-								date: user.DateTime.fromUnix(irecord.date)
-									.minus({ month: 1 })
-									.startOf('month')
-									.toSeconds(),
-							})
-							.getOne();
-						if (prev_record) {
-							irecord.balance = new Decimal(irecord.balance).plus(prev_record.balance).toNumber();
-						}
-					}
-					irecord.balance = new Decimal(irecord.balance)
-						.plus(irecord.earning)
-						.minus(irecord.withdrawal)
-						.toNumber();
-					record = await Record.createQueryBuilder()
-						.where('"userId" = :id')
-						.andWhere('date = :date')
-						.setParameters({ id: user.id, date: date_i.startOf('month').toSeconds() })
-						.getOne();
-					if (record) {
-						records.push(record);
-					} else {
-						record = new Record(irecord);
-						if (record.date !== date_end.startOf('month').toSeconds()) {
-							await record.save();
-						}
-						records.push(record);
-					}
-				}
-				i += 1;
+						.orderBy('date', 'DESC')
+						.getMany()),
+				);
 			}
-			return records
-				.sort((a, b) => b.date - a.date)
-				.map((r: Record) => {
-					return {
-						date: user.DateTime.fromUnix(r.date).toFormat('yyyy-LL'),
-						balance: r.balance,
-						withdrawal: r.withdrawal,
-						earning: r.earning,
-						investment: r.investment,
-					};
-				});
+
+			return records.map((r: Record) => {
+				return {
+					date: user.DateTime.fromUnix(r.date).toFormat('yyyy-LL'),
+					balance: r.balance,
+					withdrawal: r.withdrawal,
+					earning: r.earning,
+					investment: r.investment,
+				};
+			});
 		} else {
 			return [];
 		}
@@ -379,13 +272,47 @@ export class ApiService {
 		};
 		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 		if (suscriptions.length) {
-			const date_begin = user.DateTime.now().startOf('month');
-			const date_end = user.DateTime.now();
+			return (await this.record(
+				user,
+				user.DateTime.now().startOf('month'),
+				user.DateTime.now().minus({ days: 1 }),
+				suscriptions,
+			)) as IBalance;
+		}
+		return balance;
+	}
+
+	public async record(
+		user: User,
+		date_begin: DateTime,
+		date_end: DateTime,
+		suscriptions: Suscription[] = [],
+		memberships: Membership[] = [],
+		save: boolean = false,
+	): Promise<IRecord> {
+		const irecord: IRecord = {
+			balance: 0,
+			withdrawal: 0,
+			earning: 0,
+			investment: 0,
+		};
+		if (date_begin.toSeconds() >= date_end.toSeconds()) {
+			return irecord;
+		}
+		if (date_begin.toSeconds() < user.DateTime.fromDate(user.created).toSeconds()) {
+			date_begin = user.DateTime.fromDate(user.created);
+		}
+		if (!suscriptions.length) {
+			suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		}
+		if (suscriptions.length) {
 			const days = date_end.day - date_begin.day + 1;
 			const daysInMonth = date_end.daysInMonth;
-			const memberships: Membership[] = await Membership.createQueryBuilder()
-				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
-				.getMany();
+			if (!memberships.length) {
+				memberships = await Membership.createQueryBuilder()
+					.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
+					.getMany();
+			}
 			for (const suscription of suscriptions) {
 				const deposits: Deposit[] = [];
 				if (
@@ -429,15 +356,15 @@ export class ApiService {
 					const membership = memberships.find((m) => m.id === suscription.membershipId);
 					const money = deposits.map((d) => d.money).reduce((d1, d2) => d1 + d2, 0);
 					if (days === days) {
-						balance.earning += new Decimal(money).times(membership.interest).toNumber();
+						irecord.earning += new Decimal(money).times(membership.interest).toNumber();
 					} else {
-						balance.earning += new Decimal(money)
+						irecord.earning += new Decimal(money)
 							.times(membership.interest)
 							.times(days)
 							.div(daysInMonth)
 							.toNumber();
 					}
-					balance.investment += money;
+					irecord.investment += money;
 				}
 			}
 			const withdrawals: Withdrawal[] = await Withdrawal.createQueryBuilder()
@@ -451,10 +378,10 @@ export class ApiService {
 				})
 				.getMany();
 			if (withdrawals.length) {
-				balance.withdrawal = withdrawals.map((w) => w.money).reduce((d1, d2) => d1 + d2, 0);
+				irecord.withdrawal = withdrawals.map((w) => w.money).reduce((d1, d2) => d1 + d2, 0);
 			}
 			if (date_begin.toSeconds() > user.DateTime.fromDate(user.created).toSeconds()) {
-				const prev_record = await Record.createQueryBuilder()
+				let prev_record: IRecord = await Record.createQueryBuilder()
 					.where('"userId" = :id')
 					.andWhere('date = :date')
 					.setParameters({
@@ -463,11 +390,37 @@ export class ApiService {
 					})
 					.getOne();
 				if (prev_record) {
-					balance.balance = new Decimal(balance.balance).plus(prev_record.balance).toNumber();
+					irecord.balance = new Decimal(irecord.balance).plus(prev_record.balance).toNumber();
+				} else {
+					prev_record = await this.record(
+						user,
+						date_begin.minus({ month: 1 }).startOf('month'),
+						date_begin.minus({ month: 1 }).endOf('month'),
+						suscriptions,
+						memberships,
+						true,
+					);
+					irecord.balance = new Decimal(irecord.balance).plus(prev_record.balance).toNumber();
 				}
 			}
-			balance.balance = new Decimal(balance.balance).plus(balance.earning).minus(balance.withdrawal).toNumber();
+			irecord.balance = new Decimal(irecord.balance).plus(irecord.earning).minus(irecord.withdrawal).toNumber();
+			if (save) {
+				let record: Record = await Record.createQueryBuilder()
+					.where('"userId" = :id')
+					.andWhere('date = :date')
+					.setParameters({ id: user.id, date: date_begin.startOf('month').toSeconds() })
+					.getOne();
+				if (record) {
+					irecord.balance = record.balance;
+					irecord.earning = record.earning;
+					irecord.withdrawal = record.withdrawal;
+					irecord.investment = record.investment;
+				} else {
+					record = new Record({ ...irecord, userId: user.id, date: date_begin.startOf('month').toSeconds() });
+					await record.save();
+				}
+			}
 		}
-		return balance;
+		return irecord;
 	}
 }

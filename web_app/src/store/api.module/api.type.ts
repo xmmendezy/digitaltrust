@@ -240,6 +240,7 @@ interface IRecord {
 	balance: number;
 	withdrawal: number;
 	earning: number;
+	investment: number;
 }
 
 interface IBalance {
