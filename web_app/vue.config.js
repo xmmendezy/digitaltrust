@@ -4,7 +4,7 @@ const path = require('path');
 const vueSrc = './src';
 
 module.exports = {
-	publicPath: '/',
+	publicPath: '/app',
 	pwa: {
 		name: 'DigitalTrust App',
 		description: 'DigitalTrust App',
