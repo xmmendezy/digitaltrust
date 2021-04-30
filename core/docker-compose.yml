@@ -21,7 +21,7 @@ services:
     networks:
       - webnet
     env_file:
-      - .env.test
+      - .env.production
     ports:
       - 5432:5432
     volumes:
