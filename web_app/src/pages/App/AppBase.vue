@@ -101,6 +101,9 @@ export default class AppBase extends PageBase {
 		this.statusSidebar();
 		window.addEventListener('resize', this.statusSidebar);
 		this.reload();
+		this.$watch('$route', () => {
+			this.statusSidebar();
+		});
 	}
 
 	public statusSidebar() {
@@ -256,6 +259,12 @@ export default class AppBase extends PageBase {
 				padding-top: 1.5rem;
 				padding-right: 3rem;
 				margin-left: 1rem;
+
+				@include mobile {
+					margin-left: 0;
+					padding-top: 1rem !important;
+					padding-right: 1rem !important;
+				}
 
 				@include tablet {
 					flex: none;

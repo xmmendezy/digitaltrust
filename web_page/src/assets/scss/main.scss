@@ -167,6 +167,7 @@ $footer-padding: 7rem 7rem;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-accordion/src/sass/index.sass';
+@import 'bulma-timeline/src/sass/index.sass';
 
 @import './navbar.scss';
 @import './svg.scss';
@@ -179,6 +180,12 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: $black !important;
+}
+
+.hero-body {
+	@include mobile {
+		padding: 3rem 0.5rem;
+	}
 }
 
 .section {
@@ -398,12 +405,19 @@ body {
 }
 
 #service_info,
-#service_what {
+#invest_now {
 	position: relative;
 
 	.content > p {
 		width: 100%;
 		margin: 0 !important;
+	}
+
+	@include mobile {
+		.reverse-columns {
+			flex-direction: column-reverse;
+			display: flex;
+		}
 	}
 
 	.content {
@@ -423,9 +437,15 @@ body {
 	}
 }
 
-#service_what {
+#invest_now {
 	.content {
-		margin-left: 5rem;
+		@include tablet {
+			margin-left: 5rem;
+		}
+
+		.subtitle-invest-now {
+			text-align: left;
+		}
 
 		.button {
 			width: 40% !important;
@@ -454,14 +474,12 @@ body {
 
 			li {
 				padding-bottom: 0.5rem;
-			}
-		}
 
-		.social {
-			padding-left: 3rem;
-
-			svg {
-				margin: 0.3rem;
+				&.email {
+					a {
+						color: $black;
+					}
+				}
 			}
 		}
 	}
@@ -497,13 +515,41 @@ body {
 	}
 }
 
+#timeline {
+	.timeline {
+		@include mobile {
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+	}
+}
+
 .footer {
+	@include mobile {
+		padding: 7rem 3rem;
+	}
+
 	.title-page {
 		font-size: 24px !important;
 		margin: 0 !important;
 	}
 
 	.description {
-		width: 30%;
+		margin-top: 1rem;
+		width: 40%;
+
+		@include touch {
+			width: 100%;
+		}
+	}
+
+	.social {
+		span {
+			padding-right: 1.5rem;
+		}
+
+		svg {
+			margin: auto;
+		}
 	}
 }

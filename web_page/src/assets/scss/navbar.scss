@@ -1,9 +1,14 @@
 nav.navbar {
 	padding: 1.5rem 9rem 0 9rem !important;
 
+	@include mobile {
+		padding: 1rem 0.5rem 0 0.5rem !important;
+	}
+
 	.title-page {
 		font-size: 24px !important;
 		margin: 0 !important;
+		padding: 0.5rem 0.75rem;
 	}
 }
 
@@ -13,8 +18,20 @@ a.navbar-item {
 	font-size: 16px !important;
 	font-weight: lighter;
 
+	@include mobile {
+		text-align: left;
+		padding-left: 1.5rem;
+		padding-right: 1.5rem;
+	}
+
 	&.login {
-		margin-left: 4rem;
+		@include mobile {
+			text-align: right;
+		}
+
+		@include tablet {
+			margin-left: 4rem;
+		}
 	}
 
 	&.title {

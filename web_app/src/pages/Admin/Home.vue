@@ -521,7 +521,6 @@ export default class Admin extends PageChildBase {
 		padding: 2rem 0;
 
 		.table-wrapper {
-			overflow-x: hidden;
 			height: 48rem;
 		}
 
@@ -539,8 +538,10 @@ export default class Admin extends PageChildBase {
 				padding-right: 3rem;
 			}
 
-			&.header-date span {
-				width: 100%;
+			&.header-date .th-wrap span {
+				&.is-relative {
+					width: 90%;
+				}
 			}
 		}
 

@@ -322,12 +322,14 @@ export default class Home extends PageChildBase {
 
 	.box-2 {
 		height: 60%;
-		width: 100%;
 		padding: 0.5rem 0 1rem 0;
 
 		.table-wrapper {
-			overflow-x: hidden;
 			height: 29rem;
+
+			@include mobile {
+				height: 40rem;
+			}
 		}
 
 		.header {
@@ -336,8 +338,10 @@ export default class Home extends PageChildBase {
 
 			color: $gray;
 
-			&.header-date span {
-				width: 100%;
+			&.header-date .th-wrap span {
+				&.is-relative {
+					width: 90%;
+				}
 			}
 		}
 
@@ -384,7 +388,7 @@ export default class Home extends PageChildBase {
 			}
 
 			.refer-list {
-				max-height: 15rem;
+				max-height: 40rem;
 				overflow: scroll;
 
 				@include tablet-only {

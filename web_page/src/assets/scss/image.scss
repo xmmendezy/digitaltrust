@@ -1,13 +1,34 @@
 .image1 {
 	height: 70vh;
+
+	@include touch {
+		height: auto;
+	}
 }
 
-.image3 {
-	height: 50vh;
-	width: 100%;
-	margin-right: 20rem;
+.image3,
+.image2 {
+	height: 45vh;
+	width: 40vw;
+
+	@include tablet {
+		margin-right: 20rem;
+	}
+
+	@include mobile {
+		height: 30vh;
+		width: 100%;
+	}
+
+	@include tablet-only {
+		height: 30vh;
+	}
 }
 
 .image4 {
 	height: 50vh;
+
+	@include touch {
+		height: auto;
+	}
 }

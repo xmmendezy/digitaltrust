@@ -35,14 +35,15 @@ import { Component } from 'vue-property-decorator';
 
 @Component
 export default class Menu extends ComponentBase {
-	public has_image_user: boolean = false;
+	private has_image_user: boolean = false;
+	private is_active: boolean = false;
 
 	public async created() {
 		await super.created();
 		this.has_image_user = true;
 	}
 
-	public async open() {
+	private async open() {
 		this.$emit('open');
 	}
 }

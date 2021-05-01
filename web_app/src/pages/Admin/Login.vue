@@ -100,11 +100,22 @@ export default class Login extends PageChildBase {
 			}
 
 			@include mobile {
-				width: 80%;
+				width: 100%;
+				height: 100%;
+				border-radius: 0;
 			}
 
 			.media {
 				padding: 4rem 0;
+
+				@include mobile {
+					padding: 8rem 0;
+					height: 100%;
+
+					.media-content {
+						height: 100%;
+					}
+				}
 
 				.title {
 					color: $dark;
@@ -115,6 +126,10 @@ export default class Login extends PageChildBase {
 				.form {
 					margin: auto;
 					width: 70%;
+
+					@include mobile {
+						width: 90%;
+					}
 
 					.button.is-text {
 						text-decoration-color: $primary;

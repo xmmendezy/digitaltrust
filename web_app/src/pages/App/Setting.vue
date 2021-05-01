@@ -8,7 +8,7 @@
 							<div class="column has-text-left">
 								<h3 class="title">{{ L('setting.user.a') }}</h3>
 							</div>
-							<div class="column"></div>
+							<div class="column is-hidden-mobile"></div>
 						</div>
 						<div class="columns">
 							<div class="column">
@@ -92,7 +92,7 @@
 							<div class="column has-text-left">
 								<h3 class="title">{{ L('setting.accounts.a') }}</h3>
 							</div>
-							<div class="column"></div>
+							<div class="column is-hidden-mobile"></div>
 						</div>
 						<div class="columns">
 							<div class="column">
@@ -242,6 +242,10 @@ export default class Setting extends PageChildBase {
 		.form-user {
 			margin: auto;
 			width: 70%;
+
+			@include mobile {
+				width: 85%;
+			}
 
 			.columns:first-child,
 			.columns:last-child {
