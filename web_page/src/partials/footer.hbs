@@ -1,14 +1,23 @@
 <footer class="footer is-primary">
 	<div class="content has-text-left">
 		<p class="title title-page has-text-white">
-			{{ title }}
+			{{#image_src 'logo.png' 'logo-footer'}}{{/image_src}}
 		</p>
 		<p class="description">
-			Trafalgar provides progressive, and affordable healthcare, accessible on mobile and online
-			for everyone
+			{{ footer.a }}
 		</p>
+
+
+		<div class="social has-text-left">
+			<span>{{ footer.b }}</span>
+			<i class="fab fa-linkedin-in"></i>
+			<i class="fab fa-instagram"></i>
+			<i class="fab fa-facebook-f"></i>
+			<i class="fab fa-twitter"></i>
+		</div>
+
 		<p class="description">
-			© 2021 - DT Investments Todos los derechos reservados
+			© 2021 - DT Investments {{ footer.c }}
 		</p>
 
 

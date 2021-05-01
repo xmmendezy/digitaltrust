@@ -1,2 +1,2 @@
 document.addEventListener("DOMContentLoaded",()=>{const t=Array.prototype.slice.call(document.querySelectorAll(".navbar-burger"),0);t.length>0&&t.forEach(t=>{t.addEventListener("click",()=>{const e=t.dataset.target,a=document.getElementById(e);t.classList.toggle("is-active"),a.classList.toggle("is-active")})}),window.bulmaAccordion.attach()});
-//# sourceMappingURL=ts.main.min-5e184369-9d54-40f1-ad70-a3e5e4f40a9b.js.map
+//# sourceMappingURL=ts.main.min-64337373-6dd2-4ac4-af75-2b597815e63b.js.map

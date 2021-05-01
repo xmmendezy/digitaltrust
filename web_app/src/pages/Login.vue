@@ -166,11 +166,22 @@ export default class Login extends PageChildBase {
 			}
 
 			@include mobile {
-				width: 80%;
+				width: 100%;
+				height: 100%;
+				border-radius: 0;
 			}
 
 			.media {
 				padding: 4rem 0;
+
+				@include mobile {
+					padding: 3rem 0;
+					height: 100%;
+
+					.media-content {
+						height: 100%;
+					}
+				}
 
 				.title {
 					color: $dark;
@@ -181,6 +192,10 @@ export default class Login extends PageChildBase {
 				.form {
 					margin: auto;
 					width: 70%;
+
+					@include mobile {
+						width: 90%;
+					}
 
 					.button.is-text {
 						text-decoration-color: $primary;
@@ -206,9 +221,18 @@ export default class Login extends PageChildBase {
 					width: 35%;
 				}
 
-				.column-terms {
-					font-size: 12px;
-					margin-left: 3rem;
+				.columns {
+					margin: 0;
+
+					.column-terms {
+						font-size: 12px;
+						margin-left: 3rem;
+
+						@include mobile {
+							margin: auto;
+							width: 50%;
+						}
+					}
 				}
 			}
 		}
@@ -217,6 +241,10 @@ export default class Login extends PageChildBase {
 	.modal {
 		.animation-content {
 			width: 40%;
+
+			@include mobile {
+				width: 90%;
+			}
 
 			.modal-card {
 				width: 100%;
