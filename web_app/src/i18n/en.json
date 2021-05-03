@@ -54,8 +54,9 @@
 			"a": "Balance",
 			"b": "Withdrawals",
 			"c": "Earnings",
-			"d": "Investment",
-			"e": "Month"
+			"d": "Earning from referrals",
+			"e": "Investment",
+			"f": "Month"
 		},
 		"refer": {
 			"a": "Invite your friends",
@@ -100,6 +101,34 @@
 			"b": "Email",
 			"c": "Balance",
 			"d": "Last deposit"
+		}
+	},
+	"balance": {
+		"title": "Account status",
+		"subtitle": "Earning history on your memberships",
+		"a": "Available balance",
+		"b": "Total balance",
+		"c": "Total Earning",
+		"d": "Earning from referrals",
+		"e": "Investment capital",
+		"f": "Withdrawal",
+		"suscription": {
+			"a": "Investment capital",
+			"b": "Start date",
+			"c": "End date"
+		},
+		"deposits": {
+			"title": "Deposits",
+			"a": "Membership",
+			"b": "Date",
+			"c": "Money",
+			"d": "Payment method"
+		},
+		"withdrawals": {
+			"title": "Withdrawals",
+			"a": "Date",
+			"b": "Money",
+			"c": "Withdrawal method"
 		}
 	},
 	"validator": {

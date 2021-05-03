@@ -99,7 +99,7 @@ export default abstract class ComponentBase extends Vue {
 			}
 			return `$${x1}${x.length > 1 ? '.' + x[1] : ''}`;
 		} else {
-			return '';
+			return '$0';
 		}
 	}
 

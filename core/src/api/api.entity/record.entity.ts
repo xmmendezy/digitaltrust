@@ -14,6 +14,7 @@ export class Record extends BaseEntity implements IRecord {
 			this.balance = data.balance;
 			this.withdrawal = data.withdrawal;
 			this.earning = data.earning;
+			this.earning_extra = data.earning_extra;
 			this.investment = data.investment;
 		}
 	}
@@ -44,6 +45,12 @@ export class Record extends BaseEntity implements IRecord {
 		default: 0,
 	})
 	public earning: number;
+
+	@Column({
+		type: 'float8',
+		default: 0,
+	})
+	public earning_extra: number;
 
 	@Column({
 		type: 'float8',

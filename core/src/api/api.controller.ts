@@ -49,6 +49,19 @@ export class ApiController {
 		return await this.apiService.memberships();
 	}
 
+	@Get('suscriptions')
+	public async suscriptions(@Req() req: Request, @Query() query: { id: string }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		return await this.apiService.suscriptions(user);
+	}
+
 	@Get('clients')
 	public async clients(@Req() req: Request) {
 		if (req.user.role === 'admin') {
@@ -94,5 +107,22 @@ export class ApiController {
 	@Get('balance')
 	public async balance(@Req() req: Request) {
 		return await this.apiService.balance(req.user);
+	}
+
+	@Get('balance_detail')
+	public async balance_detail(@Req() req: Request, @Query() query: { id: string; date: number }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		let date = user.DateTime.now().startOf('month');
+		if (query.date) {
+			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
+		}
+		return await this.apiService.balance_detail(user, date);
 	}
 }

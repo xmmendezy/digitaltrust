@@ -9,9 +9,11 @@ import {
 	UserChangePasswordDto,
 	IRefer,
 	IMembership,
+	ISuscription,
 	IClient,
 	IRecord,
 	IBalance,
+	IBalanceDetail,
 } from './api.type';
 import {
 	HttpBase,
@@ -54,10 +56,12 @@ export default class ApiStore extends VuexModule {
 			ref_user: `${ApiStore.config.Api}/ref_user`,
 			is_refer: `${ApiStore.config.Api}/is_refer`,
 			memberships: `${ApiStore.config.Api}/memberships`,
+			suscriptions: `${ApiStore.config.Api}/suscriptions`,
 			clients: `${ApiStore.config.Api}/clients`,
 			client: `${ApiStore.config.Api}/client`,
 			records: `${ApiStore.config.Api}/records`,
 			balance: `${ApiStore.config.Api}/balance`,
+			balance_detail: `${ApiStore.config.Api}/balance_detail`,
 		};
 	}
 
@@ -370,6 +374,22 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
+	public async suscriptions(id?: string): Promise<ISuscription[]> {
+		return await ApiStore.http
+			.get(`${this.url.suscriptions}`, { params: { id }, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
 	public async clients(): Promise<IClient[]> {
 		return await ApiStore.http
 			.get(`${this.url.clients}`, { headers: this.headers })
@@ -437,6 +457,22 @@ export default class ApiStore extends VuexModule {
 	public async balance(): Promise<IBalance> {
 		return await ApiStore.http
 			.get(`${this.url.balance}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async balance_detail(params: { id?: string; date?: number }): Promise<IBalanceDetail> {
+		return await ApiStore.http
+			.get(`${this.url.balance_detail}`, { params, headers: this.headers })
 			.then(response => {
 				const error = get_errors(response);
 				if (error) {

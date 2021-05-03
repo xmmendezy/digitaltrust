@@ -20,7 +20,7 @@
 						<div class="column info-money is-4">{{ formatMoney(balance_data.withdrawal) }}</div>
 					</div>
 					<div class="buttons is-hidden-tablet-only is-fullwidth">
-						<b-button type="is-primary" @click="show_earnings()">
+						<b-button type="is-primary" @click="balance_now()">
 							{{ L('home.balance_now.e') }}
 						</b-button>
 						<b-button type="is-warning" @click="show_withdrawal()">
@@ -31,7 +31,7 @@
 						</b-button>
 					</div>
 					<div class="buttons is-hidden-mobile is-hidden-desktop is-centered">
-						<b-button type="is-primary" size="is-small" @click="show_earnings()">
+						<b-button type="is-primary" size="is-small" @click="balance_now()">
 							{{ L('home.balance_now.e') }}
 						</b-button>
 						<b-button type="is-warning" size="is-small" @click="show_withdrawal()">
@@ -48,7 +48,7 @@
 					:data="records_data"
 					sticky-header
 					:mobile-cards="false"
-					@click="row => balance_nomth(row.date)"
+					@click="row => balance_detail(row.date)"
 				>
 					<b-table-column
 						field="balance"
@@ -83,21 +83,26 @@
 						header-class="header"
 						v-slot="props"
 					>
+						<div class="has-text-left">{{ formatMoney(props.row.earning_extra) }}</div>
+					</b-table-column>
+
+					<b-table-column
+						field="earning"
+						:label="L('home.table_balance.e')"
+						header-class="header"
+						v-slot="props"
+					>
 						<div class="has-text-left">{{ formatMoney(props.row.investment) }}</div>
 					</b-table-column>
 
 					<b-table-column
 						field="month"
-						:label="L('home.table_balance.d')"
+						:label="L('home.table_balance.f')"
 						header-class="header header-date has-text-right"
 						v-slot="props"
 					>
 						<div class="has-text-right has-text-gray">
-							{{
-								store.api.DateTime.fromFormat(props.row.date, 'yyyy-LL')
-									.setLocale($i18n.locale)
-									.toFormat('LLL yyyy')
-							}}
+							{{ store.api.DateTime.fromFormat(props.row.date, 'yyyy-LL').toFormat('LLL yyyy') }}
 						</div>
 					</b-table-column>
 				</b-table>
@@ -167,31 +172,190 @@
 				</div>
 			</article>
 		</div>
+
+		<b-modal v-model="isOpenBalanceDetailModal" :can-cancel="['x', 'escape']" class="model-balance_detail">
+			<div class="card">
+				<div v-if="balance_detail_data" class="card-content">
+					<p class="title has-text-left">
+						{{ L('balance.title') }} -
+						{{ store.api.DateTime.fromUnix(balance_detail_data.date).toFormat('LLLL yyyy') }}
+					</p>
+					<p class="subtitle has-text-left">{{ L('balance.subtitle') }}</p>
+					<div class="box-balance">
+						<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.a') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.available_balance) }}
+							</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.b') }}</div>
+							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.balance) }}</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.c') }}</div>
+							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.earning) }}</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.d') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.earning_extra) }}
+							</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.e') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.investment) }}
+							</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.f') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.withdrawal) }}
+							</div>
+						</div>
+					</div>
+					<div
+						v-for="suscription in balance_detail_data.suscriptions"
+						:key="suscription.id"
+						class="suscription-box"
+					>
+						<div class="columns columns-suscription">
+							<div class="column">
+								<div class="columns has-text-left">
+									<div class="column title">{{ get_name_suscription(suscription.id) }}</div>
+								</div>
+								<div class="columns has-text-left">
+									<div class="column">
+										{{ L('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
+									</div>
+								</div>
+							</div>
+							<div class="column">
+								<div class="columns has-text-left">
+									<div class="column">
+										{{ L('balance.suscription.b') }}:
+										{{
+											store.api.DateTime.fromUnix(suscription.date_begin).toFormat('dd LLL yyyy')
+										}}
+									</div>
+								</div>
+								<div class="columns has-text-left">
+									<div class="column">
+										{{ L('balance.suscription.c') }}:
+										{{ store.api.DateTime.fromUnix(suscription.date_end).toFormat('dd LLL yyyy') }}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div v-if="balance_detail_data.deposits.length" class="deposits">
+						<p class="title has-text-left">{{ L('balance.deposits.title') }}</p>
+						<b-table :data="balance_detail_data.deposits" sticky-header :mobile-cards="false">
+							<b-table-column
+								field="suscription"
+								:label="L('balance.deposits.a')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ get_name_suscription(props.row.suscription) }}</div>
+							</b-table-column>
+
+							<b-table-column
+								field="date"
+								:label="L('balance.deposits.b')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">
+									{{ store.api.DateTime.fromUnix(props.row.date).toFormat('dd LLL yyyy') }}
+								</div>
+							</b-table-column>
+
+							<b-table-column
+								field="money"
+								:label="L('balance.deposits.c')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
+							</b-table-column>
+
+							<b-table-column
+								field="payment_method"
+								:label="L('balance.deposits.d')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ props.row.payment_method }}</div>
+							</b-table-column>
+						</b-table>
+					</div>
+					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
+						<p class="title has-text-left">{{ L('balance.withdrawals.title') }}</p>
+						<b-table :data="balance_detail_data.withdrawals" sticky-header :mobile-cards="false">
+							<b-table-column
+								field="date"
+								:label="L('balance.withdrawals.a')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">
+									{{ store.api.DateTime.fromUnix(props.row.date).toFormat('dd LLL yyyy') }}
+								</div>
+							</b-table-column>
+
+							<b-table-column
+								field="money"
+								:label="L('balance.withdrawals.b')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
+							</b-table-column>
+
+							<b-table-column
+								field="withdrawal_method"
+								:label="L('balance.withdrawals.c')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ props.row.withdrawal_method }}</div>
+							</b-table-column>
+						</b-table>
+					</div>
+				</div>
+			</div>
+		</b-modal>
 	</div>
 </template>
 
 <script lang="ts">
 import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
-import { IRefer, IMembership, IRecord, IBalance } from '../../store';
+import { IRefer, IMembership, ISuscription, IRecord, IBalance, IBalanceDetail } from '../../store';
 
 @Component
 export default class Home extends PageChildBase {
-	public balance_data: IBalance = {
+	private balance_data: IBalance = {
 		balance: 0,
 		earning: 0,
 		investment: 0,
 	};
 
-	public records_data: IRecord[] = [];
+	private records_data: IRecord[] = [];
 
-	public url_refer: string = '';
-	public refers_data: IRefer[] = [];
+	private url_refer: string = '';
+	private refers_data: IRefer[] = [];
 
-	public memberships_data: IMembership[] = [];
-	public tabMembershipActive: number = 0;
-	public moneyMembershipActive: number = 0;
-	public moneyMembershipMin: number = 0;
+	private memberships_data: IMembership[] = [];
+	private tabMembershipActive: number = 0;
+	private moneyMembershipActive: number = 0;
+	private moneyMembershipMin: number = 0;
+
+	private suscriptions_data: ISuscription[] = [];
+	private isOpenBalanceDetailModal: boolean = false;
+	private balance_detail_data: IBalanceDetail = null as any;
 
 	get moneyMembership() {
 		return this.formatMoney(
@@ -205,6 +369,7 @@ export default class Home extends PageChildBase {
 	public async created() {
 		await super.created();
 		this.get_memberships();
+		this.get_suscriptions();
 		this.get_refers();
 		await this.get_records();
 		await this.get_balance();
@@ -247,8 +412,14 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	public async show_earnings() {
-		// console.log('Hola');
+	public async get_suscriptions() {
+		this.load_form_api(await this.store.api.suscriptions(), (data: ISuscription[]) => {
+			this.suscriptions_data = data;
+		});
+	}
+
+	public async balance_now() {
+		this.balance_detail(this.store.api.DateTime.now().startOf('month').toSeconds());
 	}
 
 	public async show_withdrawal() {
@@ -259,14 +430,24 @@ export default class Home extends PageChildBase {
 		// console.log('Hola');
 	}
 
-	public async balance_nomth(date: string) {
-		date;
-		// console.log('Hola', date);
+	public async balance_detail(date: number) {
+		if (typeof date === 'string') {
+			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
+		}
+		this.load_form_api(await this.store.api.balance_detail({ id: '', date }), (data: IBalanceDetail) => {
+			this.balance_detail_data = data;
+			this.isOpenBalanceDetailModal = true;
+		});
 	}
 
 	public selectTabMembership(i: number) {
 		this.tabMembershipActive = i;
 		this.moneyMembershipActive = this.memberships_data[i].money;
+	}
+
+	public get_name_suscription(id: string) {
+		return this.memberships_data.find(m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId)
+			?.name;
 	}
 }
 </script>
@@ -494,6 +675,67 @@ export default class Home extends PageChildBase {
 	.buttons.is-fullwidth {
 		width: 100%;
 		justify-content: space-around;
+	}
+
+	.model-balance_detail {
+		.title {
+			font-size: 28px;
+			padding-bottom: 2rem;
+		}
+
+		.subtitle {
+			font-size: 20px;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+		}
+
+		.box-balance {
+			padding: 1rem 2rem;
+			margin-bottom: 2rem;
+
+			.balance-text {
+				font-size: 20px;
+				color: $gray;
+			}
+		}
+
+		.suscription-box {
+			border-top: 1px solid $border;
+
+			&:last-child {
+				border-bottom: 1px solid $border;
+			}
+
+			.columns-suscription {
+				padding: 1rem 1.5rem;
+				color: $gray;
+
+				.title {
+					font-size: 26px;
+					color: $black;
+					padding-bottom: 0.5rem;
+				}
+			}
+		}
+
+		.deposits,
+		.withdrawals {
+			.title {
+				padding: 1rem;
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
+
+			.table {
+				padding: 0 1.5rem;
+
+				.header {
+					padding-top: 0.9rem;
+					padding-bottom: 0.9rem;
+					color: $gray;
+				}
+			}
+		}
 	}
 }
 </style>

@@ -71,6 +71,7 @@ enum WithdrawalMethod {
 	PAYPAL = 'paypal',
 	STRIPE = 'stripe',
 	BLOCKCHAIN = 'blockchain',
+	BANKCHECK = 'bankcheck',
 }
 
 interface IDeposit {
@@ -93,6 +94,7 @@ interface IRecord {
 	balance?: number;
 	withdrawal?: number;
 	earning?: number;
+	earning_extra?: number;
 	investment?: number;
 }
 

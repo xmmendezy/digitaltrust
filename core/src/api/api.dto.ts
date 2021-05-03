@@ -1,7 +1,7 @@
 import { IsNotEmpty, Matches, IsEmail, Length } from 'class-validator';
 import { BaseDTO } from '@app/util/base.util';
 import { User } from './api.entity';
-import { UserRole, UserStatus } from './api.interface';
+import { UserRole, UserStatus, PaymentMethod, WithdrawalMethod } from './api.interface';
 
 interface ISignupDto {
 	firstname: string;
@@ -199,8 +199,9 @@ interface IClient {
 interface RecordDto {
 	date: string;
 	balance: number;
-	withdrawal: number;
 	earning: number;
+	earning_extra: number;
+	withdrawal: number;
 	investment: number;
 }
 
@@ -211,4 +212,35 @@ interface IBalance {
 	investment: number;
 }
 
-export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, RecordDto, IBalance };
+interface IDeposit {
+	date: number;
+	suscription: string;
+	money: number;
+	payment_method: PaymentMethod;
+}
+
+interface IWithdrawal {
+	date: number;
+	money: number;
+	withdrawal_method: WithdrawalMethod;
+}
+
+interface IBalanceDetail {
+	date: number;
+	available_balance: number;
+	balance: number;
+	earning: number;
+	earning_extra: number;
+	withdrawal: number;
+	investment: number;
+	suscriptions: {
+		id: string;
+		investment: number;
+		date_begin: number;
+		date_end: number;
+	}[];
+	deposits: IDeposit[];
+	withdrawals: IWithdrawal[];
+}
+
+export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, RecordDto, IBalance, IBalanceDetail };
