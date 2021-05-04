@@ -131,6 +131,21 @@
 			"c": "Método de retiro"
 		}
 	},
+	"withdrawal": {
+		"title": "Retiro",
+		"subtitle": "Siempre puede retirar el dinero de sus ganancias.",
+		"payment_method": "Método de Pago",
+		"confirm": "Confirmar",
+		"requested": "Solicitado"
+	},
+	"payment_method": {
+		"paypal": "PayPal",
+		"stripe": "Stripe",
+		"blockchain": "CoinPayments",
+		"balance": "Saldo",
+		"bankcheck": "Cheque bancario",
+		"investment": "Inversión"
+	},
 	"validator": {
 		"auth": {
 			"a": "No puede haber campos vacíos",
@@ -153,7 +168,11 @@
 		"setting": "Configuración",
 		"logout": "Salir",
 		"locale": "Idioma",
-		"see": "Ver"
+		"see": "Ver",
+		"prev": "Regresar",
+		"next": "Continuar",
+		"confirm": "Confirmar",
+		"finish": "Terminar"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

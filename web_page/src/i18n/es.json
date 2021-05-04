@@ -5,8 +5,8 @@
 	"navbar": {
 		"url": {
 			"a1": "Sobre nosotros",
-			"a2": "Preguntas frecuentes",
-			"a3": "Invertir",
+			"a2": "Una mano amiga",
+			"a3": "Preguntas frecuentes",
 			"a4": "Contactenos",
 			"a5": "EN",
 			"a6": "Ingresar"
@@ -149,6 +149,30 @@
 					"Preparación de la documentación jurídica y reglamentaria pertinentes para la apertura de un banco digital.",
 					"Implementación y consolidación variables para firmas digitales."
 				]
+			}
+		]
+	},
+	"friendly": {
+		"a": "A friendly hand",
+		"b": [
+			{
+				"a": "Our mission",
+				"b": [
+					"We accept the beauty of goodness with your help.",
+					"We are a growing charity looking for partners for change. If you think you can help in any way in education, housing and employment for families and youth in Latin America, please contact us.",
+					"We partner with potential people to alleviate poverty in the community."
+				]
+			},
+			{
+				"a": "Our strategic priorities are",
+				"b": [
+					"Protect charities from abuse or mismanagement",
+					"Enable trustees to manage their charities effectively",
+					"Encourage greater transparency and accountability",
+				]
+			},
+			{
+				"a": "Give someone the reason to smile."
 			}
 		]
 	},

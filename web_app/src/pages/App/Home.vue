@@ -23,7 +23,7 @@
 						<b-button type="is-primary" @click="balance_now()">
 							{{ L('home.balance_now.e') }}
 						</b-button>
-						<b-button type="is-warning" @click="show_withdrawal()">
+						<b-button type="is-warning" @click="open_withdrawal()">
 							{{ L('home.balance_now.f') }}
 						</b-button>
 						<b-button class="is-right" type="is-success" size="is-large" @click="show_deposit()">
@@ -34,7 +34,7 @@
 						<b-button type="is-primary" size="is-small" @click="balance_now()">
 							{{ L('home.balance_now.e') }}
 						</b-button>
-						<b-button type="is-warning" size="is-small" @click="show_withdrawal()">
+						<b-button type="is-warning" size="is-small" @click="open_withdrawal()">
 							{{ L('home.balance_now.f') }}
 						</b-button>
 						<b-button type="is-success" size="is-small" @click="show_deposit()">
@@ -173,7 +173,7 @@
 			</article>
 		</div>
 
-		<b-modal v-model="isOpenBalanceDetailModal" :can-cancel="['x', 'escape']" class="model-balance_detail">
+		<b-modal v-model="isOpenBalanceDetailModal" :can-cancel="['x', 'escape']" class="model-balance-detail">
 			<div class="card">
 				<div v-if="balance_detail_data" class="card-content">
 					<p class="title has-text-left">
@@ -287,7 +287,7 @@
 								header-class="header"
 								v-slot="props"
 							>
-								<div class="has-text-left">{{ props.row.payment_method }}</div>
+								<div class="has-text-left">{{ L(`payment_method.${props.row.payment_method}`) }}</div>
 							</b-table-column>
 						</b-table>
 					</div>
@@ -320,10 +320,100 @@
 								header-class="header"
 								v-slot="props"
 							>
-								<div class="has-text-left">{{ props.row.withdrawal_method }}</div>
+								<div class="has-text-left">
+									{{ L(`payment_method.${props.row.withdrawal_method}`) }}
+								</div>
 							</b-table-column>
 						</b-table>
 					</div>
+				</div>
+			</div>
+		</b-modal>
+
+		<b-modal v-model="isOpenWithdrawalModal" :can-cancel="['x', 'escape']" class="model-withdrawal">
+			<div class="card">
+				<div class="card-content">
+					<p class="title has-text-left">
+						{{ L('withdrawal.title') }}
+					</p>
+					<p class="subtitle has-text-left">
+						{{ L('withdrawal.subtitle') }}
+					</p>
+					<b-steps v-model="WithdrawalStep">
+						<b-step-item step="1" :label="L('withdrawal.payment_method')">
+							<div
+								v-for="withdrawal_method in withdrawal_methods"
+								:key="withdrawal_method"
+								class="withdrawal-box"
+							>
+								<div class="columns columns-withdrawal">
+									<div
+										class="column title has-text-left"
+										@click="withdrawal_method_selected = withdrawal_method"
+									>
+										{{ L(`payment_method.${withdrawal_method}`) }}
+									</div>
+									<div class="column is-1">
+										<b-radio
+											v-model="withdrawal_method_selected"
+											:native-value="withdrawal_method"
+										></b-radio>
+									</div>
+								</div>
+							</div>
+						</b-step-item>
+
+						<b-step-item step="2" :label="L('withdrawal.confirm')">
+							<div class="message-withdrawal">Hola</div>
+						</b-step-item>
+
+						<b-step-item step="3" :label="L('withdrawal.requested')">
+							<div class="message-withdrawal">Hola</div>
+						</b-step-item>
+
+						<template #navigation="{ previous, next }">
+							<b-button
+								v-if="WithdrawalStep === 1"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-left="chevron-left"
+								@click.prevent="previous.action"
+							>
+								{{ L('helper.prev') }}
+							</b-button>
+							<b-button
+								v-if="WithdrawalStep === 0"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="chevron-right"
+								@click.prevent="next.action"
+							>
+								{{ L('helper.next') }}
+							</b-button>
+							<b-button
+								v-if="WithdrawalStep === 1"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="chevron-right"
+								@click.prevent="next.action"
+							>
+								{{ L('helper.confirm') }}
+							</b-button>
+							<b-button
+								v-if="WithdrawalStep === 2"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="check"
+								@click.prevent="isOpenWithdrawalModal = false"
+							>
+								{{ L('helper.finish') }}
+							</b-button>
+						</template>
+					</b-steps>
 				</div>
 			</div>
 		</b-modal>
@@ -357,6 +447,11 @@ export default class Home extends PageChildBase {
 	private isOpenBalanceDetailModal: boolean = false;
 	private balance_detail_data: IBalanceDetail = null as any;
 
+	private isOpenWithdrawalModal: boolean = false;
+	private WithdrawalStep: number = 0;
+	private withdrawal_methods: string[] = ['bankcheck', 'paypal', 'stripe', 'blockchain'];
+	private withdrawal_method_selected: string = 'bankcheck';
+
 	get moneyMembership() {
 		return this.formatMoney(
 			this.calcMembershipMoney({
@@ -378,21 +473,22 @@ export default class Home extends PageChildBase {
 	public reload() {
 		this.get_balance();
 		this.get_refers();
+		this.get_records();
 	}
 
-	public async get_balance() {
+	private async get_balance() {
 		this.load_form_api(await this.store.api.balance(), (data: IBalance) => {
 			this.balance_data = data;
 		});
 	}
 
-	public async get_records() {
+	private async get_records() {
 		this.load_form_api(await this.store.api.records(), (data: IRecord[]) => {
 			this.records_data = data;
 		});
 	}
 
-	public async get_refers() {
+	private async get_refers() {
 		if (this.auth_data && this.auth_data.user) {
 			this.url_refer = `https://digitaltrustonline.net/app/register?ref=${this.auth_data.user.id}`;
 		}
@@ -401,7 +497,7 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	public async get_memberships() {
+	private async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
 			this.memberships_data = memberships_data;
 			this.tabMembershipActive = Math.floor(this.memberships_data.length / 2);
@@ -412,25 +508,27 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	public async get_suscriptions() {
+	private async get_suscriptions() {
 		this.load_form_api(await this.store.api.suscriptions(), (data: ISuscription[]) => {
 			this.suscriptions_data = data;
 		});
 	}
 
-	public async balance_now() {
+	private async balance_now() {
 		this.balance_detail(this.store.api.DateTime.now().startOf('month').toSeconds());
 	}
 
-	public async show_withdrawal() {
+	private async open_withdrawal() {
+		this.withdrawal_method_selected = 'bankcheck';
+		this.WithdrawalStep = 0;
+		this.isOpenWithdrawalModal = true;
+	}
+
+	private async show_deposit() {
 		// console.log('Hola');
 	}
 
-	public async show_deposit() {
-		// console.log('Hola');
-	}
-
-	public async balance_detail(date: number) {
+	private async balance_detail(date: number) {
 		if (typeof date === 'string') {
 			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
 		}
@@ -440,12 +538,12 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	public selectTabMembership(i: number) {
+	private selectTabMembership(i: number) {
 		this.tabMembershipActive = i;
 		this.moneyMembershipActive = this.memberships_data[i].money;
 	}
 
-	public get_name_suscription(id: string) {
+	private get_name_suscription(id: string) {
 		return this.memberships_data.find(m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId)
 			?.name;
 	}
@@ -677,7 +775,7 @@ export default class Home extends PageChildBase {
 		justify-content: space-around;
 	}
 
-	.model-balance_detail {
+	.model-balance-detail {
 		.title {
 			font-size: 28px;
 			padding-bottom: 2rem;
@@ -733,6 +831,50 @@ export default class Home extends PageChildBase {
 					padding-top: 0.9rem;
 					padding-bottom: 0.9rem;
 					color: $gray;
+				}
+			}
+		}
+	}
+
+	.model-withdrawal {
+		.title {
+			font-size: 28px;
+			padding-bottom: 2rem;
+		}
+
+		.subtitle {
+			font-size: 18px;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+		}
+
+		.step-title {
+			font-size: 20px;
+			padding-top: 0.5rem;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+			color: $black;
+		}
+
+		.withdrawal-box {
+			border-top: 1px solid $border;
+
+			&:last-child {
+				border-bottom: 1px solid $border;
+			}
+
+			.columns-withdrawal {
+				width: 60%;
+				margin: auto;
+				font-size: 16px;
+				padding: 1rem 3rem;
+				color: $gray;
+
+				.title {
+					font-size: 18px;
+					color: $black;
+					padding-bottom: 0.5rem;
+					margin-bottom: 0;
 				}
 			}
 		}

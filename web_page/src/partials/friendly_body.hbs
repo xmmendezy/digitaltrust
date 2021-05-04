@@ -1,0 +1,26 @@
+<section class="hero ">
+	<div class="hero-body">
+		<div class="container">
+			<section id="friendly" class="section">
+				<div class="columns">
+					<div class="column is-6">
+						<div class="content is-medium has-text-centered">
+							<h1 class="title has-text-black">{{ friendly.a }}</h1>
+						</div>
+						<div class="content is-medium has-text-justified has-text-gray">
+							{{#each friendly.b}}
+							<p>
+								{{ this }}
+							</p>
+							{{/each}}
+						</div>
+					</div>
+
+					<div class="column friendly-image">
+						{{#image_src 'image4.jpg' 'image4'}}{{/image_src}}
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</section>

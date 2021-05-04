@@ -455,7 +455,7 @@
 								header-class="header"
 								v-slot="props"
 							>
-								<div class="has-text-left">{{ props.row.payment_method }}</div>
+								<div class="has-text-left">{{ L(`payment_method.${props.row.payment_method}`) }}</div>
 							</b-table-column>
 						</b-table>
 					</div>
@@ -492,7 +492,9 @@
 								header-class="header"
 								v-slot="props"
 							>
-								<div class="has-text-left">{{ props.row.withdrawal_method }}</div>
+								<div class="has-text-left">
+									{{ L(`payment_method.${props.row.withdrawal_method}`) }}
+								</div>
 							</b-table-column>
 						</b-table>
 					</div>
@@ -560,25 +562,25 @@ export default class Admin extends PageChildBase {
 		this.get_clients();
 	}
 
-	public async get_memberships() {
+	private async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
 			this.memberships_data = memberships_data;
 		});
 	}
 
-	public async get_clients() {
+	private async get_clients() {
 		this.load_form_api(await this.store.api.clients(), (data: IClient[]) => {
 			this.client_data = data;
 		});
 	}
 
-	public async new_client() {
+	private async new_client() {
 		this.client_form = new SignupDto();
 		this.telephoneInternational = '';
 		this.isOpenNewClientModal = true;
 	}
 
-	public async register_client() {
+	private async register_client() {
 		const errors: string[] = this.client_form.validate();
 		if (!this.validationTelephone) {
 			errors.push('validator.auth.h');
@@ -602,7 +604,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async edit_client(id: string) {
+	private async edit_client(id: string) {
 		this.id_edit_client = id;
 		this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
 			this.edit_client_form = new UpdateDto();
@@ -613,7 +615,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	public async update_client() {
+	private async update_client() {
 		if (this.edit_client_form) {
 			const errors: string[] = this.edit_client_form.validate();
 			if (!this.validationTelephone) {
@@ -651,7 +653,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public validateNumber(args: any) {
+	private validateNumber(args: any) {
 		if (args) {
 			this.validationTelephone = args.valid;
 			if (args.number) {
@@ -660,14 +662,14 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public changeCountry(countryCode: any) {
+	private changeCountry(countryCode: any) {
 		this.countryEnabled = this.countriesAllow.find(element => element == countryCode.iso2) ?? '';
 		this.client_form.telephone = '';
 		const indexCountry = this.countriesAllow.findIndex(element => element == countryCode.iso2);
 		this.client_form.country = this.countriesAllowIDS[indexCountry ?? ''] ?? '';
 	}
 
-	public changeCountryUpdate(countryCode: any) {
+	private changeCountryUpdate(countryCode: any) {
 		if (this.edit_client_form) {
 			this.countryEnabled = this.countriesAllow.find(element => element == countryCode.iso2) ?? '';
 			this.edit_client_form.telephone = '';
@@ -676,7 +678,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async get_data_client_now(id: string) {
+	private async get_data_client_now(id: string) {
 		if (!this.client_data_now || this.client_data_now.id !== id) {
 			this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
 				this.client_data_now = data;
@@ -693,7 +695,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async records_client(id: string) {
+	private async records_client(id: string) {
 		await this.get_data_client_now(id);
 		this.load_form_api(await this.store.api.records(id), (data: IRecord[]) => {
 			this.records_client_data = data;
@@ -702,7 +704,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	public async balance_detail(date: number) {
+	private async balance_detail(date: number) {
 		if (typeof date === 'string') {
 			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
 		}
@@ -716,7 +718,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	public get_name_suscription(id: string) {
+	private get_name_suscription(id: string) {
 		return this.memberships_data.find(m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId)
 			?.name;
 	}

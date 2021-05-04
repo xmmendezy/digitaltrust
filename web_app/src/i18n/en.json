@@ -131,6 +131,21 @@
 			"c": "Withdrawal method"
 		}
 	},
+	"withdrawal": {
+		"title": "Withdrawal",
+		"subtitle": "You can always withdraw the money from your winnings.",
+		"payment_method": "Payment method",
+		"confirm": "Confirm",
+		"requested": "Requested"
+	},
+	"payment_method": {
+		"paypal": "PayPal",
+		"stripe": "Stripe",
+		"blockchain": "CoinPayments",
+		"balance": "Balance",
+		"bankcheck": "Bank Check",
+		"investment": "Investment"
+	},
 	"validator": {
 		"auth": {
 			"a": "There can be no empty fields",
@@ -153,7 +168,11 @@
 		"setting": "Setting",
 		"logout": "Sign out",
 		"locale": "Locale",
-		"see": "See"
+		"see": "See",
+		"prev": "Previous",
+		"next": "Next",
+		"confirm": "Confirm",
+		"finish": "Finish"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",
