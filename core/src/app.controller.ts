@@ -18,4 +18,18 @@ export class AppController {
 			root: 'view/es',
 		});
 	}
+
+	@Get('friendly')
+	public async friendly(@Res() res: Response) {
+		res.sendFile('friendly.html', {
+			root: 'view',
+		});
+	}
+
+	@Get('es/friendly')
+	public async es_friendly(@Res() res: Response) {
+		res.sendFile('friendly.html', {
+			root: 'view/es',
+		});
+	}
 }
