@@ -128,7 +128,7 @@ export class ApiController {
 
 	@Post('deposit')
 	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
-		let user: User = req.user;
+		const user: User = req.user;
 		let date = user.DateTime.now();
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
