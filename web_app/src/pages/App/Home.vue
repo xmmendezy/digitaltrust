@@ -364,11 +364,27 @@
 						</b-step-item>
 
 						<b-step-item step="2" :label="L('withdrawal.confirm')">
-							<div class="message-withdrawal">Hola</div>
+							<div class="message-withdrawal">
+								<div class="column title has-text-left">
+									{{ L('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
+								</div>
+								<c-input
+									v-model="moneyWithdrawal"
+									:placeholder="L('withdrawal.money')"
+									type="number"
+									:max="moneyWithdrawalMax"
+									icon="fa-dollar-sign"
+								>
+								</c-input>
+							</div>
 						</b-step-item>
 
 						<b-step-item step="3" :label="L('withdrawal.requested')">
-							<div class="message-withdrawal">Hola</div>
+							<div class="message-withdrawal">
+								<div class="column title has-text-left">
+									{{ L('withdrawal.requested_description') }}
+								</div>
+							</div>
 						</b-step-item>
 
 						<template #navigation="{ previous, next }">
@@ -408,7 +424,7 @@
 								type="is-primary"
 								icon-pack="fas"
 								icon-right="check"
-								@click.prevent="isOpenWithdrawalModal = false"
+								@click.prevent="finish_withdrawal()"
 							>
 								{{ L('helper.finish') }}
 							</b-button>
@@ -451,6 +467,8 @@ export default class Home extends PageChildBase {
 	private WithdrawalStep: number = 0;
 	private withdrawal_methods: string[] = ['bankcheck', 'paypal', 'stripe', 'blockchain'];
 	private withdrawal_method_selected: string = 'bankcheck';
+	private moneyWithdrawal: number = 0;
+	private moneyWithdrawalMax: number = 0;
 
 	get moneyMembership() {
 		return this.formatMoney(
@@ -468,6 +486,15 @@ export default class Home extends PageChildBase {
 		this.get_refers();
 		await this.get_records();
 		await this.get_balance();
+		this.$watch(
+			'moneyWithdrawal',
+			() => {
+				if (this.moneyWithdrawal > this.moneyWithdrawalMax) {
+					this.moneyWithdrawal = this.moneyWithdrawalMax;
+				}
+			},
+			{ immediate: true },
+		);
 	}
 
 	public reload() {
@@ -519,9 +546,33 @@ export default class Home extends PageChildBase {
 	}
 
 	private async open_withdrawal() {
-		this.withdrawal_method_selected = 'bankcheck';
-		this.WithdrawalStep = 0;
-		this.isOpenWithdrawalModal = true;
+		this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
+			this.balance_detail_data = data;
+			this.withdrawal_method_selected = 'bankcheck';
+			this.WithdrawalStep = 0;
+			this.moneyWithdrawalMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+			this.moneyWithdrawal = 0;
+			this.isOpenWithdrawalModal = true;
+		});
+	}
+
+	private async finish_withdrawal() {
+		this.load_form_api(
+			await this.store.api.request_withdrawal({
+				type: this.withdrawal_method_selected,
+				money: this.moneyWithdrawal,
+			}),
+			d => {
+				if (d.valid) {
+					this.toastSuccess(this.L('withdrawal.success'));
+					this.get_balance();
+					this.get_records();
+				} else {
+					this.toastError(this.L('withdrawal.error'));
+				}
+				this.isOpenWithdrawalModal = false;
+			},
+		);
 	}
 
 	private async show_deposit() {
@@ -877,6 +928,12 @@ export default class Home extends PageChildBase {
 					margin-bottom: 0;
 				}
 			}
+		}
+
+		.message-withdrawal {
+			width: 60%;
+			padding: 4rem 0;
+			margin: auto;
 		}
 	}
 }

@@ -9,15 +9,21 @@
 						</div>
 						<div class="content is-medium has-text-justified has-text-gray">
 							{{#each friendly.b}}
+							<p class="subtitle">
+								{{ this.a }}
+							</p>
+							{{#each this.b}}
 							<p>
 								{{ this }}
 							</p>
 							{{/each}}
+							{{/each}}
 						</div>
 					</div>
 
-					<div class="column friendly-image">
-						{{#image_src 'image4.jpg' 'image4'}}{{/image_src}}
+					<div class="column friendly-image has-text-center">
+						{{#image_src 'image5.jpg' 'image5'}}{{/image_src}}
+						<a href="/app/donations" class="button is-primary is-rounded">{{ friendly.c }}</a>
 					</div>
 				</div>
 			</section>

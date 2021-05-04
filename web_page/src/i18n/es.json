@@ -153,28 +153,33 @@
 		]
 	},
 	"friendly": {
-		"a": "A friendly hand",
+		"a": "Una mano amiga",
 		"b": [
 			{
-				"a": "Our mission",
+				"a": "Nuestra misión",
 				"b": [
-					"We accept the beauty of goodness with your help.",
-					"We are a growing charity looking for partners for change. If you think you can help in any way in education, housing and employment for families and youth in Latin America, please contact us.",
-					"We partner with potential people to alleviate poverty in the community."
+					"Aceptamos la inmensa bondad de tu ayuda.",
+					"Somos una organización benéfica en crecimiento que busca socios para el cambio. Si cree que puede ayudar de alguna manera en educación, vivienda y empleo para familias y jóvenes en América Latina, por favor contáctenos.",
+					"Nos asociamos con personas potenciales para aliviar la pobreza en la comunidad."
 				]
 			},
 			{
-				"a": "Our strategic priorities are",
+				"a": "Nuestras prioridades estratégicas son",
 				"b": [
-					"Protect charities from abuse or mismanagement",
-					"Enable trustees to manage their charities effectively",
-					"Encourage greater transparency and accountability",
+					"Proteger a las organizaciones benéficas del abuso o la mala gestión.",
+					"Permitir que los fideicomisarios administren sus organizaciones benéficas de manera efectiva.",
+					"Fomentar una mayor transparencia y responsabilidad."
 				]
 			},
 			{
-				"a": "Give someone the reason to smile."
+				"a": "Tus valiosas donaciones cambiarían sus vidas.",
+				"b": [
+					"!Solos somos un átomo; juntos somos un universo!",
+					"Anticipamos la construcción de relaciones con nuestros valiosos patrocinadores, voluntarios y socios. Admiramos su interés en la humanidad y esperamos su respuesta de ayuda."
+				]
 			}
-		]
+		],
+		"c": "Dale a alguien una razón para sonreír."
 	},
 	"footer": {
 		"a": "Convierta su inversión en ganancias pasivas, hasta que el dinero trabaje para usted.",

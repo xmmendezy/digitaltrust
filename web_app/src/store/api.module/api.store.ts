@@ -62,6 +62,8 @@ export default class ApiStore extends VuexModule {
 			records: `${ApiStore.config.Api}/records`,
 			balance: `${ApiStore.config.Api}/balance`,
 			balance_detail: `${ApiStore.config.Api}/balance_detail`,
+			deposit: `${ApiStore.config.Api}/deposit`,
+			withdrawal: `${ApiStore.config.Api}/withdrawal`,
 		};
 	}
 
@@ -474,6 +476,49 @@ export default class ApiStore extends VuexModule {
 		return await ApiStore.http
 			.get(`${this.url.balance_detail}`, { params, headers: this.headers })
 			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async process_deposit(data: {
+		id?: string;
+		suscriptionId: string;
+		type: string;
+		money: number;
+		date?: number;
+	}): Promise<{ valid: boolean } | string> {
+		return await ApiStore.http
+			.post(this.url.deposit, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async request_withdrawal(data: {
+		id?: string;
+		type: string;
+		money: number;
+		date?: number;
+	}): Promise<{ valid: boolean } | string> {
+		return await ApiStore.http
+			.post(this.url.withdrawal, data, { headers: this.headers })
+			.then(async response => {
 				const error = get_errors(response);
 				if (error) {
 					return error;

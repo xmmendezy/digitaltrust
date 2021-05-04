@@ -243,4 +243,18 @@ interface IBalanceDetail {
 	withdrawals: IWithdrawal[];
 }
 
-export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, RecordDto, IBalance, IBalanceDetail };
+interface DepositDto {
+	suscriptionId: string,
+	type: PaymentMethod;
+	money: number;
+	date?: number;
+}
+
+interface WithdrawalDto {
+	id: string;
+	type: WithdrawalMethod;
+	money: number;
+	date?: number;
+}
+
+export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, RecordDto, IBalance, IBalanceDetail, DepositDto, WithdrawalDto };

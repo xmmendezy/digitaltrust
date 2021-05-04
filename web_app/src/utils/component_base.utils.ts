@@ -1,6 +1,5 @@
 import { Vue } from 'vue-property-decorator';
-import { vxm, Store, IAuthData, IUser } from '@app/store';
-import { DataDict } from '../store';
+import { vxm, Store, IAuthData, IUser, DataDict } from '../store';
 import VueRouter, { Route } from 'vue-router';
 import { BuefyNamespace } from 'buefy';
 import VueI18n, { IVueI18n } from 'vue-i18n';
@@ -31,7 +30,6 @@ export default abstract class ComponentBase extends Vue {
 				this.$i18n.locale = this.$route.query.i18n as string;
 			}
 		}
-		this.store = vxm;
 		if (await this.store.api.isLogged()) {
 			this.auth_data = this.store.api.auth_data;
 			this.is_admin = this.auth_data.user?.role === 'admin';

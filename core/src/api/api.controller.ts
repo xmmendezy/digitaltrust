@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Body, Req, Request, Query } from '@app/http';
 import { ApiService } from './api.service';
-import { SignupDto, UpdateDto } from './api.dto';
+import { SignupDto, UpdateDto, DepositDto, WithdrawalDto } from './api.dto';
 import { User } from './api.entity';
 
 @Controller('api')
@@ -124,5 +124,32 @@ export class ApiController {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
 		return await this.apiService.balance_detail(user, date);
+	}
+
+	@Post('deposit')
+	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
+		let user: User = req.user;
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.process_deposit(user, date, data);
+	}
+
+	@Post('withdrawal')
+	public async request_withdrawal(@Req() req: Request, @Body() data: WithdrawalDto) {
+		let user: User = req.user;
+		if (data.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+		}
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.request_withdrawal(user, date, data);
 	}
 }

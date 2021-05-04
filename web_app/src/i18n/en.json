@@ -135,8 +135,13 @@
 		"title": "Withdrawal",
 		"subtitle": "You can always withdraw the money from your winnings.",
 		"payment_method": "Payment method",
-		"confirm": "Confirm",
-		"requested": "Requested"
+		"confirm": "Money",
+		"requested": "Confirm",
+		"money": "Money",
+		"description": "Enter the amount to withdraw, this cannot be greater than ",
+		"requested_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
+		"success": "Requested",
+		"error": "There was an error, please try again"
 	},
 	"payment_method": {
 		"paypal": "PayPal",

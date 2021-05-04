@@ -11,13 +11,15 @@ import {
 	IBalance,
 	IBalanceDetail,
 	RecordDto,
+	DepositDto,
+	WithdrawalDto,
 } from './api.dto';
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
 
 import jwt from 'jsonwebtoken';
 import config from '@config';
-import { IRecord } from './api.interface';
+import { IRecord, PaymentMethod, WithdrawalMethod } from './api.interface';
 
 @Injectable()
 export class ApiService {
@@ -589,7 +591,10 @@ export class ApiService {
 				.setParameters({
 					id: user.id,
 					date_begin: date_begin.toSeconds(),
-					date_end: date_end.toSeconds(),
+					date_end:
+						date_end.toSeconds() === date_end.endOf('month').toSeconds()
+							? date_end.toSeconds()
+							: date_end.plus({ days: 1 }).toSeconds(),
 				})
 				.getMany();
 			if (withdrawals.length) {
@@ -644,5 +649,48 @@ export class ApiService {
 			}
 		}
 		return irecord;
+	}
+
+	public async process_deposit(user: User, date: DateTime, data: DepositDto) {
+		const deposit = new Deposit({
+			date: date.toSeconds(),
+			suscriptionId: data.suscriptionId,
+			money: data.money,
+			payment_method: data.type,
+		});
+		await deposit.save();
+		if (deposit.errors.length) {
+			return { valid: false };
+		}
+		if (deposit.payment_method === PaymentMethod.BALANCE) {
+			const withdrawal = new Withdrawal({
+				userId: user.id,
+				date: date.toSeconds(),
+				money: data.money,
+				withdrawal_method: WithdrawalMethod.INVESTMENT,
+			});
+			await withdrawal.save();
+			if (withdrawal.errors.length) {
+				await Deposit.createQueryBuilder().delete().where('id = :id', { id: deposit.id }).execute();
+				return { valid: false };
+			}
+			return { valid: true };
+		} else {
+			return { valid: true };
+		}
+	}
+
+	public async request_withdrawal(user: User, date: DateTime, data: WithdrawalDto) {
+		const withdrawal = new Withdrawal({
+			userId: user.id,
+			date: date.toSeconds(),
+			money: data.money,
+			withdrawal_method: data.type,
+		});
+		await withdrawal.save();
+		if (withdrawal.errors.length) {
+			return { valid: false };
+		}
+		return { valid: true };
 	}
 }
