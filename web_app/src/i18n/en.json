@@ -54,8 +54,9 @@
 			"a": "Balance",
 			"b": "Withdrawals",
 			"c": "Earnings",
-			"d": "Investment",
-			"e": "Month"
+			"d": "Earning from referrals",
+			"e": "Investment",
+			"f": "Month"
 		},
 		"refer": {
 			"a": "Invite your friends",
@@ -102,6 +103,54 @@
 			"d": "Last deposit"
 		}
 	},
+	"balance": {
+		"title": "Account status",
+		"subtitle": "Earning history on your memberships",
+		"a": "Available balance",
+		"b": "Total balance",
+		"c": "Total Earning",
+		"d": "Earning from referrals",
+		"e": "Investment capital",
+		"f": "Withdrawal",
+		"suscription": {
+			"a": "Investment capital",
+			"b": "Start date",
+			"c": "End date"
+		},
+		"deposits": {
+			"title": "Deposits",
+			"a": "Membership",
+			"b": "Date",
+			"c": "Money",
+			"d": "Payment method"
+		},
+		"withdrawals": {
+			"title": "Withdrawals",
+			"a": "Date",
+			"b": "Money",
+			"c": "Withdrawal method"
+		}
+	},
+	"withdrawal": {
+		"title": "Withdrawal",
+		"subtitle": "You can always withdraw the money from your winnings.",
+		"payment_method": "Payment method",
+		"confirm": "Money",
+		"requested": "Confirm",
+		"money": "Money",
+		"description": "Enter the amount to withdraw, this cannot be greater than ",
+		"requested_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
+		"success": "Requested",
+		"error": "There was an error, please try again"
+	},
+	"payment_method": {
+		"paypal": "PayPal",
+		"stripe": "Stripe",
+		"blockchain": "CoinPayments",
+		"balance": "Balance",
+		"bankcheck": "Bank Check",
+		"investment": "Investment"
+	},
 	"validator": {
 		"auth": {
 			"a": "There can be no empty fields",
@@ -124,7 +173,11 @@
 		"setting": "Setting",
 		"logout": "Sign out",
 		"locale": "Locale",
-		"see": "See"
+		"see": "See",
+		"prev": "Previous",
+		"next": "Next",
+		"confirm": "Confirm",
+		"finish": "Finish"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",

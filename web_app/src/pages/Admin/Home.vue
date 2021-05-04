@@ -30,7 +30,7 @@
 						{{
 							store.api.DateTime.fromISO(props.row.last_deposit)
 								.setLocale($i18n.locale)
-								.toFormat('dd/LLL/yyyy')
+								.toFormat('dd LLLL yyyy')
 						}}
 					</div>
 				</b-table-column>
@@ -259,7 +259,7 @@
 
 		<b-modal v-model="isOpenRecordsClientModal" :can-cancel="['x', 'escape']">
 			<div class="card">
-				<div class="card-content model-records-client">
+				<div v-if="isTableBalance" class="card-content model-records-client">
 					<p class="title" v-if="client_data_now">
 						{{ formatName(client_data_now) }}
 					</p>
@@ -267,7 +267,7 @@
 						:data="records_client_data"
 						sticky-header
 						:mobile-cards="false"
-						@click="row => balance_nomth(row.date)"
+						@click="row => balance_detail(row.date)"
 					>
 						<b-table-column
 							field="balance"
@@ -322,6 +322,183 @@
 						</b-table-column>
 					</b-table>
 				</div>
+				<div v-else class="card-content model-balance_detail">
+					<div class="columns reverse-columns">
+						<div class="column">
+							<p class="title has-text-left">
+								{{ L('balance.title') }} -
+								{{
+									store.api.DateTime.fromUnix(balance_detail_data.date)
+										.setZone(client_timezone_now.value)
+										.toFormat('LLLL yyyy')
+								}}
+							</p>
+						</div>
+						<div class="column is-2 has-text-right">
+							<b-button @click="isTableBalance = true" type="is-light" icon-right="arrow-left" />
+						</div>
+					</div>
+					<p class="subtitle has-text-left">{{ L('balance.subtitle') }}</p>
+					<div class="box-balance">
+						<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.a') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.available_balance) }}
+							</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.b') }}</div>
+							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.balance) }}</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.c') }}</div>
+							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.earning) }}</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.d') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.earning_extra) }}
+							</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.e') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.investment) }}
+							</div>
+						</div>
+						<div class="columns has-text-left">
+							<div class="column balance-text">{{ L('balance.f') }}</div>
+							<div class="column balance-money is-4">
+								{{ formatMoney(balance_detail_data.withdrawal) }}
+							</div>
+						</div>
+					</div>
+					<div
+						v-for="suscription in balance_detail_data.suscriptions"
+						:key="suscription.id"
+						class="suscription-box"
+					>
+						<div class="columns columns-suscription">
+							<div class="column">
+								<div class="columns has-text-left">
+									<div class="column title">{{ get_name_suscription(suscription.id) }}</div>
+								</div>
+								<div class="columns has-text-left">
+									<div class="column">
+										{{ L('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
+									</div>
+								</div>
+							</div>
+							<div class="column">
+								<div class="columns has-text-left">
+									<div class="column">
+										{{ L('balance.suscription.b') }}:
+										{{
+											store.api.DateTime.fromUnix(suscription.date_begin)
+												.setZone(client_timezone_now.value)
+												.toFormat('dd LLL yyyy')
+										}}
+									</div>
+								</div>
+								<div class="columns has-text-left">
+									<div class="column">
+										{{ L('balance.suscription.c') }}:
+										{{
+											store.api.DateTime.fromUnix(suscription.date_end)
+												.setZone(client_timezone_now.value)
+												.toFormat('dd LLL yyyy')
+										}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div v-if="balance_detail_data.deposits.length" class="deposits">
+						<p class="title has-text-left">{{ L('balance.deposits.title') }}</p>
+						<b-table :data="balance_detail_data.deposits" sticky-header :mobile-cards="false">
+							<b-table-column
+								field="suscription"
+								:label="L('balance.deposits.a')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ get_name_suscription(props.row.suscription) }}</div>
+							</b-table-column>
+
+							<b-table-column
+								field="date"
+								:label="L('balance.deposits.b')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">
+									{{
+										store.api.DateTime.fromUnix(props.row.date)
+											.setZone(client_timezone_now.value)
+											.toFormat('dd LLL yyyy')
+									}}
+								</div>
+							</b-table-column>
+
+							<b-table-column
+								field="money"
+								:label="L('balance.deposits.c')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
+							</b-table-column>
+
+							<b-table-column
+								field="payment_method"
+								:label="L('balance.deposits.d')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ L(`payment_method.${props.row.payment_method}`) }}</div>
+							</b-table-column>
+						</b-table>
+					</div>
+					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
+						<p class="title has-text-left">{{ L('balance.withdrawals.title') }}</p>
+						<b-table :data="balance_detail_data.withdrawals" sticky-header :mobile-cards="false">
+							<b-table-column
+								field="date"
+								:label="L('balance.withdrawals.a')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">
+									{{
+										store.api.DateTime.fromUnix(props.row.date)
+											.setZone(client_timezone_now.value)
+											.toFormat('dd LLL yyyy')
+									}}
+								</div>
+							</b-table-column>
+
+							<b-table-column
+								field="money"
+								:label="L('balance.withdrawals.b')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
+							</b-table-column>
+
+							<b-table-column
+								field="withdrawal_method"
+								:label="L('balance.withdrawals.c')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">
+									{{ L(`payment_method.${props.row.withdrawal_method}`) }}
+								</div>
+							</b-table-column>
+						</b-table>
+					</div>
+				</div>
 			</div>
 		</b-modal>
 	</div>
@@ -330,11 +507,23 @@
 <script lang="ts">
 import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
-import { ICountry, IClient, SignupDto, UpdateDto, IUser, ITimeZone, IRecord } from '../../store';
+import {
+	ICountry,
+	IClient,
+	SignupDto,
+	UpdateDto,
+	IUser,
+	ITimeZone,
+	IMembership,
+	ISuscription,
+	IRecord,
+	IBalanceDetail,
+} from '../../store';
 
 @Component
 export default class Admin extends PageChildBase {
-	public client_data: IClient[] = [];
+	private client_data: IClient[] = [];
+	private memberships_data: IMembership[] = [];
 
 	private isOpenNewClientModal: boolean = false;
 	private client_form: SignupDto = new SignupDto();
@@ -346,6 +535,9 @@ export default class Admin extends PageChildBase {
 
 	private isOpenRecordsClientModal: boolean = false;
 	private records_client_data: IRecord[] = [];
+	private balance_detail_data: IBalanceDetail = null as any;
+	private suscriptions_data: ISuscription[] = [];
+	private isTableBalance: boolean = true;
 
 	private client_data_now: IUser = null as any;
 	private client_timezone_now: ITimeZone = null as any;
@@ -362,6 +554,7 @@ export default class Admin extends PageChildBase {
 			this.countriesAllow.push(c.code || '');
 			this.countriesAllowIDS.push(c.id || '');
 		});
+		this.get_memberships();
 		this.get_clients();
 	}
 
@@ -369,13 +562,19 @@ export default class Admin extends PageChildBase {
 		this.get_clients();
 	}
 
-	public async get_clients() {
+	private async get_memberships() {
+		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
+			this.memberships_data = memberships_data;
+		});
+	}
+
+	private async get_clients() {
 		this.load_form_api(await this.store.api.clients(), (data: IClient[]) => {
 			this.client_data = data;
 		});
 	}
 
-	public async new_client() {
+	private async new_client() {
 		this.client_form = new SignupDto();
 		this.telephoneInternational = '';
 		this.isOpenNewClientModal = true;
@@ -405,7 +604,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async edit_client(id: string) {
+	private async edit_client(id: string) {
 		this.id_edit_client = id;
 		this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
 			this.edit_client_form = new UpdateDto();
@@ -454,7 +653,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public validateNumber(args: any) {
+	private validateNumber(args: any) {
 		if (args) {
 			this.validationTelephone = args.valid;
 			if (args.number) {
@@ -463,14 +662,14 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public changeCountry(countryCode: any) {
+	private changeCountry(countryCode: any) {
 		this.countryEnabled = this.countriesAllow.find(element => element == countryCode.iso2) ?? '';
 		this.client_form.telephone = '';
 		const indexCountry = this.countriesAllow.findIndex(element => element == countryCode.iso2);
 		this.client_form.country = this.countriesAllowIDS[indexCountry ?? ''] ?? '';
 	}
 
-	public changeCountryUpdate(countryCode: any) {
+	private changeCountryUpdate(countryCode: any) {
 		if (this.edit_client_form) {
 			this.countryEnabled = this.countriesAllow.find(element => element == countryCode.iso2) ?? '';
 			this.edit_client_form.telephone = '';
@@ -479,7 +678,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async get_data_client_now(id: string) {
+	private async get_data_client_now(id: string) {
 		if (!this.client_data_now || this.client_data_now.id !== id) {
 			this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
 				this.client_data_now = data;
@@ -496,17 +695,32 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	public async records_client(id: string) {
+	private async records_client(id: string) {
 		await this.get_data_client_now(id);
 		this.load_form_api(await this.store.api.records(id), (data: IRecord[]) => {
 			this.records_client_data = data;
 			this.isOpenRecordsClientModal = true;
+			this.isTableBalance = true;
 		});
 	}
 
-	public async balance_nomth(date: string) {
-		date;
-		// console.log('Hola', date);
+	private async balance_detail(date: number) {
+		if (typeof date === 'string') {
+			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
+		}
+		const id = this.client_data_now.id;
+		this.load_form_api(await this.store.api.suscriptions(id), (data: ISuscription[]) => {
+			this.suscriptions_data = data;
+		});
+		this.load_form_api(await this.store.api.balance_detail({ id, date }), (data: IBalanceDetail) => {
+			this.balance_detail_data = data;
+			this.isTableBalance = false;
+		});
+	}
+
+	private get_name_suscription(id: string) {
+		return this.memberships_data.find(m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId)
+			?.name;
 	}
 }
 </script>
@@ -656,6 +870,74 @@ export default class Admin extends PageChildBase {
 		tbody tr td {
 			padding-top: 0.9rem;
 			padding-bottom: 0.9rem;
+		}
+	}
+
+	.model-balance_detail {
+		@include mobile {
+			.reverse-columns {
+				flex-direction: column-reverse;
+				display: flex;
+			}
+		}
+
+		.title {
+			font-size: 28px;
+			padding-bottom: 2rem;
+		}
+
+		.subtitle {
+			font-size: 20px;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+		}
+
+		.box-balance {
+			padding: 1rem 2rem;
+			margin-bottom: 2rem;
+
+			.balance-text {
+				font-size: 20px;
+				color: $gray;
+			}
+		}
+
+		.suscription-box {
+			border-top: 1px solid $border;
+
+			&:last-child {
+				border-bottom: 1px solid $border;
+			}
+
+			.columns-suscription {
+				padding: 1rem 1.5rem;
+				color: $gray;
+
+				.title {
+					font-size: 26px;
+					color: $black;
+					padding-bottom: 0.5rem;
+				}
+			}
+		}
+
+		.deposits,
+		.withdrawals {
+			.title {
+				padding: 1rem;
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
+
+			.table {
+				padding: 0 1.5rem;
+
+				.header {
+					padding-top: 0.9rem;
+					padding-bottom: 0.9rem;
+					color: $gray;
+				}
+			}
 		}
 	}
 }

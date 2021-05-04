@@ -5,8 +5,8 @@
 	"navbar": {
 		"url": {
 			"a1": "Sobre nosotros",
-			"a2": "Preguntas frecuentes",
-			"a3": "Invertir",
+			"a2": "Una mano amiga",
+			"a3": "Preguntas frecuentes",
 			"a4": "Contactenos",
 			"a5": "EN",
 			"a6": "Ingresar"
@@ -151,6 +151,35 @@
 				]
 			}
 		]
+	},
+	"friendly": {
+		"a": "Una mano amiga",
+		"b": [
+			{
+				"a": "Nuestra misión",
+				"b": [
+					"Aceptamos la inmensa bondad de tu ayuda.",
+					"Somos una organización benéfica en crecimiento que busca socios para el cambio. Si cree que puede ayudar de alguna manera en educación, vivienda y empleo para familias y jóvenes en América Latina, por favor contáctenos.",
+					"Nos asociamos con personas potenciales para aliviar la pobreza en la comunidad."
+				]
+			},
+			{
+				"a": "Nuestras prioridades estratégicas son",
+				"b": [
+					"Proteger a las organizaciones benéficas del abuso o la mala gestión.",
+					"Permitir que los fideicomisarios administren sus organizaciones benéficas de manera efectiva.",
+					"Fomentar una mayor transparencia y responsabilidad."
+				]
+			},
+			{
+				"a": "Tus valiosas donaciones cambiarían sus vidas.",
+				"b": [
+					"!Solos somos un átomo; juntos somos un universo!",
+					"Anticipamos la construcción de relaciones con nuestros valiosos patrocinadores, voluntarios y socios. Admiramos su interés en la humanidad y esperamos su respuesta de ayuda."
+				]
+			}
+		],
+		"c": "Dale a alguien una razón para sonreír."
 	},
 	"footer": {
 		"a": "Convierta su inversión en ganancias pasivas, hasta que el dinero trabaje para usted.",

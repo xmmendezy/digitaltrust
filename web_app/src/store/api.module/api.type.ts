@@ -226,6 +226,14 @@ interface IMembership {
 	interest: number;
 }
 
+interface ISuscription {
+	id: string;
+	userId: string;
+	date_begin: number;
+	date_end: number;
+	membershipId: string;
+}
+
 interface IClient {
 	id: string;
 	name: string;
@@ -249,6 +257,37 @@ interface IBalance {
 	investment: number;
 }
 
+interface IDeposit {
+	date: number;
+	suscription: string;
+	money: number;
+	payment_method: string;
+}
+
+interface IWithdrawal {
+	date: number;
+	money: number;
+	withdrawal_method: string;
+}
+
+interface IBalanceDetail {
+	date: number;
+	available_balance: number;
+	balance: number;
+	earning: number;
+	earning_extra: number;
+	withdrawal: number;
+	investment: number;
+	suscriptions: {
+		id: string;
+		investment: number;
+		date_begin: number;
+		date_end: number;
+	}[];
+	deposits: IDeposit[];
+	withdrawals: IWithdrawal[];
+}
+
 export {
 	IAuthData,
 	IUser,
@@ -258,7 +297,9 @@ export {
 	UserChangePasswordDto,
 	IRefer,
 	IMembership,
+	ISuscription,
 	IClient,
 	IRecord,
 	IBalance,
+	IBalanceDetail,
 };

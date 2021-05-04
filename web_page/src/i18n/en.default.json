@@ -5,8 +5,8 @@
 	"navbar": {
 		"url": {
 			"a1": "About us",
-			"a2": "FQA",
-			"a3": "Invest Now",
+			"a2": "A friendly hand",
+			"a3": "FQA",
 			"a4": "Contact",
 			"a5": "ES",
 			"a6": "Login"
@@ -151,6 +151,35 @@
 				]
 			}
 		]
+	},
+	"friendly": {
+		"a": "A friendly hand",
+		"b": [
+			{
+				"a": "Our mission",
+				"b": [
+					"We accept the beauty of goodness with your help.",
+					"We are a growing charity looking for partners for change. If you think you can help in any way in education, housing and employment for families and youth in Latin America, please contact us.",
+					"We partner with potential people to alleviate poverty in the community."
+				]
+			},
+			{
+				"a": "Our strategic priorities are",
+				"b": [
+					"Protect charities from abuse or mismanagement.",
+					"Enable trustees to manage their charities effectively.",
+					"Encourage greater transparency and accountability."
+				]
+			},
+			{
+				"a": "Your valuable donations would change their lives.",
+				"b": [
+					"Alone we are an atom; together, we are a universe!",
+					"We anticipate building relation with our valuable sponsors, volunteers, and partners. We admire your interest in humanity and await your helpful response."
+				]
+			}
+		],
+		"c": "Give someone the reason to smile."
 	},
 	"footer": {
 		"a": "Convert your investment into passive earnings, until the money works for you.",

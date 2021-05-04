@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Body, Req, Request, Query } from '@app/http';
 import { ApiService } from './api.service';
-import { SignupDto, UpdateDto } from './api.dto';
+import { SignupDto, UpdateDto, DepositDto, WithdrawalDto } from './api.dto';
 import { User } from './api.entity';
 
 @Controller('api')
@@ -49,6 +49,19 @@ export class ApiController {
 		return await this.apiService.memberships();
 	}
 
+	@Get('suscriptions')
+	public async suscriptions(@Req() req: Request, @Query() query: { id: string }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		return await this.apiService.suscriptions(user);
+	}
+
 	@Get('clients')
 	public async clients(@Req() req: Request) {
 		if (req.user.role === 'admin') {
@@ -94,5 +107,49 @@ export class ApiController {
 	@Get('balance')
 	public async balance(@Req() req: Request) {
 		return await this.apiService.balance(req.user);
+	}
+
+	@Get('balance_detail')
+	public async balance_detail(@Req() req: Request, @Query() query: { id: string; date: number }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		let date = user.DateTime.now().startOf('month');
+		if (query.date) {
+			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
+		}
+		return await this.apiService.balance_detail(user, date);
+	}
+
+	@Post('deposit')
+	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
+		let user: User = req.user;
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.process_deposit(user, date, data);
+	}
+
+	@Post('withdrawal')
+	public async request_withdrawal(@Req() req: Request, @Body() data: WithdrawalDto) {
+		let user: User = req.user;
+		if (data.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+		}
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.request_withdrawal(user, date, data);
 	}
 }

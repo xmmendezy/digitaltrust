@@ -54,12 +54,13 @@
 			"a": "Saldo",
 			"b": "Retiros",
 			"c": "Ganancias",
-			"d": "Inversión",
-			"e": "Mes"
+			"d": "Ganancia por referidos",
+			"e": "Inversión",
+			"f": "Mes"
 		},
 		"refer": {
 			"a": "Invita a tus socios",
-			"b": "Comparte tu enlace de referido y recibo un beneficio del 7% extra por cada suscripción de su socio, y ademas un 3% por cada deposito adicional.",
+			"b": "Comparte tu enlace de referido y recibo un beneficio del 7% extra por cada suscripción de su socio, y ademas un 3% por cada depósito adicional.",
 			"c": "Referidos"
 		},
 		"membership": {
@@ -102,6 +103,54 @@
 			"d": "Último depósito"
 		}
 	},
+	"balance": {
+		"title": "Estado de cuenta",
+		"subtitle": "Historial de ganancia en sus membresías",
+		"a": "Saldo disponible",
+		"b": "Saldo total",
+		"c": "Ganancia total",
+		"d": "Ganancia por referidos",
+		"e": "Capital de inversión",
+		"f": "Retiros",
+		"suscription": {
+			"a": "Inversión",
+			"b": "Fecha de inicio",
+			"c": "Fecha de fin"
+		},
+		"deposits": {
+			"title": "Depósitos",
+			"a": "Membresía",
+			"b": "Fecha",
+			"c": "Cantidad",
+			"d": "Método de pago"
+		},
+		"withdrawals": {
+			"title": "Retiros",
+			"a": "Fecha",
+			"b": "Cantidad",
+			"c": "Método de retiro"
+		}
+	},
+	"withdrawal": {
+		"title": "Retiro",
+		"subtitle": "Siempre puede retirar el dinero de sus ganancias.",
+		"payment_method": "Método de Pago",
+		"confirm": "Cantidad",
+		"requested": "Solicitar",
+		"money": "Cantidad",
+		"description": "Ingrese la cantidad a retirar, esta no puede ser mayor a ",
+		"requested_description": "Sus fondos pronto serán enviados por el medio que ha seleccionado. Gracias por confiar en DigitalTrust.",
+		"success": "Solicitado",
+		"error": "Hubo un error, vuelva a intentar"
+	},
+	"payment_method": {
+		"paypal": "PayPal",
+		"stripe": "Stripe",
+		"blockchain": "CoinPayments",
+		"balance": "Saldo",
+		"bankcheck": "Cheque bancario",
+		"investment": "Inversión"
+	},
 	"validator": {
 		"auth": {
 			"a": "No puede haber campos vacíos",
@@ -124,7 +173,11 @@
 		"setting": "Configuración",
 		"logout": "Salir",
 		"locale": "Idioma",
-		"see": "Ver"
+		"see": "Ver",
+		"prev": "Regresar",
+		"next": "Continuar",
+		"confirm": "Confirmar",
+		"finish": "Terminar"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

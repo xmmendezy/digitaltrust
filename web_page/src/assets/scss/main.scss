@@ -524,6 +524,40 @@ body {
 	}
 }
 
+#friendly {
+	.friendly-image > * {
+		width: 100%;
+		margin: 0 !important;
+	}
+
+	.subtitle {
+		padding-top: 3rem;
+		padding-bottom: 1rem;
+		color: $black;
+		font-weight: bold;
+		font-size: 20px;
+	}
+
+	.friendly-image {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.button {
+		margin: 2rem auto !important;
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+		font-weight: bold;
+
+		@include tablet {
+			width: 70% !important;
+		}
+	}
+}
+
 .footer {
 	@include mobile {
 		padding: 7rem 3rem;
@@ -546,6 +580,14 @@ body {
 	.social {
 		span {
 			padding-right: 1.5rem;
+		}
+
+		a {
+			color: white;
+
+			&:hover {
+				color: white;
+			}
 		}
 
 		svg {
