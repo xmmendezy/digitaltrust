@@ -239,8 +239,8 @@ interface IClient {
 	name: string;
 	email: string;
 	balance: number;
-	last_deposit: string;
-	has_message: boolean;
+	lastDeposit: number;
+	has_withdrawal: boolean;
 }
 
 interface IRecord {
@@ -268,6 +268,7 @@ interface IWithdrawal {
 	date: number;
 	money: number;
 	withdrawal_method: string;
+	status: boolean;
 }
 
 interface IBalanceDetail {
@@ -302,4 +303,5 @@ export {
 	IRecord,
 	IBalance,
 	IBalanceDetail,
+	IWithdrawal,
 };

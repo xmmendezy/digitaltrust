@@ -138,17 +138,6 @@ export class ApiService {
 		});
 	}
 
-	public async memberships(): Promise<Membership[]> {
-		return await Membership.createQueryBuilder()
-			.where('is_active = :is_active', { is_active: true })
-			.orderBy('money', 'ASC')
-			.getMany();
-	}
-
-	public async suscriptions(user: User): Promise<Suscription[]> {
-		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
-	}
-
 	public async clients(): Promise<IClient[]> {
 		const clients: IClient[] = [];
 		for (const user of await User.createQueryBuilder('user')
@@ -167,8 +156,15 @@ export class ApiService {
 						user.DateTime.now().minus({ days: 1 }),
 					)
 				).balance,
-				last_deposit: new Date().toISOString(),
-				has_message: false,
+				lastDeposit: user.lastDeposit,
+				has_withdrawal: !!(await Withdrawal.createQueryBuilder()
+					.where('"userId" = :id')
+					.andWhere('status = :status')
+					.setParameters({
+						id: user.id,
+						status: false,
+					})
+					.getCount()),
 			});
 		}
 		return clients;
@@ -183,65 +179,163 @@ export class ApiService {
 		);
 	}
 
-	public async update_client(id: string, data: UpdateDto): Promise<UserDto | Error> {
-		const user = await User.findOne(id);
-		if (!user) {
-			return { error: 'login.error.u1' };
-		}
-		if (data.country != user.country.id) {
-			const country = await Country.createQueryBuilder('country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('country.id = :id', { id: data.country })
-				.getOne();
-			if (country) {
-				user.country = country;
+	public async memberships(): Promise<Membership[]> {
+		return await Membership.createQueryBuilder()
+			.where('is_active = :is_active', { is_active: true })
+			.orderBy('money', 'ASC')
+			.getMany();
+	}
+
+	public async suscriptions(user: User): Promise<Suscription[]> {
+		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+	}
+
+	public async create_suscription(user: User, date: DateTime, membershipId: string): Promise<{ id: string }> {
+		const membership = await Membership.createQueryBuilder().where('id = :membershipId', { membershipId }).getOne();
+		if (membership) {
+			const suscription = new Suscription({
+				userId: user.id,
+				date_begin: date.toSeconds(),
+				date_end: date.plus({ months: membership.months }).toSeconds(),
+				membershipId,
+			});
+			await suscription.save();
+			if (suscription.errors.length) {
+				return { id: '' };
 			} else {
-				return { error: 'validator.auth.i' };
+				return { id: suscription.id };
+			}
+		} else {
+			return { id: '' };
+		}
+	}
+
+	public async process_deposit(user: User, date: DateTime, data: DepositDto): Promise<{ valid: boolean }> {
+		const deposit = new Deposit({
+			date: date.toSeconds(),
+			suscriptionId: data.suscriptionId,
+			money: data.money,
+			payment_method: data.type,
+		});
+		await deposit.save();
+		if (deposit.errors.length) {
+			return { valid: false };
+		}
+		if (deposit.payment_method === PaymentMethod.BALANCE) {
+			const withdrawal = new Withdrawal({
+				userId: user.id,
+				date: date.toSeconds(),
+				money: data.money,
+				withdrawal_method: WithdrawalMethod.INVESTMENT,
+				status: true,
+			});
+			await withdrawal.save();
+			if (withdrawal.errors.length) {
+				await Deposit.createQueryBuilder().delete().where('id = :id', { id: deposit.id }).execute();
+				return { valid: false };
+			}
+			user.lastDeposit = date.toSeconds();
+			await user.save();
+			return { valid: true };
+		} else {
+			return { valid: true };
+		}
+	}
+
+	public async withdrawals(user: User, date: DateTime): Promise<Withdrawal[]> {
+		return await Withdrawal.createQueryBuilder()
+			.where('"userId" = :id')
+			.andWhere('date >= :date_begin')
+			.andWhere('date <= :date_end')
+			.setParameters({
+				id: user.id,
+				date_begin: date.toSeconds(),
+				date_end: date.endOf('month').toSeconds(),
+			})
+			.getMany();
+	}
+
+	public async withdrawals_alert(user: User): Promise<Withdrawal[]> {
+		return await Withdrawal.createQueryBuilder()
+			.where('"userId" = :id')
+			.andWhere('status = :status')
+			.setParameters({
+				id: user.id,
+				status: false,
+			})
+			.getMany();
+	}
+
+	public async request_withdrawal(
+		user: User,
+		date: DateTime,
+		data: WithdrawalDto,
+		is_admin: boolean,
+	): Promise<{ valid: boolean }> {
+		const withdrawal = new Withdrawal({
+			userId: user.id,
+			date: date.toSeconds(),
+			money: data.money,
+			withdrawal_method: data.type,
+		});
+		if (is_admin) {
+			withdrawal.status = true;
+		}
+		await withdrawal.save();
+		if (withdrawal.errors.length) {
+			return { valid: false };
+		}
+		if (is_admin) {
+			await Record.createQueryBuilder()
+				.delete()
+				.where('date >= :date', { date: date.startOf('month').toSeconds() })
+				.execute();
+		}
+		return { valid: true };
+	}
+
+	public async process_withdrawal(id: string): Promise<{ valid: boolean }> {
+		const withdrawal = await Withdrawal.createQueryBuilder()
+			.where('id = :id')
+			.setParameters({
+				id,
+			})
+			.getOne();
+		if (withdrawal) {
+			const user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: withdrawal.userId })
+				.getOne();
+			const balance = await this.balance_detail(user, user.DateTime.fromUnix(withdrawal.date).startOf('month'));
+			if (balance.available_balance >= withdrawal.money) {
+				withdrawal.status = true;
+				await withdrawal.save();
+				if (withdrawal.errors.length) {
+					return { valid: false };
+				}
+				await Record.createQueryBuilder()
+					.delete()
+					.where('date >= :date', {
+						date: user.DateTime.fromUnix(withdrawal.date).startOf('month').toSeconds(),
+					})
+					.execute();
+				return { valid: true };
 			}
 		}
-		const keys = [
-			'firstname',
-			'lastname',
-			'state',
-			'address',
-			'paypal_account',
-			'stripe_account',
-			'coinpayments_account',
-		];
-		const errors: string[] = [];
-		for (const key in data) {
-			if (Object.prototype.hasOwnProperty.call(data, key) && keys.find((k) => k === key)) {
-				user[key] = data[key];
-			}
-		}
-		if (data.password !== 'Secret00__') {
-			user.set_password(data.password);
-		}
-		if (
-			await User.createQueryBuilder('user')
-				.where('user.telephone = :telephone', { telephone: user.telephone })
-				.andWhere('user.id != :id', { id: user.id })
-				.getCount()
-		) {
-			errors.push('validator.auth.j');
-		} else {
-			user.telephone = data.telephone;
-		}
-		if (
-			await User.createQueryBuilder('user')
-				.where('user.email = :email', { email: user.email })
-				.andWhere('user.id != :id', { id: user.id })
-				.getCount()
-		) {
-			errors.push('validator.auth.k');
-		} else {
-			user.email = data.email;
-		}
-		await user.save();
-		if (user.errors.length) {
-			return { error: user.errors[0] };
-		}
-		return { ...new UserDto(user), errors } as UserDto;
+		return { valid: false };
+
+		const result = await Withdrawal.createQueryBuilder()
+			.update()
+			.set({
+				status: true,
+			})
+			.where('id = :id')
+			.setParameters({
+				id,
+			})
+			.execute();
+		return { valid: !!result.affected };
 	}
 
 	public async records(user: User): Promise<RecordDto[]> {
@@ -319,7 +413,7 @@ export class ApiService {
 		return balance;
 	}
 
-	public async balance_detail(user: User, date: DateTime) {
+	public async balance_detail(user: User, date: DateTime): Promise<IBalanceDetail> {
 		const balance: IBalanceDetail = {
 			date: date.toSeconds(),
 			available_balance: 0,
@@ -414,6 +508,7 @@ export class ApiService {
 					date: d.date,
 					money: d.money,
 					withdrawal_method: d.withdrawal_method,
+					status: d.status,
 				};
 			});
 		}
@@ -588,8 +683,10 @@ export class ApiService {
 				.where('"userId" = :id')
 				.andWhere('date >= :date_begin')
 				.andWhere('date <= :date_end')
+				.andWhere('status = :status')
 				.setParameters({
 					id: user.id,
+					status: true,
 					date_begin: date_begin.toSeconds(),
 					date_end:
 						date_end.toSeconds() === date_end.endOf('month').toSeconds()
@@ -649,48 +746,5 @@ export class ApiService {
 			}
 		}
 		return irecord;
-	}
-
-	public async process_deposit(user: User, date: DateTime, data: DepositDto) {
-		const deposit = new Deposit({
-			date: date.toSeconds(),
-			suscriptionId: data.suscriptionId,
-			money: data.money,
-			payment_method: data.type,
-		});
-		await deposit.save();
-		if (deposit.errors.length) {
-			return { valid: false };
-		}
-		if (deposit.payment_method === PaymentMethod.BALANCE) {
-			const withdrawal = new Withdrawal({
-				userId: user.id,
-				date: date.toSeconds(),
-				money: data.money,
-				withdrawal_method: WithdrawalMethod.INVESTMENT,
-			});
-			await withdrawal.save();
-			if (withdrawal.errors.length) {
-				await Deposit.createQueryBuilder().delete().where('id = :id', { id: deposit.id }).execute();
-				return { valid: false };
-			}
-			return { valid: true };
-		} else {
-			return { valid: true };
-		}
-	}
-
-	public async request_withdrawal(user: User, date: DateTime, data: WithdrawalDto) {
-		const withdrawal = new Withdrawal({
-			userId: user.id,
-			date: date.toSeconds(),
-			money: data.money,
-			withdrawal_method: data.type,
-		});
-		await withdrawal.save();
-		if (withdrawal.errors.length) {
-			return { valid: false };
-		}
-		return { valid: true };
 	}
 }

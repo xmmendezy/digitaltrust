@@ -10,7 +10,7 @@ export default abstract class ComponentBase extends Vue {
 	private data_listener: Set<string> = new Set();
 
 	public store: Store = vxm;
-	public auth_data!: IAuthData;
+	public auth_data: IAuthData = null as any;
 	public is_admin: boolean = false;
 	public publicPath: string = process.env.BASE_URL;
 

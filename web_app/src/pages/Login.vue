@@ -120,7 +120,11 @@ export default class Login extends PageChildBase {
 		if (await this.store.api.isLogged()) {
 			this.$i18n.locale = this.store.api.country.locale || 'en';
 			this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.api.name}`);
-			this.$router.push({ name: 'Home' });
+			if (this.auth_data?.user?.role === 'admin') {
+				this.$router.push({ name: 'AdminHome' });
+			} else {
+				this.$router.push({ name: 'Home' });
+			}
 		}
 	}
 

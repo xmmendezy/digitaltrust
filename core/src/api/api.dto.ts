@@ -192,8 +192,8 @@ interface IClient {
 	name: string;
 	email: string;
 	balance: number;
-	last_deposit: string;
-	has_message: boolean;
+	lastDeposit: number;
+	has_withdrawal: boolean;
 }
 
 interface RecordDto {
@@ -223,6 +223,7 @@ interface IWithdrawal {
 	date: number;
 	money: number;
 	withdrawal_method: WithdrawalMethod;
+	status: boolean;
 }
 
 interface IBalanceDetail {
@@ -244,7 +245,7 @@ interface IBalanceDetail {
 }
 
 interface DepositDto {
-	suscriptionId: string,
+	suscriptionId: string;
 	type: PaymentMethod;
 	money: number;
 	date?: number;
@@ -257,4 +258,16 @@ interface WithdrawalDto {
 	date?: number;
 }
 
-export { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, RecordDto, IBalance, IBalanceDetail, DepositDto, WithdrawalDto };
+export {
+	SignupDto,
+	UserDto,
+	TokenDto,
+	UpdateDto,
+	IRefer,
+	IClient,
+	RecordDto,
+	IBalance,
+	IBalanceDetail,
+	DepositDto,
+	WithdrawalDto,
+};

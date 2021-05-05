@@ -100,7 +100,8 @@
 			"a": "Name",
 			"b": "Email",
 			"c": "Saldo",
-			"d": "Último depósito"
+			"d": "Último depósito",
+			"e": "Tiene retiros"
 		}
 	},
 	"balance": {
@@ -128,7 +129,8 @@
 			"title": "Retiros",
 			"a": "Fecha",
 			"b": "Cantidad",
-			"c": "Método de retiro"
+			"c": "Método de retiro",
+			"d": "Procesado"
 		}
 	},
 	"withdrawal": {
@@ -177,7 +179,11 @@
 		"prev": "Regresar",
 		"next": "Continuar",
 		"confirm": "Confirmar",
-		"finish": "Terminar"
+		"finish": "Terminar",
+		"cancel": "Cancelar",
+		"continue_task": "¿Continuar con esta opción?",
+		"success_task": "Tarea realizada con éxito",
+		"error_task": "No se pudo procesar"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

@@ -100,7 +100,8 @@
 			"a": "Name",
 			"b": "Email",
 			"c": "Balance",
-			"d": "Last deposit"
+			"d": "Last deposit",
+			"e": "Has withdrawals"
 		}
 	},
 	"balance": {
@@ -128,7 +129,8 @@
 			"title": "Withdrawals",
 			"a": "Date",
 			"b": "Money",
-			"c": "Withdrawal method"
+			"c": "Withdrawal method",
+			"d": "Status"
 		}
 	},
 	"withdrawal": {
@@ -177,7 +179,11 @@
 		"prev": "Previous",
 		"next": "Next",
 		"confirm": "Confirm",
-		"finish": "Finish"
+		"finish": "Finish",
+		"cancel": "Cancel",
+		"continue_task": "Continue on this task?",
+		"success_task": "Task completed successfully",
+		"error_task": "Could not be processed"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",

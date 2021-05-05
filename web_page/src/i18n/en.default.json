@@ -15,7 +15,7 @@
 	"info": {
 		"a": "Grow your money safely",
 		"b": "Convert your investment into passive earnings, make money work for you.",
-		"c": "Memberships"
+		"c": "Start now"
 	},
 	"service": {
 		"a": "Our services",
@@ -60,7 +60,11 @@
 	"invest_now": {
 		"a": "Invest now",
 		"b": "How to do it?",
-		"c": ["Sign up", "Make a deposit to one or more memberships", "Withdraw your winnings. And to enjoy..."],
+		"c": [
+			"Sign up",
+			"Make a deposit to one or more memberships",
+			"Withdraw your winnings. And to enjoy..."
+		],
 		"d": "Sign up"
 	},
 	"fqa": {
@@ -179,11 +183,15 @@
 				]
 			}
 		],
-		"c": "Give someone the reason to smile."
+		"c": "Give someone the reason to smile.",
+		"d": "I want to help improve the world"
 	},
 	"footer": {
 		"a": "Convert your investment into passive earnings, until the money works for you.",
 		"b": "Connect with Digital Trust",
 		"c": "All rights reserved"
+	},
+	"helper": {
+		"more": "More"
 	}
 }

@@ -334,6 +334,26 @@ body {
 	}
 }
 
+#friendly {
+	.content {
+		@include tablet {
+			margin-left: 5rem;
+		}
+
+		.subtitle {
+			text-align: left;
+		}
+
+		.button {
+			height: 100%;
+			margin-top: 1.5rem !important;
+			padding: 1.5rem 0;
+			font-weight: bold;
+			white-space: pre-wrap;
+		}
+	}
+}
+
 #service {
 	position: relative;
 
@@ -592,6 +612,7 @@ body {
 
 		svg {
 			margin: auto;
+			margin-left: 1.5rem;
 		}
 	}
 }
