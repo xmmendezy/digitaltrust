@@ -1,6 +1,6 @@
 INSERT INTO public."user"
-(id, created, updated, "version", email, telephone, "password", change_password, firstname, lastname, "role", status, "lastLogin", "lastQuery", "lastChangePassword", id_time_zone, state, address, paypal_account, stripe_account, coinpayments_account, "ref", "countryId")
-VALUES('f3a59480-4261-422d-afa3-9b46624f564b'::uuid, '2021-01-23 00:00:00.000', '2021-01-23 00:00:00.000', 1, 'mail@mail.com', '+593 97 946 7071', '$2a$10$y1j9ZQJb5Exr9I0ihngC3OPhYM00MLoz04HkvxKYcpZWbBJnqwXeG', false, 'Prueba', 'Prueba', 'user'::user_role_enum::user_role_enum, 'pending'::user_status_enum::user_status_enum, NULL, NULL, '2021-01-23 00:00:00.000', 'e49d115b-f5ff-448b-b486-fea10063e8dc', 'Narnia', 'Avenida Siempreviva 742', 'mail@mail.com', 'mail@mail.com', 'mail@mail.com', '', '8324c485-c22d-433d-98d8-f92f2403cd96'::uuid);
+(id, created, updated, "version", email, telephone, "password", change_password, firstname, lastname, "role", status, "lastLogin", "lastQuery", "lastChangePassword", id_time_zone, state, address, paypal_account, stripe_account, coinpayments_account, "ref", "countryId", "lastDeposit")
+VALUES('f3a59480-4261-422d-afa3-9b46624f564b'::uuid, '2021-01-23 00:00:00.000', '2021-01-23 00:00:00.000', 1, 'mail@mail.com', '+593 97 946 7071', '$2a$10$y1j9ZQJb5Exr9I0ihngC3OPhYM00MLoz04HkvxKYcpZWbBJnqwXeG', false, 'Prueba', 'Prueba', 'user'::user_role_enum::user_role_enum, 'pending'::user_status_enum::user_status_enum, NULL, NULL, '2021-01-23 00:00:00.000', 'e49d115b-f5ff-448b-b486-fea10063e8dc', 'Narnia', 'Avenida Siempreviva 742', 'mail@mail.com', 'mail@mail.com', 'mail@mail.com', '', '8324c485-c22d-433d-98d8-f92f2403cd96'::uuid, 1619154000);
 INSERT INTO public.suscription
 (id, created, updated, "version", "membershipId", date_begin, date_end, "userId")
 VALUES('6b938e36-3d33-4423-ab3c-746a411edd2a'::uuid, '2021-04-23 00:00:00', '2021-04-23 00:00:00', 1, '205710a1-69b8-45f7-9bae-c989cf7568c0', 1611378000, 1642914000, 'f3a59480-4261-422d-afa3-9b46624f564b');
@@ -20,14 +20,17 @@ INSERT INTO public.deposit
 (id, created, updated, "version", "date", "suscriptionId", "money", payment_method)
 VALUES('bb210d8b-83cf-454b-a297-a1a3c77bf1dc'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 1611378000, '99aef155-87b0-44d5-afc5-9a6edba0b589', 26000.0, 'stripe'::deposit_payment_method_enum::deposit_payment_method_enum);
 INSERT INTO public.withdrawal
-(id, created, updated, "version", "userId", "date", "money", withdrawal_method)
-VALUES('da2b5a23-33f4-4163-8d80-cc92e81e1df8'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'f3a59480-4261-422d-afa3-9b46624f564b', 1616475600, 1200.0, 'investment'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum);
+(id, created, updated, "version", "userId", "date", money, withdrawal_method, status)
+VALUES('da2b5a23-33f4-4163-8d80-cc92e81e1df8'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'f3a59480-4261-422d-afa3-9b46624f564b'::uuid, 1616475600, 1200.0, 'investment'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum, true);
 INSERT INTO public.withdrawal
-(id, created, updated, "version", "userId", "date", "money", withdrawal_method)
-VALUES('58bba840-f022-41f6-979c-78d6b8daa225'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'f3a59480-4261-422d-afa3-9b46624f564b', 1619326800, 3460.0, 'paypal'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum);
+(id, created, updated, "version", "userId", "date", money, withdrawal_method, status)
+VALUES('58bba840-f022-41f6-979c-78d6b8daa225'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'f3a59480-4261-422d-afa3-9b46624f564b'::uuid, 1619326800, 3460.0, 'paypal'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum, true);
+INSERT INTO public.withdrawal
+(id, created, updated, "version", "userId", "date", "money", withdrawal_method, status)
+VALUES('b322c4a2-42e3-4dad-8546-85317d925037'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 'f3a59480-4261-422d-afa3-9b46624f564b'::uuid, 1620208753, 3000.0, 'paypal'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum, false);
 INSERT INTO public."user"
-(id, created, updated, "version", email, telephone, "password", change_password, firstname, lastname, "role", status, "lastLogin", "lastQuery", "lastChangePassword", id_time_zone, state, address, paypal_account, stripe_account, coinpayments_account, "ref", "countryId")
-VALUES('0664935c-5344-4b87-b59c-284dc213d3d8'::uuid, '2021-01-23 00:00:00.000', '2021-01-23 00:00:00.000', 1, 'mail2@mail.com', '+593 97 946 7072', '$2a$10$y1j9ZQJb5Exr9I0ihngC3OPhYM00MLoz04HkvxKYcpZWbBJnqwXeG', false, 'Prueba', 'Prueba', 'user'::user_role_enum::user_role_enum, 'pending'::user_status_enum::user_status_enum, NULL, NULL, '2021-01-23 00:00:00.000', 'e49d115b-f5ff-448b-b486-fea10063e8dc', 'Narnia', 'Avenida Siempreviva 750', 'mail2@mail.com', 'mail2@mail.com', 'mail2@mail.com', 'f3a59480-4261-422d-afa3-9b46624f564b', '8324c485-c22d-433d-98d8-f92f2403cd96'::uuid);
+(id, created, updated, "version", email, telephone, "password", change_password, firstname, lastname, "role", status, "lastLogin", "lastQuery", "lastChangePassword", id_time_zone, state, address, paypal_account, stripe_account, coinpayments_account, "ref", "countryId", "lastDeposit")
+VALUES('0664935c-5344-4b87-b59c-284dc213d3d8'::uuid, '2021-01-23 00:00:00.000', '2021-01-23 00:00:00.000', 1, 'mail2@mail.com', '+593 97 946 7072', '$2a$10$y1j9ZQJb5Exr9I0ihngC3OPhYM00MLoz04HkvxKYcpZWbBJnqwXeG', false, 'Prueba', 'Prueba', 'user'::user_role_enum::user_role_enum, 'pending'::user_status_enum::user_status_enum, NULL, NULL, '2021-01-23 00:00:00.000', 'e49d115b-f5ff-448b-b486-fea10063e8dc', 'Narnia', 'Avenida Siempreviva 750', 'mail2@mail.com', 'mail2@mail.com', 'mail2@mail.com', 'f3a59480-4261-422d-afa3-9b46624f564b', '8324c485-c22d-433d-98d8-f92f2403cd96'::uuid, 1617080400);
 INSERT INTO public.suscription
 (id, created, updated, "version", "userId", date_begin, date_end, "membershipId")
 VALUES('9ffef655-012e-4b8e-bfa8-3121093e1587'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, '0664935c-5344-4b87-b59c-284dc213d3d8'::uuid, 1611723600, 1643259600, '98e95421-1c5d-4c8a-b763-ac7770e2ebc1'::uuid);
@@ -47,5 +50,5 @@ INSERT INTO public.deposit
 (id, created, updated, "version", "date", "suscriptionId", "money", payment_method)
 VALUES('914b54cf-1ae9-4d4a-bd45-02b1d38d2943'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, 1611723600, '7d65cec4-e767-42b9-a760-97493c773f2e'::uuid, 52000.0, 'blockchain'::deposit_payment_method_enum::deposit_payment_method_enum);
 INSERT INTO public.withdrawal
-(id, created, updated, "version", "userId", "date", "money", withdrawal_method)
-VALUES('3196b8cf-f931-42e9-9f62-bceb07551c4c'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, '0664935c-5344-4b87-b59c-284dc213d3d8'::uuid, 1619586000, 2000.0, 'stripe'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum);
+(id, created, updated, "version", "userId", "date", "money", withdrawal_method, status)
+VALUES('3196b8cf-f931-42e9-9f62-bceb07551c4c'::uuid, '2021-04-23 00:00:00.000', '2021-04-23 00:00:00.000', 1, '0664935c-5344-4b87-b59c-284dc213d3d8'::uuid, 1619586000, 2000.0, 'stripe'::withdrawal_withdrawal_method_enum::withdrawal_withdrawal_method_enum, true);

@@ -15,7 +15,7 @@
 	"info": {
 		"a": "Haga crecer su dinero de forma segura",
 		"b": "Convierta su inversión en ganancias pasivas, haga que el dinero trabaje para usted.",
-		"c": "Membresías"
+		"c": "Comenzar"
 	},
 	"service": {
 		"a": "Nuestros servicios",
@@ -60,7 +60,11 @@
 	"invest_now": {
 		"a": "Invertir ahora",
 		"b": " ¿Cómo hacerlo?",
-		"c": ["Registrese", "Realice un depósito en una o varias membresías", "Retire sus ganancias. Y a disfrutar..."],
+		"c": [
+			"Registrese",
+			"Realice un depósito en una o varias membresías",
+			"Retire sus ganancias. Y a disfrutar..."
+		],
 		"d": "Registrarse"
 	},
 	"fqa": {
@@ -179,11 +183,15 @@
 				]
 			}
 		],
-		"c": "Dale a alguien una razón para sonreír."
+		"c": "Dale a alguien una razón para sonreír.",
+		"d": "Quiero ayudar a mejorar el mundo"
 	},
 	"footer": {
 		"a": "Convierta su inversión en ganancias pasivas, hasta que el dinero trabaje para usted.",
 		"b": "Conéctese con Digital Trust",
 		"c": "Todos los derechos reservados"
+	},
+	"helper": {
+		"more": "Leer más"
 	}
 }

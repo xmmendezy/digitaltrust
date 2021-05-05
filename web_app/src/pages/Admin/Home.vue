@@ -21,17 +21,37 @@
 					</div>
 				</b-table-column>
 				<b-table-column
-					field="last_deposit"
+					field="lastDeposit"
 					:label="L('admin.table_client.d')"
-					header-class="header header-date has-text-right"
+					header-class="header header-center has-text-right"
 					v-slot="props"
 				>
 					<div class="has-text-right has-text-gray" @click="records_client(props.row.id)">
 						{{
-							store.api.DateTime.fromISO(props.row.last_deposit)
-								.setLocale($i18n.locale)
-								.toFormat('dd LLLL yyyy')
+							props.row.lastDeposit
+								? store.api.DateTime.fromUnix(props.row.lastDeposit)
+										.setLocale($i18n.locale)
+										.toFormat('dd LLLL yyyy')
+								: '---'
 						}}
+					</div>
+				</b-table-column>
+
+				<b-table-column
+					field="has_withdrawal"
+					:label="L('admin.table_client.e')"
+					header-class="header header-center has-text-center"
+					v-slot="props"
+				>
+					<div class="has-text-center">
+						<b-button
+							v-if="props.row.has_withdrawal"
+							type="is-ghost"
+							@click="withdrawal_client(props.row.id)"
+						>
+							<i class="fas fa-exclamation has-text-danger"></i>
+						</b-button>
+						<span v-else>---</span>
 					</div>
 				</b-table-column>
 			</b-table>
@@ -308,7 +328,7 @@
 						<b-table-column
 							field="month"
 							:label="L('home.table_balance.d')"
-							header-class="header header-date has-text-right"
+							header-class="header header-center has-text-right"
 							v-slot="props"
 						>
 							<div class="has-text-right has-text-gray">
@@ -496,8 +516,81 @@
 									{{ L(`payment_method.${props.row.withdrawal_method}`) }}
 								</div>
 							</b-table-column>
+
+							<b-table-column
+								field="status"
+								:label="L('balance.withdrawals.d')"
+								header-class="header header-center has-text-center"
+								v-slot="props"
+							>
+								<div class="has-text-center">
+									<i
+										class="fas"
+										:class="[
+											props.row.status ? 'fa-check has-text-success' : 'fa-times has-text-gray',
+										]"
+									></i>
+								</div>
+							</b-table-column>
 						</b-table>
 					</div>
+				</div>
+			</div>
+		</b-modal>
+
+		<b-modal v-model="isOpenWithdrawalsModal" :can-cancel="['x', 'escape']">
+			<div class="card">
+				<div class="card-content model-withdrawals-client">
+					<p class="title">{{ L('balance.withdrawals.title') }}</p>
+					<b-table :data="withdrawals_client_data" sticky-header :mobile-cards="false">
+						<b-table-column
+							field="date"
+							:label="L('balance.withdrawals.a')"
+							header-class="header"
+							v-slot="props"
+						>
+							<div class="has-text-left">
+								{{
+									store.api.DateTime.fromUnix(props.row.date)
+										.setZone(client_timezone_now.value)
+										.toFormat('dd LLL yyyy')
+								}}
+							</div>
+						</b-table-column>
+
+						<b-table-column
+							field="money"
+							:label="L('balance.withdrawals.b')"
+							header-class="header"
+							v-slot="props"
+						>
+							<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
+						</b-table-column>
+
+						<b-table-column
+							field="withdrawal_method"
+							:label="L('balance.withdrawals.c')"
+							header-class="header"
+							v-slot="props"
+						>
+							<div class="has-text-left">
+								{{ L(`payment_method.${props.row.withdrawal_method}`) }}
+							</div>
+						</b-table-column>
+
+						<b-table-column
+							field="has_withdrawal"
+							:label="L('helper.confirm')"
+							header-class="header header-center has-text-center"
+							v-slot="props"
+						>
+							<div class="has-text-center">
+								<b-button type="is-ghost" @click="withdrawal_accept(props.row.id)">
+									<i class="fas fa-check has-text-success"></i>
+								</b-button>
+							</div>
+						</b-table-column>
+					</b-table>
 				</div>
 			</div>
 		</b-modal>
@@ -518,6 +611,7 @@ import {
 	ISuscription,
 	IRecord,
 	IBalanceDetail,
+	IWithdrawal,
 } from '../../store';
 
 @Component
@@ -541,6 +635,9 @@ export default class Admin extends PageChildBase {
 
 	private client_data_now: IUser = null as any;
 	private client_timezone_now: ITimeZone = null as any;
+
+	private isOpenWithdrawalsModal: boolean = false;
+	private withdrawals_client_data: IWithdrawal[] = null as any;
 
 	private telephoneInternational: string = '';
 	private validationTelephone: any;
@@ -704,6 +801,33 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
+	private async withdrawal_client(id: string) {
+		await this.get_data_client_now(id);
+		this.load_form_api(await this.store.api.withdrawals_alert(id), (data: IWithdrawal[]) => {
+			this.withdrawals_client_data = data;
+			this.isOpenWithdrawalsModal = true;
+		});
+	}
+
+	private async withdrawal_accept(id: string) {
+		this.$buefy.dialog.confirm({
+			message: this.L('helper.continue_task'),
+			confirmText: this.L('helper.confirm'),
+			cancelText: this.L('helper.cancel'),
+			onConfirm: async () => {
+				this.load_form_api(await this.store.api.process_withdrawal({ id }), result => {
+					if (result.valid) {
+						this.get_clients();
+						this.isOpenWithdrawalsModal = false;
+						this.toastSuccess(this.L('helper.success_task'));
+					} else {
+						this.toastError(this.L('helper.error_task'));
+					}
+				});
+			},
+		});
+	}
+
 	private async balance_detail(date: number) {
 		if (typeof date === 'string') {
 			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
@@ -752,7 +876,7 @@ export default class Admin extends PageChildBase {
 				padding-right: 3rem;
 			}
 
-			&.header-date .th-wrap span {
+			&.header-center .th-wrap span {
 				&.is-relative {
 					width: 90%;
 				}
@@ -862,7 +986,7 @@ export default class Admin extends PageChildBase {
 
 			color: $gray;
 
-			&.header-date span {
+			&.header-center span {
 				width: 100%;
 			}
 		}
@@ -936,8 +1060,41 @@ export default class Admin extends PageChildBase {
 					padding-top: 0.9rem;
 					padding-bottom: 0.9rem;
 					color: $gray;
+
+					&.header-center .th-wrap span {
+						&.is-relative {
+							width: 90%;
+						}
+					}
 				}
 			}
+		}
+	}
+
+	.model-withdrawals-client {
+		.title {
+			font-size: 25px;
+			font-weight: bold;
+		}
+
+		.table-wrapper {
+			overflow-x: hidden;
+		}
+
+		.header {
+			padding-top: 0.9rem;
+			padding-bottom: 0.9rem;
+
+			color: $gray;
+
+			&.header-center span {
+				width: 100%;
+			}
+		}
+
+		tbody tr td {
+			padding-top: 0.9rem;
+			padding-bottom: 0.9rem;
 		}
 	}
 }

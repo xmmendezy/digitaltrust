@@ -14,6 +14,7 @@ import {
 	IRecord,
 	IBalance,
 	IBalanceDetail,
+	IWithdrawal,
 } from './api.type';
 import {
 	HttpBase,
@@ -64,6 +65,8 @@ export default class ApiStore extends VuexModule {
 			balance_detail: `${ApiStore.config.Api}/balance_detail`,
 			deposit: `${ApiStore.config.Api}/deposit`,
 			withdrawal: `${ApiStore.config.Api}/withdrawal`,
+			withdrawals_alert: `${ApiStore.config.Api}/withdrawals_alert`,
+			process_withdrawal: `${ApiStore.config.Api}/process_withdrawal`,
 		};
 	}
 
@@ -456,6 +459,22 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
+	public async withdrawals_alert(id?: string): Promise<IWithdrawal[]> {
+		return await ApiStore.http
+			.get(`${this.url.withdrawals_alert}`, { params: { id }, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
 	public async balance(): Promise<IBalance> {
 		return await ApiStore.http
 			.get(`${this.url.balance}`, { headers: this.headers })
@@ -518,6 +537,22 @@ export default class ApiStore extends VuexModule {
 	}): Promise<{ valid: boolean } | string> {
 		return await ApiStore.http
 			.post(this.url.withdrawal, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async process_withdrawal(data: { id: string }): Promise<{ valid: boolean } | string> {
+		return await ApiStore.http
+			.post(this.url.process_withdrawal, data, { headers: this.headers })
 			.then(async response => {
 				const error = get_errors(response);
 				if (error) {

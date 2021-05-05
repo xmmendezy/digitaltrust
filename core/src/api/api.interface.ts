@@ -21,6 +21,7 @@ interface IUser {
 	readonly status?: UserStatus;
 	readonly lastLogin?: Date;
 	readonly lastChangePassword?: Date;
+	readonly lastDeposit?: number;
 	readonly country?: any;
 	readonly id_time_zone?: string;
 	readonly state?: string;
@@ -86,6 +87,7 @@ interface IWithdrawal {
 	readonly userId?: string;
 	readonly money?: number;
 	readonly withdrawal_method?: WithdrawalMethod;
+	readonly status?: boolean;
 }
 
 interface IRecord {

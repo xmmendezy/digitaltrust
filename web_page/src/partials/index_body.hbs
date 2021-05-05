@@ -12,7 +12,8 @@
 							<p class="has-text-left subtitle-info">
 								{{ info.b }}
 							</p>
-							<a href="#service" class="button is-primary is-rounded">{{ info.c }}</a>
+							<a href="/app/register?i18n={{ i18n }}" class="button is-primary is-rounded">{{ info.c
+								}}</a>
 						</div>
 					</div>
 					<div class="column is-7">
@@ -29,6 +30,39 @@
 				</div>
 
 				<div class="points_3 is-hidden-mobile">
+					{{> points_svg }}
+				</div>
+			</section>
+
+			<section id="friendly" class="section">
+				<div class="columns">
+					<div class="column">
+						<div class="content">
+							<h1 class="title-underline has-text-left">{{ friendly.a }}</h1>
+							<p class="subtitle">
+								{{ friendly.c }}
+							</p>
+							<p class="has-text-left has-text-gray">
+								{{ friendly.b.[0].b.[1] }}
+							</p>
+							<p class="has-text-left">
+								{{#page 'friendly' '@helper.more' '' '' }}{{/page}}
+							</p>
+							<a target="_blank" href="/app/donations" class="button is-primary is-rounded is-outlined">
+								{{ friendly.d }}
+							</a>
+						</div>
+					</div>
+					<div class="column is-7">
+						{{#image_src 'image5.jpg' 'image5'}}{{/image_src}}
+					</div>
+				</div>
+
+				<div class="points_4">
+					{{> points_svg }}
+				</div>
+
+				<div class="points_5">
 					{{> points_svg }}
 				</div>
 			</section>

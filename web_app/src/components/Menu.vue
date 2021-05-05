@@ -26,6 +26,14 @@
 			></b-menu-item>
 			<b-menu-item icon="sign-out-alt" @click="logout()" :label="L('helper.logout')"></b-menu-item>
 		</b-menu-list>
+		<ul v-if="auth_data && auth_data.user && auth_data.user.role === 'user'" class="menu-list contact">
+			<li>
+				<a href="mailto:support@digitaltrustonline.net" target="_blank" class="icon-text">
+					<span class="icon is-small"><i class="fas fa-envelope"></i></span>
+					<span> support@digitaltrustonline.net </span>
+				</a>
+			</li>
+		</ul>
 	</b-menu>
 </template>
 
@@ -54,12 +62,22 @@ export default class Menu extends ComponentBase {
 
 .menu {
 	.menu-list {
+		&.contact {
+			position: absolute;
+			bottom: 0;
+		}
+
 		a {
 			padding-left: 1.75rem;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			margin-bottom: 2rem;
+
+			&.icon-text.is-active {
+				background-color: rgba(255, 255, 255, 0);
+				color: $gray;
+			}
 		}
 
 		.router-link-exact-active {

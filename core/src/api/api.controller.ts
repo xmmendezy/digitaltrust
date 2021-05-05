@@ -2,6 +2,7 @@ import { Controller, Get, Post, Patch, Body, Req, Request, Query } from '@app/ht
 import { ApiService } from './api.service';
 import { SignupDto, UpdateDto, DepositDto, WithdrawalDto } from './api.dto';
 import { User } from './api.entity';
+import { UserRole } from './api.interface';
 
 @Controller('api')
 export class ApiController {
@@ -44,24 +45,6 @@ export class ApiController {
 		return await this.apiService.is_refer(req.user);
 	}
 
-	@Get('memberships')
-	public async memberships() {
-		return await this.apiService.memberships();
-	}
-
-	@Get('suscriptions')
-	public async suscriptions(@Req() req: Request, @Query() query: { id: string }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		return await this.apiService.suscriptions(user);
-	}
-
 	@Get('clients')
 	public async clients(@Req() req: Request) {
 		if (req.user.role === 'admin') {
@@ -87,8 +70,117 @@ export class ApiController {
 		if (errors.length) {
 			return { error: errors[0] };
 		} else {
-			return await this.apiService.update_client(query.id, data);
+			const user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+			if (!user) {
+				return { error: 'login.error.u1' };
+			}
+			return await this.apiService.update(user, data);
 		}
+	}
+
+	@Get('memberships')
+	public async memberships() {
+		return await this.apiService.memberships();
+	}
+
+	@Get('suscriptions')
+	public async suscriptions(@Req() req: Request, @Query() query: { id: string }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		return await this.apiService.suscriptions(user);
+	}
+
+	@Post('suscription')
+	public async create_suscription(
+		@Req() req: Request,
+		@Query() query: { id: string },
+		@Body() data: { membershipId: string; date?: number },
+	) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.create_suscription(user, date, data.membershipId);
+	}
+
+	@Post('deposit')
+	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
+		const user: User = req.user;
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.process_deposit(user, date, data);
+	}
+
+	@Get('withdrawals')
+	public async withdrawals(@Req() req: Request, @Query() query: { id: string; date: number }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		let date = user.DateTime.now().startOf('month');
+		if (query.date) {
+			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
+		}
+		return await this.apiService.withdrawals(user, date);
+	}
+
+	@Get('withdrawals_alert')
+	public async withdrawals_alert(@Req() req: Request, @Query() query: { id: string }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		return await this.apiService.withdrawals_alert(user);
+	}
+
+	@Post('withdrawal')
+	public async request_withdrawal(@Req() req: Request, @Body() data: WithdrawalDto) {
+		let user: User = req.user;
+		if (data.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+		}
+		let date = user.DateTime.now();
+		if (data.date) {
+			date = user.DateTime.fromUnix(parseInt(data.date as any));
+		}
+		return await this.apiService.request_withdrawal(user, date, data, req.user.role === UserRole.ADMIN);
+	}
+
+	@Post('process_withdrawal')
+	public async process_withdrawal(@Body() data: { id: string }) {
+		return await this.apiService.process_withdrawal(data.id);
 	}
 
 	@Get('records')
@@ -124,32 +216,5 @@ export class ApiController {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
 		return await this.apiService.balance_detail(user, date);
-	}
-
-	@Post('deposit')
-	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
-		const user: User = req.user;
-		let date = user.DateTime.now();
-		if (data.date) {
-			date = user.DateTime.fromUnix(parseInt(data.date as any));
-		}
-		return await this.apiService.process_deposit(user, date, data);
-	}
-
-	@Post('withdrawal')
-	public async request_withdrawal(@Req() req: Request, @Body() data: WithdrawalDto) {
-		let user: User = req.user;
-		if (data.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: data.id })
-				.getOne();
-		}
-		let date = user.DateTime.now();
-		if (data.date) {
-			date = user.DateTime.fromUnix(parseInt(data.date as any));
-		}
-		return await this.apiService.request_withdrawal(user, date, data);
 	}
 }

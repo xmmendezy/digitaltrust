@@ -13,6 +13,7 @@ export class Withdrawal extends BaseEntity implements IWithdrawal {
 			this.date = data.date;
 			this.money = data.money;
 			this.withdrawal_method = data.withdrawal_method;
+			this.status = data.status;
 		}
 	}
 
@@ -37,4 +38,10 @@ export class Withdrawal extends BaseEntity implements IWithdrawal {
 		nullable: false,
 	})
 	public withdrawal_method: WithdrawalMethod;
+
+	@Column({
+		default: false,
+		nullable: false,
+	})
+	public status: boolean;
 }
