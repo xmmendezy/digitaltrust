@@ -60,11 +60,7 @@
 	"invest_now": {
 		"a": "Invest now",
 		"b": "How to do it?",
-		"c": [
-			"Sign up",
-			"Make a deposit to one or more memberships",
-			"Withdraw your winnings. And to enjoy..."
-		],
+		"c": ["Sign up", "Make a deposit to one or more memberships", "Withdraw your winnings. And to enjoy..."],
 		"d": "Sign up"
 	},
 	"fqa": {
