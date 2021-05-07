@@ -67,6 +67,11 @@ export default class ApiStore extends VuexModule {
 			withdrawal: `${ApiStore.config.Api}/withdrawal`,
 			withdrawals_alert: `${ApiStore.config.Api}/withdrawals_alert`,
 			process_withdrawal: `${ApiStore.config.Api}/process_withdrawal`,
+			get_stripe: `${ApiStore.config.Api}/get_stripe`,
+			get_stripe_donation: `${ApiStore.config.Api}/get_stripe_donation`,
+			get_coinpayments: `${ApiStore.config.Api}/get_coinpayments`,
+			status_coinpayments: `${ApiStore.config.Api}/status_coinpayments`,
+			get_coinpayments_donation: `${ApiStore.config.Api}/get_coinpayments_donation`,
 		};
 	}
 
@@ -509,10 +514,12 @@ export default class ApiStore extends VuexModule {
 	@action
 	public async process_deposit(data: {
 		id?: string;
-		suscriptionId: string;
+		membershipId: string;
+		suscriptionId?: string;
 		type: string;
 		money: number;
 		date?: number;
+		reference: string;
 	}): Promise<{ valid: boolean } | string> {
 		return await ApiStore.http
 			.post(this.url.deposit, data, { headers: this.headers })
@@ -553,6 +560,102 @@ export default class ApiStore extends VuexModule {
 	public async process_withdrawal(data: { id: string }): Promise<{ valid: boolean } | string> {
 		return await ApiStore.http
 			.post(this.url.process_withdrawal, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_stripe(data: {
+		id?: string;
+		membershipId: string;
+		suscriptionId?: string;
+		type: string;
+		money: number;
+	}): Promise<{ id: string; reference: string } | string> {
+		return await ApiStore.http
+			.post(this.url.get_stripe, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_stripe_donation(data: { money: number }): Promise<{ id: string } | string> {
+		return await ApiStore.http
+			.post(this.url.get_stripe_donation, data)
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_coinpayments(data: {
+		id?: string;
+		membershipId: string;
+		suscriptionId?: string;
+		type: string;
+		money: number;
+		currency: string;
+	}): Promise<{ txn_id: string; checkout_url: string; status_url: string } | string> {
+		return await ApiStore.http
+			.post(this.url.get_coinpayments, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async status_coinpayments(data: { txid: string }): Promise<any | string> {
+		return await ApiStore.http
+			.post(this.url.status_coinpayments, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_coinpayments_donation(data: {
+		money: number;
+		currency: string;
+	}): Promise<{ checkout_url: string } | string> {
+		return await ApiStore.http
+			.post(this.url.get_coinpayments_donation, data)
 			.then(async response => {
 				const error = get_errors(response);
 				if (error) {

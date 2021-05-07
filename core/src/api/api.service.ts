@@ -14,12 +14,21 @@ import {
 	DepositDto,
 	WithdrawalDto,
 } from './api.dto';
+import { IRecord, PaymentMethod, WithdrawalMethod } from './api.interface';
+
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
-
 import jwt from 'jsonwebtoken';
+import Stripe from 'stripe';
+import Coinpayments from 'coinpayments';
+
 import config from '@config';
-import { IRecord, PaymentMethod, WithdrawalMethod } from './api.interface';
+
+const stripe = new Stripe(config.stripe_secret_key, {
+	apiVersion: '2020-08-27',
+});
+
+const coinpayments = new Coinpayments({ key: config.coinpayments_public_key, secret: config.coinpayments_secret_key });
 
 @Injectable()
 export class ApiService {
@@ -211,11 +220,28 @@ export class ApiService {
 	}
 
 	public async process_deposit(user: User, date: DateTime, data: DepositDto): Promise<{ valid: boolean }> {
+		if (!data.suscriptionId) {
+			const membership = await Membership.createQueryBuilder()
+				.where('id = :id', { id: data.membershipId })
+				.getOne();
+			const suscription = new Suscription({
+				userId: user.id,
+				date_begin: date.toSeconds(),
+				date_end: date.plus({ months: membership.months }).toSeconds(),
+				membershipId: data.membershipId,
+			});
+			await suscription.save();
+			if (suscription.errors.length) {
+				return { valid: false };
+			}
+			data.suscriptionId = suscription.id;
+		}
 		const deposit = new Deposit({
 			date: date.toSeconds(),
 			suscriptionId: data.suscriptionId,
-			money: data.money,
+			money: parseFloat(data.money as any),
 			payment_method: data.type,
+			reference: data.reference,
 		});
 		await deposit.save();
 		if (deposit.errors.length) {
@@ -324,18 +350,6 @@ export class ApiService {
 			}
 		}
 		return { valid: false };
-
-		const result = await Withdrawal.createQueryBuilder()
-			.update()
-			.set({
-				status: true,
-			})
-			.where('id = :id')
-			.setParameters({
-				id,
-			})
-			.execute();
-		return { valid: !!result.affected };
 	}
 
 	public async records(user: User): Promise<RecordDto[]> {
@@ -447,14 +461,16 @@ export class ApiService {
 			balance.earning_extra = record.earning_extra;
 			balance.investment = record.investment;
 			if (user.DateTime.now().startOf('month').valueOf() === date.startOf('month').valueOf()) {
-				const last_record = await this.record(
-					user,
-					date.startOf('month').minus({ months: 1 }),
-					date.endOf('month').minus({ months: 1 }),
-					suscriptions,
-					memberships,
-				);
-				balance.available_balance = last_record.balance;
+				const last_record = await Record.createQueryBuilder()
+					.where('"userId" = :id')
+					.andWhere('date = :date')
+					.setParameters({
+						id: user.id,
+						date: date.startOf('month').minus({ months: 1 }).toSeconds(),
+					})
+					.orderBy('date', 'DESC')
+					.getOne();
+				balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
 			}
 			for (const suscription of suscriptions) {
 				balance.suscriptions.push({
@@ -469,6 +485,7 @@ export class ApiService {
 					).reduce((a, b) => new Decimal(b.money).plus(a).toNumber(), 0),
 					date_begin: suscription.date_begin,
 					date_end: suscription.date_end,
+					membershipId: suscription.membershipId,
 				});
 			}
 
@@ -490,6 +507,7 @@ export class ApiService {
 					suscription: d.suscriptionId,
 					money: d.money,
 					payment_method: d.payment_method,
+					reference: d.reference !== 'default' ? d.reference : '',
 				};
 			});
 			balance.withdrawals = (
@@ -571,7 +589,9 @@ export class ApiService {
 										: suscription.date_begin,
 								date_end:
 									suscription.date_end > date_end.toSeconds()
-										? date_end.toSeconds()
+										? date_end.toSeconds() === user.DateTime.now().endOf('month').toSeconds()
+											? date_end.toSeconds()
+											: date_end.plus({ days: 1 }).toSeconds()
 										: suscription.date_end,
 							})
 							.getMany()),
@@ -746,5 +766,105 @@ export class ApiService {
 			}
 		}
 		return irecord;
+	}
+
+	public async get_stripe(data: DepositDto): Promise<{ id: string; reference: string }> {
+		const success_url = `${config.url_root}/app?success_stripe=true&${Object.entries(data)
+			.map(([key, val]) => `${key}=${val}`)
+			.join('&')}`;
+		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
+		const session = await stripe.checkout.sessions.create({
+			payment_method_types: ['card'],
+			line_items: [
+				{
+					price_data: {
+						currency: 'usd',
+						product_data: {
+							name: `Payment - ${membership.name}`,
+						},
+						unit_amount: parseInt(
+							parseFloat(data.money as any)
+								.toFixed(2)
+								.toString()
+								.replace('.', ''),
+						),
+					},
+					quantity: 1,
+				},
+			],
+			mode: 'payment',
+			success_url,
+			cancel_url: `${config.url_root}/app?success_stripe=false`,
+		});
+		return { id: session.id, reference: session.payment_intent as string };
+	}
+
+	public async get_coinpayments(
+		user: User,
+		data: DepositDto & { currency: string },
+	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
+		const success_url = `${config.url_root}/app?success_coinpayments=true&${Object.entries(data)
+			.map(([key, val]) => `${key}=${val}`)
+			.join('&')}`;
+		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
+		const { address } = await coinpayments.getCallbackAddress(data);
+		return await coinpayments.createTransaction({
+			currency1: 'USD',
+			currency2: data.currency,
+			amount: data.money,
+			buyer_email: user.email,
+			item_name: `Payment - ${membership.name}`,
+			address,
+			success_url,
+			cancel_url: `${config.url_root}/app?success_coinpayments=false`,
+		});
+	}
+
+	public async status_coinpayments(txid: string): Promise<any> {
+		return await coinpayments.getTx({ txid });
+	}
+
+	public async get_stripe_donation(data: { money: number }): Promise<{ id: string }> {
+		const session = await stripe.checkout.sessions.create({
+			payment_method_types: ['card'],
+			line_items: [
+				{
+					price_data: {
+						currency: 'usd',
+						product_data: {
+							name: 'Donation',
+						},
+						unit_amount: parseInt(
+							parseFloat(data.money as any)
+								.toFixed(2)
+								.toString()
+								.replace('.', ''),
+						),
+					},
+					quantity: 1,
+				},
+			],
+			mode: 'payment',
+			success_url: config.url_root,
+			cancel_url: config.url_root,
+		});
+		return { id: session.id };
+	}
+
+	public async get_coinpayments_donation(data: {
+		money: number;
+		currency: string;
+	}): Promise<{ checkout_url: string }> {
+		const { address } = await coinpayments.getCallbackAddress(data);
+		return await coinpayments.createTransaction({
+			currency1: 'USD',
+			currency2: data.currency,
+			amount: data.money,
+			buyer_email: 'admin@digitaltrustonline.net',
+			item_name: 'Donation',
+			address,
+			success_url: config.url_root,
+			cancel_url: config.url_root,
+		});
 	}
 }

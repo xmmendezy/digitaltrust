@@ -12,7 +12,7 @@ export default abstract class ComponentBase extends Vue {
 	public store: Store = vxm;
 	public auth_data: IAuthData = null as any;
 	public is_admin: boolean = false;
-	public publicPath: string = process.env.BASE_URL;
+	public publicPath: string = process.env.BASE_URL || '';
 
 	public $isMobile: any;
 	public $buefy!: BuefyNamespace;
@@ -64,8 +64,12 @@ export default abstract class ComponentBase extends Vue {
 		});
 	}
 
-	public exec_is_render(refs: string, callback: (ref?: Vue | Element | Vue[] | Element[]) => void, c: number = 0) {
-		this.sleep(100);
+	public async exec_is_render(
+		refs: string,
+		callback: (ref?: Vue | Element | Vue[] | Element[]) => void,
+		c: number = 0,
+	) {
+		await this.sleep(100);
 		if (c < 10) {
 			if (this.$refs[refs] && this.$refs[refs] !== null) {
 				callback(this.$refs[refs]);
@@ -75,16 +79,18 @@ export default abstract class ComponentBase extends Vue {
 		}
 	}
 
-	public exec_is_auth(callback: () => void) {
-		this.sleep(100);
-		this.store.api.isLogged().then(v => {
-			if (v) {
-				this.auth_data = this.store.api.auth_data;
-				callback();
-			} else {
-				this.exec_is_auth(callback);
-			}
-		});
+	public async exec_is_auth(callback: () => void, c: number = 0) {
+		await this.sleep(100);
+		if (c < 10) {
+			this.store.api.isLogged().then(v => {
+				if (v) {
+					this.auth_data = this.store.api.auth_data;
+					callback();
+				} else {
+					this.exec_is_auth(callback, c + 1);
+				}
+			});
+		}
 	}
 
 	public formatMoney(n: number) {
@@ -125,6 +131,10 @@ export default abstract class ComponentBase extends Vue {
 
 	public L(key: string): string {
 		return this.$t(key) as string;
+	}
+
+	public LC(key: string, count: number): string {
+		return this.$tc(key, count) as string;
 	}
 
 	public toastError(message: string, duration: number = 4000) {

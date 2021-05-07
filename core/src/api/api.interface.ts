@@ -80,6 +80,7 @@ interface IDeposit {
 	readonly suscriptionId?: string;
 	readonly money?: number;
 	readonly payment_method?: PaymentMethod;
+	readonly reference?: string;
 }
 
 interface IWithdrawal {

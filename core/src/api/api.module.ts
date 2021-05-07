@@ -40,6 +40,15 @@ import { JwtStrategy, LocalStrategy } from './passport';
 export class ApiModule implements NestModule {
 	public configure(consumer: MiddlewareConsumer) {
 		consumer.apply(LoginMiddleware).forRoutes('/api/login');
-		consumer.apply(JwtMiddleware).exclude('/api/login', '/api/signup', '/api/ref_user').forRoutes(ApiController);
+		consumer
+			.apply(JwtMiddleware)
+			.exclude(
+				'/api/login',
+				'/api/signup',
+				'/api/ref_user',
+				'/api/get_stripe_donation',
+				'/api/get_coinpayments_donation',
+			)
+			.forRoutes(ApiController);
 	}
 }

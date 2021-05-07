@@ -76,6 +76,15 @@ const routes: Array<RouteConfig> = [
 					free_page: true,
 				},
 			},
+
+			{
+				path: '/donations',
+				name: 'Donations',
+				component: () => import(/* webpackChunkName: "donations" */ '@app/pages/Donations.vue'),
+				meta: {
+					permanent_page: true,
+				},
+			},
 		],
 	},
 ];

@@ -105,6 +105,7 @@ export class User extends BaseEntity implements IUser {
 	public lastChangePassword: Date;
 
 	@Column({
+		type: 'float8',
 		nullable: true,
 	})
 	public lastDeposit: number;

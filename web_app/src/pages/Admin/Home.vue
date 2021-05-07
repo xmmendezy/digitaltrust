@@ -477,6 +477,15 @@
 							>
 								<div class="has-text-left">{{ L(`payment_method.${props.row.payment_method}`) }}</div>
 							</b-table-column>
+
+							<b-table-column
+								field="reference"
+								:label="L('balance.deposits.e')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ props.row.reference }}</div>
+							</b-table-column>
 						</b-table>
 					</div>
 					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
@@ -983,7 +992,6 @@ export default class Admin extends PageChildBase {
 		.header {
 			padding-top: 0.9rem;
 			padding-bottom: 0.9rem;
-
 			color: $gray;
 
 			&.header-center span {

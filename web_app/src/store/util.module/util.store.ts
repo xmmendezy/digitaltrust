@@ -17,6 +17,32 @@ export default class UtilStore extends VuexModule {
 		this.config = config;
 	}
 
+	public PayPal: {
+		client_id: string;
+	} = {
+		client_id: process.env.VUE_APP_PAYPAL_PUBLIC_KEY,
+	};
+
+	public Stripe: {
+		public_key: string;
+	} = {
+		public_key: process.env.VUE_APP_STRIPE_PUBLIC_KEY,
+	};
+
+	// prettier-ignore
+	public deposit_blockchains: { name: string; currency: string; image: string }[] =
+		process.env.NODE_ENV === 'production'
+			? [
+				{ name: 'Bitcoin', currency: 'BTC', image: 'https://www.coinpayments.net/images/coins/BTC.png' },
+				{ name: 'Ether', currency: 'ETH', image: 'https://www.coinpayments.net/images/coins/ETH.png' },
+				{
+					name: 'Tether USD (Omni Layer)',
+					currency: 'USDT',
+					image: 'https://www.coinpayments.net/images/coins/USDT.png',
+				},
+			  ]
+			: [{ name: 'Litecoin Testnet', currency: 'LTCT', image: 'https://www.coinpayments.net/images/coins/LTCT.png' }];
+
 	private data_obj: { [key: string]: { [id: string]: (newVal: DataDict, oldVal: DataDict) => void } } = {};
 
 	private data_countries: { [key: string]: ICountry } = data_countries;
