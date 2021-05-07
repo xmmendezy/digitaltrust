@@ -184,8 +184,9 @@
 	},
 	"footer": {
 		"a": "Convierta su inversión en ganancias pasivas, hasta que el dinero trabaje para usted.",
-		"b": "Conéctese con Digital Trust",
-		"c": "Todos los derechos reservados"
+		"b": "Digital Trust protege sus datos con certificación SSL y utiliza pasarelas de pago confiables, para que realice sus pagos con Visa, MasterCard, American Express, BTC, Paypal, etc.",
+		"c": "Conéctese con Digital Trust",
+		"d": "Todos los derechos reservados"
 	},
 	"helper": {
 		"more": "Leer más"

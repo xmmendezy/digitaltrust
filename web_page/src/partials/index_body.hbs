@@ -48,7 +48,8 @@
 							<p class="has-text-left">
 								{{#page 'friendly' '@helper.more' '' '' }}{{/page}}
 							</p>
-							<a target="_blank" href="/app/donations" class="button is-primary is-rounded is-outlined">
+							<a target="_blank" href="/app/donations?i18n={{ i18n }}"
+								class="button is-primary is-rounded is-outlined">
 								{{ friendly.d }}
 							</a>
 						</div>
@@ -59,10 +60,6 @@
 				</div>
 
 				<div class="points_4">
-					{{> points_svg }}
-				</div>
-
-				<div class="points_5">
 					{{> points_svg }}
 				</div>
 			</section>

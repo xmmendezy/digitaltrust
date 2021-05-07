@@ -284,6 +284,7 @@ interface IBalanceDetail {
 		investment: number;
 		date_begin: number;
 		date_end: number;
+		membershipId: string;
 	}[];
 	deposits: IDeposit[];
 	withdrawals: IWithdrawal[];

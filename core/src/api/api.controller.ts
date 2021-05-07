@@ -123,7 +123,14 @@ export class ApiController {
 
 	@Post('deposit')
 	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
-		const user: User = req.user;
+		let user: User = req.user;
+		if (data.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+		}
 		let date = user.DateTime.now();
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
@@ -216,5 +223,38 @@ export class ApiController {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
 		return await this.apiService.balance_detail(user, date);
+	}
+
+	@Post('get_stripe')
+	public async get_stripe(@Body() data: DepositDto) {
+		return await this.apiService.get_stripe(data);
+	}
+
+	@Post('get_coinpayments')
+	public async get_coinpayments(@Req() req: Request, @Body() data: DepositDto & { currency: string }) {
+		let user: User = req.user;
+		if (data.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+		}
+		return await this.apiService.get_coinpayments(user, data);
+	}
+
+	@Post('status_coinpayments')
+	public async status_coinpayments(@Body() data: { txid: string }) {
+		return await this.apiService.status_coinpayments(data.txid);
+	}
+
+	@Post('get_stripe_donation')
+	public async get_stripe_donation(@Body() data: { money: number }) {
+		return await this.apiService.get_stripe_donation(data);
+	}
+
+	@Post('get_coinpayments_donation')
+	public async get_coinpayments_donation(@Body() data: { money: number; currency: string }) {
+		return await this.apiService.get_coinpayments_donation(data);
 	}
 }

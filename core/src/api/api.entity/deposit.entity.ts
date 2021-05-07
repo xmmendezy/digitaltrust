@@ -13,6 +13,7 @@ export class Deposit extends BaseEntity implements IDeposit {
 			this.suscriptionId = data.suscriptionId;
 			this.money = data.money;
 			this.payment_method = data.payment_method;
+			this.reference = data.reference;
 		}
 	}
 
@@ -37,4 +38,9 @@ export class Deposit extends BaseEntity implements IDeposit {
 		nullable: false,
 	})
 	public payment_method: PaymentMethod;
+
+	@Column({
+		default: 'default',
+	})
+	public reference: string;
 }

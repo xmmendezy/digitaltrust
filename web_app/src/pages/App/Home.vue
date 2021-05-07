@@ -26,7 +26,7 @@
 						<b-button type="is-warning" @click="open_withdrawal()">
 							{{ L('home.balance_now.f') }}
 						</b-button>
-						<b-button class="is-right" type="is-success" size="is-large" @click="show_deposit()">
+						<b-button class="is-right" type="is-success" size="is-large" @click="open_deposit()">
 							{{ L('home.balance_now.g') }}
 						</b-button>
 					</div>
@@ -37,7 +37,7 @@
 						<b-button type="is-warning" size="is-small" @click="open_withdrawal()">
 							{{ L('home.balance_now.f') }}
 						</b-button>
-						<b-button type="is-success" size="is-small" @click="show_deposit()">
+						<b-button type="is-success" size="is-small" @click="open_deposit()">
 							{{ L('home.balance_now.g') }}
 						</b-button>
 					</div>
@@ -98,7 +98,7 @@
 					<b-table-column
 						field="month"
 						:label="L('home.table_balance.f')"
-						header-class="header header-date has-text-right"
+						header-class="header header-center has-text-right"
 						v-slot="props"
 					>
 						<div class="has-text-right has-text-gray">
@@ -289,6 +289,15 @@
 							>
 								<div class="has-text-left">{{ L(`payment_method.${props.row.payment_method}`) }}</div>
 							</b-table-column>
+
+							<b-table-column
+								field="reference"
+								:label="L('balance.deposits.e')"
+								header-class="header"
+								v-slot="props"
+							>
+								<div class="has-text-left">{{ props.row.reference }}</div>
+							</b-table-column>
 						</b-table>
 					</div>
 					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
@@ -324,6 +333,22 @@
 									{{ L(`payment_method.${props.row.withdrawal_method}`) }}
 								</div>
 							</b-table-column>
+
+							<b-table-column
+								field="status"
+								:label="L('balance.withdrawals.d')"
+								header-class="header header-center has-text-center"
+								v-slot="props"
+							>
+								<div class="has-text-center">
+									<i
+										class="fas"
+										:class="[
+											props.row.status ? 'fa-check has-text-success' : 'fa-times has-text-gray',
+										]"
+									></i>
+								</div>
+							</b-table-column>
 						</b-table>
 					</div>
 				</div>
@@ -340,7 +365,7 @@
 						{{ L('withdrawal.subtitle') }}
 					</p>
 					<b-steps v-model="WithdrawalStep">
-						<b-step-item step="1" :label="L('withdrawal.payment_method')">
+						<b-step-item step="1" :label="L('withdrawal.step_1')">
 							<div
 								v-for="withdrawal_method in withdrawal_methods"
 								:key="withdrawal_method"
@@ -363,7 +388,7 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="2" :label="L('withdrawal.confirm')">
+						<b-step-item step="2" :label="L('withdrawal.step_2')">
 							<div class="message-withdrawal">
 								<div class="column title has-text-left">
 									{{ L('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
@@ -379,10 +404,10 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="3" :label="L('withdrawal.requested')">
+						<b-step-item step="3" :label="L('withdrawal.step_3')">
 							<div class="message-withdrawal">
 								<div class="column title has-text-left">
-									{{ L('withdrawal.requested_description') }}
+									{{ L('withdrawal.completed_description') }}
 								</div>
 							</div>
 						</b-step-item>
@@ -414,6 +439,7 @@
 								type="is-primary"
 								icon-pack="fas"
 								icon-right="chevron-right"
+								:disabled="moneyWithdrawal < 100 || moneyWithdrawal > moneyWithdrawalMax"
 								@click.prevent="next.action"
 							>
 								{{ L('helper.confirm') }}
@@ -433,6 +459,334 @@
 				</div>
 			</div>
 		</b-modal>
+
+		<b-modal v-model="isOpenDepositModal" :can-cancel="['x', 'escape']" class="model-deposit">
+			<div class="card">
+				<div class="card-content">
+					<p class="title has-text-left">
+						{{ L('deposit.title') }}
+					</p>
+					<p class="subtitle has-text-left">
+						{{ L('deposit.subtitle') }}
+					</p>
+					<b-steps v-model="DepositStep">
+						<b-step-item step="1" :label="L('deposit.step_1')">
+							<div v-if="deposit_suscription.length" class="prices">
+								<div class="columns">
+									<div class="column">
+										<div
+											class="card"
+											:class="{
+												'price-selected':
+													deposit_membership_selected === deposit_suscription[0].membershipId,
+											}"
+											@click="deposit_membership_selected = deposit_suscription[0].membershipId"
+										>
+											<p class="price-title title-1">
+												{{ deposit_suscription[0].name }}
+											</p>
+											<div v-if="!deposit_suscription[0].suscriptionId">
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<ul class="has-text-left has-text-gray">
+												<li v-if="deposit_suscription[0].suscriptionId">
+													{{
+														LC(
+															'deposit.investment_count',
+															formatMoney(deposit_suscription[0].investment),
+														)
+													}}
+												</li>
+												<li>{{ LC('deposit.period_count', deposit_suscription[0].months) }}</li>
+												<li>
+													{{ LC('deposit.interest_count', deposit_suscription[0].interest) }}
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="column">
+										<div
+											class="card"
+											:class="{
+												'price-selected':
+													deposit_membership_selected === deposit_suscription[1].membershipId,
+											}"
+											@click="deposit_membership_selected = deposit_suscription[1].membershipId"
+										>
+											<p class="price-title title-2">
+												{{ deposit_suscription[1].name }}
+											</p>
+											<div v-if="!deposit_suscription[1].suscriptionId">
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<ul class="has-text-left has-text-gray">
+												<li v-if="deposit_suscription[1].suscriptionId">
+													{{
+														LC(
+															'deposit.investment_count',
+															formatMoney(deposit_suscription[1].investment),
+														)
+													}}
+												</li>
+												<li>{{ LC('deposit.period_count', deposit_suscription[1].months) }}</li>
+												<li>
+													{{ LC('deposit.interest_count', deposit_suscription[1].interest) }}
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="column">
+										<div
+											class="card"
+											:class="{
+												'price-selected':
+													deposit_membership_selected === deposit_suscription[2].membershipId,
+											}"
+											@click="deposit_membership_selected = deposit_suscription[2].membershipId"
+										>
+											<p class="price-title title-3">
+												{{ deposit_suscription[2].name }}
+											</p>
+											<div v-if="!deposit_suscription[2].suscriptionId">
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<ul class="has-text-left has-text-gray">
+												<li v-if="deposit_suscription[2].suscriptionId">
+													{{
+														LC(
+															'deposit.investment_count',
+															formatMoney(deposit_suscription[2].investment),
+														)
+													}}
+												</li>
+												<li>{{ LC('deposit.period_count', deposit_suscription[2].months) }}</li>
+												<li>
+													{{ LC('deposit.interest_count', deposit_suscription[2].interest) }}
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column is-2"></div>
+									<div class="column">
+										<div
+											class="card"
+											:class="{
+												'price-selected':
+													deposit_membership_selected === deposit_suscription[3].membershipId,
+											}"
+											@click="deposit_membership_selected = deposit_suscription[3].membershipId"
+										>
+											<p class="price-title title-4">
+												{{ deposit_suscription[3].name }}
+											</p>
+											<div v-if="!deposit_suscription[3].suscriptionId">
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<ul class="has-text-left has-text-gray">
+												<li v-if="deposit_suscription[3].suscriptionId">
+													{{
+														LC(
+															'deposit.investment_count',
+															formatMoney(deposit_suscription[3].investment),
+														)
+													}}
+												</li>
+												<li>{{ LC('deposit.period_count', deposit_suscription[3].months) }}</li>
+												<li>
+													{{ LC('deposit.interest_count', deposit_suscription[3].interest) }}
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="column">
+										<div
+											class="card"
+											:class="{
+												'price-selected':
+													deposit_membership_selected === deposit_suscription[4].membershipId,
+											}"
+											@click="deposit_membership_selected = deposit_suscription[4].membershipId"
+										>
+											<p class="price-title title-4">
+												{{ deposit_suscription[4].name }}
+											</p>
+											<div v-if="!deposit_suscription[4].suscriptionId">
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<ul class="has-text-left has-text-gray">
+												<li v-if="deposit_suscription[4].suscriptionId">
+													{{
+														LC(
+															'deposit.investment_count',
+															formatMoney(deposit_suscription[4].investment),
+														)
+													}}
+												</li>
+												<li>{{ LC('deposit.period_count', deposit_suscription[4].months) }}</li>
+												<li>
+													{{ LC('deposit.interest_count', deposit_suscription[4].interest) }}
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="column is-2"></div>
+								</div>
+							</div>
+						</b-step-item>
+
+						<b-step-item step="2" :label="L('deposit.step_2')">
+							<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
+								<div class="columns columns-deposit">
+									<div
+										class="column title has-text-left"
+										@click="deposit_method_selected = deposit_method"
+									>
+										{{ L(`payment_method.${deposit_method}`) }}
+									</div>
+									<div class="column is-1">
+										<b-radio
+											v-model="deposit_method_selected"
+											:native-value="deposit_method"
+										></b-radio>
+									</div>
+								</div>
+							</div>
+						</b-step-item>
+
+						<b-step-item step="3" :label="L(!has_button_payment ? 'deposit.step_3' : 'deposit.to_pay')">
+							<div
+								v-if="!has_button_payment && deposit_method_selected !== 'blockchain'"
+								class="message-deposit"
+							>
+								<div class="column title has-text-left">
+									{{ L('deposit.description') }}
+								</div>
+								<c-input
+									v-model="moneyDeposit"
+									:placeholder="L('deposit.money')"
+									type="number"
+									:max="moneyDepositMax"
+									:min="moneyDepositMin"
+									icon="fa-dollar-sign"
+								>
+								</c-input>
+							</div>
+							<div
+								v-if="!has_button_payment && deposit_method_selected === 'blockchain'"
+								class="message-deposit"
+							>
+								<div class="column title has-text-left">
+									{{ L('deposit.description_dollar') }}
+								</div>
+								<c-input
+									v-model="moneyDeposit"
+									:placeholder="L('deposit.money')"
+									type="number"
+									:max="moneyDepositMax"
+									:min="moneyDepositMin"
+									icon="fa-dollar-sign"
+								>
+								</c-input>
+								<div class="columns">
+									<div
+										v-for="deposit_blockchain in deposit_blockchains"
+										:key="deposit_blockchain.currency"
+										class="column"
+										@click="deposit_blockchain_currency = deposit_blockchain"
+									>
+										<div
+											class="card card-blockchain"
+											:class="{
+												'blockchain-selected':
+													deposit_blockchain_currency === deposit_blockchain,
+											}"
+										>
+											<div class="media">
+												<div class="media-content">
+													<b-image :src="deposit_blockchain.image" ratio="1by1"></b-image>
+													<h3>{{ deposit_blockchain.name }}</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div
+								v-if="has_button_payment && deposit_method_selected === 'paypal'"
+								ref="paypal-button-container"
+								id="paypal-button-container"
+								class="container-pay"
+							></div>
+							<div
+								v-if="has_button_payment && deposit_method_selected === 'stripe'"
+								class="container-pay"
+							>
+								<b-loading active></b-loading>
+							</div>
+							<div
+								v-if="has_button_payment && deposit_method_selected === 'blockchain'"
+								class="container-pay"
+							>
+								<b-loading active></b-loading>
+							</div>
+						</b-step-item>
+
+						<b-step-item step="4" :label="L('deposit.step_4')">
+							<div class="message-deposit">
+								<div class="column title has-text-left">
+									{{ L('deposit.completed_description') }}
+								</div>
+							</div>
+						</b-step-item>
+
+						<template #navigation="{ previous, next }">
+							<b-button
+								v-if="DepositStep === 1 || (DepositStep === 2 && !has_button_payment)"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-left="chevron-left"
+								@click.prevent="previous.action"
+							>
+								{{ L('helper.prev') }}
+							</b-button>
+							<b-button
+								v-if="DepositStep === 0 || DepositStep === 1"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="chevron-right"
+								@click.prevent="next.action"
+							>
+								{{ L('helper.next') }}
+							</b-button>
+							<b-button
+								v-if="DepositStep === 2 && !has_button_payment"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="dollar-sign"
+								@click.prevent="to_pay()"
+							>
+								{{ L('deposit.to_pay') }}
+							</b-button>
+							<b-button
+								v-if="DepositStep === 3"
+								outlined
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="check"
+								@click.prevent="isOpenDepositModal = false"
+							>
+								{{ L('helper.finish') }}
+							</b-button>
+						</template>
+					</b-steps>
+				</div>
+			</div>
+		</b-modal>
 	</div>
 </template>
 
@@ -440,6 +794,8 @@
 import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
 import { IRefer, IMembership, ISuscription, IRecord, IBalance, IBalanceDetail } from '../../store';
+import { loadScript, PayPalNamespace } from '@paypal/paypal-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 @Component
 export default class Home extends PageChildBase {
@@ -470,6 +826,31 @@ export default class Home extends PageChildBase {
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;
 
+	private isOpenDepositModal: boolean = false;
+	private DepositStep: number = 0;
+	private has_button_payment: boolean = false;
+	private stripe_button_disabled: boolean = false;
+	private stripe_client_secret: string = '';
+	private deposit_suscription: {
+		name: string;
+		months: number;
+		min_money: number;
+		interest: string;
+		membershipId: string;
+		suscriptionId: string;
+		investment: number;
+	}[] = [];
+	private deposit_membership_selected: string = '';
+	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain'];
+	private deposit_method_selected: string = 'balance';
+	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
+		.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
+		.deposit_blockchains[0];
+	private moneyDeposit: number = 0;
+	private moneyDepositMin: number = 100;
+	private moneyDepositMax: number = 100000000;
+
 	get moneyMembership() {
 		return this.formatMoney(
 			this.calcMembershipMoney({
@@ -486,12 +867,108 @@ export default class Home extends PageChildBase {
 		this.get_refers();
 		await this.get_records();
 		await this.get_balance();
+		if ('success_stripe' in this.$route.query) {
+			const reference_stripe = localStorage.getItem('reference_stripe');
+			if (this.$route.query.success_stripe === 'true' && reference_stripe) {
+				localStorage.removeItem('reference_stripe');
+				this.load_form_api(
+					await this.store.api.process_deposit({
+						type: this.$route.query.type as string,
+						membershipId: this.$route.query.membershipId as string,
+						suscriptionId: this.$route.query.suscriptionId as string,
+						money: parseFloat(this.$route.query.money as string),
+						reference: reference_stripe,
+					}),
+					d => {
+						if (d.valid) {
+							this.toastSuccess(this.L('deposit.success'));
+							this.get_balance();
+							this.get_records();
+						} else {
+							this.toastError(this.L('deposit.error'));
+						}
+					},
+				);
+			} else {
+				this.toastError(this.L('deposit.error'));
+			}
+		}
+		const reference_coinpayments = localStorage.getItem('reference_coinpayments');
+		if (reference_coinpayments) {
+			const query_coinpayments = async (callback: () => void, c: number = 0) => {
+				await this.sleep(5000);
+				if (c < 1000) {
+					const result = await this.store.api.status_coinpayments({ txid: reference_coinpayments });
+					if (result.status_text === 'Complete') {
+						callback();
+					} else {
+						query_coinpayments(callback, c + 1);
+					}
+				}
+			};
+			query_coinpayments(async () => {
+				const data_coinpayments = JSON.parse(localStorage.getItem('data_coinpayments') || '{}');
+				this.load_form_api(await this.store.api.process_deposit(data_coinpayments), d => {
+					if (d.valid) {
+						localStorage.removeItem('reference_coinpayments');
+						localStorage.removeItem('data_coinpayments');
+						this.toastSuccess(this.L('deposit.success'));
+						this.get_balance();
+						this.get_records();
+					} else {
+						this.toastError(this.L('deposit.error'));
+					}
+				});
+			});
+		}
 		this.$watch(
 			'moneyWithdrawal',
 			() => {
 				if (this.moneyWithdrawal > this.moneyWithdrawalMax) {
 					this.moneyWithdrawal = this.moneyWithdrawalMax;
 				}
+			},
+			{ immediate: true },
+		);
+		this.$watch(
+			'deposit_membership_selected',
+			() => {
+				if (this.balance_detail_data) {
+					// prettier-ignore
+					this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
+						s => s.membershipId === this.deposit_membership_selected,
+					)
+						? 100
+						: this.deposit_suscription.find(s => s.membershipId === this.deposit_membership_selected)
+							?.min_money || 100;
+					this.moneyDeposit = this.moneyDepositMin;
+				}
+			},
+			{ immediate: true },
+		);
+		this.$watch(
+			'deposit_method_selected',
+			() => {
+				if (this.balance_detail_data && this.deposit_method_selected === 'balance') {
+					this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+				} else {
+					this.moneyDepositMax = 100000000;
+				}
+			},
+			{ immediate: true },
+		);
+		this.$watch(
+			'moneyDeposit',
+			() => {
+				if (this.moneyDeposit > this.moneyDepositMax) {
+					this.moneyDeposit = this.moneyDepositMax;
+				}
+				const old_moneyDeposit = this.moneyDeposit;
+				this.sleep(500).then(() => {
+					if (old_moneyDeposit === this.moneyDeposit && this.moneyDeposit < this.moneyDepositMin) {
+						this.moneyDeposit = this.moneyDepositMin;
+					}
+				});
 			},
 			{ immediate: true },
 		);
@@ -575,8 +1052,200 @@ export default class Home extends PageChildBase {
 		);
 	}
 
-	private async show_deposit() {
-		// console.log('Hola');
+	private async open_deposit() {
+		this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
+			this.balance_detail_data = data;
+			this.deposit_suscription = this.memberships_data.map(m => {
+				const suscription = this.balance_detail_data.suscriptions.find(s => s.membershipId === m.id);
+				return {
+					name: m.name,
+					months: m.months,
+					min_money: m.money,
+					interest: (m.interest * 100).toFixed(0),
+					membershipId: m.id,
+					suscriptionId: suscription?.id || '',
+					investment: suscription?.investment || 0,
+				};
+			});
+			this.deposit_membership_selected = this.deposit_suscription[1].membershipId;
+			this.deposit_method_selected = 'balance';
+			this.DepositStep = 0;
+			this.moneyDeposit = 0;
+			this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
+				s => s.membershipId === this.deposit_membership_selected,
+			)
+				? 100
+				: this.deposit_suscription[1].min_money;
+			this.has_button_payment = false;
+			this.stripe_button_disabled = false;
+			this.isOpenDepositModal = true;
+		});
+	}
+
+	public async proccess_deposit(reference: string = 'default') {
+		this.load_form_api(
+			await this.store.api.process_deposit({
+				type: this.deposit_method_selected,
+				membershipId: this.deposit_membership_selected,
+				suscriptionId: this.balance_detail_data.suscriptions.find(
+					s => s.membershipId === this.deposit_membership_selected,
+				)?.id,
+				money: this.moneyDeposit,
+				reference,
+			}),
+			d => {
+				if (d.valid) {
+					this.toastSuccess(this.L('deposit.success'));
+					this.get_balance();
+					this.get_records();
+					this.DepositStep = 3;
+				} else {
+					this.toastError(this.L('deposit.error'));
+				}
+			},
+		);
+	}
+
+	private async to_pay() {
+		if (this.deposit_method_selected === 'balance') {
+			await this.proccess_deposit();
+		} else if (this.deposit_method_selected === 'paypal') {
+			loadScript({ 'client-id': this.store.util.PayPal.client_id || '' })
+				.then((paypal: PayPalNamespace | null) => {
+					this.has_button_payment = true;
+					this.exec_is_render('paypal-button-container', () => {
+						if (paypal && paypal.Buttons) {
+							paypal
+								.Buttons({
+									createOrder: (_, actions) => {
+										_;
+										return actions.order.create({
+											purchase_units: [
+												{
+													amount: {
+														value: this.moneyDeposit.toString(),
+													},
+												},
+											],
+										});
+									},
+									onApprove: async (data, _) => {
+										_;
+										await this.proccess_deposit(data.orderID);
+									},
+								})
+								.render('#paypal-button-container');
+						} else {
+							this.toastError(this.L('error.e000'));
+						}
+					});
+				})
+				.catch(() => {
+					this.toastError(this.L('error.e000'));
+				});
+		} else if (this.deposit_method_selected === 'stripe') {
+			this.has_button_payment = true;
+			this.load_form_api(
+				await this.store.api.get_stripe({
+					type: this.deposit_method_selected,
+					membershipId: this.deposit_membership_selected,
+					suscriptionId: this.balance_detail_data.suscriptions.find(
+						s => s.membershipId === this.deposit_membership_selected,
+					)?.id,
+					money: this.moneyDeposit,
+				}),
+				session => {
+					localStorage.setItem('reference_stripe', session.reference);
+					loadStripe(this.store.util.Stripe.public_key)
+						.then(stripe => {
+							if (stripe) {
+								stripe
+									.redirectToCheckout({
+										sessionId: session.id,
+									})
+									.then(result => {
+										if (result.error) {
+											this.toastError(this.L('error.e000'));
+										}
+									});
+							}
+						})
+						.catch(() => {
+							this.toastError(this.L('error.e000'));
+						});
+				},
+			);
+		} else if (this.deposit_method_selected === 'blockchain') {
+			this.has_button_payment = true;
+			const reference_coinpayments = localStorage.getItem('reference_coinpayments');
+			if (reference_coinpayments) {
+				this.$buefy.dialog.confirm({
+					message: this.L('deposit.has_blockchain'),
+					onConfirm: this.process_blockchain,
+					onCancel: () => {
+						this.isOpenDepositModal = false;
+						this.has_button_payment = false;
+					},
+				});
+			} else {
+				this.process_blockchain();
+			}
+		}
+	}
+
+	private async process_blockchain() {
+		this.load_form_api(
+			await this.store.api.get_coinpayments({
+				type: this.deposit_method_selected,
+				membershipId: this.deposit_membership_selected,
+				suscriptionId: this.balance_detail_data.suscriptions.find(
+					s => s.membershipId === this.deposit_membership_selected,
+				)?.id,
+				money: this.moneyDeposit,
+				currency: this.deposit_blockchain_currency.currency,
+			}),
+			data => {
+				const data_coinpayments = {
+					type: this.deposit_method_selected,
+					membershipId: this.deposit_membership_selected,
+					suscriptionId: this.balance_detail_data.suscriptions.find(
+						s => s.membershipId === this.deposit_membership_selected,
+					)?.id,
+					money: this.moneyDeposit,
+					reference: data.txn_id,
+				};
+				localStorage.setItem('reference_coinpayments', data.txn_id);
+				localStorage.setItem('data_coinpayments', JSON.stringify(data_coinpayments));
+				this.isOpenDepositModal = false;
+				this.has_button_payment = false;
+				window.open(data.checkout_url, '_blank');
+				const query_coinpayments = async (callback: () => void, c: number = 0) => {
+					await this.sleep(5000);
+					if (c < 1000) {
+						const result = await this.store.api.status_coinpayments({ txid: data.txn_id });
+						if (result.status_text === 'Complete') {
+							callback();
+						} else {
+							query_coinpayments(callback, c + 1);
+						}
+					}
+				};
+				query_coinpayments(async () => {
+					this.load_form_api(await this.store.api.process_deposit(data_coinpayments), d => {
+						if (d.valid) {
+							localStorage.removeItem('reference_coinpayments');
+							localStorage.removeItem('data_coinpayments');
+							this.toastSuccess(this.L('deposit.success'));
+							this.get_balance();
+							this.get_records();
+						} else {
+							this.toastError(this.L('deposit.error'));
+						}
+					});
+				});
+			},
+		);
 	}
 
 	private async balance_detail(date: number) {
@@ -668,7 +1337,7 @@ export default class Home extends PageChildBase {
 
 			color: $gray;
 
-			&.header-date .th-wrap span {
+			&.header-center .th-wrap span {
 				&.is-relative {
 					width: 90%;
 				}
@@ -875,6 +1544,10 @@ export default class Home extends PageChildBase {
 				margin-bottom: 0;
 			}
 
+			.table-wrapper {
+				overflow-x: hidden;
+			}
+
 			.table {
 				padding: 0 1.5rem;
 
@@ -882,6 +1555,10 @@ export default class Home extends PageChildBase {
 					padding-top: 0.9rem;
 					padding-bottom: 0.9rem;
 					color: $gray;
+
+					&.header-center span {
+						width: 100%;
+					}
 				}
 			}
 		}
@@ -910,7 +1587,12 @@ export default class Home extends PageChildBase {
 		.withdrawal-box {
 			border-top: 1px solid $border;
 
+			&:first-child {
+				margin-top: 3rem;
+			}
+
 			&:last-child {
+				margin-bottom: 3rem;
 				border-bottom: 1px solid $border;
 			}
 
@@ -934,6 +1616,135 @@ export default class Home extends PageChildBase {
 			width: 60%;
 			padding: 4rem 0;
 			margin: auto;
+		}
+	}
+
+	.model-deposit {
+		.title {
+			font-size: 28px;
+			padding-bottom: 2rem;
+		}
+
+		.subtitle {
+			font-size: 18px;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+		}
+
+		.step-title {
+			font-size: 20px;
+			padding-top: 0.5rem;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+			color: $black;
+		}
+
+		.prices {
+			padding-top: 1rem;
+
+			.columns {
+				padding-bottom: 1.5rem;
+			}
+
+			.card {
+				border-radius: 20px;
+
+				&.price-selected {
+					background-color: $selected;
+				}
+
+				.price-title {
+					font-size: 30px;
+					font-weight: bold;
+					padding-top: 2rem;
+					padding-bottom: 2rem;
+
+					&.title-1 {
+						color: #cd602e;
+					}
+
+					&.title-2 {
+						color: #c8c4c1;
+					}
+
+					&.title-3 {
+						color: #f3e74b;
+					}
+
+					&.title-4 {
+						color: #74d5e3;
+					}
+				}
+
+				.fa-plus-circle {
+					color: $border;
+					font-size: 25px;
+				}
+
+				ul {
+					list-style: disc outside;
+					margin-left: 3rem;
+					margin-top: 1rem;
+					padding-bottom: 1rem;
+
+					li {
+						padding-bottom: 1rem;
+					}
+				}
+			}
+		}
+
+		.deposit-box {
+			border-top: 1px solid $border;
+
+			&:first-child {
+				margin-top: 3rem;
+			}
+
+			&:last-child {
+				margin-bottom: 3rem;
+				border-bottom: 1px solid $border;
+			}
+
+			.columns-deposit {
+				width: 60%;
+				margin: auto;
+				font-size: 16px;
+				padding: 1rem 3rem;
+				color: $gray;
+
+				.title {
+					font-size: 18px;
+					color: $black;
+					padding-bottom: 0.5rem;
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		.message-deposit,
+		.container-pay {
+			padding: 4rem 0;
+			margin: auto;
+
+			@include tablet {
+				width: 60%;
+			}
+
+			.card-blockchain {
+				height: 100%;
+				width: 80%;
+
+				&.blockchain-selected {
+					background-color: $selected;
+				}
+
+				.b-image-wrapper img {
+					margin: auto;
+					height: 60%;
+					width: 60%;
+				}
+			}
 		}
 	}
 }

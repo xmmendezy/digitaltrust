@@ -217,6 +217,7 @@ interface IDeposit {
 	suscription: string;
 	money: number;
 	payment_method: PaymentMethod;
+	reference: string;
 }
 
 interface IWithdrawal {
@@ -239,16 +240,20 @@ interface IBalanceDetail {
 		investment: number;
 		date_begin: number;
 		date_end: number;
+		membershipId: string;
 	}[];
 	deposits: IDeposit[];
 	withdrawals: IWithdrawal[];
 }
 
 interface DepositDto {
+	id?: string;
+	membershipId: string;
 	suscriptionId: string;
 	type: PaymentMethod;
 	money: number;
 	date?: number;
+	reference: string;
 }
 
 interface WithdrawalDto {

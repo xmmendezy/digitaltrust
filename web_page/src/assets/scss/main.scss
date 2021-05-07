@@ -545,6 +545,8 @@ body {
 }
 
 #friendly {
+	position: relative;
+
 	.friendly-image > * {
 		width: 100%;
 		margin: 0 !important;
@@ -613,6 +615,34 @@ body {
 		svg {
 			margin: auto;
 			margin-left: 1.5rem;
+		}
+
+		.svg-inline--fa {
+			width: 1.5rem !important;
+			height: 1.5rem !important;
+		}
+	}
+
+	.security {
+		width: 40%;
+		padding: 2rem 0;
+
+		@include mobile {
+			width: 100%;
+		}
+
+		span {
+			padding-right: 1.5rem;
+		}
+
+		svg {
+			margin: auto;
+			margin-left: 1.5rem;
+		}
+
+		.svg-inline--fa {
+			width: 2rem !important;
+			height: 2rem !important;
 		}
 	}
 }

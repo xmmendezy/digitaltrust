@@ -123,7 +123,8 @@
 			"a": "Membership",
 			"b": "Date",
 			"c": "Money",
-			"d": "Payment method"
+			"d": "Payment method",
+			"e": "Reference"
 		},
 		"withdrawals": {
 			"title": "Withdrawals",
@@ -136,14 +137,45 @@
 	"withdrawal": {
 		"title": "Withdrawal",
 		"subtitle": "You can always withdraw the money from your winnings.",
-		"payment_method": "Payment method",
-		"confirm": "Money",
-		"requested": "Confirm",
+		"step_1": "Payment method",
+		"step_2": "Money",
+		"step_3": "Confirm",
 		"money": "Money",
 		"description": "Enter the amount to withdraw, this cannot be greater than ",
-		"requested_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
+		"completed_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
 		"success": "Requested",
 		"error": "There was an error, please try again"
+	},
+	"deposit": {
+		"title": "Deposit",
+		"subtitle": "Increase your investment capital and multiply your profits",
+		"step_1": "Subscription",
+		"step_2": "Payment method",
+		"step_3": "Money",
+		"step_4": "Task completed",
+		"investment_count": "{count} investment capital",
+		"period_count": "{count} months",
+		"interest_count": "Monthly earnings {count}%",
+		"money": "Money",
+		"description": "Enter the amount to deposit.",
+		"description_dollar": "Enter the amount to be deposited in dollars.",
+		"has_blockchain": "There is a pending payment process, by continuing the registration will be lost. Are you sure you want to continue?",
+		"completed_description": "Your deposit has been processed. Thank you for trusting DigitalTrust",
+		"success": "Payment processed",
+		"error": "There was an error, please try again",
+		"to_pay": "To pay"
+	},
+	"donations": {
+		"title": "A friendly hand",
+		"subtitle": "Give someone the reason to smile.",
+		"step_1": "Payment method",
+		"step_2": "Money",
+		"step_3": "Task completed",
+		"money": "Money",
+		"description": "Enter the amount to deposit.",
+		"description_dollar": "Enter the amount to be deposited in dollars.",
+		"completed_description": "Your donation has been processed. Thank you for helping improve the world.",
+		"to_pay": "To pay"
 	},
 	"payment_method": {
 		"paypal": "PayPal",

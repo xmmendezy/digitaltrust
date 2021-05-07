@@ -123,7 +123,8 @@
 			"a": "Membresía",
 			"b": "Fecha",
 			"c": "Cantidad",
-			"d": "Método de pago"
+			"d": "Método de pago",
+			"e": "Referencia"
 		},
 		"withdrawals": {
 			"title": "Retiros",
@@ -136,14 +137,45 @@
 	"withdrawal": {
 		"title": "Retiro",
 		"subtitle": "Siempre puede retirar el dinero de sus ganancias.",
-		"payment_method": "Método de Pago",
-		"confirm": "Cantidad",
-		"requested": "Solicitar",
+		"step_1": "Método de Pago",
+		"step_2": "Cantidad",
+		"step_3": "Solicitar",
 		"money": "Cantidad",
 		"description": "Ingrese la cantidad a retirar, esta no puede ser mayor a ",
-		"requested_description": "Sus fondos pronto serán enviados por el medio que ha seleccionado. Gracias por confiar en DigitalTrust.",
+		"completed_description": "Sus fondos pronto serán enviados por el medio que ha seleccionado. Gracias por confiar en DigitalTrust.",
 		"success": "Solicitado",
 		"error": "Hubo un error, vuelva a intentar"
+	},
+	"deposit": {
+		"title": "Depósito",
+		"subtitle": "Aumente su capital de inversión y multiplique sus ganancias",
+		"step_1": "Suscripción",
+		"step_2": "Método de Pago",
+		"step_3": "Cantidad",
+		"step_4": "Completado",
+		"investment_count": "{count} capital de inversión",
+		"period_count": "Período de {count} meses",
+		"interest_count": "Interés mensual del {count}%",
+		"money": "Cantidad",
+		"description": "Ingrese la cantidad a depositar.",
+		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
+		"has_blockchain": "Hay un proceso de pago pendiente, al continuar se perderá el registro. ¿Seguro quiere continuar?",
+		"completed_description": "Su depósito ha sido procesado. Gracias por confiar en DigitalTrust.",
+		"success": "Pago procesado",
+		"error": "Hubo un error, vuelva a intentar",
+		"to_pay": "Pagar"
+	},
+	"donations": {
+		"title": "Una mano amiga",
+		"subtitle": "Dale a alguien una razón para sonreír.",
+		"step_1": "Método de Pago",
+		"step_2": "Cantidad",
+		"step_3": "Completado",
+		"money": "Cantidad",
+		"description": "Ingrese la cantidad a depositar.",
+		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
+		"completed_description": "Su donación ha sido procesada. Gracias por ayudar a mejorar el mundo.",
+		"to_pay": "Pagar"
 	},
 	"payment_method": {
 		"paypal": "PayPal",
