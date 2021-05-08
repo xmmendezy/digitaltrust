@@ -27,6 +27,7 @@ export class User extends BaseEntity implements IUser {
 			this.lastLogin = data.lastLogin;
 			this.lastChangePassword = data.lastChangePassword;
 			this.lastDeposit = data.lastDeposit;
+			this.nextSupportPayment = data.nextSupportPayment;
 			this.country = data.country as Country;
 			if (data.id_time_zone) {
 				this.id_time_zone = data.id_time_zone;
@@ -109,6 +110,12 @@ export class User extends BaseEntity implements IUser {
 		nullable: true,
 	})
 	public lastDeposit: number;
+
+	@Column({
+		type: 'float8',
+		default: 0,
+	})
+	public nextSupportPayment: number;
 
 	@OneToMany(() => HLogin, (h_login) => h_login.user)
 	public h_login: HLogin[];

@@ -173,6 +173,122 @@
 			</article>
 		</div>
 
+		<b-modal v-model="isOpenSupportPaymentModal" class="model-support-payment" :can-cancel="[]">
+			<div class="card">
+				<div class="card-content">
+					<b-steps v-model="supportPaymentStep">
+						<b-step-item step="1" label="Account" :clickable="false">
+							<b-image class="image-main" :src="require('../../assets/images/image4.jpg')"></b-image>
+							<h1 class="title has-text-centered">{{ L('support_payment.text1.title') }}</h1>
+							<p v-for="l in ['a', 'b', 'c']" :key="1 + l" class="subtitle">
+								{{ L(`support_payment.text1.${l}`) }}
+							</p>
+						</b-step-item>
+
+						<b-step-item step="2" label="Profile" :clickable="false">
+							<b-image class="image-main" :src="require('../../assets/images/image3.jpg')"></b-image>
+							<h1 class="title has-text-centered">{{ L('support_payment.text2.title') }}</h1>
+							<div v-if="!has_button_support_payment">
+								<p v-for="l in ['a', 'b']" :key="2 + l" class="subtitle">
+									{{ L(`support_payment.text2.${l}`) }}
+								</p>
+								<div
+									v-for="support_payment_method in support_payment_methods"
+									:key="support_payment_method"
+									class="deposit-box"
+								>
+									<div class="columns columns-deposit">
+										<div
+											class="column title has-text-left"
+											@click="support_payment_method_selected = support_payment_method"
+										>
+											{{ L(`payment_method.${support_payment_method}`) }}
+										</div>
+										<div class="column is-1">
+											<b-radio
+												v-model="support_payment_method_selected"
+												:native-value="support_payment_method"
+											></b-radio>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div
+								v-if="!has_button_support_payment && support_payment_method_selected === 'blockchain'"
+								class="message-deposit"
+							>
+								<div class="columns">
+									<div
+										v-for="support_payment_blockchain in support_payment_blockchains"
+										:key="support_payment_blockchain.currency"
+										class="column"
+										@click="support_payment_blockchain_currency = support_payment_blockchain"
+									>
+										<div
+											class="card card-blockchain"
+											:class="{
+												'blockchain-selected':
+													support_payment_blockchain_currency === support_payment_blockchain,
+											}"
+										>
+											<div class="media">
+												<div class="media-content">
+													<b-image
+														:src="support_payment_blockchain.image"
+														ratio="1by1"
+													></b-image>
+													<h3>{{ support_payment_blockchain.name }}</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div
+								v-if="has_button_support_payment && support_payment_method_selected === 'paypal'"
+								ref="paypal-button-container-support"
+								id="paypal-button-container-support"
+								class="container-pay"
+							></div>
+							<div
+								v-if="has_button_support_payment && support_payment_method_selected === 'stripe'"
+								class="container-pay"
+							>
+								<b-loading active></b-loading>
+							</div>
+							<div
+								v-if="has_button_support_payment && support_payment_method_selected === 'blockchain'"
+								class="container-pay"
+							>
+								<b-loading active></b-loading>
+							</div>
+						</b-step-item>
+
+						<template #navigation>
+							<b-button
+								v-if="supportPaymentStep === 0"
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="chevron-right"
+								@click.prevent="supportPaymentStep = 1"
+							>
+								{{ L('helper.next') }}
+							</b-button>
+							<b-button
+								v-if="supportPaymentStep === 1"
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="dollar-sign"
+								@click.prevent="to_pay_support_payment()"
+							>
+								{{ L('helper.to_pay') }}
+							</b-button>
+						</template>
+					</b-steps>
+				</div>
+			</div>
+		</b-modal>
+
 		<b-modal v-model="isOpenBalanceDetailModal" :can-cancel="['x', 'escape']" class="model-balance-detail">
 			<div class="card">
 				<div v-if="balance_detail_data" class="card-content">
@@ -470,7 +586,7 @@
 						{{ L('deposit.subtitle') }}
 					</p>
 					<b-steps v-model="DepositStep">
-						<b-step-item step="1" :label="L('deposit.step_1')">
+						<b-step-item step="1" :label="L('deposit.step_1')" :clickable="false">
 							<div v-if="deposit_suscription.length" class="prices">
 								<div class="columns">
 									<div class="column">
@@ -494,6 +610,20 @@
 														LC(
 															'deposit.investment_count',
 															formatMoney(deposit_suscription[0].investment),
+														)
+													}}
+												</li>
+												<li>
+													{{
+														LC(
+															'deposit.money_count_a',
+															formatMoney(deposit_suscription[0].money_a),
+														)
+													}}
+													{{
+														LC(
+															'deposit.money_count_b',
+															formatMoney(deposit_suscription[0].money_b),
 														)
 													}}
 												</li>
@@ -528,6 +658,20 @@
 														)
 													}}
 												</li>
+												<li>
+													{{
+														LC(
+															'deposit.money_count_a',
+															formatMoney(deposit_suscription[1].money_a),
+														)
+													}}
+													{{
+														LC(
+															'deposit.money_count_b',
+															formatMoney(deposit_suscription[1].money_b),
+														)
+													}}
+												</li>
 												<li>{{ LC('deposit.period_count', deposit_suscription[1].months) }}</li>
 												<li>
 													{{ LC('deposit.interest_count', deposit_suscription[1].interest) }}
@@ -556,6 +700,20 @@
 														LC(
 															'deposit.investment_count',
 															formatMoney(deposit_suscription[2].investment),
+														)
+													}}
+												</li>
+												<li>
+													{{
+														LC(
+															'deposit.money_count_a',
+															formatMoney(deposit_suscription[2].money_a),
+														)
+													}}
+													{{
+														LC(
+															'deposit.money_count_b',
+															formatMoney(deposit_suscription[2].money_b),
 														)
 													}}
 												</li>
@@ -593,6 +751,20 @@
 														)
 													}}
 												</li>
+												<li>
+													{{
+														LC(
+															'deposit.money_count_a',
+															formatMoney(deposit_suscription[3].money_a),
+														)
+													}}
+													{{
+														LC(
+															'deposit.money_count_b',
+															formatMoney(deposit_suscription[3].money_b),
+														)
+													}}
+												</li>
 												<li>{{ LC('deposit.period_count', deposit_suscription[3].months) }}</li>
 												<li>
 													{{ LC('deposit.interest_count', deposit_suscription[3].interest) }}
@@ -624,6 +796,20 @@
 														)
 													}}
 												</li>
+												<li>
+													{{
+														LC(
+															'deposit.money_count_a',
+															formatMoney(deposit_suscription[4].money_a),
+														)
+													}}
+													{{
+														LC(
+															'deposit.money_count_b',
+															formatMoney(deposit_suscription[4].money_b),
+														)
+													}}
+												</li>
 												<li>{{ LC('deposit.period_count', deposit_suscription[4].months) }}</li>
 												<li>
 													{{ LC('deposit.interest_count', deposit_suscription[4].interest) }}
@@ -636,7 +822,7 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="2" :label="L('deposit.step_2')">
+						<b-step-item step="2" :label="L('deposit.step_2')" :clickable="false">
 							<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
 								<div class="columns columns-deposit">
 									<div
@@ -655,7 +841,11 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="3" :label="L(!has_button_payment ? 'deposit.step_3' : 'deposit.to_pay')">
+						<b-step-item
+							step="3"
+							:label="L(!has_button_payment ? 'deposit.step_3' : 'deposit.to_pay')"
+							:clickable="false"
+						>
 							<div
 								v-if="!has_button_payment && deposit_method_selected !== 'blockchain'"
 								class="message-deposit"
@@ -733,7 +923,7 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="4" :label="L('deposit.step_4')">
+						<b-step-item step="4" :label="L('deposit.step_4')" :clickable="false">
 							<div class="message-deposit">
 								<div class="column title has-text-left">
 									{{ L('deposit.completed_description') }}
@@ -770,7 +960,7 @@
 								icon-right="dollar-sign"
 								@click.prevent="to_pay()"
 							>
-								{{ L('deposit.to_pay') }}
+								{{ L('helper.to_pay') }}
 							</b-button>
 							<b-button
 								v-if="DepositStep === 3"
@@ -829,8 +1019,6 @@ export default class Home extends PageChildBase {
 	private isOpenDepositModal: boolean = false;
 	private DepositStep: number = 0;
 	private has_button_payment: boolean = false;
-	private stripe_button_disabled: boolean = false;
-	private stripe_client_secret: string = '';
 	private deposit_suscription: {
 		name: string;
 		months: number;
@@ -848,8 +1036,19 @@ export default class Home extends PageChildBase {
 	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
 		.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
-	private moneyDepositMin: number = 100;
+	private moneyDepositMin: number = 500;
 	private moneyDepositMax: number = 100000000;
+
+	private isOpenSupportPaymentModal: boolean = false;
+	private has_button_support_payment: boolean = false;
+	private supportPaymentStep: number = 0;
+	private support_payment_methods: string[] = ['paypal', 'stripe', 'blockchain'];
+	private support_payment_method_selected: string = 'paypal';
+	private support_payment_blockchains: { name: string; currency: string; image: string }[] = this.store.util
+		.deposit_blockchains;
+	private support_payment_blockchain_currency: { name: string; currency: string; image: string } = this
+		.deposit_blockchains[0];
+	private moneySupportPayment: number = 100;
 
 	get moneyMembership() {
 		return this.formatMoney(
@@ -867,6 +1066,70 @@ export default class Home extends PageChildBase {
 		this.get_refers();
 		await this.get_records();
 		await this.get_balance();
+		const reference_coinpayments_support_payment = localStorage.getItem('reference_coinpayments_support_payment');
+		if ('success_stripe_support' in this.$route.query || reference_coinpayments_support_payment) {
+			if ('success_stripe_support' in this.$route.query) {
+				const reference_stripe_support_payment = localStorage.getItem('reference_stripe_support_payment');
+				if (this.$route.query.success_stripe_support === 'true' && reference_stripe_support_payment) {
+					localStorage.removeItem('reference_stripe_support_payment');
+					this.load_form_api(
+						await this.store.api.proccess_support_payment({
+							type: 'stripe',
+							money: this.moneySupportPayment,
+							reference: reference_stripe_support_payment,
+						}),
+						d => {
+							if (d.valid) {
+								this.toastSuccess(this.L('support_payment.success'));
+							} else {
+								this.toastError(this.L('support_payment.error'));
+							}
+						},
+					);
+				} else {
+					this.toastError(this.L('support_payment.error'));
+				}
+			}
+			if (reference_coinpayments_support_payment) {
+				const query_coinpayments = async (callback: () => void, c: number = 0) => {
+					await this.sleep(5000);
+					if (c < 1000) {
+						const result = await this.store.api.status_coinpayments({
+							txid: reference_coinpayments_support_payment,
+						});
+						if (result.status_text === 'Complete') {
+							callback();
+						} else {
+							query_coinpayments(callback, c + 1);
+						}
+					}
+				};
+				query_coinpayments(async () => {
+					const data_coinpayments_support_payment = JSON.parse(
+						localStorage.getItem('data_coinpayments_support_payment') || '{}',
+					);
+					this.load_form_api(
+						await this.store.api.proccess_support_payment(data_coinpayments_support_payment),
+						d => {
+							if (d.valid) {
+								localStorage.removeItem('reference_coinpayments_support_payment');
+								localStorage.removeItem('data_coinpayments_support_payment');
+								this.toastSuccess(this.L('support_payment.success'));
+							} else {
+								this.toastError(this.L('support_payment.error'));
+							}
+						},
+					);
+				});
+			}
+		} else {
+			if (
+				this.auth_data.user &&
+				this.store.api.DateTime.now().toSeconds() > this.auth_data.user.nextSupportPayment
+			) {
+				this.isOpenSupportPaymentModal = true;
+			}
+		}
 		if ('success_stripe' in this.$route.query) {
 			const reference_stripe = localStorage.getItem('reference_stripe');
 			if (this.$route.query.success_stripe === 'true' && reference_stripe) {
@@ -921,6 +1184,7 @@ export default class Home extends PageChildBase {
 				});
 			});
 		}
+
 		this.$watch(
 			'moneyWithdrawal',
 			() => {
@@ -938,9 +1202,9 @@ export default class Home extends PageChildBase {
 					this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 						s => s.membershipId === this.deposit_membership_selected,
 					)
-						? 100
+						? 500
 						: this.deposit_suscription.find(s => s.membershipId === this.deposit_membership_selected)
-							?.min_money || 100;
+							?.min_money || 500;
 					this.moneyDeposit = this.moneyDepositMin;
 				}
 			},
@@ -964,7 +1228,7 @@ export default class Home extends PageChildBase {
 					this.moneyDeposit = this.moneyDepositMax;
 				}
 				const old_moneyDeposit = this.moneyDeposit;
-				this.sleep(500).then(() => {
+				this.sleep(1200).then(() => {
 					if (old_moneyDeposit === this.moneyDeposit && this.moneyDeposit < this.moneyDepositMin) {
 						this.moneyDeposit = this.moneyDepositMin;
 					}
@@ -1006,8 +1270,8 @@ export default class Home extends PageChildBase {
 			this.memberships_data = memberships_data;
 			this.tabMembershipActive = Math.floor(this.memberships_data.length / 2);
 			if (this.memberships_data[this.tabMembershipActive]) {
-				this.moneyMembershipActive = this.memberships_data[this.tabMembershipActive].money;
-				this.moneyMembershipMin = this.memberships_data[this.tabMembershipActive].money;
+				this.moneyMembershipActive = this.memberships_data[this.tabMembershipActive].money_a;
+				this.moneyMembershipMin = this.memberships_data[this.tabMembershipActive].money_a;
 			}
 		});
 	}
@@ -1060,7 +1324,9 @@ export default class Home extends PageChildBase {
 				return {
 					name: m.name,
 					months: m.months,
-					min_money: m.money,
+					min_money: m.money_a,
+					money_a: m.money_a,
+					money_b: m.money_b,
 					interest: (m.interest * 100).toFixed(0),
 					membershipId: m.id,
 					suscriptionId: suscription?.id || '',
@@ -1075,10 +1341,9 @@ export default class Home extends PageChildBase {
 			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 				s => s.membershipId === this.deposit_membership_selected,
 			)
-				? 100
+				? 500
 				: this.deposit_suscription[1].min_money;
 			this.has_button_payment = false;
-			this.stripe_button_disabled = false;
 			this.isOpenDepositModal = true;
 		});
 	}
@@ -1248,6 +1513,131 @@ export default class Home extends PageChildBase {
 		);
 	}
 
+	private async to_pay_support_payment() {
+		if (this.support_payment_method_selected === 'paypal') {
+			loadScript({ 'client-id': this.store.util.PayPal.client_id || '' })
+				.then((paypal: PayPalNamespace | null) => {
+					this.has_button_support_payment = true;
+					this.exec_is_render('paypal-button-container-support', () => {
+						if (paypal && paypal.Buttons) {
+							paypal
+								.Buttons({
+									createOrder: (_, actions) => {
+										_;
+										return actions.order.create({
+											purchase_units: [
+												{
+													amount: {
+														value: this.moneySupportPayment.toString(),
+													},
+												},
+											],
+										});
+									},
+									onApprove: async (data, _) => {
+										_;
+										await this.proccess_support_payment(data.orderID);
+									},
+								})
+								.render('#paypal-button-container-support');
+						} else {
+							this.toastError(this.L('error.e000'));
+						}
+					});
+				})
+				.catch(() => {
+					this.toastError(this.L('error.e000'));
+				});
+		} else if (this.support_payment_method_selected === 'stripe') {
+			this.has_button_support_payment = true;
+			this.load_form_api(
+				await this.store.api.get_stripe_support_payment({
+					money: this.moneySupportPayment,
+				}),
+				session => {
+					localStorage.setItem('reference_stripe_support_payment', session.reference);
+					loadStripe(this.store.util.Stripe.public_key)
+						.then(stripe => {
+							if (stripe) {
+								stripe
+									.redirectToCheckout({
+										sessionId: session.id,
+									})
+									.then(result => {
+										if (result.error) {
+											this.toastError(this.L('error.e000'));
+										}
+									});
+							}
+						})
+						.catch(() => {
+							this.toastError(this.L('error.e000'));
+						});
+				},
+			);
+		} else if (this.support_payment_method_selected === 'blockchain') {
+			this.has_button_support_payment = true;
+			this.load_form_api(
+				await this.store.api.get_coinpayments_support_payment({
+					money: this.moneySupportPayment,
+					currency: this.deposit_blockchain_currency.currency,
+				}),
+				data => {
+					const data_coinpayments = {
+						type: 'blockchain',
+						money: this.moneySupportPayment,
+						reference: data.txn_id,
+					};
+					localStorage.setItem('reference_coinpayments_support_payment', data.txn_id);
+					localStorage.setItem('data_coinpayments_support_payment', JSON.stringify(data_coinpayments));
+					this.isOpenSupportPaymentModal = false;
+					this.has_button_support_payment = false;
+					window.open(data.checkout_url, '_blank');
+					const query_coinpayments = async (callback: () => void, c: number = 0) => {
+						await this.sleep(5000);
+						if (c < 1000) {
+							const result = await this.store.api.status_coinpayments({ txid: data.txn_id });
+							if (result.status_text === 'Complete') {
+								callback();
+							} else {
+								query_coinpayments(callback, c + 1);
+							}
+						}
+					};
+					query_coinpayments(async () => {
+						this.load_form_api(await this.store.api.proccess_support_payment(data_coinpayments), d => {
+							if (d.valid) {
+								localStorage.removeItem('reference_coinpayments_support_payment');
+								localStorage.removeItem('data_coinpayments_support_payment');
+								this.toastSuccess(this.L('support_payment.success'));
+							} else {
+								this.toastError(this.L('support_payment.error'));
+							}
+						});
+					});
+				},
+			);
+		}
+	}
+
+	public async proccess_support_payment(reference: string = 'default') {
+		this.load_form_api(
+			await this.store.api.proccess_support_payment({
+				type: this.support_payment_method_selected,
+				money: this.moneySupportPayment,
+				reference,
+			}),
+			d => {
+				if (d.valid) {
+					this.isOpenSupportPaymentModal = false;
+					this.toastSuccess(this.L('support_payment.success'));
+				} else {
+					this.toastError(this.L('support_payment.error'));
+				}
+			},
+		);
+	}
+
 	private async balance_detail(date: number) {
 		if (typeof date === 'string') {
 			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
@@ -1260,7 +1650,7 @@ export default class Home extends PageChildBase {
 
 	private selectTabMembership(i: number) {
 		this.tabMembershipActive = i;
-		this.moneyMembershipActive = this.memberships_data[i].money;
+		this.moneyMembershipActive = this.memberships_data[i].money_a;
 	}
 
 	private get_name_suscription(id: string) {
@@ -1656,8 +2046,8 @@ export default class Home extends PageChildBase {
 				.price-title {
 					font-size: 30px;
 					font-weight: bold;
-					padding-top: 2rem;
-					padding-bottom: 2rem;
+					padding-top: 1rem;
+					padding-bottom: 1rem;
 
 					&.title-1 {
 						color: #cd602e;
@@ -1692,6 +2082,94 @@ export default class Home extends PageChildBase {
 					}
 				}
 			}
+		}
+
+		.deposit-box {
+			border-top: 1px solid $border;
+
+			&:first-child {
+				margin-top: 3rem;
+			}
+
+			&:last-child {
+				margin-bottom: 3rem;
+				border-bottom: 1px solid $border;
+			}
+
+			.columns-deposit {
+				width: 60%;
+				margin: auto;
+				font-size: 16px;
+				padding: 1rem 3rem;
+				color: $gray;
+
+				.title {
+					font-size: 18px;
+					color: $black;
+					padding-bottom: 0.5rem;
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		.message-deposit,
+		.container-pay {
+			padding: 4rem 0;
+			margin: auto;
+
+			@include tablet {
+				width: 60%;
+			}
+
+			.card-blockchain {
+				height: 100%;
+				width: 80%;
+
+				&.blockchain-selected {
+					background-color: $selected;
+				}
+
+				.b-image-wrapper img {
+					margin: auto;
+					height: 60%;
+					width: 60%;
+				}
+			}
+		}
+	}
+
+	.model-support-payment {
+		.modal-content {
+			width: 60vw;
+		}
+
+		nav {
+			display: none;
+		}
+
+		.image-main {
+			width: 40vw;
+			margin: auto;
+			margin-bottom: 3rem;
+		}
+
+		.title {
+			font-size: 28px;
+			padding-bottom: 3rem;
+		}
+
+		.subtitle {
+			font-size: 18px;
+			padding-bottom: 1rem;
+			margin-bottom: 2rem;
+		}
+
+		.step-title {
+			font-size: 20px;
+			padding-top: 0.5rem;
+			padding-bottom: 1rem;
+			margin-bottom: 0;
+			color: $black;
 		}
 
 		.deposit-box {

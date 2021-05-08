@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, Membership, Record, Suscription, Deposit, Withdrawal } from './api.entity';
+import { User, Country, Membership, Record, Suscription, Deposit, Withdrawal, SupportPayment } from './api.entity';
 import {
 	SignupDto,
 	UserDto,
@@ -13,6 +13,7 @@ import {
 	RecordDto,
 	DepositDto,
 	WithdrawalDto,
+	SupportPaymentDto,
 } from './api.dto';
 import { IRecord, PaymentMethod, WithdrawalMethod } from './api.interface';
 
@@ -191,7 +192,7 @@ export class ApiService {
 	public async memberships(): Promise<Membership[]> {
 		return await Membership.createQueryBuilder()
 			.where('is_active = :is_active', { is_active: true })
-			.orderBy('money', 'ASC')
+			.orderBy('money_a', 'ASC')
 			.getMany();
 	}
 
@@ -266,6 +267,27 @@ export class ApiService {
 		} else {
 			return { valid: true };
 		}
+	}
+
+	public async process_support_payment(
+		user: User,
+		date: DateTime,
+		data: SupportPaymentDto,
+	): Promise<{ valid: boolean }> {
+		const deposit = new SupportPayment({
+			date: date.toSeconds(),
+			userId: user.id,
+			money: parseFloat(data.money as any),
+			payment_method: data.type,
+			reference: data.reference,
+		});
+		await deposit.save();
+		if (deposit.errors.length) {
+			return { valid: false };
+		}
+		user.nextSupportPayment = date.plus({ years: 1 }).toSeconds();
+		await user.save();
+		return { valid: true };
 	}
 
 	public async withdrawals(user: User, date: DateTime): Promise<Withdrawal[]> {
@@ -865,6 +887,50 @@ export class ApiService {
 			address,
 			success_url: config.url_root,
 			cancel_url: config.url_root,
+		});
+	}
+
+	public async get_stripe_support_payment(data: SupportPaymentDto): Promise<{ id: string; reference: string }> {
+		const session = await stripe.checkout.sessions.create({
+			payment_method_types: ['card'],
+			line_items: [
+				{
+					price_data: {
+						currency: 'usd',
+						product_data: {
+							name: 'Payment - Support DigitalTrust Web Service',
+						},
+						unit_amount: parseInt(
+							parseFloat(data.money as any)
+								.toFixed(2)
+								.toString()
+								.replace('.', ''),
+						),
+					},
+					quantity: 1,
+				},
+			],
+			mode: 'payment',
+			success_url: `${config.url_root}/app?success_stripe_support=true`,
+			cancel_url: `${config.url_root}/app?success_stripe_support=false`,
+		});
+		return { id: session.id, reference: session.payment_intent as string };
+	}
+
+	public async get_coinpayments_support_payment(
+		user: User,
+		data: SupportPaymentDto & { currency: string },
+	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
+		const { address } = await coinpayments.getCallbackAddress(data);
+		return await coinpayments.createTransaction({
+			currency1: 'USD',
+			currency2: data.currency,
+			amount: data.money,
+			buyer_email: user.email,
+			item_name: 'Payment - Support DigitalTrust Web Service',
+			address,
+			success_url: `${config.url_root}/app?success_coinpayments_support=true`,
+			cancel_url: `${config.url_root}/app?success_coinpayments_support=false`,
 		});
 	}
 }

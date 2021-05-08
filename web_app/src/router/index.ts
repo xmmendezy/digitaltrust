@@ -5,6 +5,10 @@ Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
 	{
+		path: '*',
+		redirect: '/',
+	},
+	{
 		path: '',
 		name: 'AppBase',
 		component: () => import(/* webpackChunkName: "app-base" */ '@app/pages/AppBase.vue'),
@@ -18,6 +22,11 @@ const routes: Array<RouteConfig> = [
 						path: '',
 						name: 'Home',
 						component: () => import(/* webpackChunkName: "home" */ '@app/pages/App/Home.vue'),
+					},
+					{
+						path: 'donations_user',
+						name: 'AppDonations',
+						component: () => import(/* webpackChunkName: "app-donations" */ '@app/pages/Donations.vue'),
 					},
 					{
 						path: 'setting',

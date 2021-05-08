@@ -12,6 +12,7 @@ import {
 	Suscription,
 	Deposit,
 	Withdrawal,
+	SupportPayment,
 	Record,
 } from './api.entity';
 import { LoginMiddleware, JwtMiddleware } from './api.middlewares';
@@ -30,6 +31,7 @@ import { JwtStrategy, LocalStrategy } from './passport';
 			Suscription,
 			Deposit,
 			Withdrawal,
+			SupportPayment,
 			Record,
 		]),
 	],

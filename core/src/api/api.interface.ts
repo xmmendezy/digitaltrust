@@ -22,6 +22,7 @@ interface IUser {
 	readonly lastLogin?: Date;
 	readonly lastChangePassword?: Date;
 	readonly lastDeposit?: number;
+	readonly nextSupportPayment?: number;
 	readonly country?: any;
 	readonly id_time_zone?: string;
 	readonly state?: string;
@@ -48,7 +49,8 @@ interface ICountry {
 interface IMembership {
 	readonly id?: string;
 	readonly name?: string;
-	readonly money?: number;
+	readonly money_a?: number;
+	readonly money_b?: number;
 	readonly months?: number;
 	readonly interest?: number;
 }
@@ -91,6 +93,14 @@ interface IWithdrawal {
 	readonly status?: boolean;
 }
 
+interface ISupportPayment {
+	readonly date?: number;
+	readonly userId?: string;
+	readonly money?: number;
+	readonly payment_method?: PaymentMethod;
+	readonly reference?: string;
+}
+
 interface IRecord {
 	userId?: string;
 	date?: number;
@@ -111,6 +121,7 @@ export {
 	ISuscription,
 	IDeposit,
 	IWithdrawal,
+	ISupportPayment,
 	PaymentMethod,
 	WithdrawalMethod,
 	IRecord,

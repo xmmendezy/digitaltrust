@@ -8,11 +8,11 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/css/admin-login.15bb9831.css"
   },
   {
-    "revision": "cdbf0f31524f579c7bf7",
-    "url": "/app/css/app-main.a7111f32.css"
+    "revision": "ad603fb89a828dd91ea5",
+    "url": "/app/css/app-main.c996d25f.css"
   },
   {
-    "revision": "b00a6699f61f9bb35bcf",
+    "revision": "9b70f85f08084deea64a",
     "url": "/app/css/app.1a9fe85a.css"
   },
   {
@@ -20,16 +20,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/css/chunk-vendors.0f708633.css"
   },
   {
-    "revision": "0dbde677d671915fa3eb",
-    "url": "/app/css/donations.7ba5ac28.css"
+    "revision": "bba596567f132c8b0c1c",
+    "url": "/app/css/donations.2ceaa670.css"
   },
   {
-    "revision": "1739995dfef27a41d538",
-    "url": "/app/css/home.7dd61778.css"
+    "revision": "5fafcc1efc5df988d10f",
+    "url": "/app/css/home.36a7cb51.css"
   },
   {
-    "revision": "dda5446f88e444d29e0e",
-    "url": "/app/css/login.bea17a79.css"
+    "revision": "82735f3318c62a6785b5",
+    "url": "/app/css/login.dd6bf6c5.css"
   },
   {
     "revision": "5b20513c8807682a311c",
@@ -188,7 +188,19 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/img/icons.6a856246.svg"
   },
   {
-    "revision": "009c6e7a4aa4ab6070839a0074d173b0",
+    "revision": "5481644f0bab9aa1eb3c9f1cfc28ebb3",
+    "url": "/app/img/image3.5481644f.jpg"
+  },
+  {
+    "revision": "e531cdbf95151e4410bea9b1e0fa8ccc",
+    "url": "/app/img/image4.e531cdbf.jpg"
+  },
+  {
+    "revision": "26278a59ceb190aeb4c7ca62582a5351",
+    "url": "/app/img/logo2.26278a59.png"
+  },
+  {
+    "revision": "8dfbf70ac7daa038532f7fd0102c36af",
     "url": "/app/index.html"
   },
   {
@@ -204,28 +216,28 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/js/app-base.60f73c81.js"
   },
   {
-    "revision": "cdbf0f31524f579c7bf7",
-    "url": "/app/js/app-main.a07a7a3c.js"
+    "revision": "ad603fb89a828dd91ea5",
+    "url": "/app/js/app-main.85be6aec.js"
   },
   {
-    "revision": "b00a6699f61f9bb35bcf",
-    "url": "/app/js/app.2a1f644a.js"
+    "revision": "9b70f85f08084deea64a",
+    "url": "/app/js/app.01314666.js"
   },
   {
     "revision": "9efd2e8f4f5f473530e0",
     "url": "/app/js/chunk-vendors.dc4f9302.js"
   },
   {
-    "revision": "0dbde677d671915fa3eb",
-    "url": "/app/js/donations.bd9f9503.js"
+    "revision": "bba596567f132c8b0c1c",
+    "url": "/app/js/donations.cd0e748d.js"
   },
   {
-    "revision": "1739995dfef27a41d538",
-    "url": "/app/js/home.4e5af721.js"
+    "revision": "5fafcc1efc5df988d10f",
+    "url": "/app/js/home.5658bb4c.js"
   },
   {
-    "revision": "dda5446f88e444d29e0e",
-    "url": "/app/js/login.9db8e11b.js"
+    "revision": "82735f3318c62a6785b5",
+    "url": "/app/js/login.797f46e0.js"
   },
   {
     "revision": "5b20513c8807682a311c",

@@ -23,6 +23,7 @@ interface IUser {
 	role: 'admin' | 'user';
 	status: 'removed' | 'pending' | 'confirm';
 	lastLogin: Date;
+	nextSupportPayment: number;
 	country__id: string;
 	country: ICountry;
 	state: string;
@@ -221,7 +222,8 @@ interface IRefer {
 interface IMembership {
 	id: string;
 	name: string;
-	money: number;
+	money_a: number;
+	money_b: number;
 	months: number;
 	interest: number;
 }
