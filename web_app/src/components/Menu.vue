@@ -19,6 +19,13 @@
 				:label="L('helper.home')"
 			></b-menu-item>
 			<b-menu-item
+				v-if="!is_admin"
+				icon="hands-helping"
+				tag="router-link"
+				:to="{ name: 'AppDonations' }"
+				:label="L('helper.donations')"
+			></b-menu-item>
+			<b-menu-item
 				icon="ellipsis-h"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminSetting' : 'Setting' }"

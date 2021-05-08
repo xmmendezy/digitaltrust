@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Body, Req, Request, Query } from '@app/http';
 import { ApiService } from './api.service';
-import { SignupDto, UpdateDto, DepositDto, WithdrawalDto } from './api.dto';
+import { SignupDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
 import { User } from './api.entity';
 import { UserRole } from './api.interface';
 
@@ -138,6 +138,19 @@ export class ApiController {
 		return await this.apiService.process_deposit(user, date, data);
 	}
 
+	@Post('support_payment')
+	public async process_support_payment(@Req() req: Request, @Body() data: SupportPaymentDto) {
+		let user: User = req.user;
+		if (data.userId) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.userId })
+				.getOne();
+		}
+		return await this.apiService.process_support_payment(user, user.DateTime.now(), data);
+	}
+
 	@Get('withdrawals')
 	public async withdrawals(@Req() req: Request, @Query() query: { id: string; date: number }) {
 		let user: User = req.user;
@@ -256,5 +269,26 @@ export class ApiController {
 	@Post('get_coinpayments_donation')
 	public async get_coinpayments_donation(@Body() data: { money: number; currency: string }) {
 		return await this.apiService.get_coinpayments_donation(data);
+	}
+
+	@Post('get_stripe_support_payment')
+	public async get_stripe_support_payment(@Body() data: SupportPaymentDto) {
+		return await this.apiService.get_stripe_support_payment(data);
+	}
+
+	@Post('get_coinpayments_support_payment')
+	public async get_coinpayments_support_payment(
+		@Req() req: Request,
+		@Body() data: SupportPaymentDto & { currency: string },
+	) {
+		let user: User = req.user;
+		if (data.userId) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.userId })
+				.getOne();
+		}
+		return await this.apiService.get_coinpayments_support_payment(user, data);
 	}
 }

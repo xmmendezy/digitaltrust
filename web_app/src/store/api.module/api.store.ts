@@ -69,9 +69,12 @@ export default class ApiStore extends VuexModule {
 			process_withdrawal: `${ApiStore.config.Api}/process_withdrawal`,
 			get_stripe: `${ApiStore.config.Api}/get_stripe`,
 			get_stripe_donation: `${ApiStore.config.Api}/get_stripe_donation`,
+			get_stripe_support_payment: `${ApiStore.config.Api}/get_stripe_support_payment`,
 			get_coinpayments: `${ApiStore.config.Api}/get_coinpayments`,
-			status_coinpayments: `${ApiStore.config.Api}/status_coinpayments`,
 			get_coinpayments_donation: `${ApiStore.config.Api}/get_coinpayments_donation`,
+			get_coinpayments_support_payment: `${ApiStore.config.Api}/get_coinpayments_support_payment`,
+			status_coinpayments: `${ApiStore.config.Api}/status_coinpayments`,
+			support_payment: `${ApiStore.config.Api}/support_payment`,
 		};
 	}
 
@@ -656,6 +659,66 @@ export default class ApiStore extends VuexModule {
 	}): Promise<{ checkout_url: string } | string> {
 		return await ApiStore.http
 			.post(this.url.get_coinpayments_donation, data)
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async proccess_support_payment(data: {
+		type: string;
+		money: number;
+		reference: string;
+	}): Promise<{ valid: boolean } | string> {
+		return await ApiStore.http
+			.post(this.url.support_payment, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				this.update_user({
+					nextSupportPayment: this.DateTime.now().plus({ years: 1 }).toSeconds(),
+				} as any);
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_stripe_support_payment(data: {
+		money: number;
+	}): Promise<{ id: string; reference: string } | string> {
+		return await ApiStore.http
+			.post(this.url.get_stripe_support_payment, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_coinpayments_support_payment(data: {
+		money: number;
+		currency: string;
+	}): Promise<{ txn_id: string; checkout_url: string; status_url: string } | string> {
+		return await ApiStore.http
+			.post(this.url.get_coinpayments_support_payment, data, { headers: this.headers })
 			.then(async response => {
 				const error = get_errors(response);
 				if (error) {

@@ -104,6 +104,21 @@
 			"e": "Tiene retiros"
 		}
 	},
+	"support_payment": {
+		"text1": {
+			"title": "Saludos desde DigitalTrust",
+			"a": "Nuestro equipo ha trabajado para ofrecerle esta plataforma",
+			"b": "Aquí usted podrá revisar sus ganancias, agregar a socios de inversión, aumentar su capital de inversión y realizar retiros.",
+			"c": "Todo, en un solo lugar."
+		},
+		"text2": {
+			"title": "Suscribase y comience a ganar",
+			"a": "Hemos hecho esta plataforma para su beneficio, ayúdenos a mantenerla actualizada y útil para usted",
+			"b": "La plataforma tiene un cargo anual de $100"
+		},
+		"success": "Pago procesado",
+		"error": "Hubo un error, vuelva a intentar más tarde"
+	},
 	"balance": {
 		"title": "Estado de cuenta",
 		"subtitle": "Historial de ganancia en sus membresías",
@@ -153,6 +168,8 @@
 		"step_2": "Método de Pago",
 		"step_3": "Cantidad",
 		"step_4": "Completado",
+		"money_count_a": "Inversión desde {count}",
+		"money_count_b": "a {count}",
 		"investment_count": "{count} capital de inversión",
 		"period_count": "Período de {count} meses",
 		"interest_count": "Interés mensual del {count}%",
@@ -204,6 +221,7 @@
 		"welcome": "Bienvenido",
 		"support": "Soporte",
 		"home": "Inicio",
+		"donations": "Donaciones",
 		"setting": "Configuración",
 		"logout": "Salir",
 		"locale": "Idioma",
@@ -215,7 +233,8 @@
 		"cancel": "Cancelar",
 		"continue_task": "¿Continuar con esta opción?",
 		"success_task": "Tarea realizada con éxito",
-		"error_task": "No se pudo procesar"
+		"error_task": "No se pudo procesar",
+		"to_pay": "Pagar"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

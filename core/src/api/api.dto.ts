@@ -73,6 +73,7 @@ class UserDto {
 		this.role = data.role;
 		this.status = data.status;
 		this.lastLogin = data.lastLogin;
+		this.nextSupportPayment = data.nextSupportPayment;
 		this.country__id = data instanceof User ? data.country.id : data.country__id;
 		this.created = data.created;
 		this.state = data.state;
@@ -92,6 +93,7 @@ class UserDto {
 	public role: UserRole;
 	public status: UserStatus;
 	public lastLogin: Date;
+	public nextSupportPayment: number;
 	public country__id: string;
 	public created: Date;
 	public state: string;
@@ -263,6 +265,14 @@ interface WithdrawalDto {
 	date?: number;
 }
 
+interface SupportPaymentDto {
+	userId?: string;
+	type: PaymentMethod;
+	money: number;
+	date?: number;
+	reference: string;
+}
+
 export {
 	SignupDto,
 	UserDto,
@@ -275,4 +285,5 @@ export {
 	IBalanceDetail,
 	DepositDto,
 	WithdrawalDto,
+	SupportPaymentDto,
 };

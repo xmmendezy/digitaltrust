@@ -6,4 +6,5 @@ export * from './membership.entity';
 export * from './suscription.entity';
 export * from './deposit.entity';
 export * from './withdrawal.entity';
+export * from './support_payment.entity';
 export * from './record.entity';

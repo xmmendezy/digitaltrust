@@ -9,7 +9,7 @@
 					{{ L('donations.subtitle') }}
 				</p>
 				<b-steps v-model="DepositStep">
-					<b-step-item step="1" :label="L('donations.step_1')">
+					<b-step-item step="1" :label="L('donations.step_1')" :clickable="false">
 						<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
 							<div class="columns columns-deposit">
 								<div
@@ -25,7 +25,11 @@
 						</div>
 					</b-step-item>
 
-					<b-step-item step="2" :label="L(!has_button_payment ? 'donations.step_2' : 'donations.to_pay')">
+					<b-step-item
+						step="2"
+						:label="L(!has_button_payment ? 'donations.step_2' : 'donations.to_pay')"
+						:clickable="false"
+					>
 						<div
 							v-if="!has_button_payment && deposit_method_selected !== 'blockchain'"
 							class="message-deposit"
@@ -35,7 +39,7 @@
 							</div>
 							<div class="buttons">
 								<button
-									v-for="money_option in [10, 25, 50, 100, 150, 225, 250]"
+									v-for="money_option in [10, 25, 50, 100, 150, 225, 250, 300, 350, 400, 500]"
 									:key="money_option"
 									@click="moneyDonation = money_option"
 									class="button button-money"
@@ -56,7 +60,7 @@
 							</div>
 							<div class="buttons">
 								<button
-									v-for="money_option in [10, 25, 50, 100, 150, 225, 250]"
+									v-for="money_option in [100, 150, 225, 250, 300, 350, 400, 500]"
 									:key="money_option"
 									@click="moneyDonation = money_option"
 									class="button button-money"
@@ -107,7 +111,7 @@
 						</div>
 					</b-step-item>
 
-					<b-step-item step="3" :label="L('donations.step_3')">
+					<b-step-item step="3" :label="L('donations.step_3')" :clickable="false">
 						<div class="message-deposit">
 							<div class="column title has-text-left">
 								{{ L('donations.completed_description') }}
@@ -190,7 +194,7 @@ export default class Donations extends PageChildBase {
 		.deposit_blockchains;
 	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
 		.deposit_blockchains[0];
-	private moneyDonation: number = 10;
+	private moneyDonation: number = 100;
 
 	public async created() {
 		await super.created();
@@ -258,6 +262,9 @@ export default class Donations extends PageChildBase {
 				},
 			);
 		} else if (this.deposit_method_selected === 'blockchain') {
+			if (this.moneyDonation < 100) {
+				this.moneyDonation = 100;
+			}
 			this.has_button_payment = true;
 			this.load_form_api(
 				await this.store.api.get_coinpayments_donation({
@@ -279,6 +286,7 @@ export default class Donations extends PageChildBase {
 
 .donations {
 	.body {
+		padding-top: 4.5rem;
 		height: 100vh;
 		position: relative;
 
@@ -292,6 +300,16 @@ export default class Donations extends PageChildBase {
 			-ms-transform: translate(-50%, -50%);
 			transform: translate(-50%, -50%);
 			transition: width 150ms ease-out;
+
+			@include until-widescreen {
+				width: 60%;
+			}
+
+			@include mobile {
+				width: 100%;
+				height: 100%;
+				border-radius: 0;
+			}
 
 			.title {
 				font-size: 28px;

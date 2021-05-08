@@ -15,7 +15,13 @@ export class Membership extends BaseEntity implements IMembership {
 		type: 'float8',
 		default: 0,
 	})
-	public money: number;
+	public money_a: number;
+
+	@Column({
+		type: 'float8',
+		default: 0,
+	})
+	public money_b: number;
 
 	@Column({
 		nullable: true,

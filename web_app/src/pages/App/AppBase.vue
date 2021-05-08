@@ -260,6 +260,15 @@ export default class AppBase extends PageBase {
 				padding-right: 3rem;
 				margin-left: 1rem;
 
+				.donations {
+					height: 100%;
+
+					.body {
+						padding-top: 0;
+						height: 100%;
+					}
+				}
+
 				@include mobile {
 					margin-left: 0;
 					padding-top: 1rem !important;

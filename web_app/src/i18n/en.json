@@ -104,6 +104,21 @@
 			"e": "Has withdrawals"
 		}
 	},
+	"support_payment": {
+		"text1": {
+			"title": "Greetings from DigitalTrust",
+			"a": "Our team has worked to offer this platform.",
+			"b": "Here you can review your earnings, add investment partners, increase your investment capital, and make withdrawals.",
+			"c": "All in one place."
+		},
+		"text2": {
+			"title": "Subscribe and start earning",
+			"a": "We have made this platform for your benefit, help us keep it updated and useful for you",
+			"b": "The platform has an annual fee of $100"
+		},
+		"success": "Payment processed",
+		"error": "There was an error, please try again later"
+	},
 	"balance": {
 		"title": "Account status",
 		"subtitle": "Earning history on your memberships",
@@ -153,6 +168,8 @@
 		"step_2": "Payment method",
 		"step_3": "Money",
 		"step_4": "Task completed",
+		"money_count_a": "Investment from {count}",
+		"money_count_b": "to {count}",
 		"investment_count": "{count} investment capital",
 		"period_count": "{count} months",
 		"interest_count": "Monthly earnings {count}%",
@@ -204,6 +221,7 @@
 		"welcome": "Welcome",
 		"support": "Support",
 		"home": "Home",
+		"donations": "Donations",
 		"setting": "Setting",
 		"logout": "Sign out",
 		"locale": "Locale",
@@ -215,7 +233,8 @@
 		"cancel": "Cancel",
 		"continue_task": "Continue on this task?",
 		"success_task": "Task completed successfully",
-		"error_task": "Could not be processed"
+		"error_task": "Could not be processed",
+		"to_pay": "To pay"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",
