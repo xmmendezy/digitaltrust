@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   core:
-    container_name: core
+    container_name: core_main
     image: core
     build:
       context: .
@@ -11,7 +11,7 @@ services:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - 9000:9000
+      - 9001:9000
     command: npm run start
     env_file:
       - .env.development
@@ -20,7 +20,7 @@ services:
     depends_on:
       - postgres
   postgres:
-    container_name: postgres
+    container_name: postgres_main
     image: postgres:12
     networks:
       - webnet

@@ -38,7 +38,8 @@
 		"k": "Privacy policies",
 		"l": "Terms and Conditions",
 		"m": "Start",
-		"ref_error": "The invitation received is invalid, you can still register"
+		"ref_error": "The invitation received is invalid, you can still register",
+		"created_date": "Register date"
 	},
 	"home": {
 		"balance_now": {
@@ -101,7 +102,9 @@
 			"b": "Email",
 			"c": "Balance",
 			"d": "Last deposit",
-			"e": "Has withdrawals"
+			"e": "Has withdrawals",
+			"f": "Deposit",
+			"g": "Withdrawal"
 		}
 	},
 	"support_payment": {
@@ -155,6 +158,7 @@
 		"step_1": "Payment method",
 		"step_2": "Money",
 		"step_3": "Confirm",
+		"date": "Date",
 		"money": "Money",
 		"description": "Enter the amount to withdraw, this cannot be greater than ",
 		"completed_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",

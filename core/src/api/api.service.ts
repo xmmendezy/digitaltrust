@@ -41,6 +41,10 @@ export class ApiService {
 		if (!country) {
 			return { error: 'validator.auth.i' };
 		}
+		const ref_is_admin = data.ref === 'admin';
+		if (ref_is_admin) {
+			data.ref = '';
+		}
 		const user = new User({ ...data, country });
 		if (
 			await User.createQueryBuilder('user')
@@ -59,6 +63,9 @@ export class ApiService {
 		}
 		await user.time_login();
 		await user.time_query();
+		if (ref_is_admin) {
+			user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
+		}
 		await user.save();
 		return await this.createToken(user);
 	}
@@ -220,7 +227,12 @@ export class ApiService {
 		}
 	}
 
-	public async process_deposit(user: User, date: DateTime, data: DepositDto): Promise<{ valid: boolean }> {
+	public async process_deposit(
+		user: User,
+		date: DateTime,
+		data: DepositDto,
+		is_admin: boolean,
+	): Promise<{ valid: boolean }> {
 		if (!data.suscriptionId) {
 			const membership = await Membership.createQueryBuilder()
 				.where('id = :id', { id: data.membershipId })
@@ -262,7 +274,16 @@ export class ApiService {
 				return { valid: false };
 			}
 			user.lastDeposit = date.toSeconds();
+			if (!user.firstDeposit) {
+				user.firstDeposit = date.toSeconds();
+			}
 			await user.save();
+			if (is_admin) {
+				await Record.createQueryBuilder()
+					.delete()
+					.where('date >= :date', { date: date.startOf('month').toSeconds() })
+					.execute();
+			}
 			return { valid: true };
 		} else {
 			return { valid: true };
@@ -393,7 +414,12 @@ export class ApiService {
 			}
 			const months = user.DateTime.now()
 				.startOf('month')
-				.diff(user.DateTime.fromDate(user.created).startOf('month'), 'months').months;
+				.diff(
+					user.firstDeposit
+						? user.DateTime.fromUnix(user.firstDeposit).startOf('month')
+						: user.DateTime.fromDate(user.created).startOf('month'),
+					'months',
+				).months;
 			if (months) {
 				const month_i = user.DateTime.now().minus({ months: 1 });
 				records.push(
@@ -576,8 +602,16 @@ export class ApiService {
 		) {
 			return irecord;
 		}
-		if (date_begin.toSeconds() < user.DateTime.fromDate(user.created).toSeconds()) {
-			date_begin = user.DateTime.fromDate(user.created);
+		if (
+			date_begin.toSeconds() <
+			(user.firstDeposit
+				? user.DateTime.fromUnix(user.firstDeposit)
+				: user.DateTime.fromDate(user.created)
+			).toSeconds()
+		) {
+			date_begin = user.firstDeposit
+				? user.DateTime.fromUnix(user.firstDeposit)
+				: user.DateTime.fromDate(user.created);
 		}
 		if (!suscriptions.length) {
 			suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
@@ -741,7 +775,13 @@ export class ApiService {
 					.map((w) => w.money)
 					.reduce((d1, d2) => new Decimal(d1).plus(d2).toNumber(), 0);
 			}
-			if (date_begin.toSeconds() > user.DateTime.fromDate(user.created).toSeconds()) {
+			if (
+				date_begin.toSeconds() >
+				(user.firstDeposit
+					? user.DateTime.fromUnix(user.firstDeposit)
+					: user.DateTime.fromDate(user.created)
+				).toSeconds()
+			) {
 				let prev_record: IRecord = await Record.createQueryBuilder()
 					.where('"userId" = :id')
 					.andWhere('date = :date')

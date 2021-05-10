@@ -21,6 +21,7 @@ interface IUser {
 	readonly status?: UserStatus;
 	readonly lastLogin?: Date;
 	readonly lastChangePassword?: Date;
+	readonly firstDeposit?: number;
 	readonly lastDeposit?: number;
 	readonly nextSupportPayment?: number;
 	readonly country?: any;

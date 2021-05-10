@@ -168,13 +168,19 @@ export default class ApiStore extends VuexModule {
 					.setLocale(this.country.locale)
 					.setZone(this.time_zone.value),
 			fromISO: (text: string, options?: DateTimeOptions) =>
-				DateTime.fromISO(text, options).setLocale(this.country.locale).setZone(this.time_zone.value),
+				DateTime.fromISO(text, options).setLocale(this.country.locale).setZone(this.time_zone.value, options),
 			fromUnix: (seconds: number, options?: DateTimeOptions) =>
-				DateTime.fromSeconds(seconds, options).setLocale(this.country.locale).setZone(this.time_zone.value),
+				DateTime.fromSeconds(seconds, options)
+					.setLocale(this.country.locale)
+					.setZone(this.time_zone.value, options),
 			fromDate: (date: Date, options?: DateTimeOptions) =>
-				DateTime.fromJSDate(date, options).setLocale(this.country.locale).setZone(this.time_zone.value),
+				DateTime.fromJSDate(date, options)
+					.setLocale(this.country.locale)
+					.setZone(this.time_zone.value, options),
 			fromFormat: (text: string, format: string, options?: DateTimeOptions) =>
-				DateTime.fromFormat(text, format, options).setLocale(this.country.locale).setZone(this.time_zone.value),
+				DateTime.fromFormat(text, format, options)
+					.setLocale(this.country.locale)
+					.setZone(this.time_zone.value, options),
 			fromObject: (obj: DateObject) =>
 				DateTime.fromObject(obj).setLocale(this.country.locale).setZone(this.time_zone.value),
 			clone: (datetime: DateTime) =>
