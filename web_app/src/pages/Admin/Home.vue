@@ -62,7 +62,7 @@
 					v-slot="props"
 				>
 					<div class="has-text-center">
-						<b-button outlined type="is-primary" @click="withdrawal_client(props.row.id)">
+						<b-button outlined type="is-primary" @click="open_deposit(props.row.id)">
 							<i class="fas fa-plus"></i>
 						</b-button>
 					</div>
@@ -700,28 +700,29 @@
 				<div class="card-content modal-client">
 					<div class="media">
 						<div class="media-content has-text-centered">
-							<p class="title">{{ L('withdrawal.title') }}</p>
+							<p class="title">{{ L('deposit.title') }}</p>
 							<section class="form has-text-centered">
 								<div class="columns">
 									<div class="column">
-										<b-field :label="L('withdrawal.step_1')">
-											<b-select v-model="withdrawal_method_selected" expanded>
+										<b-field :label="L('deposit.step_1')">
+											<b-select v-model="deposit_membership_selected" expanded>
 												<option
-													v-for="withdrawal_method in withdrawal_methods"
-													:key="withdrawal_method"
-													:value="withdrawal_method"
+													v-for="deposit_suscription in deposit_suscriptions"
+													:key="deposit_suscription.membershipId"
+													:value="deposit_suscription.membershipId"
 												>
-													{{ L(`payment_method.${withdrawal_method}`) }}
+													{{ deposit_suscription.name }}
 												</option>
 											</b-select>
 										</b-field>
 									</div>
 									<div class="column">
 										<c-input
-											v-model="moneyWithdrawal"
-											:placeholder="L('withdrawal.money')"
+											v-model="moneyDeposit"
+											:placeholder="L('deposit.money')"
 											type="number"
-											:max="moneyWithdrawalMax"
+											:min="moneyDepositMin"
+											:max="moneyDepositMax"
 											icon="fa-dollar-sign"
 										>
 										</c-input>
@@ -729,9 +730,22 @@
 								</div>
 								<div class="columns">
 									<div class="column">
-										<b-field :label="L('withdrawal.date')">
+										<b-field :label="L('deposit.step_1')">
+											<b-select v-model="deposit_blockchain_currency" expanded>
+												<option
+													v-for="deposit_blockchain in deposit_blockchains"
+													:key="deposit_blockchain.currency"
+													:value="deposit_blockchain"
+												>
+													{{ deposit_blockchain.name }}
+												</option>
+											</b-select>
+										</b-field>
+									</div>
+									<div class="column">
+										<b-field :label="L('deposit.date')">
 											<b-datepicker
-												v-model="dateWithdrawal"
+												v-model="dateDeposit"
 												:locale="$i18n.locale"
 												icon="calendar-alt"
 												inline
@@ -739,15 +753,12 @@
 											</b-datepicker>
 										</b-field>
 									</div>
-									<div class="column helper">
-										{{ L('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
-									</div>
 								</div>
 
 								<b-field>
 									<b-button
 										type="is-primary"
-										:disabled="moneyWithdrawal < 100 || moneyWithdrawal > moneyWithdrawalMax"
+										:disabled="moneyDeposit < moneyDepositMin || moneyDeposit > moneyDepositMax"
 										@click="finish_withdrawal()"
 									>
 										{{ L('helper.confirm') }}
@@ -812,10 +823,11 @@ export default class Admin extends PageChildBase {
 	private dateWithdrawal: Date = new Date();
 
 	private isOpenDepositModal: boolean = false;
-	private deposit_suscription: {
+	private deposit_suscriptions: {
 		name: string;
 		membershipId: string;
 		suscriptionId: string;
+		min_money: number;
 	}[] = [];
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain'];
@@ -849,6 +861,50 @@ export default class Admin extends PageChildBase {
 				if (this.moneyWithdrawal > this.moneyWithdrawalMax) {
 					this.moneyWithdrawal = this.moneyWithdrawalMax;
 				}
+			},
+			{ immediate: true },
+		);
+		this.$watch(
+			'deposit_membership_selected',
+			() => {
+				if (this.balance_detail_data) {
+					console.log(this.deposit_membership_selected, this.balance_detail_data, this.deposit_suscriptions);
+					// prettier-ignore
+					this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
+						s => s.membershipId === this.deposit_membership_selected,
+					)
+						? 500
+						: this.deposit_suscriptions.find(s => s.membershipId === this.deposit_membership_selected)
+							?.min_money || 500;
+					console.log(this.moneyDepositMin);
+					this.moneyDeposit = this.moneyDepositMin;
+				}
+			},
+			{ immediate: true },
+		);
+		this.$watch(
+			'deposit_method_selected',
+			() => {
+				if (this.balance_detail_data && this.deposit_method_selected === 'balance') {
+					this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+				} else {
+					this.moneyDepositMax = 100000000;
+				}
+			},
+			{ immediate: true },
+		);
+		this.$watch(
+			'moneyDeposit',
+			() => {
+				if (this.moneyDeposit > this.moneyDepositMax) {
+					this.moneyDeposit = this.moneyDepositMax;
+				}
+				const old_moneyDeposit = this.moneyDeposit;
+				this.sleep(1200).then(() => {
+					if (old_moneyDeposit === this.moneyDeposit && this.moneyDeposit < this.moneyDepositMin) {
+						this.moneyDeposit = this.moneyDepositMin;
+					}
+				});
 			},
 			{ immediate: true },
 		);
@@ -1077,6 +1133,37 @@ export default class Admin extends PageChildBase {
 				this.isOpenWithdrawalModal = false;
 			},
 		);
+	}
+
+	private async open_deposit(id: string) {
+		await this.get_data_client_now(id);
+		this.load_form_api(await this.store.api.balance_detail({ id }), (data: IBalanceDetail) => {
+			this.balance_detail_data = data;
+			this.deposit_suscriptions = this.memberships_data.map(m => {
+				const suscription = this.balance_detail_data.suscriptions.find(s => s.membershipId === m.id);
+				return {
+					name: m.name,
+					months: m.months,
+					min_money: m.money_a,
+					money_a: m.money_a,
+					money_b: m.money_b,
+					interest: (m.interest * 100).toFixed(0),
+					membershipId: m.id,
+					suscriptionId: suscription?.id || '',
+					investment: suscription?.investment || 0,
+				};
+			});
+			this.deposit_membership_selected = this.deposit_suscriptions[1].membershipId;
+			this.deposit_method_selected = 'balance';
+			this.moneyDeposit = 0;
+			this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
+				s => s.membershipId === this.deposit_membership_selected,
+			)
+				? 500
+				: this.deposit_suscriptions[1].min_money;
+			this.isOpenDepositModal = true;
+		});
 	}
 }
 </script>

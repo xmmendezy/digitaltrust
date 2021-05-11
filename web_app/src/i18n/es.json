@@ -178,6 +178,7 @@
 		"period_count": "Período de {count} meses",
 		"interest_count": "Interés mensual del {count}%",
 		"money": "Cantidad",
+		"date": "Fecha",
 		"description": "Ingrese la cantidad a depositar.",
 		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
 		"has_blockchain": "Hay un proceso de pago pendiente, al continuar se perderá el registro. ¿Seguro quiere continuar?",
