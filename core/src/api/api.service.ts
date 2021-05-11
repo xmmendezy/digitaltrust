@@ -907,7 +907,7 @@ export class ApiService {
 				},
 			],
 			mode: 'payment',
-			success_url: config.url_root,
+			success_url: `${config.url_root}/app/donations?step=2`,
 			cancel_url: config.url_root,
 		});
 		return { id: session.id };

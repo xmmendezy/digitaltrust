@@ -179,6 +179,7 @@
 		"interest_count": "Interés mensual del {count}%",
 		"money": "Cantidad",
 		"date": "Fecha",
+		"reference": "Referencia",
 		"description": "Ingrese la cantidad a depositar.",
 		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
 		"has_blockchain": "Hay un proceso de pago pendiente, al continuar se perderá el registro. ¿Seguro quiere continuar?",
@@ -196,7 +197,11 @@
 		"money": "Cantidad",
 		"description": "Ingrese la cantidad a depositar.",
 		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
-		"completed_description": "Su donación ha sido procesada. Gracias por ayudar a mejorar el mundo.",
+		"completed_description": [
+			"Su pago se ha procesado correctamente..",
+			"Tus valiosas donaciones cambiarían sus vidas.",
+			"¡Muchas gracias!"
+		],
 		"to_pay": "Pagar"
 	},
 	"payment_method": {
