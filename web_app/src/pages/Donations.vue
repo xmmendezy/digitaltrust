@@ -113,8 +113,18 @@
 
 					<b-step-item step="3" :label="L('donations.step_3')" :clickable="false">
 						<div class="message-deposit">
-							<div class="column title has-text-left">
-								{{ L('donations.completed_description') }}
+							<div class="columns">
+								<div class="column">
+									<b-image
+										class="image-thank"
+										:src="require('../assets/images/image6.png')"
+									></b-image>
+								</div>
+								<div class="column">
+									<div v-for="i in [0, 1, 2]" :key="i" class="title title-thanks has-text-center">
+										{{ L(`donations.completed_description.${i}`) }}
+									</div>
+								</div>
 							</div>
 						</div>
 					</b-step-item>
@@ -152,10 +162,12 @@
 						</b-button>
 						<b-button
 							v-if="DepositStep === 2"
+							tag="a"
 							outlined
 							type="is-primary"
 							icon-pack="fas"
 							icon-right="check"
+							href="/"
 						>
 							{{ L('helper.finish') }}
 						</b-button>
@@ -198,6 +210,9 @@ export default class Donations extends PageChildBase {
 
 	public async created() {
 		await super.created();
+		if ('step' in this.$route.query) {
+			this.DepositStep = parseInt(this.$route.query.step as string);
+		}
 	}
 
 	private async to_pay() {
@@ -273,7 +288,8 @@ export default class Donations extends PageChildBase {
 				}),
 				data => {
 					this.has_button_payment = false;
-					window.location.href = data.checkout_url;
+					window.open(data.checkout_url, '_blank');
+					this.DepositStep = 3;
 				},
 			);
 		}
@@ -307,13 +323,28 @@ export default class Donations extends PageChildBase {
 
 			@include mobile {
 				width: 100%;
-				height: 100%;
 				border-radius: 0;
+				padding-top: 20rem;
 			}
 
 			.title {
 				font-size: 28px;
 				padding-bottom: 2rem;
+			}
+
+			.title.title-thanks {
+				font-size: 24px;
+				padding-bottom: 2rem;
+			}
+
+			.image-thank {
+				img {
+					height: 40vh;
+
+					@include mobile {
+						height: 100%;
+					}
+				}
 			}
 
 			.subtitle {

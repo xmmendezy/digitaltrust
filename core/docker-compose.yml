@@ -16,7 +16,7 @@ services:
     depends_on:
       - postgres
   postgres:
-    container_name: postgres
+    container_name: postgres_main
     image: postgres:12
     networks:
       - webnet

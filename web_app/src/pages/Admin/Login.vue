@@ -1,9 +1,10 @@
 <template>
-	<div class="login">
+	<div class="login-admin">
 		<div class="body has-text-centered">
 			<div class="box is-inline-block">
 				<article class="media">
 					<div class="media-content has-text-centered">
+						<b-image class="logo" :src="require('../../assets/images/logo2.png')"></b-image>
 						<p class="title">{{ L('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
@@ -82,7 +83,7 @@ export default class Login extends PageChildBase {
 <style lang="scss">
 @import '../../styles/initial_variables.scss';
 
-.login {
+.login-admin {
 	.body {
 		padding-top: 4.5rem;
 		height: 100vh;
@@ -121,9 +122,15 @@ export default class Login extends PageChildBase {
 					}
 				}
 
+				.logo {
+					width: 12rem;
+					margin: auto;
+					margin-bottom: 3rem;
+				}
+
 				.title {
 					color: $dark;
-					font-size: 45px;
+					font-size: 32px;
 					font-weight: bold !important;
 				}
 

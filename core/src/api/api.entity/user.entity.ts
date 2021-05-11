@@ -26,6 +26,7 @@ export class User extends BaseEntity implements IUser {
 			this.status = data.status;
 			this.lastLogin = data.lastLogin;
 			this.lastChangePassword = data.lastChangePassword;
+			this.firstDeposit = data.firstDeposit;
 			this.lastDeposit = data.lastDeposit;
 			this.nextSupportPayment = data.nextSupportPayment;
 			this.country = data.country as Country;
@@ -104,6 +105,12 @@ export class User extends BaseEntity implements IUser {
 		nullable: true,
 	})
 	public lastChangePassword: Date;
+
+	@Column({
+		type: 'float8',
+		nullable: true,
+	})
+	public firstDeposit: number;
 
 	@Column({
 		type: 'float8',

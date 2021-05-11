@@ -280,13 +280,13 @@ task('ts', () => {
 });
 
 task('sitemap', () => {
-	return src([dist_folder + '*.html'], {
+	return src([dist_folder + '*.html', dist_folder + 'es/*.html'], {
 		read: false,
 		since: lastRun('sitemap'),
 	})
 		.pipe(
 			sitemap({
-				siteUrl: 'http://www.{{ title }}online.net',
+				siteUrl: 'https://www.digitaltrustonline.net',
 			}),
 		)
 		.pipe((replace as any)('.html', ''))

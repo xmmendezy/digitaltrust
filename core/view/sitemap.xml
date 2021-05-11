@@ -1,27 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
-        
-        <loc>http://www.{{ title }}online.net/about</loc>
-    
-        
-        <lastmod>2021-05-01T03:02:34.400Z</lastmod>
-    
+
+        <loc>https://www.digitaltrustonline.net/about</loc>
+
+
+        <lastmod>2021-05-10T02:39:09.781Z</lastmod>
+
     </url>
     <url>
-        
-        <loc>http://www.{{ title }}online.net/friendly</loc>
-    
-        
-        <lastmod>2021-05-04T12:51:58.245Z</lastmod>
-    
+
+        <loc>https://www.digitaltrustonline.net/friendly</loc>
+
+
+        <lastmod>2021-05-10T02:39:09.781Z</lastmod>
+
     </url>
     <url>
-        
-        <loc>http://www.{{ title }}online.net/</loc>
-    
-        
-        <lastmod>2021-05-01T03:03:58.264Z</lastmod>
-    
+
+        <loc>https://www.digitaltrustonline.net/</loc>
+
+
+        <lastmod>2021-05-10T02:39:09.781Z</lastmod>
+
+    </url>
+    <url>
+
+        <loc>https://www.digitaltrustonline.net/es/about</loc>
+
+
+        <lastmod>2021-05-10T02:39:09.781Z</lastmod>
+
+    </url>
+    <url>
+
+        <loc>https://www.digitaltrustonline.net/es/friendly</loc>
+
+
+        <lastmod>2021-05-10T02:39:09.781Z</lastmod>
+
+    </url>
+    <url>
+
+        <loc>https://www.digitaltrustonline.net/es/</loc>
+
+
+        <lastmod>2021-05-10T02:39:09.781Z</lastmod>
+
     </url>
 </urlset>

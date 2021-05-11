@@ -135,7 +135,7 @@ export class ApiController {
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
 		}
-		return await this.apiService.process_deposit(user, date, data);
+		return await this.apiService.process_deposit(user, date, data, req.user.role === UserRole.ADMIN);
 	}
 
 	@Post('support_payment')

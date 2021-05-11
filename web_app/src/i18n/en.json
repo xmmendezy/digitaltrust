@@ -38,7 +38,8 @@
 		"k": "Privacy policies",
 		"l": "Terms and Conditions",
 		"m": "Start",
-		"ref_error": "The invitation received is invalid, you can still register"
+		"ref_error": "The invitation received is invalid, you can still register",
+		"created_date": "Register date"
 	},
 	"home": {
 		"balance_now": {
@@ -101,7 +102,9 @@
 			"b": "Email",
 			"c": "Balance",
 			"d": "Last deposit",
-			"e": "Has withdrawals"
+			"e": "Has withdrawals",
+			"f": "Deposit",
+			"g": "Withdrawal"
 		}
 	},
 	"support_payment": {
@@ -156,6 +159,7 @@
 		"step_2": "Money",
 		"step_3": "Confirm",
 		"money": "Money",
+		"date": "Date",
 		"description": "Enter the amount to withdraw, this cannot be greater than ",
 		"completed_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
 		"success": "Requested",
@@ -174,6 +178,8 @@
 		"period_count": "{count} months",
 		"interest_count": "Monthly earnings {count}%",
 		"money": "Money",
+		"date": "Date",
+		"reference": "Reference",
 		"description": "Enter the amount to deposit.",
 		"description_dollar": "Enter the amount to be deposited in dollars.",
 		"has_blockchain": "There is a pending payment process, by continuing the registration will be lost. Are you sure you want to continue?",
@@ -191,7 +197,11 @@
 		"money": "Money",
 		"description": "Enter the amount to deposit.",
 		"description_dollar": "Enter the amount to be deposited in dollars.",
-		"completed_description": "Your donation has been processed. Thank you for helping improve the world.",
+		"completed_description": [
+			"Your payment has been processed successfully.",
+			"Your valuable donations would change their lives.",
+			"Thank you!"
+		],
 		"to_pay": "To pay"
 	},
 	"payment_method": {

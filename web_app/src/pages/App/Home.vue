@@ -1205,6 +1205,9 @@ export default class Home extends PageChildBase {
 						? 500
 						: this.deposit_suscription.find(s => s.membershipId === this.deposit_membership_selected)
 							?.min_money || 500;
+					if (this.moneyDepositMin > this.moneyDepositMax) {
+						this.moneyDepositMax = 100000000;
+					}
 					this.moneyDeposit = this.moneyDepositMin;
 				}
 			},
@@ -1215,6 +1218,9 @@ export default class Home extends PageChildBase {
 			() => {
 				if (this.balance_detail_data && this.deposit_method_selected === 'balance') {
 					this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+					if (this.moneyDepositMax < this.moneyDepositMin) {
+						this.moneyDepositMax = 100000000;
+					}
 				} else {
 					this.moneyDepositMax = 100000000;
 				}
@@ -1343,6 +1349,9 @@ export default class Home extends PageChildBase {
 			)
 				? 500
 				: this.deposit_suscription[1].min_money;
+			if (this.moneyDepositMin > this.moneyDepositMax) {
+				this.moneyDepositMax = 100000000;
+			}
 			this.has_button_payment = false;
 			this.isOpenDepositModal = true;
 		});

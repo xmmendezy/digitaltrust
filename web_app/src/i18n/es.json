@@ -38,7 +38,8 @@
 		"k": "Políticas de privacidad",
 		"l": "Términos y condiciones",
 		"m": "Finalizar",
-		"ref_error": "La invitación recibida es invalida, de todas formas puede registrarse"
+		"ref_error": "La invitación recibida es invalida, de todas formas puede registrarse",
+		"created_date": "Fecha de registro"
 	},
 	"home": {
 		"balance_now": {
@@ -101,7 +102,9 @@
 			"b": "Email",
 			"c": "Saldo",
 			"d": "Último depósito",
-			"e": "Tiene retiros"
+			"e": "Tiene retiros",
+			"f": "Depósito",
+			"g": "Retiro"
 		}
 	},
 	"support_payment": {
@@ -156,6 +159,7 @@
 		"step_2": "Cantidad",
 		"step_3": "Solicitar",
 		"money": "Cantidad",
+		"date": "Fecha",
 		"description": "Ingrese la cantidad a retirar, esta no puede ser mayor a ",
 		"completed_description": "Sus fondos pronto serán enviados por el medio que ha seleccionado. Gracias por confiar en DigitalTrust.",
 		"success": "Solicitado",
@@ -174,6 +178,8 @@
 		"period_count": "Período de {count} meses",
 		"interest_count": "Interés mensual del {count}%",
 		"money": "Cantidad",
+		"date": "Fecha",
+		"reference": "Referencia",
 		"description": "Ingrese la cantidad a depositar.",
 		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
 		"has_blockchain": "Hay un proceso de pago pendiente, al continuar se perderá el registro. ¿Seguro quiere continuar?",
@@ -191,7 +197,11 @@
 		"money": "Cantidad",
 		"description": "Ingrese la cantidad a depositar.",
 		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
-		"completed_description": "Su donación ha sido procesada. Gracias por ayudar a mejorar el mundo.",
+		"completed_description": [
+			"Su pago se ha procesado correctamente..",
+			"Tus valiosas donaciones cambiarían sus vidas.",
+			"¡Muchas gracias!"
+		],
 		"to_pay": "Pagar"
 	},
 	"payment_method": {
