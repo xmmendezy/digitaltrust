@@ -260,6 +260,17 @@ export class ApiService {
 		if (deposit.errors.length) {
 			return { valid: false };
 		}
+		user.lastDeposit = date.toSeconds();
+		if (!user.firstDeposit) {
+			user.firstDeposit = date.toSeconds();
+		}
+		await user.save();
+		if (is_admin) {
+			await Record.createQueryBuilder()
+				.delete()
+				.where('date >= :date', { date: date.startOf('month').toSeconds() })
+				.execute();
+		}
 		if (deposit.payment_method === PaymentMethod.BALANCE) {
 			const withdrawal = new Withdrawal({
 				userId: user.id,
@@ -272,17 +283,6 @@ export class ApiService {
 			if (withdrawal.errors.length) {
 				await Deposit.createQueryBuilder().delete().where('id = :id', { id: deposit.id }).execute();
 				return { valid: false };
-			}
-			user.lastDeposit = date.toSeconds();
-			if (!user.firstDeposit) {
-				user.firstDeposit = date.toSeconds();
-			}
-			await user.save();
-			if (is_admin) {
-				await Record.createQueryBuilder()
-					.delete()
-					.where('date >= :date', { date: date.startOf('month').toSeconds() })
-					.execute();
 			}
 			return { valid: true };
 		} else {
