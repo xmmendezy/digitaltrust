@@ -1,5 +1,6 @@
 import { createModule, mutation, action } from 'vuex-class-component';
 import { ICountry, ITimeZone } from '../util.module/util.type';
+import { data_countries } from '../util.module/util.data';
 import {
 	IAuthData,
 	IUser,
@@ -52,6 +53,7 @@ export default class ApiStore extends VuexModule {
 			signup: `${ApiStore.config.Api}/signup`,
 			login: `${ApiStore.config.Api}/login`,
 			user: `${ApiStore.config.Api}/user`,
+			see_welcome: `${ApiStore.config.Api}/see_welcome`,
 			reset_password: `${ApiStore.config.Api}/auth/reset_password`,
 			change_password: `${ApiStore.config.Api}/auth/change_password`,
 			ref_user: `${ApiStore.config.Api}/ref_user`,
@@ -103,7 +105,7 @@ export default class ApiStore extends VuexModule {
 		return this._user;
 	}
 
-	get isadmin() {
+	get isAdmin() {
 		return this._is_admin;
 	}
 
@@ -139,7 +141,7 @@ export default class ApiStore extends VuexModule {
 	}
 
 	get country(): ICountry {
-		return (this.user as IUser).country;
+		return (this.user as IUser).country || data_countries['e0bf3ed3-90ee-444c-a5e7-433c4c5deefb'];
 	}
 
 	get time_zone(): ITimeZone {
@@ -213,7 +215,7 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@mutation
-	public update_user(data: UpdateDto | { country?: ICountry; change_password?: boolean }) {
+	public update_user(data: UpdateDto | { country?: ICountry; change_password?: boolean; seeWelcome?: boolean }) {
 		this._user = {
 			...this._user,
 			...(data as any),
@@ -307,6 +309,25 @@ export default class ApiStore extends VuexModule {
 				this.update_user(response.data);
 				await this.setCountry();
 				return this.auth_data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async see_welcome(): Promise<{ valid: boolean } | string> {
+		return await ApiStore.http
+			.patch(this.url.see_welcome, {}, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				this.update_user({
+					seeWelcome: false,
+				});
+				return { valid: true };
 			})
 			.catch(e => {
 				return get_errors(e);

@@ -38,6 +38,7 @@
 		"k": "Políticas de privacidad",
 		"l": "Términos y condiciones",
 		"m": "Finalizar",
+		"free_support": "Soporte gratis por un año",
 		"ref_error": "La invitación recibida es invalida, de todas formas puede registrarse",
 		"created_date": "Fecha de registro"
 	},
@@ -97,6 +98,7 @@
 		"new_client": "Nuevo cliente",
 		"save_client": "Registrar cliente",
 		"edit_client": "Editar cliente",
+		"url_pay": "Enlace de pago directo",
 		"table_client": {
 			"a": "Name",
 			"b": "Email",

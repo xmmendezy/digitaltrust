@@ -63,7 +63,7 @@ export class ApiService {
 		}
 		await user.time_login();
 		await user.time_query();
-		if (ref_is_admin) {
+		if (ref_is_admin && data.freeSupport) {
 			user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
 		}
 		await user.save();
@@ -138,6 +138,11 @@ export class ApiService {
 			return { error: user.errors[0] };
 		}
 		return { ...new UserDto(user), errors } as UserDto;
+	}
+
+	public async see_welcome(user: User): Promise<void> {
+		user.seeWelcome = false;
+		await user.save();
 	}
 
 	public async ref_user(id: string): Promise<IRefer> {

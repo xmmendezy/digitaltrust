@@ -35,11 +35,10 @@ export default abstract class ComponentBase extends Vue {
 			this.is_admin = this.auth_data.user?.role === 'admin';
 		}
 		this.logout = async () => {
-			this.store.api.logout().then(() => {
-				if (this.$route.name !== 'Login') {
-					this.$router.push({ name: this.is_admin ? 'AdminLogin' : 'Login' });
-				}
-			});
+			if (this.$route.name !== 'Login') {
+				await this.$router.push({ name: this.is_admin ? 'AdminLogin' : 'Login' });
+				this.store.api.logout();
+			}
 		};
 		this.$destroy = () => {
 			if (this.data_listener.size) {

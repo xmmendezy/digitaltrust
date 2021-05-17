@@ -35,6 +35,11 @@ export class ApiController {
 		}
 	}
 
+	@Patch('see_welcome')
+	public async see_welcome(@Req() req: Request) {
+		return await this.apiService.see_welcome(req.user);
+	}
+
 	@Get('ref_user')
 	public async ref_user(@Query() query: { id: string }) {
 		return await this.apiService.ref_user(query.id);

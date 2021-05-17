@@ -38,6 +38,7 @@
 		"k": "Privacy policies",
 		"l": "Terms and Conditions",
 		"m": "Start",
+		"free_support": "Free support for one year",
 		"ref_error": "The invitation received is invalid, you can still register",
 		"created_date": "Register date"
 	},
@@ -97,6 +98,7 @@
 		"new_client": "Add client",
 		"save_client": "Save client",
 		"edit_client": "Edit client",
+		"url_pay": "Direct payment link",
 		"table_client": {
 			"a": "Name",
 			"b": "Email",

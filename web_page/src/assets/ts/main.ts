@@ -13,3 +13,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	(window as any).bulmaAccordion.attach();
 });
+
+function contactForm() {
+	const input_name = <HTMLInputElement>document.getElementById('name');
+	const name = input_name.value;
+	const input_email = <HTMLInputElement>document.getElementById('email');
+	const email = input_email.value;
+	const input_phone = <HTMLInputElement>document.getElementById('phone');
+	const phone = input_phone.value;
+	const input_message = <HTMLInputElement>document.getElementById('message');
+	const message = input_message.value;
+	window.open(
+		`whatsapp://send?text=Hola, soy ${name}, mi correo es ${email} y mi número de teléfono ${phone}. ${message}.&phone=+16469803342&abid=+16469803342`,
+		'_blank',
+	);
+	input_name.value = '';
+	input_email.value = '';
+	input_phone.value = '';
+	input_message.value = '';
+}
+
+window.contactForm = contactForm;

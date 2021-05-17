@@ -631,6 +631,14 @@ body {
 			width: 100%;
 		}
 
+		a {
+			color: white;
+
+			&:hover {
+				color: white;
+			}
+		}
+
 		span {
 			padding-right: 1.5rem;
 		}

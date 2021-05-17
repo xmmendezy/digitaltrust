@@ -40,6 +40,12 @@
 					<span> support@digitaltrustonline.net </span>
 				</a>
 			</li>
+			<li>
+				<a :href="whatsapp_href" target="_blank" class="icon-text">
+					<span class="icon is-small"><i class="fab fa-whatsapp"></i></span>
+					<span> Whatsapp </span>
+				</a>
+			</li>
 		</ul>
 	</b-menu>
 </template>
@@ -52,6 +58,7 @@ import { Component } from 'vue-property-decorator';
 export default class Menu extends ComponentBase {
 	private has_image_user: boolean = false;
 	private is_active: boolean = false;
+	private telephone: string = '+16469803342';
 
 	public async created() {
 		await super.created();
@@ -60,6 +67,10 @@ export default class Menu extends ComponentBase {
 
 	private async open() {
 		this.$emit('open');
+	}
+
+	private get whatsapp_href(): string {
+		return `whatsapp://send?text=Hola, soy ${this.store.api.name}, necesito ayuda.&phone=${this.telephone}&abid=${this.telephone}`;
 	}
 }
 </script>
@@ -72,6 +83,20 @@ export default class Menu extends ComponentBase {
 		&.contact {
 			position: absolute;
 			bottom: 0;
+			width: calc(20vw - 1.5rem);
+
+			span:not(.icon) {
+				white-space: pre-wrap;
+				word-wrap: break-word;
+			}
+
+			a:hover {
+				background-color: rgba(255, 255, 255, 0);
+				color: $primary;
+				i {
+					color: $primary;
+				}
+			}
 		}
 
 		a {
