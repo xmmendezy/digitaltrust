@@ -23,6 +23,7 @@ interface IUser {
 	readonly lastChangePassword?: Date;
 	readonly firstDeposit?: number;
 	readonly lastDeposit?: number;
+	readonly seeWelcome?: boolean;
 	readonly nextSupportPayment?: number;
 	readonly country?: any;
 	readonly id_time_zone?: string;

@@ -158,6 +158,16 @@
 										></c-input>
 									</div>
 								</div>
+								<div class="columns">
+									<div class="column">
+										<b-field>
+											<b-checkbox v-model="client_form.freeSupport">
+												{{ L('register.free_support') }}
+											</b-checkbox>
+										</b-field>
+									</div>
+									<div class="column"></div>
+								</div>
 								<b-field>
 									<b-button @click="register_client()" type="is-primary">{{
 										L('admin.save_client')
@@ -776,16 +786,27 @@
 										</b-field>
 									</div>
 								</div>
-
-								<b-field>
-									<b-button
-										type="is-primary"
-										:disabled="moneyDeposit < moneyDepositMin || moneyDeposit > moneyDepositMax"
-										@click="proccess_deposit()"
-									>
-										{{ L('helper.confirm') }}
-									</b-button>
-								</b-field>
+								<div class="columns columns-button">
+									<div class="column">
+										<b-field>
+											<b-button
+												type="is-primary"
+												:disabled="
+													moneyDeposit < moneyDepositMin || moneyDeposit > moneyDepositMax
+												"
+												@click="proccess_deposit()"
+											>
+												{{ L('helper.confirm') }}
+											</b-button>
+										</b-field>
+									</div>
+									<div class="column is-6">
+										{{ L('admin.url_pay') }}
+										<div class="url-pay">
+											{{ url_pay }}
+										</div>
+									</div>
+								</div>
 							</section>
 						</div>
 					</div>
@@ -941,6 +962,15 @@ export default class Admin extends PageChildBase {
 		this.get_clients();
 	}
 
+	public get url_pay() {
+		const url_base = 'https://digitaltrustonline.net/app';
+		if (this.moneyDeposit) {
+			return `${url_base}?directDeposit=true&money=${this.moneyDeposit}&method=${this.deposit_method_selected}&membership=${this.deposit_membership_selected}`;
+		} else {
+			return url_base;
+		}
+	}
+
 	private async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
 			this.memberships_data = memberships_data;
@@ -956,6 +986,7 @@ export default class Admin extends PageChildBase {
 	private async new_client() {
 		this.client_form = new SignupDto();
 		this.client_form.ref = 'admin';
+		this.client_form.freeSupport = true;
 		this.telephoneInternational = '';
 		this.isOpenNewClientModal = true;
 	}
@@ -1318,6 +1349,23 @@ export default class Admin extends PageChildBase {
 
 				.helper {
 					margin: auto;
+				}
+
+				.columns-button {
+					padding-top: 2rem;
+				}
+
+				.url-pay {
+					margin-top: 1.5rem;
+					font-size: 13px;
+					white-space: pre-wrap;
+					word-wrap: break-word;
+					border-bottom: 1px solid $border;
+					color: $black;
+
+					@include touch {
+						font-size: 10px;
+					}
 				}
 			}
 		}

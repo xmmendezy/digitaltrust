@@ -28,6 +28,7 @@ export class User extends BaseEntity implements IUser {
 			this.lastChangePassword = data.lastChangePassword;
 			this.firstDeposit = data.firstDeposit;
 			this.lastDeposit = data.lastDeposit;
+			this.seeWelcome = data.seeWelcome;
 			this.nextSupportPayment = data.nextSupportPayment;
 			this.country = data.country as Country;
 			if (data.id_time_zone) {
@@ -117,6 +118,11 @@ export class User extends BaseEntity implements IUser {
 		nullable: true,
 	})
 	public lastDeposit: number;
+
+	@Column({
+		default: true,
+	})
+	public seeWelcome: boolean;
 
 	@Column({
 		type: 'float8',

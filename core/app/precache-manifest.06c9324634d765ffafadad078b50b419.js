@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cf1e0d515a7a627e38c5",
-    "url": "/app/css/admin-home.d25bc626.css"
+    "revision": "4bd64b8249c301f8051c",
+    "url": "/app/css/admin-home.e31bfaab.css"
   },
   {
     "revision": "600400c5335cdb14d7a0",
     "url": "/app/css/admin-login.51ccad88.css"
   },
   {
-    "revision": "3bb8ad50282c21f9d05e",
-    "url": "/app/css/app-main.c996d25f.css"
+    "revision": "5dbe674da30bc75a6d90",
+    "url": "/app/css/app-main.dd806857.css"
   },
   {
-    "revision": "6cfaf8da852d6cddab00",
+    "revision": "c70f9b9ad61a66264a7f",
     "url": "/app/css/app.1a9fe85a.css"
   },
   {
@@ -24,7 +24,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/css/donations.1d75607e.css"
   },
   {
-    "revision": "f2a9c023ac9901e9c3a6",
+    "revision": "388e966ed13a8d5761e3",
     "url": "/app/css/home.36a7cb51.css"
   },
   {
@@ -46,6 +46,14 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "176839c18847c2077f6cc94352c04c40",
     "url": "/app/doc2.pdf"
+  },
+  {
+    "revision": "a39f7f8dcb584ca1d6ad529020f8d3ef",
+    "url": "/app/doc3.pdf"
+  },
+  {
+    "revision": "89397ef50dc9f4a31ddcf6969660e109",
+    "url": "/app/doc4.pdf"
   },
   {
     "revision": "9c04694488e555c0cdf3b3008d5a71c6",
@@ -204,12 +212,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/img/logo2.26278a59.png"
   },
   {
-    "revision": "f91489902428d01d2c0ca3ca3527462d",
+    "revision": "77faaa334711a423bf334067d93a4ac2",
     "url": "/app/index.html"
   },
   {
-    "revision": "cf1e0d515a7a627e38c5",
-    "url": "/app/js/admin-home.38ea0fb7.js"
+    "revision": "4bd64b8249c301f8051c",
+    "url": "/app/js/admin-home.86f48686.js"
   },
   {
     "revision": "600400c5335cdb14d7a0",
@@ -220,12 +228,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/js/app-base.1b60d74d.js"
   },
   {
-    "revision": "3bb8ad50282c21f9d05e",
-    "url": "/app/js/app-main.72da4a0b.js"
+    "revision": "5dbe674da30bc75a6d90",
+    "url": "/app/js/app-main.019e06fc.js"
   },
   {
-    "revision": "6cfaf8da852d6cddab00",
-    "url": "/app/js/app.01856756.js"
+    "revision": "c70f9b9ad61a66264a7f",
+    "url": "/app/js/app.28a63685.js"
   },
   {
     "revision": "9efd2e8f4f5f473530e0",
@@ -236,8 +244,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/js/donations.4e6abd64.js"
   },
   {
-    "revision": "f2a9c023ac9901e9c3a6",
-    "url": "/app/js/home.f47434f8.js"
+    "revision": "388e966ed13a8d5761e3",
+    "url": "/app/js/home.1eec367b.js"
   },
   {
     "revision": "a821e566044007851d77",

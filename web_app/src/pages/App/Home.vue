@@ -266,11 +266,20 @@
 
 						<template #navigation>
 							<b-button
-								v-if="supportPaymentStep === 0"
+								v-if="supportPaymentStep === 0 && supportPayment"
 								type="is-primary"
 								icon-pack="fas"
 								icon-right="chevron-right"
 								@click.prevent="supportPaymentStep = 1"
+							>
+								{{ L('helper.next') }}
+							</b-button>
+							<b-button
+								v-if="supportPaymentStep === 0 && !supportPayment"
+								type="is-primary"
+								icon-pack="fas"
+								icon-right="check"
+								@click.prevent="to_save_see_welcome()"
 							>
 								{{ L('helper.next') }}
 							</b-button>
@@ -1050,6 +1059,8 @@ export default class Home extends PageChildBase {
 		.deposit_blockchains[0];
 	private moneySupportPayment: number = 100;
 
+	private supportPayment: boolean = false;
+
 	get moneyMembership() {
 		return this.formatMoney(
 			this.calcMembershipMoney({
@@ -1123,65 +1134,95 @@ export default class Home extends PageChildBase {
 				});
 			}
 		} else {
-			if (
-				this.auth_data.user &&
-				this.store.api.DateTime.now().toSeconds() > this.auth_data.user.nextSupportPayment
-			) {
+			if (this.auth_data.user && this.auth_data.user.seeWelcome) {
+				this.supportPayment =
+					this.store.api.DateTime.now().toSeconds() > this.auth_data.user.nextSupportPayment;
 				this.isOpenSupportPaymentModal = true;
 			}
 		}
-		if ('success_stripe' in this.$route.query) {
-			const reference_stripe = localStorage.getItem('reference_stripe');
-			if (this.$route.query.success_stripe === 'true' && reference_stripe) {
-				localStorage.removeItem('reference_stripe');
-				this.load_form_api(
-					await this.store.api.process_deposit({
-						type: this.$route.query.type as string,
-						membershipId: this.$route.query.membershipId as string,
-						suscriptionId: this.$route.query.suscriptionId as string,
-						money: parseFloat(this.$route.query.money as string),
-						reference: reference_stripe,
-					}),
-					d => {
+		const reference_coinpayments = localStorage.getItem('reference_coinpayments');
+		if ('success_stripe' in this.$route.query || reference_coinpayments) {
+			if ('success_stripe' in this.$route.query) {
+				const reference_stripe = localStorage.getItem('reference_stripe');
+				if (this.$route.query.success_stripe === 'true' && reference_stripe) {
+					localStorage.removeItem('reference_stripe');
+					this.load_form_api(
+						await this.store.api.process_deposit({
+							type: this.$route.query.type as string,
+							membershipId: this.$route.query.membershipId as string,
+							suscriptionId: this.$route.query.suscriptionId as string,
+							money: parseFloat(this.$route.query.money as string),
+							reference: reference_stripe,
+						}),
+						d => {
+							if (d.valid) {
+								this.toastSuccess(this.L('deposit.success'));
+								this.get_balance();
+								this.get_records();
+							} else {
+								this.toastError(this.L('deposit.error'));
+							}
+						},
+					);
+				} else {
+					this.toastError(this.L('deposit.error'));
+				}
+			}
+			if (reference_coinpayments) {
+				const query_coinpayments = async (callback: () => void, c: number = 0) => {
+					await this.sleep(5000);
+					if (c < 1000) {
+						const result = await this.store.api.status_coinpayments({ txid: reference_coinpayments });
+						if (result.status_text === 'Complete') {
+							callback();
+						} else {
+							query_coinpayments(callback, c + 1);
+						}
+					}
+				};
+				query_coinpayments(async () => {
+					const data_coinpayments = JSON.parse(localStorage.getItem('data_coinpayments') || '{}');
+					this.load_form_api(await this.store.api.process_deposit(data_coinpayments), d => {
 						if (d.valid) {
+							localStorage.removeItem('reference_coinpayments');
+							localStorage.removeItem('data_coinpayments');
 							this.toastSuccess(this.L('deposit.success'));
 							this.get_balance();
 							this.get_records();
 						} else {
 							this.toastError(this.L('deposit.error'));
 						}
-					},
-				);
-			} else {
-				this.toastError(this.L('deposit.error'));
+					});
+				});
 			}
 		}
-		const reference_coinpayments = localStorage.getItem('reference_coinpayments');
-		if (reference_coinpayments) {
-			const query_coinpayments = async (callback: () => void, c: number = 0) => {
-				await this.sleep(5000);
-				if (c < 1000) {
-					const result = await this.store.api.status_coinpayments({ txid: reference_coinpayments });
-					if (result.status_text === 'Complete') {
-						callback();
-					} else {
-						query_coinpayments(callback, c + 1);
-					}
-				}
-			};
-			query_coinpayments(async () => {
-				const data_coinpayments = JSON.parse(localStorage.getItem('data_coinpayments') || '{}');
-				this.load_form_api(await this.store.api.process_deposit(data_coinpayments), d => {
-					if (d.valid) {
-						localStorage.removeItem('reference_coinpayments');
-						localStorage.removeItem('data_coinpayments');
-						this.toastSuccess(this.L('deposit.success'));
-						this.get_balance();
-						this.get_records();
-					} else {
-						this.toastError(this.L('deposit.error'));
-					}
+
+		if ('directDeposit' in this.$route.query) {
+			this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
+				this.balance_detail_data = data;
+				this.deposit_suscription = this.memberships_data.map(m => {
+					const suscription = this.balance_detail_data.suscriptions.find(s => s.membershipId === m.id);
+					return {
+						name: m.name,
+						months: m.months,
+						min_money: m.money_a,
+						money_a: m.money_a,
+						money_b: m.money_b,
+						interest: (m.interest * 100).toFixed(0),
+						membershipId: m.id,
+						suscriptionId: suscription?.id || '',
+						investment: suscription?.investment || 0,
+					};
 				});
+				this.moneyDeposit = parseFloat(this.$route.query.money as string);
+				this.deposit_method_selected = this.$route.query.method as string;
+				this.deposit_membership_selected = this.$route.query.membership as string;
+				this.DepositStep = 2;
+				this.moneyDepositMax = this.moneyDeposit;
+				this.moneyDepositMin = this.moneyDeposit;
+				this.has_button_payment = true;
+				this.isOpenDepositModal = true;
+				this.to_pay();
 			});
 		}
 
@@ -1340,7 +1381,13 @@ export default class Home extends PageChildBase {
 				};
 			});
 			this.deposit_membership_selected = this.deposit_suscription[1].membershipId;
-			this.deposit_method_selected = 'balance';
+			if (this.balance_detail_data.available_balance) {
+				this.deposit_methods = ['balance', 'paypal', 'stripe', 'blockchain'];
+				this.deposit_method_selected = 'balance';
+			} else {
+				this.deposit_methods = ['paypal', 'stripe', 'blockchain'];
+				this.deposit_method_selected = 'paypal';
+			}
 			this.DepositStep = 0;
 			this.moneyDeposit = 0;
 			this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
@@ -1645,6 +1692,12 @@ export default class Home extends PageChildBase {
 				}
 			},
 		);
+	}
+
+	private async to_save_see_welcome() {
+		this.load_form_api(await this.store.api.see_welcome(), () => {
+			this.isOpenSupportPaymentModal = false;
+		});
 	}
 
 	private async balance_detail(date: number) {

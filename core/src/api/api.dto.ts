@@ -13,6 +13,7 @@ interface ISignupDto {
 	address: string;
 	country: string;
 	ref: string;
+	freeSupport: boolean;
 }
 
 class SignupDto extends BaseDTO {
@@ -27,6 +28,7 @@ class SignupDto extends BaseDTO {
 		this.address = data.address;
 		this.country = data.country;
 		this.ref = data.ref;
+		this.freeSupport = data.freeSupport;
 	}
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
@@ -59,6 +61,8 @@ class SignupDto extends BaseDTO {
 	country!: string;
 
 	ref!: string;
+
+	freeSupport!: boolean;
 }
 
 class UserDto {
@@ -73,6 +77,7 @@ class UserDto {
 		this.role = data.role;
 		this.status = data.status;
 		this.lastLogin = data.lastLogin;
+		this.seeWelcome = data.seeWelcome;
 		this.nextSupportPayment = data.nextSupportPayment;
 		this.country__id = data instanceof User ? data.country.id : data.country__id;
 		this.created = data.created;
@@ -93,6 +98,7 @@ class UserDto {
 	public role: UserRole;
 	public status: UserStatus;
 	public lastLogin: Date;
+	public seeWelcome: boolean;
 	public nextSupportPayment: number;
 	public country__id: string;
 	public created: Date;

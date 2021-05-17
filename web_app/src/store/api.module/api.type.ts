@@ -23,6 +23,7 @@ interface IUser {
 	role: 'admin' | 'user';
 	status: 'removed' | 'pending' | 'confirm';
 	lastLogin: Date;
+	seeWelcome: boolean;
 	nextSupportPayment: number;
 	country__id: string;
 	country: ICountry;
@@ -150,6 +151,7 @@ class SignupDto extends ClassBase {
 		this.address = '';
 		this.country = '';
 		this.ref = '';
+		this.freeSupport = false;
 	}
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
@@ -187,6 +189,8 @@ class SignupDto extends ClassBase {
 	country!: string;
 
 	ref!: string;
+
+	freeSupport!: boolean;
 
 	public validate(): string[] {
 		const errors = super.validate();
