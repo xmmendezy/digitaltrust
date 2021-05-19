@@ -16,6 +16,7 @@
 		"@fortawesome/fontawesome-free": "^5.15.3",
 		"bulma": "^0.9.2",
 		"bulma-accordion": "^2.0.1",
+		"bulma-floating-button": "^1.0.3",
 		"bulma-timeline": "^3.0.4"
 	},
 	"devDependencies": {

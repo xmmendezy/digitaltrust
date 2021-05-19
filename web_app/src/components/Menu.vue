@@ -70,7 +70,7 @@ export default class Menu extends ComponentBase {
 	}
 
 	private get whatsapp_href(): string {
-		return `whatsapp://send?text=Hola, soy ${this.store.api.name}, necesito ayuda.&phone=${this.telephone}&abid=${this.telephone}`;
+		return `https://wa.me/${this.telephone}?text=Hola, soy ${this.store.api.name}, necesito ayuda.`;
 	}
 }
 </script>

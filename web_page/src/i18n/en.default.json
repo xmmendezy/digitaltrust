@@ -17,50 +17,26 @@
 		"b": "Convert your investment into passive earnings, make money work for you.",
 		"c": "Start now"
 	},
-	"service": {
-		"a": "Our services",
-		"b": "We have some memberships for you to start investing",
-		"c": {
-			"a": {
-				"a": "Bronze",
-				"b": "12 months",
-				"c": "Monthly earnings 4%"
-			},
-			"b": {
-				"a": "Silver",
-				"b": "12 months",
-				"c": "Monthly earnings 5%"
-			},
-			"c": {
-				"a": "Gold",
-				"b": "12 months",
-				"c": "Monthly earnings 7%"
-			},
-			"d": {
-				"a": "Platinum",
-				"b": "10 months",
-				"c": "Monthly earnings 8%"
-			},
-			"e": {
-				"a": "Platinum +",
-				"b": "10 months",
-				"c": "Monthly earnings 10%"
-			}
-		},
-		"d": "Start"
+	"our_industries": {
+		"a": "Our industries",
+		"b": "Innovation is one of the main key points to stay one step ahead. Therefore, a comprehensive well-being is important as well as taking care of all aspects of the lives of our brand partners.",
+		"c": "At Digital Trust, we fund extremely strong industries that are booming, such as medical cannabis planting, trading in different financial markets, and health and wellness products with maximum absorption technology.",
+		"d": "Financial Markets",
+		"e": "Plantation Found",
+		"f": "Health and Wellness"
 	},
 	"service_info": {
 		"a": "Safe service",
 		"b": [
 			"Your earnings are automatically credited to your DigitalTrust account every 24 hours.",
 			"Do not hesitate to contact our support team, your questions and requests are dealt with promptly.",
-			"You can withdraw your winnings at any time, which are sent to an external wallet, bank transfer or check in a maximum of one week."
+			"You can withdraw your earnings at any time, which are sent to an external wallet, bank transfer or check in a maximum of one week."
 		]
 	},
 	"invest_now": {
 		"a": "Invest now",
 		"b": "How to do it?",
-		"c": ["Sign up", "Make a deposit to one or more memberships", "Withdraw your winnings. And to enjoy..."],
+		"c": ["Sign up", "Make a deposit to one or more memberships", "Withdraw your earnings. And to enjoy..."],
 		"d": "Sign up"
 	},
 	"fqa": {
@@ -185,9 +161,8 @@
 	"footer": {
 		"a": "Convert your investment into passive earnings, until the money works for you.",
 		"b": "Digital Trust protects your data with SSL certification and uses reliable payment gateways to make your payments with Visa, MasterCard, American Express, BTC, Paypal, etc.",
-		"c": "Company transparency",
-		"d": "Connect with Digital Trust",
-		"e": "All rights reserved"
+		"c": "Connect with Digital Trust",
+		"d": "All rights reserved"
 	},
 	"helper": {
 		"more": "More"

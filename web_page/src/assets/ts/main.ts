@@ -24,7 +24,7 @@ function contactForm() {
 	const input_message = <HTMLInputElement>document.getElementById('message');
 	const message = input_message.value;
 	window.open(
-		`whatsapp://send?text=Hola, soy ${name}, mi correo es ${email} y mi número de teléfono ${phone}. ${message}.&phone=+16469803342&abid=+16469803342`,
+		`https://wa.me/16469803342?text=Hola, soy ${name}, mi correo es ${email} y mi número de teléfono ${phone}. ${message}.`,
 		'_blank',
 	);
 	input_name.value = '';

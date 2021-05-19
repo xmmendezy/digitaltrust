@@ -800,7 +800,7 @@
 											</b-button>
 										</b-field>
 									</div>
-									<div class="column is-6">
+									<div v-if="deposit_method_selected !== 'balance'" class="column is-6">
 										{{ L('admin.url_pay') }}
 										<div class="url-pay">
 											{{ url_pay }}

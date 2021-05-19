@@ -34,6 +34,50 @@
 				</div>
 			</section>
 
+			<section id="our_industries" class="section">
+				<div class="columns">
+					<div class="column is-hidden-mobile"></div>
+					<div class="column is-8">
+						<div class="content">
+							<h1 class="title-underline has-text-left">{{ our_industries.a }}</h1>
+							<p class="has-text-left has-text-gray">
+								{{ our_industries.b }}
+							</p>
+							<p class="has-text-left has-text-gray">
+								{{ our_industries.c }}
+							</p>
+						</div>
+					</div>
+					<div class="column is-hidden-mobile"></div>
+				</div>
+				<div class="columns">
+					<div class="column is-hidden-mobile"></div>
+					<div class="column is-8">
+						<div class="columns">
+							<div class="column">
+								{{#image_src 'image6.png' 'image6'}}{{/image_src}}
+								<p class="has-text-centered has-text-primary">
+									{{ our_industries.d }}
+								</p>
+							</div>
+							<div class="column">
+								{{#image_src 'image7.png' 'image7'}}{{/image_src}}
+								<p class="has-text-centered has-text-primary">
+									{{ our_industries.e }}
+								</p>
+							</div>
+							<div class="column">
+								{{#image_src 'image8.png' 'image8'}}{{/image_src}}
+								<p class="has-text-centered has-text-primary">
+									{{ our_industries.f }}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="column is-hidden-mobile"></div>
+				</div>
+			</section>
+
 			<section id="friendly" class="section">
 				<div class="columns">
 					<div class="column">
@@ -60,111 +104,6 @@
 				</div>
 
 				<div class="points_4">
-					{{> points_svg }}
-				</div>
-			</section>
-
-			<section id="service" class="section is-hidden">
-				<div class="columns">
-					<div class="column is-8 is-offset-2">
-						<div class="content is-medium">
-							<h1 class="title-underline">{{ service.a }}</h1>
-							<p class="subtitle-service">
-								{{ service.b }}
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="prices">
-					<div class="columns">
-						<div class="column">
-							<div class="card">
-								<p class="price-title title-1">
-									$5000
-								</p>
-								<p class="price-subtitle">
-									{{ service.c.a.a }}
-								</p>
-								<ul class="has-text-left has-text-gray">
-									<li>{{ service.c.a.b }}</li>
-									<li>{{ service.c.a.c }}</li>
-								</ul>
-							</div>
-						</div>
-						<div class="column">
-							<div class="card">
-								<p class="price-title title-2">
-									$10 000
-								</p>
-								<p class="price-subtitle">
-									{{ service.c.b.a }}
-								</p>
-								<ul class="has-text-left has-text-gray">
-									<li>{{ service.c.b.b }}</li>
-									<li>{{ service.c.b.c }}</li>
-								</ul>
-							</div>
-						</div>
-						<div class="column">
-							<div class="card">
-								<p class="price-title title-3">
-									$25 000
-								</p>
-								<p class="price-subtitle">
-									{{ service.c.c.a }}
-								</p>
-								<ul class="has-text-left has-text-gray">
-									<li>{{ service.c.c.b }}</li>
-									<li>{{ service.c.c.c }}</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="columns">
-						<div class="column is-2"></div>
-						<div class="column">
-							<div class="card">
-								<p class="price-title title-4">
-									$50 000
-								</p>
-								<p class="price-subtitle">
-									{{ service.c.d.a }}
-								</p>
-								<ul class="has-text-left has-text-gray">
-									<li>{{ service.c.d.b }}</li>
-									<li>{{ service.c.d.c }}</li>
-								</ul>
-							</div>
-						</div>
-						<div class="column">
-							<div class="card">
-								<p class="price-title title-4">
-									$100 000
-								</p>
-								<p class="price-subtitle">
-									{{ service.c.e.a }}
-								</p>
-								<ul class="has-text-left has-text-gray">
-									<li>{{ service.c.e.b }}</li>
-									<li>{{ service.c.e.c }}</li>
-								</ul>
-							</div>
-						</div>
-						<div class="column is-2"></div>
-					</div>
-					<a target="_blank" href="/app/register?i18n={{ i18n }}"
-						class="button is-primary is-rounded is-outlined">{{ service.d }}</a>
-				</div>
-
-				<div class="cloud_svg_1">
-					{{> cloud_svg }}
-				</div>
-
-				<div class="points_4">
-					{{> points_svg }}
-				</div>
-
-				<div class="points_5">
 					{{> points_svg }}
 				</div>
 			</section>
@@ -343,8 +282,9 @@
 							</li>
 							<li class="email">
 								<span class="fa-li"><i class="fab fa-whatsapp"></i></span>
-								<a href="whatsapp://send?text=Hola, soy un cliente, quiero más información.&phone=+16469803342&abid=+16469803342" target="_blank">
-									Whatsapp +1 (646) 980-3324
+								<a href="https://wa.me/16469803342?text=Hola, soy un cliente, quiero más información."
+									target="_blank">
+									Whatsapp +1 (646) 980-3342
 								</a>
 							</li>
 						</ul>

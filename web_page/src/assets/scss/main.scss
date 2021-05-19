@@ -168,6 +168,7 @@ $footer-padding: 7rem 7rem;
 @import 'bulma/bulma.sass';
 @import 'bulma-accordion/src/sass/index.sass';
 @import 'bulma-timeline/src/sass/index.sass';
+@import 'bulma-floating-button/dist/css/bulma-floating-button.sass';
 
 @import './navbar.scss';
 @import './svg.scss';
@@ -334,7 +335,8 @@ body {
 	}
 }
 
-#friendly {
+#friendly,
+#our_industries {
 	.content {
 		@include tablet {
 			margin-left: 5rem;
@@ -354,73 +356,11 @@ body {
 	}
 }
 
-#service {
-	position: relative;
+#our_industries .content {
+	margin-left: 0;
 
-	.subtitle-service {
-		color: $gray;
-		font-size: 20px !important;
-		padding-top: 1.5rem;
-	}
-
-	.prices {
-		padding-top: 2rem;
-
-		.columns {
-			padding-bottom: 3rem;
-		}
-
-		.card {
-			border-radius: 20px;
-
-			.price-title {
-				font-size: 30px;
-				font-weight: bold;
-				padding-top: 3.5rem;
-				padding-bottom: 3.5rem;
-
-				&.title-1 {
-					color: #cd602e;
-				}
-
-				&.title-2 {
-					color: #c8c4c1;
-				}
-
-				&.title-3 {
-					color: #f3e74b;
-				}
-
-				&.title-4 {
-					color: #74d5e3;
-				}
-			}
-
-			.price-subtitle {
-				font-size: 20px;
-				font-weight: bold;
-				padding-bottom: 0.5rem;
-			}
-
-			ul {
-				list-style: disc outside;
-				margin-left: 5em;
-				margin-top: 1em;
-				padding-bottom: 1em;
-
-				li {
-					padding-bottom: 1rem;
-				}
-			}
-		}
-
-		.button {
-			width: 20% !important;
-			margin-top: 1.5rem !important;
-			padding-top: 1.5rem;
-			padding-bottom: 1.5rem;
-			font-weight: bold;
-		}
+	@include tablet {
+		margin-bottom: 5vh;
 	}
 }
 
@@ -486,7 +426,9 @@ body {
 	position: relative;
 
 	.content {
-		padding-top: 5rem;
+		@include tablet {
+			padding-top: 5rem;
+		}
 
 		.contacts {
 			padding-left: 3rem;
@@ -573,6 +515,10 @@ body {
 		padding-top: 1.5rem;
 		padding-bottom: 1.5rem;
 		font-weight: bold;
+
+		@include mobile {
+			width: 100% !important;
+		}
 
 		@include tablet {
 			width: 70% !important;
