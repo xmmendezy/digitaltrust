@@ -188,6 +188,10 @@
 		"completed_description": "Su depósito ha sido procesado. Gracias por confiar en DigitalTrust.",
 		"success": "Pago procesado",
 		"error": "Hubo un error, vuelva a intentar",
+		"deposit_direct_text": {
+			"a": "Se realizará un depósito de {count}",
+			"b": "en la membresía {count}"
+		},
 		"to_pay": "Pagar"
 	},
 	"donations": {
@@ -228,6 +232,11 @@
 			"j": "Teléfono no disponible, ya registrado",
 			"k": "Correo no disponible, ya registrado"
 		}
+	},
+	"info": {
+		"title": "Transparencia de la empresa",
+		"doc1": "Documento 1",
+		"doc2": "Documento 2"
 	},
 	"helper": {
 		"welcome": "Bienvenido",

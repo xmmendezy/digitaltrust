@@ -132,8 +132,8 @@ export default abstract class ComponentBase extends Vue {
 		return this.$t(key) as string;
 	}
 
-	public LC(key: string, count: number): string {
-		return this.$tc(key, count) as string;
+	public LC(key: string, count: number | string): string {
+		return this.$tc(key, count as any) as string;
 	}
 
 	public toastError(message: string, duration: number = 4000) {

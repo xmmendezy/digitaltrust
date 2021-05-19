@@ -876,18 +876,21 @@
 								v-if="!has_button_payment && deposit_method_selected === 'blockchain'"
 								class="message-deposit"
 							>
-								<div class="column title has-text-left">
-									{{ L('deposit.description_dollar') }}
+								<p v-if="directDeposit" class="deposit-direct-text">{{ deposit_direct_text }}</p>
+								<div v-else>
+									<div class="column title has-text-left">
+										{{ L('deposit.description_dollar') }}
+									</div>
+									<c-input
+										v-model="moneyDeposit"
+										:placeholder="L('deposit.money')"
+										type="number"
+										:max="moneyDepositMax"
+										:min="moneyDepositMin"
+										icon="fa-dollar-sign"
+									>
+									</c-input>
 								</div>
-								<c-input
-									v-model="moneyDeposit"
-									:placeholder="L('deposit.money')"
-									type="number"
-									:max="moneyDepositMax"
-									:min="moneyDepositMin"
-									icon="fa-dollar-sign"
-								>
-								</c-input>
 								<div class="columns">
 									<div
 										v-for="deposit_blockchain in deposit_blockchains"
@@ -912,12 +915,14 @@
 									</div>
 								</div>
 							</div>
-							<div
-								v-if="has_button_payment && deposit_method_selected === 'paypal'"
-								ref="paypal-button-container"
-								id="paypal-button-container"
-								class="container-pay"
-							></div>
+							<div v-if="has_button_payment && deposit_method_selected === 'paypal'">
+								<p v-if="directDeposit" class="deposit-direct-text">{{ deposit_direct_text }}</p>
+								<div
+									ref="paypal-button-container"
+									id="paypal-button-container"
+									class="container-pay"
+								></div>
+							</div>
 							<div
 								v-if="has_button_payment && deposit_method_selected === 'stripe'"
 								class="container-pay"
@@ -942,7 +947,7 @@
 
 						<template #navigation="{ previous, next }">
 							<b-button
-								v-if="DepositStep === 1 || (DepositStep === 2 && !has_button_payment)"
+								v-if="DepositStep === 1 || (DepositStep === 2 && !has_button_payment && !directDeposit)"
 								outlined
 								type="is-primary"
 								icon-pack="fas"
@@ -1060,6 +1065,9 @@ export default class Home extends PageChildBase {
 	private moneySupportPayment: number = 100;
 
 	private supportPayment: boolean = false;
+
+	private directDeposit: boolean = false;
+	private deposit_direct_text: string = '';
 
 	get moneyMembership() {
 		return this.formatMoney(
@@ -1198,6 +1206,10 @@ export default class Home extends PageChildBase {
 		}
 
 		if ('directDeposit' in this.$route.query) {
+			this.directDeposit = true;
+			this.moneyDeposit = parseFloat(this.$route.query.money as string);
+			this.deposit_method_selected = this.$route.query.method as string;
+			this.deposit_membership_selected = this.$route.query.membership as string;
 			this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
 				this.balance_detail_data = data;
 				this.deposit_suscription = this.memberships_data.map(m => {
@@ -1214,15 +1226,36 @@ export default class Home extends PageChildBase {
 						investment: suscription?.investment || 0,
 					};
 				});
-				this.moneyDeposit = parseFloat(this.$route.query.money as string);
-				this.deposit_method_selected = this.$route.query.method as string;
-				this.deposit_membership_selected = this.$route.query.membership as string;
 				this.DepositStep = 2;
 				this.moneyDepositMax = this.moneyDeposit;
 				this.moneyDepositMin = this.moneyDeposit;
-				this.has_button_payment = true;
-				this.isOpenDepositModal = true;
-				this.to_pay();
+				if (this.deposit_method_selected === 'paypal') {
+					this.has_button_payment = true;
+					this.isOpenDepositModal = true;
+					this.deposit_direct_text = `${this.LC(
+						'deposit.deposit_direct_text.a',
+						this.formatMoney(this.moneyDeposit),
+					)} ${this.LC(
+						'deposit.deposit_direct_text.b',
+						this.deposit_suscription.find(m => m.membershipId === this.deposit_membership_selected)?.name ||
+							'',
+					)}`;
+					this.to_pay();
+				} else if (this.deposit_method_selected === 'stripe') {
+					this.has_button_payment = true;
+					this.isOpenDepositModal = true;
+					this.to_pay();
+				} else if (this.deposit_method_selected === 'blockchain') {
+					this.deposit_direct_text = `${this.LC(
+						'deposit.deposit_direct_text.a',
+						this.formatMoney(this.moneyDeposit),
+					)} ${this.LC(
+						'deposit.deposit_direct_text.b',
+						this.deposit_suscription.find(m => m.membershipId === this.deposit_membership_selected)?.name ||
+							'',
+					)}`;
+					this.isOpenDepositModal = true;
+				}
 			});
 		}
 
@@ -1513,6 +1546,7 @@ export default class Home extends PageChildBase {
 				this.process_blockchain();
 			}
 		}
+		this.directDeposit = false;
 	}
 
 	private async process_blockchain() {
@@ -2172,6 +2206,10 @@ export default class Home extends PageChildBase {
 					margin-bottom: 0;
 				}
 			}
+		}
+
+		.deposit-direct-text {
+			padding: 3rem 0;
 		}
 
 		.message-deposit,

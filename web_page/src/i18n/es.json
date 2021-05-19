@@ -17,37 +17,13 @@
 		"b": "Convierta su inversión en ganancias pasivas, haga que el dinero trabaje para usted.",
 		"c": "Comenzar"
 	},
-	"service": {
-		"a": "Nuestros servicios",
-		"b": "Tenemos algunas membresías para que usted comience a invertir",
-		"c": {
-			"a": {
-				"a": "Bronze",
-				"b": "Período de 12 meses",
-				"c": "Interés mensual del 4%"
-			},
-			"b": {
-				"a": "Silver",
-				"b": "Período de 12 meses",
-				"c": "Interés mensual del 5%"
-			},
-			"c": {
-				"a": "Gold",
-				"b": "Período de 12 meses",
-				"c": "Interés mensual del 7%"
-			},
-			"d": {
-				"a": "Platinum",
-				"b": "Período de 10 meses",
-				"c": "Interés mensual del 8%"
-			},
-			"e": {
-				"a": "Platinum +",
-				"b": "Período de 10 meses",
-				"c": "Interés mensual del 10%"
-			}
-		},
-		"d": "Comenzar"
+	"our_industries": {
+		"a": "Nuestras industrias",
+		"b": "La innovación es uno de los principales puntos clave para estar un paso por delante. Por eso, un bienestar integral es importante así como cuidar todos los aspectos de la vida de nuestros socios de marca.",
+		"c": "En Digital Trust, financiamos industrias extremadamente fuertes que están en su mayor auge, como la plantación de cannabis medicinal, el comercio en diferentes mercados financieros y productos de salud y bienestar con tecnología de máxima absorción.",
+		"d": "Mercados Financieros",
+		"e": "Plantación Medicinal",
+		"f": "Salud y Bienestar"
 	},
 	"service_info": {
 		"a": "Servicio Confiable",
@@ -185,9 +161,8 @@
 	"footer": {
 		"a": "Convierta su inversión en ganancias pasivas, hasta que el dinero trabaje para usted.",
 		"b": "Digital Trust protege sus datos con certificación SSL y utiliza pasarelas de pago confiables, para que realice sus pagos con Visa, MasterCard, American Express, BTC, Paypal, etc.",
-		"c": "Transparencia de la empresa",
-		"d": "Conéctese con Digital Trust",
-		"e": "Todos los derechos reservados"
+		"c": "Conéctese con Digital Trust",
+		"d": "Todos los derechos reservados"
 	},
 	"helper": {
 		"more": "Leer más"

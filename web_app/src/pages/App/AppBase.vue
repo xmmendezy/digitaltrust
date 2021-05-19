@@ -23,9 +23,13 @@
 							</b-dropdown-item>
 						</b-dropdown>
 					</b-navbar-item>
-					<b-navbar-item tag="div" class="is-hidden">
-						<b-button type="is-text" size="is-medium" class="has-text-gray" icon-left="comments">
-							{{ L('helper.support') }}
+					<b-navbar-item v-if="!$isAdmin" tag="div">
+						<b-button
+							type="is-text"
+							class="has-text-primary"
+							icon-left="info-circle"
+							@click="isOpenInfoModal = true"
+						>
 						</b-button>
 					</b-navbar-item>
 					<b-navbar-item tag="div" class="navbar-burger" @click="triggerSidebar()">
@@ -61,7 +65,7 @@
 				</div>
 			</section>
 		</div>
-		<b-modal v-model="isOpenModal" full-screen has-modal-card :can-cancel="[]">
+		<b-modal v-model="isOpenModal" full-screen has-modal-card :can-cancel="[]" class="modal-menu">
 			<div class="modal-card" style="width: auto">
 				<header class="modal-card-head">
 					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
@@ -75,6 +79,25 @@
 				</header>
 				<section class="modal-card-body">
 					<Menu @open="triggerSidebar()" />
+				</section>
+			</div>
+		</b-modal>
+		<b-modal v-model="isOpenInfoModal" has-modal-card class="modal-info">
+			<div class="modal-card">
+				<header class="modal-card-head">
+					<p class="modal-card-title">{{ L('info.title') }}</p>
+				</header>
+				<section class="modal-card-body">
+					<p>
+						<a :href="publicPath + 'doc3.pdf'" target="_blank">
+							<i class="fas fa-file-alt"></i> {{ L('info.doc1') }}
+						</a>
+					</p>
+					<p>
+						<a :href="publicPath + 'doc4.pdf'" target="_blank">
+							<i class="fas fa-file-alt"></i> {{ L('info.doc2') }}
+						</a>
+					</p>
 				</section>
 			</div>
 		</b-modal>
@@ -94,6 +117,7 @@ export default class AppBase extends PageBase {
 	private isOpenSidebar: boolean = true;
 	private isReduceSidebar: boolean = true;
 	private isOpenModal: boolean = false;
+	private isOpenInfoModal: boolean = false;
 
 	public async created() {
 		await super.created();
@@ -314,7 +338,7 @@ export default class AppBase extends PageBase {
 		}
 	}
 
-	.modal {
+	.modal-menu {
 		.modal-card-head {
 			background-color: white;
 			padding: 0 0 0 1.75rem;
@@ -323,6 +347,14 @@ export default class AppBase extends PageBase {
 				font-size: 24px !important;
 				margin: 0 !important;
 				font-weight: 500 !important;
+			}
+		}
+	}
+
+	.modal-info {
+		.modal-card-body {
+			p {
+				padding: 1.5rem;
 			}
 		}
 	}
