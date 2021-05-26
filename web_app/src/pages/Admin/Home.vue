@@ -302,6 +302,15 @@
 										></c-input>
 									</div>
 								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											v-model="edit_client_form.banck_account"
+											@keyup.enter.native="update_client()"
+											:placeholder="L('setting.accounts.e')"
+										></c-input>
+									</div>
+								</div>
 							</section>
 						</div>
 					</div>
@@ -859,7 +868,7 @@ export default class Admin extends PageChildBase {
 	private withdrawals_client_data: IWithdrawal[] = null as any;
 
 	private isOpenWithdrawalModal: boolean = false;
-	private withdrawal_methods: string[] = ['bankcheck', 'paypal', 'stripe', 'blockchain'];
+	private withdrawal_methods: string[] = ['bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
 	private withdrawal_method_selected: string = 'bankcheck';
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;
@@ -1166,7 +1175,7 @@ export default class Admin extends PageChildBase {
 		this.load_form_api(await this.store.api.balance_detail({ id }), (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
 			this.withdrawal_method_selected = 'bankcheck';
-			this.moneyWithdrawalMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+			this.moneyWithdrawalMax = parseFloat(this.balance_detail_data.balance.toFixed(2));
 			this.moneyWithdrawal = 0;
 			this.dateWithdrawal = new Date();
 			this.isOpenWithdrawalModal = true;

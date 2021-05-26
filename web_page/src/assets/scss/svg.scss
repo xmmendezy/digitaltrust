@@ -51,12 +51,12 @@ div[class^='cloud_svg_'] {
 .points_8 {
 	@include mobile {
 		top: 8rem;
-		right: 3rem;
+		left: 3rem;
 	}
 
 	@include tablet {
 		top: 2rem;
-		left: calc(47vw - 10rem);
+		left: 3rem;
 	}
 }
 

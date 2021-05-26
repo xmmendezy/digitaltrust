@@ -86,6 +86,7 @@ class UserDto {
 		this.paypal_account = data.paypal_account;
 		this.stripe_account = data.stripe_account;
 		this.coinpayments_account = data.coinpayments_account;
+		this.banck_account = data.banck_account;
 	}
 
 	public id: string;
@@ -107,6 +108,7 @@ class UserDto {
 	public paypal_account: string;
 	public stripe_account: string;
 	public coinpayments_account: string;
+	public banck_account: string;
 }
 
 class TokenDto {
@@ -133,6 +135,7 @@ interface IUpdateDto {
 	paypal_account: string;
 	stripe_account: string;
 	coinpayments_account: string;
+	banck_account: string;
 }
 
 class UpdateDto extends BaseDTO {
@@ -149,6 +152,7 @@ class UpdateDto extends BaseDTO {
 		this.paypal_account = data.paypal_account;
 		this.stripe_account = data.stripe_account;
 		this.coinpayments_account = data.coinpayments_account;
+		this.banck_account = data.banck_account;
 	}
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
@@ -188,6 +192,8 @@ class UpdateDto extends BaseDTO {
 
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	coinpayments_account!: string;
+
+	banck_account!: string;
 }
 
 interface IRefer {

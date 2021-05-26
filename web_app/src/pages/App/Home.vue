@@ -1025,7 +1025,7 @@ export default class Home extends PageChildBase {
 
 	private isOpenWithdrawalModal: boolean = false;
 	private WithdrawalStep: number = 0;
-	private withdrawal_methods: string[] = ['bankcheck', 'paypal', 'stripe', 'blockchain'];
+	private withdrawal_methods: string[] = ['bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
 	private withdrawal_method_selected: string = 'bankcheck';
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;

@@ -103,6 +103,7 @@ export class ApiService {
 			'paypal_account',
 			'stripe_account',
 			'coinpayments_account',
+			'banck_account',
 		];
 		const errors: string[] = [];
 		for (const key in data) {

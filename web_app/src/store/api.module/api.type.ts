@@ -32,6 +32,7 @@ interface IUser {
 	paypal_account: string;
 	stripe_account: string;
 	coinpayments_account: string;
+	banck_account: string;
 	created: string | Date;
 }
 
@@ -52,6 +53,7 @@ class UpdateDto extends ClassBase {
 			this.paypal_account = data.paypal_account;
 			this.stripe_account = data.stripe_account;
 			this.coinpayments_account = data.coinpayments_account;
+			this.banck_account = data.banck_account;
 		} else {
 			this.firstname = '';
 			this.lastname = '';
@@ -65,6 +67,7 @@ class UpdateDto extends ClassBase {
 			this.paypal_account = '';
 			this.stripe_account = '';
 			this.coinpayments_account = '';
+			this.banck_account = '';
 		}
 	}
 
@@ -112,6 +115,8 @@ class UpdateDto extends ClassBase {
 
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	coinpayments_account!: string;
+
+	banck_account!: string;
 
 	public validate(): string[] {
 		if (!this.paypal_account) {
