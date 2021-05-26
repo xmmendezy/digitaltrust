@@ -84,20 +84,10 @@
 		</b-modal>
 		<b-modal v-model="isOpenInfoModal" has-modal-card class="modal-info">
 			<div class="modal-card">
-				<header class="modal-card-head">
-					<p class="modal-card-title">{{ L('info.title') }}</p>
-				</header>
 				<section class="modal-card-body">
-					<p>
-						<a :href="publicPath + 'doc3.pdf'" target="_blank">
-							<i class="fas fa-file-alt"></i> {{ L('info.doc1') }}
-						</a>
-					</p>
-					<p>
-						<a :href="publicPath + 'doc4.pdf'" target="_blank">
-							<i class="fas fa-file-alt"></i> {{ L('info.doc2') }}
-						</a>
-					</p>
+					<div v-for="i in numPages" :key="i" class="pdf-page">
+						<pdf :src="pdf_src" :page="i"></pdf>
+					</div>
 				</section>
 			</div>
 		</b-modal>
@@ -108,9 +98,10 @@
 import PageBase from '../../utils/page_base.utils';
 import { Component } from 'vue-property-decorator';
 import Menu from '../../components/Menu.vue';
+import pdf from 'vue-pdf';
 
 @Component({
-	components: { Menu },
+	components: { Menu, pdf },
 })
 export default class AppBase extends PageBase {
 	private error: boolean = false;
@@ -118,6 +109,9 @@ export default class AppBase extends PageBase {
 	private isReduceSidebar: boolean = true;
 	private isOpenModal: boolean = false;
 	private isOpenInfoModal: boolean = false;
+
+	public numPages: number = 0;
+	public pdf_src: any = '';
 
 	public async created() {
 		await super.created();
@@ -127,6 +121,12 @@ export default class AppBase extends PageBase {
 		this.reload();
 		this.$watch('$route', () => {
 			this.statusSidebar();
+		});
+		this.$watch('isOpenInfoModal', async () => {
+			this.pdf_src = await pdf.createLoadingTask(this.publicPath + 'doc5_' + this.$i18n.locale + '.pdf');
+			this.pdf_src.promise.then((pdf: { numPages: number }) => {
+				this.numPages = pdf.numPages;
+			});
 		});
 	}
 
@@ -352,9 +352,18 @@ export default class AppBase extends PageBase {
 	}
 
 	.modal-info {
-		.modal-card-body {
-			p {
-				padding: 1.5rem;
+		.animation-content {
+			max-width: 70vw !important;
+		}
+
+		.modal-card {
+			height: 90vh;
+			width: 70vw;
+
+			.modal-card-body {
+				p {
+					padding: 1.5rem;
+				}
 			}
 		}
 	}

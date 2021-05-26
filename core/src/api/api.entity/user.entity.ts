@@ -42,6 +42,7 @@ export class User extends BaseEntity implements IUser {
 			this.paypal_account = data.paypal_account || data.email;
 			this.stripe_account = data.stripe_account || data.email;
 			this.coinpayments_account = data.coinpayments_account || data.email;
+			this.banck_account = data.banck_account || ''
 			this.ref = data.ref;
 		}
 	}
@@ -168,6 +169,11 @@ export class User extends BaseEntity implements IUser {
 		default: '',
 	})
 	public coinpayments_account: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_account: string;
 
 	@Column({
 		default: '',

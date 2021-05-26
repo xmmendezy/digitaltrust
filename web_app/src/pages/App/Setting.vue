@@ -121,6 +121,15 @@
 								></c-input>
 							</div>
 						</div>
+						<div class="columns">
+							<div class="column">
+								<c-input
+									v-model="update_form.banck_account"
+									@keyup.enter.native="update()"
+									:placeholder="L('setting.accounts.e')"
+								></c-input>
+							</div>
+						</div>
 					</section>
 				</div>
 			</div>

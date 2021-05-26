@@ -88,7 +88,8 @@
 			"a": "Accounts",
 			"b": "PayPal",
 			"c": "Stripe",
-			"d": "CoinPayments"
+			"d": "CoinPayments",
+			"e": "Bank information"
 		},
 		"save": "Save",
 		"ok": "Data was saved",
@@ -156,7 +157,7 @@
 	},
 	"withdrawal": {
 		"title": "Withdrawal",
-		"subtitle": "You can always withdraw the money from your winnings.",
+		"subtitle": "You can always withdraw the money from your earnings.",
 		"step_1": "Payment method",
 		"step_2": "Money",
 		"step_3": "Confirm",
@@ -216,6 +217,7 @@
 		"blockchain": "CoinPayments",
 		"balance": "Balance",
 		"bankcheck": "Bank Check",
+		"wire_transfer": "Wire Transfer",
 		"investment": "Investment"
 	},
 	"validator": {

@@ -85,6 +85,10 @@ export default class Menu extends ComponentBase {
 			bottom: 0;
 			width: calc(20vw - 1.5rem);
 
+			@include mobile {
+				width: 80vw;
+			}
+
 			span:not(.icon) {
 				white-space: pre-wrap;
 				word-wrap: break-word;

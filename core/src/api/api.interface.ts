@@ -32,6 +32,7 @@ interface IUser {
 	readonly paypal_account?: string;
 	readonly stripe_account?: string;
 	readonly coinpayments_account?: string;
+	readonly banck_account?: string;
 	readonly ref?: string;
 }
 
@@ -77,6 +78,7 @@ enum WithdrawalMethod {
 	STRIPE = 'stripe',
 	BLOCKCHAIN = 'blockchain',
 	BANKCHECK = 'bankcheck',
+	WIRE_TRANSFER = 'wire_transfer',
 }
 
 interface IDeposit {

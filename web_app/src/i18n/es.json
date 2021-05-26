@@ -88,7 +88,8 @@
 			"a": "Cuentas",
 			"b": "PayPal",
 			"c": "Stripe",
-			"d": "CoinPayments"
+			"d": "CoinPayments",
+			"e": "Información bancaria"
 		},
 		"save": "Guardar",
 		"ok": "Se guardaron los datos",
@@ -216,6 +217,7 @@
 		"blockchain": "CoinPayments",
 		"balance": "Saldo",
 		"bankcheck": "Cheque bancario",
+		"wire_transfer": "Transferencia bancaria",
 		"investment": "Inversión"
 	},
 	"validator": {
