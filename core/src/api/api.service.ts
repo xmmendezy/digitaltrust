@@ -63,9 +63,10 @@ export class ApiService {
 		}
 		await user.time_login();
 		await user.time_query();
-		if (ref_is_admin && data.freeSupport) {
-			user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
-		}
+		//if (ref_is_admin && data.freeSupport) {
+		//	user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
+		//}
+		user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
 		await user.save();
 		return await this.createToken(user);
 	}
