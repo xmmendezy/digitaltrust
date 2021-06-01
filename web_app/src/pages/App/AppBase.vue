@@ -32,6 +32,15 @@
 						>
 						</b-button>
 					</b-navbar-item>
+					<b-navbar-item v-if="!$isAdmin" tag="div">
+						<b-button
+							type="is-text"
+							class="has-text-primary"
+							icon-left="question"
+							@click="isOpenHelpModal = true"
+						>
+						</b-button>
+					</b-navbar-item>
 					<b-navbar-item tag="div" class="navbar-burger" @click="triggerSidebar()">
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
@@ -65,6 +74,7 @@
 				</div>
 			</section>
 		</div>
+
 		<b-modal v-model="isOpenModal" full-screen has-modal-card :can-cancel="[]" class="modal-menu">
 			<div class="modal-card" style="width: auto">
 				<header class="modal-card-head">
@@ -82,6 +92,7 @@
 				</section>
 			</div>
 		</b-modal>
+
 		<b-modal v-model="isOpenInfoModal" has-modal-card class="modal-info">
 			<div class="modal-card">
 				<section class="modal-card-body">
@@ -89,6 +100,12 @@
 						<pdf :src="pdf_src" :page="i"></pdf>
 					</div>
 				</section>
+			</div>
+		</b-modal>
+
+		<b-modal v-model="isOpenHelpModal" has-modal-card class="modal-info">
+			<div class="modal-card">
+				<section class="modal-card-body">Hola</section>
 			</div>
 		</b-modal>
 	</div>
@@ -109,6 +126,7 @@ export default class AppBase extends PageBase {
 	private isReduceSidebar: boolean = true;
 	private isOpenModal: boolean = false;
 	private isOpenInfoModal: boolean = false;
+	private isOpenHelpModal: boolean = false;
 
 	public numPages: number = 0;
 	public pdf_src: any = '';
