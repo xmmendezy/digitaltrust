@@ -70,7 +70,12 @@
 					<p class="title">{{ L('login.forgot_password.a') }}</p>
 					<p class="subtitle has-text-justified">{{ L('login.forgot_password.b') }}</p>
 					<b-field>
-						<c-input v-model="email_forgot_password" :placeholder="L('login.forgot_password.c')"> </c-input>
+						<c-input
+							v-model="email_forgot_password"
+							@keyup.enter.native="passowrd_forgot()"
+							:placeholder="L('login.forgot_password.c')"
+						>
+						</c-input>
 					</b-field>
 					<b-field>
 						<b-button @click="passowrd_forgot()" type="is-primary">{{
@@ -92,6 +97,8 @@ import { LoginDto } from '../store';
 export default class Login extends PageChildBase {
 	private isModalForgotPassword: boolean = false;
 	private email_forgot_password: string = '';
+
+	private telephone: string = '+16469803342';
 
 	private login_form: LoginDto = {
 		email: '',
@@ -130,17 +137,14 @@ export default class Login extends PageChildBase {
 	}
 
 	public async passowrd_forgot() {
-		this.load_form_api(
-			await this.store.api.reset_password(this.email_forgot_password),
-			() => {
-				this.toastSuccess(this.L('login.success.a'));
-			},
-			{
-				u5: () => {
-					this.toastError(this.L('error.u5'));
-				},
-			},
-		);
+		if (this.email_forgot_password) {
+			window.open(
+				`https://wa.me/${this.telephone}?text=Hola, necesito ayuda con mi contraseña. Mi correo es ${this.email_forgot_password}.`,
+				'_blank',
+			);
+		} else {
+			this.toastError(this.L('error.u5'));
+		}
 		this.isModalForgotPassword = false;
 	}
 }

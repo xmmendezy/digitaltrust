@@ -26,6 +26,7 @@
 				:label="L('helper.donations')"
 			></b-menu-item>
 			<b-menu-item
+				id="driver-guide-c-2"
 				icon="ellipsis-h"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminSetting' : 'Setting' }"

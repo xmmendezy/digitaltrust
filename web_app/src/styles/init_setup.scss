@@ -20,7 +20,18 @@ body {
 	font-weight: normal !important;
 }
 
+.driver-fix-stacking {
+	.modal {
+		z-index: 100003 !important;
+	}
+
+	.table-wrapper.has-sticky-header tr:first-child th {
+		z-index: 0 !important;
+	}
+}
+
 @import '~bulma';
 @import '~buefy/src/scss/buefy';
 @import '~bulma-divider';
 @import '~vue-tel-input/dist/vue-tel-input.css';
+@import '~driver.js/dist/driver.min.css';

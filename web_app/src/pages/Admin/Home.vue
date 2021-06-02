@@ -372,7 +372,7 @@
 
 						<b-table-column
 							field="month"
-							:label="L('home.table_balance.d')"
+							:label="L('home.table_balance.f')"
 							header-class="header header-center has-text-right"
 							v-slot="props"
 						>

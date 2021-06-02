@@ -23,10 +23,16 @@
 						<b-button type="is-primary" @click="balance_now()">
 							{{ L('home.balance_now.e') }}
 						</b-button>
-						<b-button type="is-warning" @click="open_withdrawal()">
+						<b-button id="driver-guide-b-1" type="is-warning" @click="open_withdrawal()">
 							{{ L('home.balance_now.f') }}
 						</b-button>
-						<b-button class="is-right" type="is-success" size="is-large" @click="open_deposit()">
+						<b-button
+							id="driver-guide-a-1"
+							class="is-right"
+							type="is-success"
+							size="is-large"
+							@click="open_deposit()"
+						>
 							{{ L('home.balance_now.g') }}
 						</b-button>
 					</div>
@@ -34,10 +40,10 @@
 						<b-button type="is-primary" size="is-small" @click="balance_now()">
 							{{ L('home.balance_now.e') }}
 						</b-button>
-						<b-button type="is-warning" size="is-small" @click="open_withdrawal()">
+						<b-button id="driver-guide-b-1" type="is-warning" size="is-small" @click="open_withdrawal()">
 							{{ L('home.balance_now.f') }}
 						</b-button>
-						<b-button type="is-success" size="is-small" @click="open_deposit()">
+						<b-button id="driver-guide-a-1" type="is-success" size="is-small" @click="open_deposit()">
 							{{ L('home.balance_now.g') }}
 						</b-button>
 					</div>
@@ -490,7 +496,7 @@
 						{{ L('withdrawal.subtitle') }}
 					</p>
 					<b-steps v-model="WithdrawalStep">
-						<b-step-item step="1" :label="L('withdrawal.step_1')">
+						<b-step-item step="1" :label="L('withdrawal.step_1')" id="driver-guide-b-2">
 							<div
 								v-for="withdrawal_method in withdrawal_methods"
 								:key="withdrawal_method"
@@ -499,7 +505,12 @@
 								<div class="columns columns-withdrawal">
 									<div
 										class="column title has-text-left"
-										@click="withdrawal_method_selected = withdrawal_method"
+										@click="
+											() => {
+												withdrawal_method_selected = withdrawal_method;
+												moveNext();
+											}
+										"
 									>
 										{{ L(`payment_method.${withdrawal_method}`) }}
 									</div>
@@ -507,6 +518,7 @@
 										<b-radio
 											v-model="withdrawal_method_selected"
 											:native-value="withdrawal_method"
+											@input="moveNext()"
 										></b-radio>
 									</div>
 								</div>
@@ -551,15 +563,22 @@
 							<b-button
 								v-if="WithdrawalStep === 0"
 								outlined
+								id="driver-guide-b-3"
 								type="is-primary"
 								icon-pack="fas"
 								icon-right="chevron-right"
-								@click.prevent="next.action"
+								@click.prevent="
+									() => {
+										next.action();
+										moveNext();
+									}
+								"
 							>
 								{{ L('helper.next') }}
 							</b-button>
 							<b-button
 								v-if="WithdrawalStep === 1"
+								id="driver-guide-b-4"
 								outlined
 								type="is-primary"
 								icon-pack="fas"
@@ -595,7 +614,7 @@
 						{{ L('deposit.subtitle') }}
 					</p>
 					<b-steps v-model="DepositStep">
-						<b-step-item step="1" :label="L('deposit.step_1')" :clickable="false">
+						<b-step-item step="1" :label="L('deposit.step_1')" id="driver-guide-a-2" :clickable="false">
 							<div v-if="deposit_suscription.length" class="prices">
 								<div class="columns">
 									<div class="column">
@@ -605,7 +624,12 @@
 												'price-selected':
 													deposit_membership_selected === deposit_suscription[0].membershipId,
 											}"
-											@click="deposit_membership_selected = deposit_suscription[0].membershipId"
+											@click="
+												() => {
+													deposit_membership_selected = deposit_suscription[0].membershipId;
+													moveNext();
+												}
+											"
 										>
 											<p class="price-title title-1">
 												{{ deposit_suscription[0].name }}
@@ -650,7 +674,12 @@
 												'price-selected':
 													deposit_membership_selected === deposit_suscription[1].membershipId,
 											}"
-											@click="deposit_membership_selected = deposit_suscription[1].membershipId"
+											@click="
+												() => {
+													deposit_membership_selected = deposit_suscription[1].membershipId;
+													moveNext();
+												}
+											"
 										>
 											<p class="price-title title-2">
 												{{ deposit_suscription[1].name }}
@@ -695,7 +724,12 @@
 												'price-selected':
 													deposit_membership_selected === deposit_suscription[2].membershipId,
 											}"
-											@click="deposit_membership_selected = deposit_suscription[2].membershipId"
+											@click="
+												() => {
+													deposit_membership_selected = deposit_suscription[2].membershipId;
+													moveNext();
+												}
+											"
 										>
 											<p class="price-title title-3">
 												{{ deposit_suscription[2].name }}
@@ -743,7 +777,12 @@
 												'price-selected':
 													deposit_membership_selected === deposit_suscription[3].membershipId,
 											}"
-											@click="deposit_membership_selected = deposit_suscription[3].membershipId"
+											@click="
+												() => {
+													deposit_membership_selected = deposit_suscription[3].membershipId;
+													moveNext();
+												}
+											"
 										>
 											<p class="price-title title-4">
 												{{ deposit_suscription[3].name }}
@@ -788,7 +827,12 @@
 												'price-selected':
 													deposit_membership_selected === deposit_suscription[4].membershipId,
 											}"
-											@click="deposit_membership_selected = deposit_suscription[4].membershipId"
+											@click="
+												() => {
+													deposit_membership_selected = deposit_suscription[4].membershipId;
+													moveNext();
+												}
+											"
 										>
 											<p class="price-title title-4">
 												{{ deposit_suscription[4].name }}
@@ -831,12 +875,17 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="2" :label="L('deposit.step_2')" :clickable="false">
+						<b-step-item step="2" :label="L('deposit.step_2')" id="driver-guide-a-4" :clickable="false">
 							<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
 								<div class="columns columns-deposit">
 									<div
 										class="column title has-text-left"
-										@click="deposit_method_selected = deposit_method"
+										@click="
+											() => {
+												deposit_method_selected = deposit_method;
+												moveNext();
+											}
+										"
 									>
 										{{ L(`payment_method.${deposit_method}`) }}
 									</div>
@@ -844,6 +893,7 @@
 										<b-radio
 											v-model="deposit_method_selected"
 											:native-value="deposit_method"
+											@input="moveNext()"
 										></b-radio>
 									</div>
 								</div>
@@ -863,6 +913,7 @@
 									{{ L('deposit.description') }}
 								</div>
 								<c-input
+									id="driver-guide-a-6"
 									v-model="moneyDeposit"
 									:placeholder="L('deposit.money')"
 									type="number"
@@ -959,10 +1010,16 @@
 							<b-button
 								v-if="DepositStep === 0 || DepositStep === 1"
 								outlined
+								id="driver-guide-a-3"
 								type="is-primary"
 								icon-pack="fas"
 								icon-right="chevron-right"
-								@click.prevent="next.action"
+								@click.prevent="
+									() => {
+										next.action();
+										moveNext();
+									}
+								"
 							>
 								{{ L('helper.next') }}
 							</b-button>
@@ -1031,7 +1088,7 @@ export default class Home extends PageChildBase {
 	private moneyWithdrawalMax: number = 0;
 
 	private isOpenDepositModal: boolean = false;
-	private DepositStep: number = 0;
+	public DepositStep: number = 0;
 	private has_button_payment: boolean = false;
 	private deposit_suscription: {
 		name: string;
@@ -1068,6 +1125,10 @@ export default class Home extends PageChildBase {
 
 	private directDeposit: boolean = false;
 	private deposit_direct_text: string = '';
+
+	private moveNext: () => void = () => {
+		0;
+	};
 
 	get moneyMembership() {
 		return this.formatMoney(
@@ -1366,14 +1427,18 @@ export default class Home extends PageChildBase {
 		this.balance_detail(this.store.api.DateTime.now().startOf('month').toSeconds());
 	}
 
-	private async open_withdrawal() {
-		this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
+	public async open_withdrawal() {
+		this.load_form_api(await this.store.api.balance_detail({ id: '' }), async (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
 			this.withdrawal_method_selected = 'bankcheck';
 			this.WithdrawalStep = 0;
 			this.moneyWithdrawalMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
 			this.moneyWithdrawal = 0;
 			this.isOpenWithdrawalModal = true;
+			if (this.moveNext) {
+				await this.sleep(250);
+				this.moveNext();
+			}
 		});
 	}
 
@@ -1396,8 +1461,8 @@ export default class Home extends PageChildBase {
 		);
 	}
 
-	private async open_deposit() {
-		this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
+	public async open_deposit() {
+		this.load_form_api(await this.store.api.balance_detail({ id: '' }), async (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
 			this.deposit_suscription = this.memberships_data.map(m => {
 				const suscription = this.balance_detail_data.suscriptions.find(s => s.membershipId === m.id);
@@ -1434,6 +1499,10 @@ export default class Home extends PageChildBase {
 			}
 			this.has_button_payment = false;
 			this.isOpenDepositModal = true;
+			if (this.moveNext) {
+				await this.sleep(250);
+				this.moveNext();
+			}
 		});
 	}
 
