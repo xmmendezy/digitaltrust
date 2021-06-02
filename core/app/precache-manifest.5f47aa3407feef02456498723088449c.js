@@ -1,42 +1,42 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "19e37ad3529e7d48f681",
+    "revision": "305d7675535b6da809e3",
     "url": "/app/css/admin-home.e31bfaab.css"
   },
   {
-    "revision": "7a05905af0cfb84a56d7",
+    "revision": "4599d2095dcfbbc93eee",
     "url": "/app/css/admin-login.51ccad88.css"
   },
   {
-    "revision": "a7e36cfd04ec5436e066",
-    "url": "/app/css/app-main.fb49b4ac.css"
+    "revision": "7a817e4ec0270d6b1285",
+    "url": "/app/css/app-main.8c741f8f.css"
   },
   {
-    "revision": "16193a04270c39bbdfd1",
-    "url": "/app/css/app.1a9fe85a.css"
+    "revision": "2a04f27bb463d81ff7e5",
+    "url": "/app/css/app.b4a04c84.css"
   },
   {
-    "revision": "9efd2e8f4f5f473530e0",
-    "url": "/app/css/chunk-vendors.0f708633.css"
+    "revision": "d188883e88f165e56490",
+    "url": "/app/css/chunk-vendors.6868591a.css"
   },
   {
-    "revision": "b969a07180aa82c269da",
+    "revision": "65d4ab5a278634ae0ef8",
     "url": "/app/css/donations.1d75607e.css"
   },
   {
-    "revision": "507a17a11ba34dc35008",
+    "revision": "e6e36ac8a8c419fc7fec",
     "url": "/app/css/home.b57b5e36.css"
   },
   {
-    "revision": "31a502896fa6524fc98d",
+    "revision": "5854b8c7a97415ca8e17",
     "url": "/app/css/login.dd6bf6c5.css"
   },
   {
-    "revision": "3328dadc2dbc8bc3ecb1",
+    "revision": "241d971f99c7f7358f9c",
     "url": "/app/css/register.e50195b5.css"
   },
   {
-    "revision": "656e47b4fbfb9f34e1c8",
+    "revision": "eddf43befff58cef65e3",
     "url": "/app/css/setting.1f9ab6d1.css"
   },
   {
@@ -224,52 +224,52 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/img/logo2.26278a59.png"
   },
   {
-    "revision": "8870a33f0796805aaf76ae94decb7c52",
+    "revision": "cb3b3303b126fc5c04221bea879d8087",
     "url": "/app/index.html"
   },
   {
-    "revision": "19e37ad3529e7d48f681",
-    "url": "/app/js/admin-home.2f7e1b15.js"
+    "revision": "305d7675535b6da809e3",
+    "url": "/app/js/admin-home.5df7d270.js"
   },
   {
-    "revision": "7a05905af0cfb84a56d7",
-    "url": "/app/js/admin-login.d466d3fe.js"
+    "revision": "4599d2095dcfbbc93eee",
+    "url": "/app/js/admin-login.68de956e.js"
   },
   {
-    "revision": "9f5b79244e6b4a175f5d",
-    "url": "/app/js/app-base.0d991845.js"
+    "revision": "3156a9ba7c10fd9c101d",
+    "url": "/app/js/app-base.bc21bde2.js"
   },
   {
-    "revision": "a7e36cfd04ec5436e066",
-    "url": "/app/js/app-main.9dbfa463.js"
+    "revision": "7a817e4ec0270d6b1285",
+    "url": "/app/js/app-main.34f603f8.js"
   },
   {
-    "revision": "16193a04270c39bbdfd1",
-    "url": "/app/js/app.d16cfbc2.js"
+    "revision": "2a04f27bb463d81ff7e5",
+    "url": "/app/js/app.ec2fb739.js"
   },
   {
-    "revision": "9efd2e8f4f5f473530e0",
-    "url": "/app/js/chunk-vendors.dc4f9302.js"
+    "revision": "d188883e88f165e56490",
+    "url": "/app/js/chunk-vendors.5ea39e3a.js"
   },
   {
-    "revision": "b969a07180aa82c269da",
-    "url": "/app/js/donations.a455642a.js"
+    "revision": "65d4ab5a278634ae0ef8",
+    "url": "/app/js/donations.cd4401b0.js"
   },
   {
-    "revision": "507a17a11ba34dc35008",
-    "url": "/app/js/home.69e483cd.js"
+    "revision": "e6e36ac8a8c419fc7fec",
+    "url": "/app/js/home.d2f2c324.js"
   },
   {
-    "revision": "31a502896fa6524fc98d",
-    "url": "/app/js/login.f1637429.js"
+    "revision": "5854b8c7a97415ca8e17",
+    "url": "/app/js/login.4fbe6bf1.js"
   },
   {
-    "revision": "3328dadc2dbc8bc3ecb1",
-    "url": "/app/js/register.8228848b.js"
+    "revision": "241d971f99c7f7358f9c",
+    "url": "/app/js/register.ff145bc8.js"
   },
   {
-    "revision": "656e47b4fbfb9f34e1c8",
-    "url": "/app/js/setting.c9f47444.js"
+    "revision": "eddf43befff58cef65e3",
+    "url": "/app/js/setting.959e3db5.js"
   },
   {
     "revision": "6bdf35b66d0ca92e5cb03fdc06077cd5",

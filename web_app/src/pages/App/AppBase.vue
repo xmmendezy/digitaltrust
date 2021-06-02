@@ -41,7 +41,7 @@
 						>
 						</b-button>
 					</b-navbar-item>
-					<b-navbar-item tag="div" class="navbar-burger" @click="triggerSidebar()">
+					<b-navbar-item id="driver-guide-c-1" tag="div" class="navbar-burger" @click="triggerSidebar()">
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
@@ -103,9 +103,48 @@
 			</div>
 		</b-modal>
 
-		<b-modal v-model="isOpenHelpModal" has-modal-card class="modal-info">
+		<b-modal v-model="isOpenHelpModal" has-modal-card class="modal-help">
 			<div class="modal-card">
-				<section class="modal-card-body">Hola</section>
+				<header class="modal-card-head">
+					<p class="modal-card-title">{{ L('help-center.title') }}</p>
+				</header>
+				<section class="modal-card-body">
+					<b-collapse
+						class="card"
+						animation="slide"
+						v-for="(option, index) of ['a', 'b', 'c']"
+						:key="'help-' + option"
+						:open="isOpenCollapse == index"
+						@open="isOpenCollapse = index"
+					>
+						<template #trigger="props">
+							<div class="card-header" role="button">
+								<p class="card-header-title">
+									{{ L('help-center.' + option + '.title') }}
+								</p>
+								<a class="card-header-icon">
+									<b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </b-icon>
+								</a>
+							</div>
+						</template>
+						<div class="card-content">
+							<div class="content">
+								<p
+									v-for="(text, i) of get_helper_texts_i18n(option)"
+									:key="'help-' + option + '-' + i"
+									class="has-text-left"
+								>
+									{{ text }}
+								</p>
+								<p class="has-text-right">
+									<b-button type="is-primary" outlined @click="driver_gruide(option)">
+										{{ L('help-center.' + option + '.guide-me') }}
+									</b-button>
+								</p>
+							</div>
+						</div>
+					</b-collapse>
+				</section>
 			</div>
 		</b-modal>
 	</div>
@@ -113,9 +152,10 @@
 
 <script lang="ts">
 import PageBase from '../../utils/page_base.utils';
-import { Component } from 'vue-property-decorator';
+import { Component, Ref, Vue } from 'vue-property-decorator';
 import Menu from '../../components/Menu.vue';
 import pdf from 'vue-pdf';
+import Driver from 'driver.js';
 
 @Component({
 	components: { Menu, pdf },
@@ -128,8 +168,22 @@ export default class AppBase extends PageBase {
 	private isOpenInfoModal: boolean = false;
 	private isOpenHelpModal: boolean = false;
 
-	public numPages: number = 0;
-	public pdf_src: any = '';
+	private isOpenCollapse = -1;
+
+	private numPages: number = 0;
+	private pdf_src: any = '';
+
+	@Ref('child_page') child_page!: Vue & {
+		moveNext: () => void;
+		open_deposit: () => Promise<void>;
+		open_withdrawal: () => Promise<void>;
+		DepositStep: number;
+		WithdrawalStep: number;
+	};
+
+	private moveNext: () => void = () => {
+		0;
+	};
 
 	public async created() {
 		await super.created();
@@ -148,7 +202,7 @@ export default class AppBase extends PageBase {
 		});
 	}
 
-	public statusSidebar() {
+	private statusSidebar() {
 		const w = window.innerWidth;
 		if (w <= 768) {
 			this.isOpenModal = false;
@@ -165,13 +219,393 @@ export default class AppBase extends PageBase {
 		}
 	}
 
-	public async triggerSidebar() {
+	private async triggerSidebar() {
 		const w = window.innerWidth;
 		if (w <= 768) {
 			this.isOpenModal = !this.isOpenModal;
 		} else if (w >= 769) {
 			this.isReduceSidebar = !this.isReduceSidebar;
 		}
+		if (this.moveNext) {
+			await this.sleep(100);
+			this.moveNext();
+		}
+	}
+
+	private get_helper_texts_i18n(option: string) {
+		return [...Array(parseInt(this.L('help-center.' + option + '.text_count')))].map((_, i) =>
+			this.L('help-center.' + option + '.texts.' + i),
+		);
+	}
+
+	private async driver_gruide(option: string) {
+		this.isOpenHelpModal = false;
+		await this.sleep(100);
+		switch (option) {
+			case 'a':
+				return this.drive_guide_a();
+			case 'b':
+				return this.drive_guide_b();
+			case 'c':
+				return this.drive_guide_c();
+			default:
+				break;
+		}
+	}
+
+	private async drive_guide_a() {
+		try {
+			await this.$router.push({ name: 'Home' });
+		} catch (_) {
+			_;
+		}
+		const options = {
+			doneBtnText: this.L('helper.done'),
+			closeBtnText: this.L('helper.close'),
+			nextBtnText: this.L('helper.next'),
+			prevBtnText: this.L('helper.prev'),
+			onReset: () => {
+				this.child_page.moveNext = () => {
+					0;
+				};
+			},
+		};
+		const driver = new Driver(options);
+		const L = (step: number, key: number) => this.L(`driver-guide.a.${step}.${key === 1 ? 'title' : 'subtitle'}`);
+		driver.defineSteps([
+			{
+				element: '#driver-guide-a-1',
+				popover: {
+					title: L(1, 1),
+					description: L(1, 2),
+					position: 'left',
+				},
+				onNext: async () => {
+					driver.preventMove();
+					await this.child_page.open_deposit();
+				},
+			},
+			{
+				element: '#driver-guide-a-2',
+				popover: {
+					title: L(2, 1),
+					description: L(2, 2),
+					position: 'top',
+				},
+			},
+		]);
+		this.child_page.moveNext = () => {
+			driver.defineSteps([
+				{
+					element: '#driver-guide-a-2',
+					stageBackground: '#ffffff00',
+					popover: {
+						title: L(2, 1),
+						description: L(2, 2),
+						position: 'top',
+					},
+					onNext: () => {
+						driver.preventMove();
+						(driver as any).overlay.options = {
+							...(driver as any).overlay.options,
+							onReset: () => {
+								0;
+							},
+						};
+						driver.reset();
+						this.child_page.moveNext = async () => {
+							await this.sleep(100);
+							(driver as any).overlay.options = {
+								...(driver as any).overlay.options,
+								onReset: () => {
+									this.child_page.moveNext = () => {
+										0;
+									};
+								},
+							};
+							driver.defineSteps([
+								{
+									element: '#driver-guide-a-3',
+									stageBackground: '#ffffff00',
+									popover: {
+										title: L(3, 1),
+										description: L(3, 2),
+										position: 'top',
+									},
+									onNext: async () => {
+										driver.preventMove();
+										(driver as any).overlay.options = {
+											...(driver as any).overlay.options,
+											onReset: () => {
+												0;
+											},
+										};
+										driver.reset();
+										this.child_page.DepositStep = 1;
+										await this.sleep(100);
+										this.child_page.moveNext = () => {
+											driver.defineSteps([
+												{
+													element: '#driver-guide-a-4',
+													stageBackground: '#ffffff00',
+													popover: {
+														title: L(4, 1),
+														description: L(4, 2),
+														position: 'top',
+													},
+												},
+												{
+													element: '#driver-guide-a-4-end',
+												},
+											]);
+											this.child_page.moveNext = async () => {
+												await this.sleep(100);
+												driver.defineSteps([
+													{
+														element: '#driver-guide-a-3',
+														stageBackground: '#ffffff00',
+														popover: {
+															title: L(5, 1),
+															description: L(5, 2),
+															position: 'top',
+														},
+														onNext: async () => {
+															driver.preventMove();
+															(driver as any).overlay.options = {
+																...(driver as any).overlay.options,
+																onReset: () => {
+																	0;
+																},
+															};
+															driver.reset();
+															this.child_page.DepositStep = 2;
+															await this.sleep(100);
+															this.child_page.moveNext = () => {
+																driver.defineSteps([
+																	{
+																		element: '#driver-guide-a-6',
+																		stageBackground: '#ffffff00',
+																		popover: {
+																			title: L(6, 1),
+																			description: L(6, 2),
+																			position: 'top',
+																		},
+																	},
+																]);
+																driver.start();
+															};
+															this.child_page.moveNext();
+														},
+													},
+													{
+														element: '#driver-guide-a-3-end',
+													},
+												]);
+												driver.start();
+											};
+											driver.start();
+										};
+										this.child_page.moveNext();
+									},
+								},
+								{
+									element: '#driver-guide-a-3-end',
+								},
+							]);
+							driver.start();
+						};
+					},
+				},
+				{
+					element: '#driver-guide-a-2-end',
+				},
+			]);
+			driver.start();
+		};
+		driver.start();
+	}
+
+	private async drive_guide_b() {
+		try {
+			await this.$router.push({ name: 'Home' });
+		} catch (_) {
+			_;
+		}
+		const options = {
+			doneBtnText: this.L('helper.done'),
+			closeBtnText: this.L('helper.close'),
+			nextBtnText: this.L('helper.next'),
+			prevBtnText: this.L('helper.prev'),
+			onReset: () => {
+				this.child_page.moveNext = () => {
+					0;
+				};
+			},
+		};
+		const driver = new Driver(options);
+		const L = (step: number, key: number) => this.L(`driver-guide.b.${step}.${key === 1 ? 'title' : 'subtitle'}`);
+		driver.defineSteps([
+			{
+				element: '#driver-guide-b-1',
+				popover: {
+					title: L(1, 1),
+					description: L(1, 2),
+					position: 'left',
+				},
+				onNext: async () => {
+					driver.preventMove();
+					await this.child_page.open_withdrawal();
+				},
+			},
+			{
+				element: '#driver-guide-b-1-end',
+			},
+		]);
+		this.child_page.moveNext = () => {
+			driver.defineSteps([
+				{
+					element: '#driver-guide-b-2',
+					stageBackground: '#ffffff00',
+					popover: {
+						title: L(2, 1),
+						description: L(2, 2),
+						position: 'top',
+					},
+					onNext: () => {
+						driver.preventMove();
+						(driver as any).overlay.options = {
+							...(driver as any).overlay.options,
+							onReset: () => {
+								0;
+							},
+						};
+						driver.reset();
+						this.child_page.moveNext = async () => {
+							await this.sleep(100);
+							(driver as any).overlay.options = {
+								...(driver as any).overlay.options,
+								onReset: () => {
+									this.child_page.moveNext = () => {
+										0;
+									};
+								},
+							};
+							driver.defineSteps([
+								{
+									element: '#driver-guide-b-3',
+									stageBackground: '#ffffff00',
+									popover: {
+										title: L(3, 1),
+										description: L(3, 2),
+										position: 'top',
+									},
+									onNext: async () => {
+										driver.preventMove();
+										(driver as any).overlay.options = {
+											...(driver as any).overlay.options,
+											onReset: () => {
+												0;
+											},
+										};
+										driver.reset();
+										this.child_page.WithdrawalStep = 1;
+										await this.sleep(100);
+										this.child_page.moveNext = () => {
+											driver.defineSteps([
+												{
+													element: '#driver-guide-b-4',
+													stageBackground: '#ffffff00',
+													popover: {
+														title: L(4, 1),
+														description: L(4, 2),
+														position: 'top',
+													},
+												},
+											]);
+											this.child_page.moveNext = () => {
+												0;
+											};
+											driver.start();
+										};
+										this.child_page.moveNext();
+									},
+								},
+								{
+									element: '#driver-guide-a-3-end',
+								},
+							]);
+							driver.start();
+						};
+					},
+				},
+				{
+					element: '#driver-guide-a-2-end',
+				},
+			]);
+			driver.start();
+		};
+		driver.start();
+	}
+
+	private drive_guide_c() {
+		const driver = new Driver({
+			doneBtnText: this.L('helper.done'),
+			closeBtnText: this.L('helper.close'),
+			nextBtnText: this.L('helper.next'),
+			prevBtnText: this.L('helper.prev'),
+		});
+		const L = (step: number, key: number) => this.L(`driver-guide.c.${step}.${key === 1 ? 'title' : 'subtitle'}`);
+		this.moveNext = driver.moveNext;
+		driver.defineSteps([
+			{
+				element: '#driver-guide-c-1',
+				popover: {
+					title: L(1, 1),
+					description: L(1, 2),
+					position: 'left',
+				},
+				onNext: async () => {
+					driver.preventMove();
+					await this.triggerSidebar();
+				},
+			},
+			{
+				element: '#driver-guide-c-2',
+				popover: {
+					title: L(2, 1),
+					description: L(2, 2),
+					position: 'right',
+				},
+				onNext: async () => {
+					driver.preventMove();
+					await this.$router
+						.push({ name: 'Setting' })
+						.then(async () => {
+							await this.sleep(250);
+							driver.highlight({
+								element: '#driver-guide-c-3',
+								popover: {
+									title: L(3, 1),
+									description: L(3, 2),
+									position: 'top',
+								},
+							});
+						})
+						.catch(() => {
+							driver.moveNext();
+						});
+				},
+			},
+			{
+				element: '#driver-guide-c-3',
+				popover: {
+					title: L(3, 1),
+					description: L(3, 2),
+					position: 'top',
+				},
+			},
+		]);
+		driver.start();
 	}
 }
 </script>
@@ -377,12 +811,12 @@ export default class AppBase extends PageBase {
 		.modal-card {
 			height: 90vh;
 			width: 70vw;
+		}
+	}
 
-			.modal-card-body {
-				p {
-					padding: 1.5rem;
-				}
-			}
+	.modal-help {
+		.modal-card {
+			height: 100%;
 		}
 	}
 }

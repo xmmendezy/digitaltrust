@@ -135,7 +135,7 @@
 			</div>
 
 			<b-field class="has-text-right">
-				<b-button @click="update()" type="is-primary">{{ L('setting.save') }}</b-button>
+				<b-button id="driver-guide-c-3" @click="update()" type="is-primary">{{ L('setting.save') }}</b-button>
 			</b-field>
 		</article>
 	</div>
