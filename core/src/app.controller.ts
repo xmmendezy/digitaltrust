@@ -32,4 +32,18 @@ export class AppController {
 			root: 'view/es',
 		});
 	}
+
+	@Get('help')
+	public async help(@Res() res: Response) {
+		res.sendFile('help.html', {
+			root: 'view',
+		});
+	}
+
+	@Get('es/help')
+	public async es_help(@Res() res: Response) {
+		res.sendFile('help.html', {
+			root: 'view/es',
+		});
+	}
 }
