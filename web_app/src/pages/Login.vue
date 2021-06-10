@@ -4,7 +4,7 @@
 			<div class="box is-inline-block">
 				<article class="media">
 					<div class="media-content has-text-centered">
-						<b-image class="logo" :src="require('../assets/images/logo2.png')"></b-image>
+						<b-image class="logo" :src="require('../assets/images/logo3.png')"></b-image>
 						<p class="title">{{ L('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
@@ -139,7 +139,7 @@ export default class Login extends PageChildBase {
 	public async passowrd_forgot() {
 		if (this.email_forgot_password) {
 			window.open(
-				`https://wa.me/${this.telephone}?text=Hola, necesito ayuda con mi contraseña. Mi correo es ${this.email_forgot_password}.`,
+				`https://wa.me/${this.telephone}?text=Hi, I need help with my password. My email is ${this.email_forgot_password}.`,
 				'_blank',
 			);
 		} else {

@@ -12,8 +12,9 @@
 							<p class="has-text-left subtitle-info">
 								{{ info.b }}
 							</p>
-							<a href="/app/register?i18n={{ i18n }}" class="button is-primary is-rounded">{{ info.c
-								}}</a>
+							<a href="#invest_now" class="button is-primary is-rounded">
+								{{ info.c }}
+							</a>
 						</div>
 					</div>
 					<div class="column is-7">
@@ -161,6 +162,8 @@
 								class="button is-primary is-rounded is-outlined">
 								{{ invest_now.d }}
 							</a>
+							{{#page 'help' '@navbar.url.a7' '' 'button is-primary is-rounded is-outlined help-button'
+							}}{{/page}}
 						</div>
 					</div>
 					<div class="column is-7">
