@@ -297,6 +297,10 @@ body {
 	position: static;
 }
 
+.help-button {
+	margin-left: 1rem !important;
+}
+
 #info {
 	position: relative;
 	margin-bottom: 0;
@@ -488,6 +492,12 @@ body {
 			padding-left: 1rem;
 			padding-right: 1rem;
 		}
+	}
+}
+
+#help {
+	.accordions .accordion.is-active .accordion-body {
+		max-height: 100% !important;
 	}
 }
 

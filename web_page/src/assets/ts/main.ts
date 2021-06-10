@@ -24,7 +24,7 @@ function contactForm() {
 	const input_message = <HTMLInputElement>document.getElementById('message');
 	const message = input_message.value;
 	window.open(
-		`https://wa.me/16469803342?text=Hola, soy ${name}, mi correo es ${email} y mi número de teléfono ${phone}. ${message}.`,
+		`https://wa.me/16469803342?text=Hi, my name is ${name}, my email is ${email} and my phone number is ${phone}. ${message}.`,
 		'_blank',
 	);
 	input_name.value = '';

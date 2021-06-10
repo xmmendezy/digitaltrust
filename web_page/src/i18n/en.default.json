@@ -9,7 +9,8 @@
 			"a3": "FQA",
 			"a4": "Contact",
 			"a5": "ES",
-			"a6": "Login"
+			"a6": "Login",
+			"a7": "How to do it?"
 		}
 	},
 	"info": {
@@ -125,6 +126,103 @@
 					"Trading of cryptocurrencies BTC, ETH, USDT.",
 					"Preparation of the relevant legal and regulatory documentation for the opening of a digital bank.",
 					"Variable implementation and consolidation for digital signatures."
+				]
+			}
+		]
+	},
+	"help-center": {
+		"title": "Help center",
+		"sections": [
+			{
+				"title": "How to register?",
+				"texts": [
+					{ "text": "Registering with Digital Trust is very easy. Here we will guide you how to do it:" },
+					{
+						"text": "1) Enter the platform, in the upper right part of this screen there is a link with the text \"Login\"",
+						"image": "help-1-1.png"
+					},
+					{
+						"text": "2) Once on the platform, the login window should appear, to create your account you must click at the bottom, on the \"Sign up\" button",
+						"image": "help-1-2.png"
+					},
+					{
+						"text": "3) You must fill out a form with the necessary information to create your account, accept the Privacy Policies and Terms and Conditions of Digital Trust, and click on \"Start\"",
+						"image": "help-1-3.png"
+					},
+					{ "text": "4) Welcome to Digital Trust" }
+				]
+			},
+			{
+				"title": "How do I start investing?",
+				"texts": [
+					{
+						"text": "To invest and start earning in Digital Trust, you must make a deposit. Here we will guide you how to do it:"
+					},
+					{
+						"text": "1) On your Digital Trust dashboard you should see a green button with the text Deposit.",
+						"image": "help-2-1.png"
+					},
+					{
+						"text": "2) After clicking on this button, you will see the membership options, you can choose a membership that you want to buy or deposit more in a membership that you already have. Select one, and click Continue at the bottom.",
+						"image": "help-2-2.png"
+					},
+					{
+						"text": "3) Select the payment gateway of your choice. You can make deposits with PayPal, Stripe or Coinpayments if you want to use their cryptocurrencies. You also have the possibility of reinvesting your earnings with the Balance option, but if you do not have earnings, the option will not be available yet. Select one, and click Continue at the bottom.",
+						"image": "help-2-3.png"
+					},
+					{
+						"text": "4) Enter the amount to deposit. Depending on the membership there are different minimum and maximum values. In case you are depositing into a membership that you already own, the minimum value is $ 500. In case of paying with CoinPayments, you must select the cryptocurrency to use between Bitcoin, Etherum and Tether USD. Confirm your deposit value and click Pay at the bottom.",
+						"image": "help-2-4.png"
+					},
+					{
+						"text": "5) Follow the steps proposed by each payment gateway, once the procedure has been carried out successfully, you will see your investment reflected on your dashboard."
+					}
+				]
+			},
+			{
+				"title": "How do I withdraw my earnings?",
+				"texts": [
+					{
+						"text": "You can withdraw earnings from Digital Trust whenever you want. Here we will guide you how to do it:"
+					},
+					{
+						"text": "1) On your Digital Trust dashboard you should see a yellow-orange button with the text Withdrawal.",
+						"image": "help-3-1.png"
+					},
+					{
+						"text": "2) After clicking on this button, you will see the options that Digital Trust has to send you your earnings. It is important that you fill in your profile details with the information necessary to send you the money. Select a method, and click continue at the bottom.",
+						"image": "help-3-2.png"
+					},
+					{
+						"text": "3) Enter the amount to withdraw. The amount available to withdraw depends on your available balance at the time. The available balance is all the profit that you have accumulated in your balance for at least one month. Confirm your deposit value and click Confirm at the bottom.",
+						"image": "help-3-3.png"
+					},
+					{
+						"text": "4) The Digital Trust team will be notified of your withdrawal and will proceed to send you your earnings, once the procedure is successful, you will see your deposit reflected on your dashboard."
+					}
+				]
+			},
+			{
+				"title": "How do I complete my profile data?",
+				"texts": [
+					{
+						"text": "It is important to have your profile data complete and updated, so we can send you your earnings in a more agile way. Here we will guide you how to do it:"
+					},
+					{
+						"text": "1) On your Digital Trust dashboard you should see a sidebar on the left side or the menu button on the top right.",
+						"image": "help-4-1.png"
+					},
+					{
+						"text": "2) After clicking, you will be able to see the Setting option, click and you will be redirected to a form with your profile data",
+						"image": "help-4-2.png"
+					},
+					{
+						"text": "3) Update your details. Do not provide sensitive information, such as bank keys or passwords for your electronic wallet, add only the data necessary so that our team can send you your earnings"
+					},
+					{
+						"text": "4) When finished, click Save and your profile will be updated..",
+						"image": "help-4-3.png"
+					}
 				]
 			}
 		]
