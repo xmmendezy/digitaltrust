@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, Membership, Record, Suscription, Deposit, Withdrawal, SupportPayment } from './api.entity';
+import { User, Country, Membership, Record, Suscription, Deposit, Withdrawal, SupportPayment, HLogin, HQuery } from './api.entity';
 import {
 	SignupDto,
 	UserDto,
@@ -201,6 +201,12 @@ export class ApiService {
 				.where('user.id = :id', { id })
 				.getOne(),
 		);
+	}
+
+	public async remove_client(id: string) {
+		await HLogin.createQueryBuilder().delete().where('"userId" = :id', { id }).execute();
+		await HQuery.createQueryBuilder().delete().where('"userId" = :id', { id }).execute();
+		await User.createQueryBuilder().delete().where('id = :id', { id }).execute();
 	}
 
 	public async memberships(): Promise<Membership[]> {

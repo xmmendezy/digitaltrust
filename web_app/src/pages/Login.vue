@@ -33,10 +33,6 @@
 								<b-button @click="login()" type="is-primary">{{ L('login.e') }}</b-button>
 							</b-field>
 						</section>
-						<div class="is-divider" data-content="o"></div>
-						<b-button tag="router-link" to="/register" type="is-primary" outlined>
-							{{ L('login.f') }}
-						</b-button>
 						<div class="columns">
 							<div class="column"></div>
 							<div class="column column-terms is-5 has-text-left">
@@ -193,7 +189,7 @@ export default class Login extends PageChildBase {
 				}
 
 				.logo {
-					width: 12rem;
+					width: 20rem;
 					margin: auto;
 					margin-bottom: 3rem;
 				}

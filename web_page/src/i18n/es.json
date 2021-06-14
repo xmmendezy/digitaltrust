@@ -39,7 +39,7 @@
 		"a": "Invertir ahora",
 		"b": " ¿Cómo hacerlo?",
 		"c": ["Registrese", "Realice un depósito en una o varias membresías", "Retire sus ganancias. Y a disfrutar..."],
-		"d": "Registrarse"
+		"d": "Contactenos"
 	},
 	"fqa": {
 		"a": "Preguntas frecuentes",
@@ -136,20 +136,15 @@
 			{
 				"title": "¿Cómo registrarme?",
 				"texts": [
-					{ "text": "Registrarse en Digital Trust es muy fácil. Aquí lo guiaremos como hacerlo:" },
 					{
-						"text": "1) Ingrese a la plataforma, en la parte superior derecha de esta pantalla hay un enlace con el texto \"Ingresar\"",
-						"image": "help-1-1.png"
+						"text": "Digital Trust tiene dos formas de registrarse:"
 					},
 					{
-						"text": "2) Una vez en la plataforma deberá le aparecerá la ventana de ingreso, para crear su cuenta deberá darle click en la parte inferior, en el botón \"Registrarse\"",
-						"image": "help-1-2.png"
+						"text": "1) Contactenos, nosotros estamos a su servicio, le crearemos su cuenta y estará listo para ingresar."
 					},
 					{
-						"text": "3) Debe llenar un formulario la información necesaria para crear su cuenta, aceptar las Políticas de privacidad y los Términos y condiciones de Digital Trust, y dar click en \"Finalizar\"",
-						"image": "help-1-3.png"
-					},
-					{ "text": "4) Bienvenido a Digital Trust" }
+						"text": "2) Puede ser invitado por un miembro de Digital Trust y comenzar a invertir."
+					}
 				]
 			},
 			{
@@ -260,8 +255,9 @@
 	"footer": {
 		"a": "Convierta su inversión en ganancias pasivas, hasta que el dinero trabaje para usted.",
 		"b": "Digital Trust protege sus datos con certificación SSL y utiliza pasarelas de pago confiables, para que realice sus pagos con Visa, MasterCard, American Express, BTC, Paypal, etc.",
-		"c": "Conéctese con Digital Trust",
-		"d": "Todos los derechos reservados"
+		"c": "Disponible en",
+		"d": "Conéctese con Digital Trust",
+		"e": "Todos los derechos reservados"
 	},
 	"helper": {
 		"more": "Leer más"

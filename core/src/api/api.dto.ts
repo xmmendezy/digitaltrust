@@ -87,6 +87,7 @@ class UserDto {
 		this.stripe_account = data.stripe_account;
 		this.coinpayments_account = data.coinpayments_account;
 		this.banck_account = data.banck_account;
+		this.can_remove = data instanceof User ? !data.lastDeposit : data.can_remove;
 	}
 
 	public id: string;
@@ -109,6 +110,7 @@ class UserDto {
 	public stripe_account: string;
 	public coinpayments_account: string;
 	public banck_account: string;
+	public can_remove: boolean;
 }
 
 class TokenDto {

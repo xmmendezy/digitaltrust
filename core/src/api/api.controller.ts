@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Body, Req, Request, Query } from '@app/http';
+import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query } from '@app/http';
 import { ApiService } from './api.service';
 import { SignupDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
 import { User } from './api.entity';
@@ -84,6 +84,15 @@ export class ApiController {
 				return { error: 'login.error.u1' };
 			}
 			return await this.apiService.update(user, data);
+		}
+	}
+
+	@Delete('client')
+	public async remove_client(@Req() req: Request, @Query() query: { id: string }) {
+		if (req.user.role === 'admin') {
+			return await this.apiService.remove_client(query.id);
+		} else {
+			return [];
 		}
 	}
 

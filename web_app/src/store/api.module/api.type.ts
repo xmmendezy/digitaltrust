@@ -33,6 +33,7 @@ interface IUser {
 	stripe_account: string;
 	coinpayments_account: string;
 	banck_account: string;
+	can_remove: boolean;
 	created: string | Date;
 }
 
@@ -54,6 +55,7 @@ class UpdateDto extends ClassBase {
 			this.stripe_account = data.stripe_account;
 			this.coinpayments_account = data.coinpayments_account;
 			this.banck_account = data.banck_account;
+			this.can_remove = data.can_remove;
 		} else {
 			this.firstname = '';
 			this.lastname = '';
@@ -68,6 +70,7 @@ class UpdateDto extends ClassBase {
 			this.stripe_account = '';
 			this.coinpayments_account = '';
 			this.banck_account = '';
+			this.can_remove = false;
 		}
 	}
 
@@ -117,6 +120,8 @@ class UpdateDto extends ClassBase {
 	coinpayments_account!: string;
 
 	banck_account!: string;
+
+	can_remove!: boolean;
 
 	public validate(): string[] {
 		if (!this.paypal_account) {

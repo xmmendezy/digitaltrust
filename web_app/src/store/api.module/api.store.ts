@@ -95,9 +95,9 @@ export default class ApiStore extends VuexModule {
 
 	get auth_data(): IAuthData {
 		return {
-			accessToken: this._access_token,
+			accessToken: this._access_token || '',
 			expiresIn: parseInt(localStorage.getItem('expiresIn') || '0'),
-			user: this._user,
+			user: this._user || ({} as any),
 		};
 	}
 
@@ -471,6 +471,22 @@ export default class ApiStore extends VuexModule {
 					return error;
 				}
 				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async remove_client(id: string): Promise<string> {
+		return await ApiStore.http
+			.delete(this.url.client, { params: { id }, headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return '';
 			})
 			.catch(e => {
 				return get_errors(e);
