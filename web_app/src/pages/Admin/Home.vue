@@ -315,9 +315,15 @@
 						</div>
 					</div>
 
-					<b-field class="has-text-right">
-						<b-button @click="update_client()" type="is-primary">{{ L('setting.save') }}</b-button>
-					</b-field>
+					<div class="columns">
+						<div class="column"></div>
+						<div class="column is-4 buttons has-text-right">
+							<b-button v-if="edit_client_form.can_remove" @click="delete_client()" type="is-danger">
+								{{ L('setting.delete') }}
+							</b-button>
+							<b-button @click="update_client()" type="is-primary">{{ L('setting.save') }}</b-button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</b-modal>
@@ -1073,6 +1079,34 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
+	private async delete_client() {
+		this.$buefy.dialog.confirm({
+			title: this.L('setting.remove.a'),
+			message: this.L('setting.remove.b'),
+			cancelText: this.L('setting.remove.c'),
+			confirmText: this.L('setting.remove.d'),
+			type: 'is-danger',
+			hasIcon: true,
+			onConfirm: async () => {
+				this.load_form_api(
+					await this.store.api.remove_client(this.id_edit_client),
+					() => {
+						this.edit_client_form = new UpdateDto();
+						this.id_edit_client = '';
+						this.isOpenEditClientModal = false;
+						this.get_clients();
+						this.toastSuccess(this.L('setting.ok'));
+					},
+					{
+						e000: () => {
+							this.toastError(this.L('error.e000'));
+						},
+					},
+				);
+			},
+		});
+	}
+
 	private validateNumber(args: any) {
 		if (args) {
 			this.validationTelephone = args.valid;
@@ -1407,10 +1441,13 @@ export default class Admin extends PageChildBase {
 			}
 		}
 
-		.button.is-primary {
-			padding: 1.5rem 1rem;
-			margin: 2rem;
-			width: 30%;
+		.button {
+			.is-primary,
+			.is-danger {
+				padding: 1.5rem 1rem;
+				margin: 2rem;
+				width: 60%;
+			}
 		}
 	}
 

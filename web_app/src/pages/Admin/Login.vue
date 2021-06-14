@@ -4,7 +4,7 @@
 			<div class="box is-inline-block">
 				<article class="media">
 					<div class="media-content has-text-centered">
-						<b-image class="logo" :src="require('../../assets/images/logo2.png')"></b-image>
+						<b-image class="logo" :src="require('../../assets/images/logo3.png')"></b-image>
 						<p class="title">{{ L('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
@@ -123,7 +123,7 @@ export default class Login extends PageChildBase {
 				}
 
 				.logo {
-					width: 12rem;
+					width: 20rem;
 					margin: auto;
 					margin-bottom: 3rem;
 				}

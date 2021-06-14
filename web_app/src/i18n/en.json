@@ -92,6 +92,13 @@
 			"e": "Bank information"
 		},
 		"save": "Save",
+		"delete": "Remove",
+		"remove": {
+			"a": "Remove Digital Trust Client",
+			"b": "This action is irreversible, the data cannot be recovered once this is done.",
+			"c": "Cancel",
+			"d": "Remove client"
+		},
 		"ok": "Data was saved",
 		"not_ok": "Some data was not saved"
 	},

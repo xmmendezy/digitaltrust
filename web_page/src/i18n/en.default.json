@@ -39,7 +39,7 @@
 		"a": "Invest now",
 		"b": "How to do it?",
 		"c": ["Sign up", "Make a deposit to one or more memberships", "Withdraw your earnings. And to enjoy..."],
-		"d": "Sign up"
+		"d": "Contact us"
 	},
 	"fqa": {
 		"a": "Frequent questions",
@@ -136,20 +136,15 @@
 			{
 				"title": "How to register?",
 				"texts": [
-					{ "text": "Registering with Digital Trust is very easy. Here we will guide you how to do it:" },
 					{
-						"text": "1) Enter the platform, in the upper right part of this screen there is a link with the text \"Login\"",
-						"image": "help-1-1.png"
+						"text": "Digital Trust has two ways to register:"
 					},
 					{
-						"text": "2) Once on the platform, the login window should appear, to create your account you must click at the bottom, on the \"Sign up\" button",
-						"image": "help-1-2.png"
+						"text": "1) Contact us, we are at your service, we will create your account and you will be ready to invest."
 					},
 					{
-						"text": "3) You must fill out a form with the necessary information to create your account, accept the Privacy Policies and Terms and Conditions of Digital Trust, and click on \"Start\"",
-						"image": "help-1-3.png"
-					},
-					{ "text": "4) Welcome to Digital Trust" }
+						"text": "2) You can be invited by a Digital Trust member and start investing."
+					}
 				]
 			},
 			{
@@ -260,8 +255,9 @@
 	"footer": {
 		"a": "Convert your investment into passive earnings, until the money works for you.",
 		"b": "Digital Trust protects your data with SSL certification and uses reliable payment gateways to make your payments with Visa, MasterCard, American Express, BTC, Paypal, etc.",
-		"c": "Connect with Digital Trust",
-		"d": "All rights reserved"
+		"c": "Available for",
+		"d": "Connect with Digital Trust",
+		"e": "All rights reserved"
 	},
 	"helper": {
 		"more": "More"

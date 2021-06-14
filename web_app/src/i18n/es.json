@@ -92,6 +92,13 @@
 			"e": "Información bancaria"
 		},
 		"save": "Guardar",
+		"delete": "Eliminar",
+		"remove": {
+			"a": "Remover cliente de Digital Trust",
+			"b": "Esta acción es irreversible, no se pueden recuperar los datos una vez hecho esto.",
+			"c": "Cancelar",
+			"d": "Remover cliente"
+		},
 		"ok": "Se guardaron los datos",
 		"not_ok": "No se guardaron algunos datos"
 	},
