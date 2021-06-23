@@ -1,6 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, Membership, Record, Suscription, Deposit, Withdrawal, SupportPayment, HLogin, HQuery } from './api.entity';
+import {
+	User,
+	Country,
+	Membership,
+	Record,
+	Suscription,
+	Deposit,
+	Withdrawal,
+	SupportPayment,
+	HLogin,
+	HQuery,
+} from './api.entity';
 import {
 	SignupDto,
 	UserDto,
