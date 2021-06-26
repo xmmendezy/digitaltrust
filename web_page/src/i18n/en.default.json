@@ -5,12 +5,13 @@
 	"navbar": {
 		"url": {
 			"a1": "About us",
-			"a2": "A friendly hand",
+			"a2": "Our Vision",
 			"a3": "FQA",
 			"a4": "Contact",
 			"a5": "ES",
-			"a6": "Login",
-			"a7": "How to do it?"
+			"a6": "A friendly hand",
+			"a7": "Login",
+			"a8": "How to do it?"
 		}
 	},
 	"info": {

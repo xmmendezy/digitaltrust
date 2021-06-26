@@ -5,12 +5,13 @@
 	"navbar": {
 		"url": {
 			"a1": "Sobre nosotros",
-			"a2": "Una mano amiga",
+			"a2": "Nuestra visión",
 			"a3": "Preguntas frecuentes",
 			"a4": "Contactenos",
 			"a5": "EN",
-			"a6": "Ingresar",
-			"a7": "¿Cómo hacerlo?"
+			"a6": "Una mano amiga",
+			"a7": "Ingresar",
+			"a8": "¿Cómo hacerlo?"
 		}
 	},
 	"info": {

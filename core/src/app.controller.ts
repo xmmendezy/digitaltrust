@@ -19,6 +19,20 @@ export class AppController {
 		});
 	}
 
+	@Get('vision')
+	public async vision(@Res() res: Response) {
+		res.sendFile('vision.html', {
+			root: 'view',
+		});
+	}
+
+	@Get('es/vision')
+	public async es_vision(@Res() res: Response) {
+		res.sendFile('vision.html', {
+			root: 'view/es',
+		});
+	}
+
 	@Get('friendly')
 	public async friendly(@Res() res: Response) {
 		res.sendFile('friendly.html', {
