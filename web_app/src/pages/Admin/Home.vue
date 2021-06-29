@@ -369,7 +369,7 @@
 
 						<b-table-column
 							field="earning"
-							:label="L('home.table_balance.d')"
+							:label="L('home.table_balance.e')"
 							header-class="header"
 							v-slot="props"
 						>
