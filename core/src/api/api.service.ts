@@ -517,7 +517,6 @@ export class ApiService {
 			const memberships = await Membership.createQueryBuilder()
 				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
 				.getMany();
-
 			const record = await this.record(
 				user,
 				date.startOf('month'),
@@ -532,17 +531,29 @@ export class ApiService {
 			balance.earning = record.earning;
 			balance.earning_extra = record.earning_extra;
 			balance.investment = record.investment;
-			if (user.DateTime.now().startOf('month').valueOf() === date.startOf('month').valueOf()) {
-				const last_record = await Record.createQueryBuilder()
-					.where('"userId" = :id')
-					.andWhere('date = :date')
-					.setParameters({
-						id: user.id,
-						date: date.startOf('month').minus({ months: 1 }).toSeconds(),
-					})
-					.orderBy('date', 'DESC')
-					.getOne();
-				balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
+			if (user.DateTime.now().startOf('month').toSeconds() === date.startOf('month').toSeconds()) {
+				if (
+					(await Record.createQueryBuilder()
+						.where('"userId" = :id')
+						.andWhere('date < :date')
+						.setParameters({
+							id: user.id,
+							date: date.startOf('month').toSeconds(),
+						})
+						.orderBy('date', 'DESC')
+						.getCount()) > 1
+				) {
+					const last_record = await Record.createQueryBuilder()
+						.where('"userId" = :id')
+						.andWhere('date = :date')
+						.setParameters({
+							id: user.id,
+							date: date.startOf('month').minus({ months: 1 }).toSeconds(),
+						})
+						.orderBy('date', 'DESC')
+						.getOne();
+					balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
+				}
 			}
 			for (const suscription of suscriptions) {
 				balance.suscriptions.push({
@@ -708,7 +719,12 @@ export class ApiService {
 									.toNumber();
 							}
 						} else {
-							const dayDeposit = daysInMonth - user.DateTime.fromUnix(deposit.date).day + 1;
+							let dayDeposit: number = date_end.day - user.DateTime.fromUnix(deposit.date).day;
+							if (
+								user.DateTime.now().startOf('month').toSeconds() > date_end.startOf('month').toSeconds()
+							) {
+								dayDeposit++;
+							}
 							if (dayDeposit === daysInMonth) {
 								irecord.earning = new Decimal(irecord.earning)
 									.plus(new Decimal(deposit.money).times(membership.interest))

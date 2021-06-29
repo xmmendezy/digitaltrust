@@ -254,6 +254,10 @@ export default class Login extends PageChildBase {
 					.button.is-text {
 						color: white !important;
 						text-decoration-color: transparent;
+
+						&:hover {
+							background-color: rgba(255, 255, 255, 0.25);
+						}
 					}
 
 					.button.is-white {

@@ -4,7 +4,7 @@
 			<div class="box is-inline-block">
 				<article class="media">
 					<div class="media-content has-text-centered">
-						<b-image class="logo" :src="require('../../assets/images/logo3.png')"></b-image>
+						<b-image class="logo" :src="require('../../assets/images/logo4.png')"></b-image>
 						<p class="title">{{ L('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
@@ -25,7 +25,7 @@
 								</c-input>
 							</b-field>
 							<b-field>
-								<b-button @click="login()" type="is-primary">{{ L('login.e') }}</b-button>
+								<b-button @click="login()" rounded type="is-white">{{ L('login.e') }}</b-button>
 							</b-field>
 						</section>
 					</div>
@@ -84,6 +84,8 @@ export default class Login extends PageChildBase {
 @import '../../styles/initial_variables.scss';
 
 .login-admin {
+	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+
 	.body {
 		padding-top: 4.5rem;
 		height: 100vh;
@@ -99,6 +101,8 @@ export default class Login extends PageChildBase {
 			-ms-transform: translate(-50%, -50%);
 			transform: translate(-50%, -50%);
 			transition: width 150ms ease-out;
+			background-color: transparent;
+			box-shadow: none;
 
 			@include until-widescreen {
 				width: 60%;
@@ -123,15 +127,19 @@ export default class Login extends PageChildBase {
 				}
 
 				.logo {
-					width: 20rem;
+					width: 15rem;
 					margin: auto;
 					margin-bottom: 3rem;
+
+					@include mobile {
+						width: 10rem;
+					}
 				}
 
 				.title {
-					color: $dark;
+					color: white !important;
 					font-size: 32px;
-					font-weight: bold !important;
+					font-weight: normal !important;
 				}
 
 				.form {
@@ -142,65 +150,45 @@ export default class Login extends PageChildBase {
 						width: 90%;
 					}
 
-					.button.is-text {
-						text-decoration-color: $primary;
-						text-underline-offset: 50%;
+					.c-input {
+						.vfl-label {
+							color: white !important;
+						}
+
+						.vfl-label + input {
+							border-bottom: 2px solid white;
+						}
+
+						.fas {
+							color: white !important;
+						}
+
+						.input {
+							color: white !important;
+							background-color: transparent !important;
+
+							&::placeholder {
+								color: white !important;
+							}
+
+							&:-ms-input-placeholder {
+								color: white !important;
+							}
+
+							&::-ms-input-placeholder {
+								color: white !important;
+							}
+						}
 					}
 
-					.button.is-primary {
+					.button.is-white {
 						padding: 1.5rem 1rem;
 						margin: 1rem 0;
 						width: 50%;
+						color: $primary !important;
+						font-weight: bold;
+						box-shadow: 0 5px #5c5c5c6b;
 					}
-				}
-
-				.is-divider {
-					margin-left: auto;
-					margin-right: auto;
-					width: 90%;
-				}
-
-				.button.is-primary {
-					padding: 1.5rem 1rem;
-					margin: 1rem 0;
-					width: 35%;
-				}
-
-				.column-terms {
-					font-size: 12px;
-					margin-left: 3rem;
-				}
-			}
-		}
-	}
-
-	.modal {
-		.animation-content {
-			width: 40%;
-
-			.modal-card {
-				width: 100%;
-				border-radius: 12px;
-
-				.modal-card-body {
-					padding: 3rem;
-
-					.title {
-						color: $dark;
-						font-size: 22px;
-						font-weight: bold !important;
-					}
-
-					.subtitle {
-						padding-top: 2rem;
-						font-size: 18px;
-					}
-				}
-
-				.button.is-primary {
-					padding: 1.5rem 1rem;
-					margin: 1rem 0;
-					width: 50%;
 				}
 			}
 		}
