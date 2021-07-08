@@ -7,4 +7,9 @@ export default {
 	stripe_secret_key: process.env.STRIPE_SECRET_KEY,
 	coinpayments_public_key: process.env.COINPAYMENTS_PUBLIC_KEY,
 	coinpayments_secret_key: process.env.COINPAYMENTS_SECRET_KEY,
+	email: {
+		info: process.env.EMAIL_INFO,
+		user: process.env.EMAIL_USER,
+		password: process.env.EMAIL_PASSWORD,
+	},
 };

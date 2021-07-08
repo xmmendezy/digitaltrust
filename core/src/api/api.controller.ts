@@ -305,4 +305,9 @@ export class ApiController {
 		}
 		return await this.apiService.get_coinpayments_support_payment(user, data);
 	}
+
+	@Get('preregister')
+	public async preregister() {
+		return await this.apiService.preregister();
+	}
 }
