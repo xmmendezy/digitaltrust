@@ -70,8 +70,8 @@ export default abstract class ComponentBase extends Vue {
 	) {
 		await this.sleep(100);
 		if (c < 10) {
-			if (this.$refs[refs] && this.$refs[refs] !== null) {
-				callback(this.$refs[refs]);
+			if (this.$refs[refs] && this.$refs[refs] !== null && this.$refs[refs] !== undefined) {
+				callback(this.$refs[refs] as Vue | Element | Vue[] | Element[]);
 			} else {
 				this.exec_is_render(refs, callback, c + 1);
 			}
@@ -156,7 +156,10 @@ export default abstract class ComponentBase extends Vue {
 	public load_form_api<T>(data: T | string, callback: (data: T) => void, custom_data_error?: { [key: string]: any }) {
 		if (typeof data === 'string' && data !== '') {
 			const data_error: { [key: string]: any } = {
-				e000: () => {},
+				e000: () => {
+					this.toastError(this.L('error.e001'));
+					this.logout();
+				},
 				e001: () => {
 					this.toastError(this.L('error.e001'));
 					this.logout();

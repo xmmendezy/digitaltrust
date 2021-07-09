@@ -24,6 +24,24 @@
 			"u5": "The password could not be recovered"
 		}
 	},
+	"preregister": {
+		"title": "Registration request",
+		"firstname": "Name",
+		"lastname": "Last Name",
+		"email": "Email",
+		"telephone": "Phone",
+		"state": "State",
+		"address": "Postal address",
+		"ans_1": "When was the last investment you made?",
+		"ans_2": "Are you liquid at this time for $5k or $10K?",
+		"ans_3": "What is a good starting amount for you if you liked the offering?",
+		"ans_4": "What is your risk level?",
+		"ans_5": "Do you have conservative investment vehicles like CD`s or Bonds?",
+		"ans_6": "What is the best time to contact you during business hours?",
+		"check1": "Privacy policies",
+		"check2": "Terms and Conditions",
+		"next": "Send"
+	},
 	"register": {
 		"a": "Sign up",
 		"b": "Welcome, you have been invited through",

@@ -5,6 +5,7 @@ import {
 	IAuthData,
 	IUser,
 	UpdateDto,
+	PreregisterDto,
 	SignupDto,
 	LoginDto,
 	UserChangePasswordDto,
@@ -256,6 +257,22 @@ export default class ApiStore extends VuexModule {
 				}
 				this.set_auth_data(response.data);
 				await this.setCountry();
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async preregister(data: PreregisterDto): Promise<{ valid: boolean } | string> {
+		return await ApiStore.http
+			.post(this.url.signup, data)
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
 				return response.data;
 			})
 			.catch(e => {

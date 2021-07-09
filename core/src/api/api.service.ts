@@ -263,10 +263,9 @@ export class ApiService {
 		data: DepositDto,
 		is_admin: boolean,
 	): Promise<{ valid: boolean }> {
+		let membership: Membership;
 		if (!data.suscriptionId) {
-			const membership = await Membership.createQueryBuilder()
-				.where('id = :id', { id: data.membershipId })
-				.getOne();
+			membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
 			const suscription = new Suscription({
 				userId: user.id,
 				date_begin: date.toSeconds(),
@@ -278,6 +277,9 @@ export class ApiService {
 				return { valid: false };
 			}
 			data.suscriptionId = suscription.id;
+		} else {
+			const suscription = await Suscription.createQueryBuilder().where('id = :id', { id: data.suscriptionId }).getOne();
+			membership = await Membership.createQueryBuilder().where('id = :id', { id: suscription.membershipId }).getOne();
 		}
 		const deposit = new Deposit({
 			date: date.toSeconds(),
@@ -315,17 +317,24 @@ export class ApiService {
 				return { valid: false };
 			}
 		}
-		const templeate_hbs = readFileSync(
-			join(__dirname, '..', 'mails', 'invoice.hbs'),
-			'utf8',
-		);
+		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'invoice.hbs'), 'utf8');
 		const template_compile = handlebars.compile(templeate_hbs);
-		await this.mailerService
-			.sendMail({
-				to: config.email.info,
-				subject: 'Testing Nest MailerModule ✔',
-				html: template_compile({}),
-			})
+		await this.mailerService.sendMail({
+			to: config.email.info,
+			subject: 'DigitalTrust Invoice',
+			html: template_compile({
+				user: user.name,
+				date: date.toLocaleString(),
+				membership: membership.name,
+				payment_method: {
+					balance: 'Balance',
+					paypal: 'PayPal',
+					stripe: 'Stripe',
+					blockchain: 'Coinpayments',
+				}[data.type],
+				money: parseFloat(data.money as any),
+			}),
+		});
 		return { valid: true };
 	}
 
@@ -1030,22 +1039,18 @@ export class ApiService {
 	}
 
 	public async preregister() {
-		const templeate_hbs = readFileSync(
-			join(__dirname, '..', 'mails', 'invoice.hbs'),
-			'utf8',
-		);
+		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'preregister.hbs'), 'utf8');
 		const template_compile = handlebars.compile(templeate_hbs);
 		return await this.mailerService
 			.sendMail({
 				to: config.email.info,
-				subject: 'Testing Nest MailerModule ✔',
+				subject: 'Preregister',
 				html: template_compile({}),
 			})
 			.then(() => {
 				return { valid: true };
 			})
 			.catch((e) => {
-				console.log(e);
 				return { valid: false };
 			});
 	}

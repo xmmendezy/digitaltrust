@@ -152,7 +152,7 @@ export default class Login extends PageChildBase {
 .login {
 	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
 	position: relative;
-	padding: 0;
+	padding-top: 0;
 
 	.body {
 		padding-top: 4.5rem;
