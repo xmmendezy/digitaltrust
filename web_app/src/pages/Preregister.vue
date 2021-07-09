@@ -192,6 +192,7 @@ export default class Preregister extends PageChildBase {
 				this.toastError(this.L(errors[0]));
 			} else {
 				this.preregister_form.telephone = this.telephoneInternational;
+				console.log('Hola');
 				this.load_form_api(
 					await this.store.api.preregister(this.preregister_form),
 					data => {
@@ -270,7 +271,7 @@ export default class Preregister extends PageChildBase {
 			}
 
 			.media {
-				height: 100%;
+				height: 90vh;
 				padding: 3rem 0;
 
 				.media-content {

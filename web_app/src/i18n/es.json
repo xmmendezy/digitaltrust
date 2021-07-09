@@ -40,7 +40,8 @@
 		"ans_6": "¿Cuándo es el mejor momento para contactarlo de vuelta durante horas laborales?",
 		"check1": "Políticas de privacidad",
 		"check2": "Términos y condiciones",
-		"next": "Finalizar"
+		"next": "Finalizar",
+		"success": "Solicitud enviada"
 	},
 	"register": {
 		"a": "Registro",

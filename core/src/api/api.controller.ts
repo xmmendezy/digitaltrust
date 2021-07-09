@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query } from '@app/http';
 import { ApiService } from './api.service';
-import { SignupDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
+import { SignupDto, PreregisterDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
 import { User } from './api.entity';
 import { UserRole } from './api.interface';
 
@@ -306,8 +306,14 @@ export class ApiController {
 		return await this.apiService.get_coinpayments_support_payment(user, data);
 	}
 
-	@Get('preregister')
-	public async preregister() {
-		return await this.apiService.preregister();
+	@Post('preregister')
+	public async preregister(@Body() data: PreregisterDto) {
+		data = new PreregisterDto(data);
+		const errors = data.validate();
+		if (errors.length) {
+			return { error: errors[0] };
+		} else {
+			return await this.apiService.preregister(data);
+		}
 	}
 }

@@ -14,6 +14,7 @@ import {
 } from './api.entity';
 import {
 	SignupDto,
+	PreregisterDto,
 	UserDto,
 	TokenDto,
 	UpdateDto,
@@ -278,8 +279,12 @@ export class ApiService {
 			}
 			data.suscriptionId = suscription.id;
 		} else {
-			const suscription = await Suscription.createQueryBuilder().where('id = :id', { id: data.suscriptionId }).getOne();
-			membership = await Membership.createQueryBuilder().where('id = :id', { id: suscription.membershipId }).getOne();
+			const suscription = await Suscription.createQueryBuilder()
+				.where('id = :id', { id: data.suscriptionId })
+				.getOne();
+			membership = await Membership.createQueryBuilder()
+				.where('id = :id', { id: suscription.membershipId })
+				.getOne();
 		}
 		const deposit = new Deposit({
 			date: date.toSeconds(),
@@ -1038,19 +1043,21 @@ export class ApiService {
 		});
 	}
 
-	public async preregister() {
+	public async preregister(data: PreregisterDto) {
 		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'preregister.hbs'), 'utf8');
 		const template_compile = handlebars.compile(templeate_hbs);
 		return await this.mailerService
 			.sendMail({
 				to: config.email.info,
 				subject: 'Preregister',
-				html: template_compile({}),
+				html: template_compile(data),
 			})
 			.then(() => {
+				console.log('Hola');
 				return { valid: true };
 			})
 			.catch((e) => {
+				console.log('Hola error', e);
 				return { valid: false };
 			});
 	}

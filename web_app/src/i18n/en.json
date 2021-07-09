@@ -40,7 +40,8 @@
 		"ans_6": "What is the best time to contact you during business hours?",
 		"check1": "Privacy policies",
 		"check2": "Terms and Conditions",
-		"next": "Send"
+		"next": "Send",
+		"success": "Request sent"
 	},
 	"register": {
 		"a": "Sign up",
