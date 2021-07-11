@@ -4,6 +4,7 @@ services:
   main:
     container_name: main
     image: xmmendezy/dt_core:latest
+    platform: linux/x86_64
     restart: always
     volumes:
       - main:/usr/src/app
