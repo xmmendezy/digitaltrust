@@ -1053,11 +1053,9 @@ export class ApiService {
 				html: template_compile(data),
 			})
 			.then(() => {
-				console.log('Hola');
 				return { valid: true };
 			})
 			.catch((e) => {
-				console.log('Hola error', e);
 				return { valid: false };
 			});
 	}

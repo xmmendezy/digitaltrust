@@ -192,15 +192,14 @@ export default class Preregister extends PageChildBase {
 				this.toastError(this.L(errors[0]));
 			} else {
 				this.preregister_form.telephone = this.telephoneInternational;
-				console.log('Hola');
 				this.load_form_api(
 					await this.store.api.preregister(this.preregister_form),
 					data => {
 						if (data.valid) {
-							this.toastSuccess(
-								`${this.L('prepreregister.success')}, ${this.preregister_form.firstname}`,
-							);
-							location.href = '/';
+							this.toastSuccess(`${this.L('preregister.success')}, ${this.preregister_form.firstname}`);
+							setTimeout(() => {
+								location.href = '/';
+							}, 4000);
 						} else {
 							this.toastError(this.L('error.e000'));
 						}
