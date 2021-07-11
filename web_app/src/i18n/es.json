@@ -24,6 +24,25 @@
 			"u5": "No se ha podido recuperar la contraseña"
 		}
 	},
+	"preregister": {
+		"title": "Solicitud de registro",
+		"firstname": "Nombre",
+		"lastname": "Apellido",
+		"email": "Correo",
+		"telephone": "Teléfono",
+		"state": "Provincia",
+		"address": "Dirección postal",
+		"ans_1": "¿Cuándo fue la ultima vez que usted hizo una inversión?",
+		"ans_2": "¿Esta usted con liquidez en este momento?",
+		"ans_3": "¿Cuánto es un buen monto de inversión inicial para usted de lo que le estoy ofreciendo?",
+		"ans_4": "¿Cuál es su nivel de riesgo?",
+		"ans_5": "¿Usted tiene en este momento algún vehículo de inversión como CD`S, BONDS?",
+		"ans_6": "¿Cuándo es el mejor momento para contactarlo de vuelta durante horas laborales?",
+		"check1": "Políticas de privacidad",
+		"check2": "Términos y condiciones",
+		"next": "Finalizar",
+		"success": "Solicitud enviada"
+	},
 	"register": {
 		"a": "Registro",
 		"b": "Bienvenido, has sido invitado por medio de",

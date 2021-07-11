@@ -47,6 +47,7 @@ export class ApiModule implements NestModule {
 			.exclude(
 				'/api/login',
 				'/api/signup',
+				'/api/preregister',
 				'/api/ref_user',
 				'/api/get_stripe_donation',
 				'/api/get_coinpayments_donation',

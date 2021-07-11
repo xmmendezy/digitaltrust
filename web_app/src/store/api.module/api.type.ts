@@ -218,6 +218,70 @@ class SignupDto extends ClassBase {
 	}
 }
 
+class PreregisterDto extends ClassBase {
+	constructor() {
+		super();
+		this.firstname = '';
+		this.lastname = '';
+		this.email = '';
+		this.telephone = '';
+		this.state = '';
+		this.address = '';
+		this.country = '';
+		this.ans_1 = '';
+	}
+
+	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	firstname!: string;
+
+	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.c' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	lastname!: string;
+
+	@IsEmail({}, { message: 'validator.auth.d' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	email!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	telephone!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	state!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	address!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	country!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_1!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_2!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_3!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_4!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_5!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_6!: string;
+
+	public validate(): string[] {
+		const errors = super.validate();
+		if (this.country && !ids_countries.find(id => id === this.country)) {
+			errors.push('validator.auth.g');
+		}
+		return Array.from(new Set(errors));
+	}
+}
+
 interface LoginDto {
 	email: string;
 	password: string;
@@ -310,6 +374,7 @@ export {
 	IAuthData,
 	IUser,
 	UpdateDto,
+	PreregisterDto,
 	SignupDto,
 	LoginDto,
 	UserChangePasswordDto,

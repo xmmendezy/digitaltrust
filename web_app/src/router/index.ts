@@ -85,7 +85,14 @@ const routes: Array<RouteConfig> = [
 					free_page: true,
 				},
 			},
-
+			{
+				path: '/preregister',
+				name: 'Preregister',
+				component: () => import(/* webpackChunkName: "register" */ '@app/pages/Preregister.vue'),
+				meta: {
+					free_page: true,
+				},
+			},
 			{
 				path: '/donations',
 				name: 'Donations',

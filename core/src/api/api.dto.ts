@@ -65,6 +65,83 @@ class SignupDto extends BaseDTO {
 	freeSupport!: boolean;
 }
 
+interface IPreregisterDto {
+	firstname: string;
+	lastname: string;
+	email: string;
+	telephone: string;
+	state: string;
+	address: string;
+	country: string;
+	ans_1: string;
+	ans_2: string;
+	ans_3: string;
+	ans_4: string;
+	ans_5: string;
+	ans_6: string;
+}
+
+class PreregisterDto extends BaseDTO {
+	constructor(data: IPreregisterDto) {
+		super();
+		this.firstname = data.firstname;
+		this.lastname = data.lastname;
+		this.email = data.email;
+		this.telephone = data.telephone;
+		this.state = data.state;
+		this.address = data.address;
+		this.country = data.country;
+		this.ans_1 = data.ans_1;
+		this.ans_2 = data.ans_2;
+		this.ans_3 = data.ans_3;
+		this.ans_4 = data.ans_4;
+		this.ans_5 = data.ans_5;
+		this.ans_6 = data.ans_6;
+	}
+
+	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	firstname!: string;
+
+	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.c' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	lastname!: string;
+
+	@IsEmail({}, { message: 'validator.auth.d' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	email!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	telephone!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	state!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	address!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	country!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_1!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_2!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_3!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_4!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_5!: string;
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	ans_6!: string;
+}
+
 class UserDto {
 	constructor(data: User | UserDto) {
 		this.id = data.id;
@@ -289,6 +366,7 @@ interface SupportPaymentDto {
 
 export {
 	SignupDto,
+	PreregisterDto,
 	UserDto,
 	TokenDto,
 	UpdateDto,
