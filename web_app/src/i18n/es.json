@@ -81,7 +81,7 @@
 		},
 		"refer": {
 			"a": "Invita a tus socios",
-			"b": "Comparte tu enlace de referido y recibo un beneficio del 7% extra por cada suscripción de su socio, y ademas un 3% por cada deposito adicional.",
+			"b": "Comparte tu enlace de referido y recibo un beneficio del 7% extra por cada suscripción de su socio, y ademas un 3% por cada depósito adicional.",
 			"c": "Referidos"
 		},
 		"membership": {
@@ -130,9 +130,9 @@
 			"a": "Name",
 			"b": "Email",
 			"c": "Saldo",
-			"d": "Último deposito",
+			"d": "Último depósito",
 			"e": "Tiene retiros",
-			"f": "Deposito",
+			"f": "Depósito",
 			"g": "Retiro"
 		}
 	},
@@ -166,7 +166,7 @@
 			"c": "Fecha de fin"
 		},
 		"deposits": {
-			"title": "Depositos",
+			"title": "Depósitos",
 			"a": "Membresía",
 			"b": "Fecha",
 			"c": "Cantidad",
@@ -195,7 +195,7 @@
 		"error": "Hubo un error, vuelva a intentar"
 	},
 	"deposit": {
-		"title": "Deposito",
+		"title": "Depósito",
 		"subtitle": "Aumente su capital de inversión y multiplique sus ganancias",
 		"step_1": "Suscripción",
 		"step_2": "Método de Pago",
@@ -212,11 +212,11 @@
 		"description": "Ingrese la cantidad a depositar.",
 		"description_dollar": "Ingrese la cantidad a depositar en dolares.",
 		"has_blockchain": "Hay un proceso de pago pendiente, al continuar se perderá el registro. ¿Seguro quiere continuar?",
-		"completed_description": "Su deposito ha sido procesado. Gracias por confiar en DigitalTrust.",
+		"completed_description": "Su depósito ha sido procesado. Gracias por confiar en DigitalTrust.",
 		"success": "Pago procesado",
 		"error": "Hubo un error, vuelva a intentar",
 		"deposit_direct_text": {
-			"a": "Se realizará un deposito de {count}",
+			"a": "Se realizará un depósito de {count}",
 			"b": "en la membresía {count}"
 		},
 		"to_pay": "Pagar"
@@ -272,10 +272,10 @@
 			"title": "¿Cómo comienzo a invertir?",
 			"text_count": "6",
 			"texts": [
-				"Para invertir y comenzar a recibir ganancias en Digital Trust, usted debe realizar un deposito. Aquí lo guiaremos como hacerlo:",
+				"Para invertir y comenzar a recibir ganancias en Digital Trust, usted debe realizar un depósito. Aquí lo guiaremos como hacerlo:",
 				"1) En su dashboard de Digital Trust deberá observar un botón verde con el texto Depositar.",
 				"2) Después de dar click en este botón, le saldrá las opciones de membresías, puede elegir una membresía que desea comprar o depositar mas en una membresía que usted ya posee. Seleccione una, y de click en continuar, en la parte inferior.",
-				"3) Seleccione la pasarela de pago de su preferencia. Puede realizar los depositos con PayPal, Stripe o Coinpayments si desea utilizar sus criptomonedas. También dispone de la posibilidad de reinvertir sus ganancias con la opción Saldo, pero si no dispone de ganancias todavía no estará presenta la opción. Seleccione una, y de click en continuar, en la parte inferior.",
+				"3) Seleccione la pasarela de pago de su preferencia. Puede realizar los depósitos con PayPal, Stripe o Coinpayments si desea utilizar sus criptomonedas. También dispone de la posibilidad de reinvertir sus ganancias con la opción Saldo, pero si no dispone de ganancias todavía no estará presenta la opción. Seleccione una, y de click en continuar, en la parte inferior.",
 				"4) Ingrese la cantidad a depositar. Dependiendo la membresía hay valores mínimos y máximos distintos. En caso de que este depositando en una membresía que usted ya posee, el valor mínimo es de $500. En caso de pagar con CoinPayments deberá seleccionar la criptomoneda a utilizar entre Bitcoin, Etherum y Tether USD. Confirme su valor a depositar y de click en Pagar, en la parte inferior.",
 				"5) Siga los pasos propuestos por cada pasarela de pago, una vez realizado el procedimiento con éxito, vera su inversión reflejada en su dashboard."
 			],
@@ -289,7 +289,7 @@
 				"1) En su dashboard de Digital Trust deberá observar un botón amarillo-naranja con el texto Retirar.",
 				"2) Después de dar click en este botón, le saldrá las opciones que Digital Trust dispone para enviarle sus ganancias. Es importante que complete sus datos de perfil con la información necesaria para enviarle el dinero. Seleccione un método, y de click en continuar, en la parte inferior.",
 				"3) Ingrese la cantidad a retirar. La cantidad disponible para retirar depende de su saldo disponible en el momento. El saldo disponible es todo la ganancia que tenga por lo menos un mes acumulado en su saldo. Confirme su valor a depositar y de click en Confirmar, en la parte inferior.",
-				"4) El equipo de Digital Trust será notificado de su retiro y procederan a enviarle sus ganancias, una vez realizado el procedimiento con éxito, verá su deposito reflejado en su dashboard."
+				"4) El equipo de Digital Trust será notificado de su retiro y procederan a enviarle sus ganancias, una vez realizado el procedimiento con éxito, verá su depósito reflejado en su dashboard."
 			],
 			"guide-me": "Guíame en el proceso"
 		},

@@ -167,7 +167,15 @@ for (const file_lang of files_i18n) {
 			page_dist_folder = `${dist_folder}${lang}`;
 			root_path = `/${lang}/`;
 		}
-		const page = (path: string, label: string, target: string, classess: string, id: string): string => {
+		const page = (
+			path: string,
+			label: string,
+			target: string,
+			classess: string,
+			id: string,
+			icon_left: string,
+			icon_right: string,
+		): string => {
 			const get_label = (): string => {
 				if (typeof label === 'string') {
 					if (label.startsWith('@')) {
@@ -190,7 +198,17 @@ for (const file_lang of files_i18n) {
 			target = typeof target === 'string' ? target : '';
 			classess = typeof classess === 'string' ? classess : '';
 			id = typeof id === 'string' ? id : '';
-			return `<a target="${target}" href="${root_path}${path}" class="${classess}" id="${id}">${label}</a>`;
+			if (icon_left) {
+				icon_left = `<i class="${icon_left}"></i>`;
+			} else {
+				icon_left = '';
+			}
+			if (icon_right) {
+				icon_right = `<i class="${icon_right}"></i>`;
+			} else {
+				icon_right = '';
+			}
+			return `<a target="${target}" href="${root_path}${path}" class="${classess}" id="${id}">${icon_left}${label}${icon_right}</a>`;
 		};
 		const templateData: any = JSON.parse(readFileSync(`./src/i18n/${file_lang}`, 'utf-8'));
 		const options = {
