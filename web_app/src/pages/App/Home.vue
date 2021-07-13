@@ -1102,12 +1102,12 @@ export default class Home extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
-	private moneyDepositMin: number = 500;
+	private moneyDepositMin: number = 200;
 	private moneyDepositMax: number = 100000000;
 
 	private isOpenSupportPaymentModal: boolean = false;
@@ -1115,10 +1115,10 @@ export default class Home extends PageChildBase {
 	private supportPaymentStep: number = 0;
 	private support_payment_methods: string[] = ['paypal', 'stripe', 'blockchain'];
 	private support_payment_method_selected: string = 'paypal';
-	private support_payment_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private support_payment_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private support_payment_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private support_payment_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneySupportPayment: number = 100;
 
 	private supportPayment: boolean = false;
@@ -1337,13 +1337,20 @@ export default class Home extends PageChildBase {
 					this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 						s => s.membershipId === this.deposit_membership_selected,
 					)
-						? 500
+						? 200
 						: this.deposit_suscription.find(s => s.membershipId === this.deposit_membership_selected)
-							?.min_money || 500;
+							?.min_money || 200;
 					if (this.moneyDepositMin > this.moneyDepositMax) {
 						this.moneyDepositMax = 100000000;
 					}
 					this.moneyDeposit = this.moneyDepositMin;
+					if (this.balance_detail_data.available_balance >= this.moneyDepositMin) {
+						this.deposit_methods = ['balance', 'paypal', 'stripe', 'blockchain'];
+						this.deposit_method_selected = 'balance';
+					} else {
+						this.deposit_methods = ['paypal', 'stripe', 'blockchain'];
+						this.deposit_method_selected = 'paypal';
+					}
 				}
 			},
 			{ immediate: true },
@@ -1351,9 +1358,20 @@ export default class Home extends PageChildBase {
 		this.$watch(
 			'deposit_method_selected',
 			() => {
-				if (this.balance_detail_data && this.deposit_method_selected === 'balance') {
-					this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
-					if (this.moneyDepositMax < this.moneyDepositMin) {
+				if (
+					this.balance_detail_data &&
+					this.balance_detail_data.suscriptions.find(s => s.membershipId === this.deposit_membership_selected)
+				) {
+					if (this.deposit_method_selected === 'balance') {
+						this.moneyDepositMin = 200;
+						this.moneyDeposit = this.moneyDepositMin;
+						this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+						if (this.moneyDepositMax < this.moneyDepositMin) {
+							this.moneyDepositMax = 100000000;
+						}
+					} else {
+						this.moneyDepositMin = 500;
+						this.moneyDeposit = this.moneyDepositMin;
 						this.moneyDepositMax = 100000000;
 					}
 				} else {
@@ -1492,7 +1510,7 @@ export default class Home extends PageChildBase {
 			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 				s => s.membershipId === this.deposit_membership_selected,
 			)
-				? 500
+				? 200
 				: this.deposit_suscription[1].min_money;
 			if (this.moneyDepositMin > this.moneyDepositMax) {
 				this.moneyDepositMax = 100000000;

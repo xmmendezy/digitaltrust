@@ -67,6 +67,7 @@ interface ISuscription {
 
 enum PaymentMethod {
 	BALANCE = 'balance',
+	BANKCHECK = 'bankcheck',
 	PAYPAL = 'paypal',
 	STRIPE = 'stripe',
 	BLOCKCHAIN = 'blockchain',

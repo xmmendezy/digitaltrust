@@ -325,7 +325,7 @@ export class ApiService {
 		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'invoice.hbs'), 'utf8');
 		const template_compile = handlebars.compile(templeate_hbs);
 		await this.mailerService.sendMail({
-			to: config.email.info,
+			to: user.email,
 			subject: 'DigitalTrust Invoice',
 			html: template_compile({
 				user: user.name,
@@ -333,6 +333,7 @@ export class ApiService {
 				membership: membership.name,
 				payment_method: {
 					balance: 'Balance',
+					bankcheck: 'Bank Check',
 					paypal: 'PayPal',
 					stripe: 'Stripe',
 					blockchain: 'Coinpayments',
@@ -748,7 +749,7 @@ export class ApiService {
 									.toNumber();
 							}
 						} else {
-							let dayDeposit: number = date_end.day - user.DateTime.fromUnix(deposit.date).day;
+							let dayDeposit: number = date_end.day - user.DateTime.fromUnix(deposit.date).day + 1;
 							if (
 								user.DateTime.now().startOf('month').toSeconds() > date_end.startOf('month').toSeconds()
 							) {
