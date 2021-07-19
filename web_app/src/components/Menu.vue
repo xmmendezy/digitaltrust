@@ -3,7 +3,9 @@
 		<ul class="menu-list menu-user">
 			<li>
 				<a class="icon-text data-user" @click="open()">
-					<b-image v-if="has_image_user" :src="require('../assets/images/avatar.png')"></b-image>
+					<span class="icon is-small">
+						<i class="fas fa-user-circle"></i>
+					</span>
 					<span class="info-user">
 						<font class="name">{{ store.api.name }} </font>
 						<font class="email">{{ store.api.email }}</font>
@@ -94,17 +96,10 @@ export default class Menu extends ComponentBase {
 				white-space: pre-wrap;
 				word-wrap: break-word;
 			}
-
-			a:hover {
-				background-color: rgba(255, 255, 255, 0);
-				color: $primary;
-				i {
-					color: $primary;
-				}
-			}
 		}
 
 		a {
+			color: white;
 			padding-left: 1.75rem;
 			white-space: nowrap;
 			overflow: hidden;
@@ -113,18 +108,28 @@ export default class Menu extends ComponentBase {
 
 			&.icon-text.is-active {
 				background-color: rgba(255, 255, 255, 0);
-				color: $gray;
+				color: white;
+				font-weight: bold;
+			}
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.05);
+				color: white;
+				i {
+					color: white;
+				}
 			}
 		}
 
 		.router-link-exact-active {
 			i {
-				color: $primary;
+				color: $white;
+				font-weight: bold;
 			}
 		}
 
 		i {
-			color: $border;
+			color: $white;
 		}
 
 		.data-user {
@@ -156,15 +161,8 @@ export default class Menu extends ComponentBase {
 
 				.email {
 					font-size: 14px;
-					color: $gray;
 				}
 			}
-		}
-	}
-
-	.menu-list:not(.menu-user) {
-		a {
-			color: $gray;
 		}
 	}
 }

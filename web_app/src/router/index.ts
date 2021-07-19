@@ -36,6 +36,18 @@ const routes: Array<RouteConfig> = [
 				],
 			},
 			{
+				path: 'app2',
+				name: 'App2',
+				component: () => import(/* webpackChunkName: "app-main2" */ '@app/pages/App2/AppBase.vue'),
+				children: [
+					{
+						path: '',
+						name: 'Home2',
+						component: () => import(/* webpackChunkName: "home2" */ '@app/pages/App2/Home.vue'),
+					},
+				],
+			},
+			{
 				path: 'admin',
 				name: 'Admin',
 				component: () => import(/* webpackChunkName: "app-admin" */ '@app/pages/App/AppBase.vue'),
