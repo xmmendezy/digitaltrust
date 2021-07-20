@@ -133,19 +133,6 @@ export default class Menu extends ComponentBase {
 		}
 
 		.data-user {
-			display: inline-flex;
-			width: 100%;
-			padding: 0.5em 0.75em;
-
-			.image {
-				max-width: 5rem;
-
-				img {
-					display: inline;
-					height: auto;
-				}
-			}
-
 			.info-user {
 				width: 50%;
 				padding-top: 1rem;
@@ -160,6 +147,7 @@ export default class Menu extends ComponentBase {
 				}
 
 				.email {
+					padding-left: 2.5rem;
 					font-size: 14px;
 				}
 			}

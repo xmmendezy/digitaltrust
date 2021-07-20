@@ -89,7 +89,7 @@
 			<div class="modal-card" style="width: auto">
 				<header class="modal-card-head">
 					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-						<p class="title has-text-primary">{{ L('title') }}</p>
+						<p class="title has-text-white">{{ L('title') }}</p>
 					</b-navbar-item>
 					<a role="button" class="navbar-burger has-text-white" aria-label="menu" @click="triggerSidebar()">
 						<span aria-hidden="true"></span>
@@ -279,7 +279,7 @@ export default class AppBase extends PageBase {
 					text-decoration: none !important;
 
 					&:hover {
-						background-color: rgba(0, 0, 0, 0.05);
+						background-color: $box-hover;
 					}
 				}
 
@@ -290,14 +290,14 @@ export default class AppBase extends PageBase {
 		}
 
 		.section-main {
-			height: 100%;
-
-			@include tablet {
-				height: calc(100vh - 2.75rem);
-			}
+			height: calc(100vh - 2.75rem);
 
 			.b-sidebar {
 				padding-bottom: 0;
+
+				@include mobile {
+					display: none;
+				}
 
 				@include tablet {
 					flex: none;
@@ -374,7 +374,7 @@ export default class AppBase extends PageBase {
 			.content-main {
 				transition: width 150ms ease-out;
 				padding-top: 1.5rem;
-				padding-right: 3rem;
+				padding-right: 2rem;
 				margin-left: 1rem;
 
 				.donations {
@@ -388,8 +388,9 @@ export default class AppBase extends PageBase {
 
 				@include mobile {
 					margin-left: 0;
-					padding-top: 1rem !important;
-					padding-right: 1rem !important;
+					padding-top: 0 !important;
+					margin-top: 1rem !important;
+					padding-right: 0.5rem !important;
 				}
 
 				@include tablet {
@@ -431,16 +432,42 @@ export default class AppBase extends PageBase {
 		}
 	}
 
+	.dropdown-content {
+		background-color: $box;
+
+		.dropdown-item {
+			color: white;
+
+			&:hover {
+				background-color: $box-hover;
+			}
+		}
+	}
+
 	.modal-menu {
+		.modal-background {
+			background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+		}
+
+		.animation-content,
+		.modal-card {
+			background-color: transparent !important;
+		}
+
 		.modal-card-head {
-			background-color: white;
-			padding: 0 0 0 1.75rem;
+			background-color: $box;
+			padding: 0 0 0 1.65rem;
+			border-bottom: 1px solid $box;
 
 			.title {
 				font-size: 24px !important;
 				margin: 0 !important;
-				font-weight: 500 !important;
+				font-weight: bold !important;
 			}
+		}
+
+		.modal-card-body {
+			background-color: $box;
 		}
 	}
 

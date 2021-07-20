@@ -890,10 +890,10 @@ export default class Admin extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'bankcheck', 'paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] =
-		this.store.util.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
-		this.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
+		.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
+		.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
 	private moneyDepositMin: number = 500;
 	private moneyDepositMax: number = 100000000;
