@@ -63,13 +63,15 @@
 	},
 	"home": {
 		"balance_now": {
+			"title": "Saldos",
 			"a": "Saldo",
 			"b": "Ganancia total",
 			"c": "Capital de inversión",
 			"d": "Retiros",
 			"e": "Ganancias",
 			"f": "Retirar",
-			"g": "Depositar"
+			"g": "Depositar",
+			"earn_more": "Ganar más"
 		},
 		"table_balance": {
 			"a": "Saldo",

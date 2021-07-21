@@ -1102,10 +1102,10 @@ export default class Home extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
 	private moneyDepositMin: number = 200;
 	private moneyDepositMax: number = 100000000;
@@ -1115,10 +1115,10 @@ export default class Home extends PageChildBase {
 	private supportPaymentStep: number = 0;
 	private support_payment_methods: string[] = ['paypal', 'stripe', 'blockchain'];
 	private support_payment_method_selected: string = 'paypal';
-	private support_payment_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private support_payment_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private support_payment_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private support_payment_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneySupportPayment: number = 100;
 
 	private supportPayment: boolean = false;

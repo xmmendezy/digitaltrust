@@ -63,13 +63,15 @@
 	},
 	"home": {
 		"balance_now": {
+			"title": "Balance",
 			"a": "Balance",
 			"b": "Total earnings",
 			"c": "Investment capital",
 			"d": "Withdrawals",
 			"e": "Earnings",
 			"f": "Withdrawal",
-			"g": "Deposit"
+			"g": "Deposit",
+			"earn_more": "Earn more"
 		},
 		"table_balance": {
 			"a": "Balance",
