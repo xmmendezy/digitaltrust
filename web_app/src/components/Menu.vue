@@ -21,6 +21,12 @@
 				:label="L('helper.home')"
 			></b-menu-item>
 			<b-menu-item
+				icon="shopping-cart"
+				tag="router-link"
+				:to="{ name: is_admin ? 'AdminHome' : 'Home' }"
+				:label="L('helper.shopping')"
+			></b-menu-item>
+			<b-menu-item
 				v-if="!is_admin"
 				icon="hands-helping"
 				tag="router-link"

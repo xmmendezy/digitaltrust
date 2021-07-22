@@ -10,10 +10,12 @@
 							<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
 						</div>
 					</div>
-
-					<b-button size="is-small" class="box earning">
-						{{ L('home.balance_now.earn_more') }}
-					</b-button>
+					<div class="box withdrawal">
+						<div class="columns has-text-left">
+							<div class="column withdrawal-text">{{ L('home.balance_now.d') }}</div>
+							<div class="column withdrawal-money is-7">{{ formatMoney(balance_data.withdrawal) }}</div>
+						</div>
+					</div>
 				</div>
 				<div class="column">
 					<div class="box balance">
@@ -27,15 +29,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="column">
-					<div class="box withdrawal">
-						<div class="columns has-text-left">
-							<div class="column withdrawal-text">{{ L('home.balance_now.d') }}</div>
-							<div class="column withdrawal-money is-7">{{ formatMoney(balance_data.withdrawal) }}</div>
-						</div>
-					</div>
-				</div>
 			</div>
+		</div>
+		<div class="box">
+			<Chart />
 		</div>
 	</div>
 </template>
@@ -44,8 +41,11 @@
 import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
 import { IBalance } from '../../store';
+import Chart from '../../components/Chart.vue';
 
-@Component
+@Component({
+	components: { Chart },
+})
 export default class Home extends PageChildBase {
 	private balance_data: IBalance = {
 		balance: 0,
