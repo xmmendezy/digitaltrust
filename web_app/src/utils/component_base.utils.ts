@@ -2,7 +2,7 @@ import { Vue } from 'vue-property-decorator';
 import { vxm, Store, IAuthData, IUser, DataDict } from '../store';
 import VueRouter, { Route } from 'vue-router';
 import { BuefyNamespace } from 'buefy';
-import VueI18n, { IVueI18n } from 'vue-i18n';
+import VueI18n, { IVueI18n, TranslateResult } from 'vue-i18n';
 import { v4 as uuid } from 'uuid';
 
 export default abstract class ComponentBase extends Vue {
@@ -128,26 +128,18 @@ export default abstract class ComponentBase extends Vue {
 		return this.is_admin;
 	}
 
-	public L(key: string): string {
-		return this.$t(key) as string;
-	}
-
-	public LC(key: string, count: number | string): string {
-		return this.$tc(key, count as any) as string;
-	}
-
-	public toastError(message: string, duration: number = 4000) {
+	public toastError(message: string | TranslateResult, duration: number = 4000) {
 		this.$buefy.toast.open({
-			message,
+			message: message as string,
 			type: 'is-danger',
 			position: 'is-bottom',
 			duration,
 		});
 	}
 
-	public toastSuccess(message: string, duration: number = 4000) {
+	public toastSuccess(message: string | TranslateResult, duration: number = 4000) {
 		this.$buefy.toast.open({
-			message,
+			message: message as string,
 			type: 'is-success',
 			duration,
 		});
@@ -157,23 +149,23 @@ export default abstract class ComponentBase extends Vue {
 		if (typeof data === 'string' && data !== '') {
 			const data_error: { [key: string]: any } = {
 				e000: () => {
-					this.toastError(this.L('error.e001'));
+					this.toastError(this.$t('error.e001'));
 					this.logout();
 				},
 				e001: () => {
-					this.toastError(this.L('error.e001'));
+					this.toastError(this.$t('error.e001'));
 					this.logout();
 				},
 				e003: () => {
-					this.toastError(this.L('error.e003'));
+					this.toastError(this.$t('error.e003'));
 					this.logout();
 				},
 				e004: () => {
-					this.toastError(this.L('error.e004'));
+					this.toastError(this.$t('error.e004'));
 					this.logout();
 				},
 				'login.error.u1': () => {
-					this.toastError(this.L('login.error.u1'));
+					this.toastError(this.$t('login.error.u1'));
 					this.logout();
 				},
 				...custom_data_error,
@@ -181,7 +173,7 @@ export default abstract class ComponentBase extends Vue {
 			if (data_error[data]) {
 				data_error[data]();
 			} else {
-				this.toastError(this.L(data));
+				this.toastError(this.$t(data));
 			}
 		} else {
 			callback(data as T);

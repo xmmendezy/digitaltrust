@@ -1,18 +1,18 @@
 <template>
 	<div class="home">
 		<div class="box">
-			<h1 class="title">{{ L('home.balance_now.title') }}</h1>
+			<h1 class="title">{{ $t('home.balance_now.title') }}</h1>
 			<div class="columns">
 				<div class="column">
 					<div class="box earning">
 						<div class="columns has-text-left">
-							<div class="column earning-text">{{ L('home.balance_now.b') }}</div>
+							<div class="column earning-text">{{ $t('home.balance_now.b') }}</div>
 							<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
 						</div>
 					</div>
 					<div class="box withdrawal">
 						<div class="columns has-text-left">
-							<div class="column withdrawal-text">{{ L('home.balance_now.d') }}</div>
+							<div class="column withdrawal-text">{{ $t('home.balance_now.d') }}</div>
 							<div class="column withdrawal-money is-7">{{ formatMoney(balance_data.withdrawal) }}</div>
 						</div>
 					</div>
@@ -20,11 +20,11 @@
 				<div class="column">
 					<div class="box balance">
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('home.balance_now.a') }}</div>
+							<div class="column balance-text">{{ $t('home.balance_now.a') }}</div>
 							<div class="column balance-money is-7">{{ formatMoney(balance_data.balance) }}</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column investment-text">{{ L('home.balance_now.c') }}</div>
+							<div class="column investment-text">{{ $t('home.balance_now.c') }}</div>
 							<div class="column investment-money is-7">{{ formatMoney(balance_data.investment) }}</div>
 						</div>
 					</div>
@@ -133,14 +133,19 @@ export default class Home extends PageChildBase {
 		}
 
 		.withdrawal-text {
-			font-size: 24px;
+			font-size: 20px;
 			font-weight: bold;
 		}
 
 		.withdrawal-money {
-			font-size: 30px;
+			font-size: 26px;
 			font-weight: bold;
 		}
+	}
+
+	.chartjs-render-monitor {
+		height: 50vh !important;
+		width: 100% !important;
 	}
 }
 </style>

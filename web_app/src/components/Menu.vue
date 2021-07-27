@@ -18,29 +18,29 @@
 				icon="dashboard"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminHome' : 'Home' }"
-				:label="L('helper.home')"
+				:label="$t('helper.home')"
 			></b-menu-item>
 			<b-menu-item
 				icon="shopping-cart"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminHome' : 'Home' }"
-				:label="L('helper.shopping')"
+				:label="$t('helper.shopping')"
 			></b-menu-item>
 			<b-menu-item
 				v-if="!is_admin"
 				icon="hands-helping"
 				tag="router-link"
 				:to="{ name: 'AppDonations' }"
-				:label="L('helper.donations')"
+				:label="$t('helper.donations')"
 			></b-menu-item>
 			<b-menu-item
 				id="driver-guide-c-2"
 				icon="ellipsis-h"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminSetting' : 'Setting' }"
-				:label="L('helper.setting')"
+				:label="$t('helper.setting')"
 			></b-menu-item>
-			<b-menu-item icon="sign-out-alt" @click="logout()" :label="L('helper.logout')"></b-menu-item>
+			<b-menu-item icon="sign-out-alt" @click="logout()" :label="$t('helper.logout')"></b-menu-item>
 		</b-menu-list>
 		<ul v-if="auth_data && auth_data.user && auth_data.user.role === 'user'" class="menu-list contact">
 			<li>

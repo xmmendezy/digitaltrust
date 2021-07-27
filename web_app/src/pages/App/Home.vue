@@ -4,27 +4,27 @@
 			<article class="box box-1">
 				<div class="box-balance">
 					<div class="columns has-text-left">
-						<div class="column balance-text">{{ L('home.balance_now.a') }}</div>
+						<div class="column balance-text">{{ $t('home.balance_now.a') }}</div>
 						<div class="column balance-money is-4">{{ formatMoney(balance_data.balance) }}</div>
 					</div>
 					<div class="columns has-text-left">
-						<div class="column">{{ L('home.balance_now.b') }}</div>
+						<div class="column">{{ $t('home.balance_now.b') }}</div>
 						<div class="column info-money is-4">{{ formatMoney(balance_data.earning) }}</div>
 					</div>
 					<div class="columns has-text-left">
-						<div class="column">{{ L('home.balance_now.c') }}</div>
+						<div class="column">{{ $t('home.balance_now.c') }}</div>
 						<div class="column info-money is-4">{{ formatMoney(balance_data.investment) }}</div>
 					</div>
 					<div class="columns has-text-left">
-						<div class="column">{{ L('home.balance_now.d') }}</div>
+						<div class="column">{{ $t('home.balance_now.d') }}</div>
 						<div class="column info-money is-4">{{ formatMoney(balance_data.withdrawal) }}</div>
 					</div>
 					<div class="buttons is-hidden-tablet-only is-fullwidth">
 						<b-button type="is-primary" @click="balance_now()">
-							{{ L('home.balance_now.e') }}
+							{{ $t('home.balance_now.e') }}
 						</b-button>
 						<b-button id="driver-guide-b-1" type="is-warning" @click="open_withdrawal()">
-							{{ L('home.balance_now.f') }}
+							{{ $t('home.balance_now.f') }}
 						</b-button>
 						<b-button
 							id="driver-guide-a-1"
@@ -33,18 +33,18 @@
 							size="is-large"
 							@click="open_deposit()"
 						>
-							{{ L('home.balance_now.g') }}
+							{{ $t('home.balance_now.g') }}
 						</b-button>
 					</div>
 					<div class="buttons is-hidden-mobile is-hidden-desktop is-centered">
 						<b-button type="is-primary" size="is-small" @click="balance_now()">
-							{{ L('home.balance_now.e') }}
+							{{ $t('home.balance_now.e') }}
 						</b-button>
 						<b-button id="driver-guide-b-1" type="is-warning" size="is-small" @click="open_withdrawal()">
-							{{ L('home.balance_now.f') }}
+							{{ $t('home.balance_now.f') }}
 						</b-button>
 						<b-button id="driver-guide-a-1" type="is-success" size="is-small" @click="open_deposit()">
-							{{ L('home.balance_now.g') }}
+							{{ $t('home.balance_now.g') }}
 						</b-button>
 					</div>
 				</div>
@@ -58,7 +58,7 @@
 				>
 					<b-table-column
 						field="balance"
-						:label="L('home.table_balance.a')"
+						:label="$t('home.table_balance.a')"
 						header-class="header"
 						centered
 						v-slot="props"
@@ -67,7 +67,7 @@
 					</b-table-column>
 					<b-table-column
 						field="withdrawal"
-						:label="L('home.table_balance.b')"
+						:label="$t('home.table_balance.b')"
 						header-class="header"
 						v-slot="props"
 					>
@@ -76,7 +76,7 @@
 
 					<b-table-column
 						field="earning"
-						:label="L('home.table_balance.c')"
+						:label="$t('home.table_balance.c')"
 						header-class="header"
 						v-slot="props"
 					>
@@ -85,7 +85,7 @@
 
 					<b-table-column
 						field="earning"
-						:label="L('home.table_balance.d')"
+						:label="$t('home.table_balance.d')"
 						header-class="header"
 						v-slot="props"
 					>
@@ -94,7 +94,7 @@
 
 					<b-table-column
 						field="earning"
-						:label="L('home.table_balance.e')"
+						:label="$t('home.table_balance.e')"
 						header-class="header"
 						v-slot="props"
 					>
@@ -103,7 +103,7 @@
 
 					<b-table-column
 						field="month"
-						:label="L('home.table_balance.f')"
+						:label="$t('home.table_balance.f')"
 						header-class="header header-center has-text-right"
 						v-slot="props"
 					>
@@ -118,14 +118,14 @@
 			<article class="box box-3">
 				<div class="box-refer">
 					<div class="has-text-left">
-						<h3 class="title">{{ L('home.refer.a') }}</h3>
-						<p>{{ L('home.refer.b') }}</p>
+						<h3 class="title">{{ $t('home.refer.a') }}</h3>
+						<p>{{ $t('home.refer.b') }}</p>
 					</div>
 					<div class="url-refer">
 						<a target="_blank" :href="url_refer">{{ url_refer }}</a>
 					</div>
 					<div class="has-text-left">
-						<h3 class="title-refers">{{ L('home.refer.c') }}</h3>
+						<h3 class="title-refers">{{ $t('home.refer.c') }}</h3>
 						<ul class="refer-list">
 							<li v-for="refer in refers_data" :key="refer.id">
 								<a class="icon-text data-refer">
@@ -142,8 +142,8 @@
 			<article class="box box-4">
 				<div class="box-membership">
 					<div class="has-text-left">
-						<h3 class="title">{{ L('home.membership.a') }}</h3>
-						<p>{{ L('home.membership.b') }}</p>
+						<h3 class="title">{{ $t('home.membership.a') }}</h3>
+						<p>{{ $t('home.membership.b') }}</p>
 					</div>
 					<div class="buttons">
 						<b-button
@@ -158,7 +158,7 @@
 					<section class="memberships-content has-text-right">
 						<c-input
 							v-model="moneyMembershipActive"
-							:placeholder="L('home.membership.c')"
+							:placeholder="$t('home.membership.c')"
 							type="number"
 							:min="moneyMembershipMin"
 							icon="fa-dollar-sign"
@@ -172,7 +172,7 @@
 							{{ moneyMembership }}
 						</p>
 						<p class="info-membership">
-							{{ L('home.membership.d') }}
+							{{ $t('home.membership.d') }}
 						</p>
 					</section>
 				</div>
@@ -185,7 +185,7 @@
 					<b-steps v-model="supportPaymentStep">
 						<b-step-item step="1" label="Account" :clickable="false">
 							<b-image class="image-main" :src="require('../../assets/images/image4.jpg')"></b-image>
-							<h1 class="title has-text-centered">{{ L('support_payment.text1.title') }}</h1>
+							<h1 class="title has-text-centered">{{ $t('support_payment.text1.title') }}</h1>
 							<p v-for="l in ['a', 'b', 'c']" :key="1 + l" class="subtitle">
 								{{ L(`support_payment.text1.${l}`) }}
 							</p>
@@ -193,7 +193,7 @@
 
 						<b-step-item step="2" label="Profile" :clickable="false">
 							<b-image class="image-main" :src="require('../../assets/images/image3.jpg')"></b-image>
-							<h1 class="title has-text-centered">{{ L('support_payment.text2.title') }}</h1>
+							<h1 class="title has-text-centered">{{ $t('support_payment.text2.title') }}</h1>
 							<div v-if="!has_button_support_payment">
 								<p v-for="l in ['a', 'b']" :key="2 + l" class="subtitle">
 									{{ L(`support_payment.text2.${l}`) }}
@@ -278,7 +278,7 @@
 								icon-right="chevron-right"
 								@click.prevent="supportPaymentStep = 1"
 							>
-								{{ L('helper.next') }}
+								{{ $t('helper.next') }}
 							</b-button>
 							<b-button
 								v-if="supportPaymentStep === 0 && !supportPayment"
@@ -287,7 +287,7 @@
 								icon-right="check"
 								@click.prevent="to_save_see_welcome()"
 							>
-								{{ L('helper.next') }}
+								{{ $t('helper.next') }}
 							</b-button>
 							<b-button
 								v-if="supportPaymentStep === 1"
@@ -296,7 +296,7 @@
 								icon-right="dollar-sign"
 								@click.prevent="to_pay_support_payment()"
 							>
-								{{ L('helper.to_pay') }}
+								{{ $t('helper.to_pay') }}
 							</b-button>
 						</template>
 					</b-steps>
@@ -308,39 +308,39 @@
 			<div class="card">
 				<div v-if="balance_detail_data" class="card-content">
 					<p class="title has-text-left">
-						{{ L('balance.title') }} -
+						{{ $t('balance.title') }} -
 						{{ store.api.DateTime.fromUnix(balance_detail_data.date).toFormat('LLLL yyyy') }}
 					</p>
-					<p class="subtitle has-text-left">{{ L('balance.subtitle') }}</p>
+					<p class="subtitle has-text-left">{{ $t('balance.subtitle') }}</p>
 					<div class="box-balance">
 						<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.a') }}</div>
+							<div class="column balance-text">{{ $t('balance.a') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.available_balance) }}
 							</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.b') }}</div>
+							<div class="column balance-text">{{ $t('balance.b') }}</div>
 							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.balance) }}</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.c') }}</div>
+							<div class="column balance-text">{{ $t('balance.c') }}</div>
 							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.earning) }}</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.d') }}</div>
+							<div class="column balance-text">{{ $t('balance.d') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.earning_extra) }}
 							</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.e') }}</div>
+							<div class="column balance-text">{{ $t('balance.e') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.investment) }}
 							</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.f') }}</div>
+							<div class="column balance-text">{{ $t('balance.f') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.withdrawal) }}
 							</div>
@@ -358,14 +358,14 @@
 								</div>
 								<div class="columns has-text-left">
 									<div class="column">
-										{{ L('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
+										{{ $t('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
 									</div>
 								</div>
 							</div>
 							<div class="column">
 								<div class="columns has-text-left">
 									<div class="column">
-										{{ L('balance.suscription.b') }}:
+										{{ $t('balance.suscription.b') }}:
 										{{
 											store.api.DateTime.fromUnix(suscription.date_begin).toFormat('dd LLL yyyy')
 										}}
@@ -373,7 +373,7 @@
 								</div>
 								<div class="columns has-text-left">
 									<div class="column">
-										{{ L('balance.suscription.c') }}:
+										{{ $t('balance.suscription.c') }}:
 										{{ store.api.DateTime.fromUnix(suscription.date_end).toFormat('dd LLL yyyy') }}
 									</div>
 								</div>
@@ -381,11 +381,11 @@
 						</div>
 					</div>
 					<div v-if="balance_detail_data.deposits.length" class="deposits">
-						<p class="title has-text-left">{{ L('balance.deposits.title') }}</p>
+						<p class="title has-text-left">{{ $t('balance.deposits.title') }}</p>
 						<b-table :data="balance_detail_data.deposits" sticky-header :mobile-cards="false">
 							<b-table-column
 								field="suscription"
-								:label="L('balance.deposits.a')"
+								:label="$t('balance.deposits.a')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -394,7 +394,7 @@
 
 							<b-table-column
 								field="date"
-								:label="L('balance.deposits.b')"
+								:label="$t('balance.deposits.b')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -405,7 +405,7 @@
 
 							<b-table-column
 								field="money"
-								:label="L('balance.deposits.c')"
+								:label="$t('balance.deposits.c')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -414,7 +414,7 @@
 
 							<b-table-column
 								field="payment_method"
-								:label="L('balance.deposits.d')"
+								:label="$t('balance.deposits.d')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -423,7 +423,7 @@
 
 							<b-table-column
 								field="reference"
-								:label="L('balance.deposits.e')"
+								:label="$t('balance.deposits.e')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -432,11 +432,11 @@
 						</b-table>
 					</div>
 					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
-						<p class="title has-text-left">{{ L('balance.withdrawals.title') }}</p>
+						<p class="title has-text-left">{{ $t('balance.withdrawals.title') }}</p>
 						<b-table :data="balance_detail_data.withdrawals" sticky-header :mobile-cards="false">
 							<b-table-column
 								field="date"
-								:label="L('balance.withdrawals.a')"
+								:label="$t('balance.withdrawals.a')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -447,7 +447,7 @@
 
 							<b-table-column
 								field="money"
-								:label="L('balance.withdrawals.b')"
+								:label="$t('balance.withdrawals.b')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -456,7 +456,7 @@
 
 							<b-table-column
 								field="withdrawal_method"
-								:label="L('balance.withdrawals.c')"
+								:label="$t('balance.withdrawals.c')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -467,7 +467,7 @@
 
 							<b-table-column
 								field="status"
-								:label="L('balance.withdrawals.d')"
+								:label="$t('balance.withdrawals.d')"
 								header-class="header header-center has-text-center"
 								v-slot="props"
 							>
@@ -490,13 +490,13 @@
 			<div class="card">
 				<div class="card-content">
 					<p class="title has-text-left">
-						{{ L('withdrawal.title') }}
+						{{ $t('withdrawal.title') }}
 					</p>
 					<p class="subtitle has-text-left">
-						{{ L('withdrawal.subtitle') }}
+						{{ $t('withdrawal.subtitle') }}
 					</p>
 					<b-steps v-model="WithdrawalStep">
-						<b-step-item step="1" :label="L('withdrawal.step_1')" id="driver-guide-b-2">
+						<b-step-item step="1" :label="$t('withdrawal.step_1')" id="driver-guide-b-2">
 							<div
 								v-for="withdrawal_method in withdrawal_methods"
 								:key="withdrawal_method"
@@ -525,14 +525,14 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="2" :label="L('withdrawal.step_2')">
+						<b-step-item step="2" :label="$t('withdrawal.step_2')">
 							<div class="message-withdrawal">
 								<div class="column title has-text-left">
-									{{ L('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
+									{{ $t('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
 								</div>
 								<c-input
 									v-model="moneyWithdrawal"
-									:placeholder="L('withdrawal.money')"
+									:placeholder="$t('withdrawal.money')"
 									type="number"
 									:max="moneyWithdrawalMax"
 									icon="fa-dollar-sign"
@@ -541,10 +541,10 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="3" :label="L('withdrawal.step_3')">
+						<b-step-item step="3" :label="$t('withdrawal.step_3')">
 							<div class="message-withdrawal">
 								<div class="column title has-text-left">
-									{{ L('withdrawal.completed_description') }}
+									{{ $t('withdrawal.completed_description') }}
 								</div>
 							</div>
 						</b-step-item>
@@ -558,7 +558,7 @@
 								icon-left="chevron-left"
 								@click.prevent="previous.action"
 							>
-								{{ L('helper.prev') }}
+								{{ $t('helper.prev') }}
 							</b-button>
 							<b-button
 								v-if="WithdrawalStep === 0"
@@ -574,7 +574,7 @@
 									}
 								"
 							>
-								{{ L('helper.next') }}
+								{{ $t('helper.next') }}
 							</b-button>
 							<b-button
 								v-if="WithdrawalStep === 1"
@@ -586,7 +586,7 @@
 								:disabled="moneyWithdrawal < 100 || moneyWithdrawal > moneyWithdrawalMax"
 								@click.prevent="next.action"
 							>
-								{{ L('helper.confirm') }}
+								{{ $t('helper.confirm') }}
 							</b-button>
 							<b-button
 								v-if="WithdrawalStep === 2"
@@ -596,7 +596,7 @@
 								icon-right="check"
 								@click.prevent="finish_withdrawal()"
 							>
-								{{ L('helper.finish') }}
+								{{ $t('helper.finish') }}
 							</b-button>
 						</template>
 					</b-steps>
@@ -608,13 +608,13 @@
 			<div class="card">
 				<div class="card-content">
 					<p class="title has-text-left">
-						{{ L('deposit.title') }}
+						{{ $t('deposit.title') }}
 					</p>
 					<p class="subtitle has-text-left">
-						{{ L('deposit.subtitle') }}
+						{{ $t('deposit.subtitle') }}
 					</p>
 					<b-steps v-model="DepositStep">
-						<b-step-item step="1" :label="L('deposit.step_1')" id="driver-guide-a-2" :clickable="false">
+						<b-step-item step="1" :label="$t('deposit.step_1')" id="driver-guide-a-2" :clickable="false">
 							<div v-if="deposit_suscription.length" class="prices">
 								<div class="columns">
 									<div class="column">
@@ -875,7 +875,7 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="2" :label="L('deposit.step_2')" id="driver-guide-a-4" :clickable="false">
+						<b-step-item step="2" :label="$t('deposit.step_2')" id="driver-guide-a-4" :clickable="false">
 							<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
 								<div class="columns columns-deposit">
 									<div
@@ -910,12 +910,12 @@
 								class="message-deposit"
 							>
 								<div class="column title has-text-left">
-									{{ L('deposit.description') }}
+									{{ $t('deposit.description') }}
 								</div>
 								<c-input
 									id="driver-guide-a-6"
 									v-model="moneyDeposit"
-									:placeholder="L('deposit.money')"
+									:placeholder="$t('deposit.money')"
 									type="number"
 									:max="moneyDepositMax"
 									:min="moneyDepositMin"
@@ -930,11 +930,11 @@
 								<p v-if="directDeposit" class="deposit-direct-text">{{ deposit_direct_text }}</p>
 								<div v-else>
 									<div class="column title has-text-left">
-										{{ L('deposit.description_dollar') }}
+										{{ $t('deposit.description_dollar') }}
 									</div>
 									<c-input
 										v-model="moneyDeposit"
-										:placeholder="L('deposit.money')"
+										:placeholder="$t('deposit.money')"
 										type="number"
 										:max="moneyDepositMax"
 										:min="moneyDepositMin"
@@ -988,10 +988,10 @@
 							</div>
 						</b-step-item>
 
-						<b-step-item step="4" :label="L('deposit.step_4')" :clickable="false">
+						<b-step-item step="4" :label="$t('deposit.step_4')" :clickable="false">
 							<div class="message-deposit">
 								<div class="column title has-text-left">
-									{{ L('deposit.completed_description') }}
+									{{ $t('deposit.completed_description') }}
 								</div>
 							</div>
 						</b-step-item>
@@ -1005,7 +1005,7 @@
 								icon-left="chevron-left"
 								@click.prevent="previous.action"
 							>
-								{{ L('helper.prev') }}
+								{{ $t('helper.prev') }}
 							</b-button>
 							<b-button
 								v-if="DepositStep === 0 || DepositStep === 1"
@@ -1021,7 +1021,7 @@
 									}
 								"
 							>
-								{{ L('helper.next') }}
+								{{ $t('helper.next') }}
 							</b-button>
 							<b-button
 								v-if="DepositStep === 2 && !has_button_payment"
@@ -1031,7 +1031,7 @@
 								icon-right="dollar-sign"
 								@click.prevent="to_pay()"
 							>
-								{{ L('helper.to_pay') }}
+								{{ $t('helper.to_pay') }}
 							</b-button>
 							<b-button
 								v-if="DepositStep === 3"
@@ -1041,7 +1041,7 @@
 								icon-right="check"
 								@click.prevent="isOpenDepositModal = false"
 							>
-								{{ L('helper.finish') }}
+								{{ $t('helper.finish') }}
 							</b-button>
 						</template>
 					</b-steps>
@@ -1160,14 +1160,14 @@ export default class Home extends PageChildBase {
 						}),
 						d => {
 							if (d.valid) {
-								this.toastSuccess(this.L('support_payment.success'));
+								this.toastSuccess(this.$t('support_payment.success'));
 							} else {
-								this.toastError(this.L('support_payment.error'));
+								this.toastError(this.$t('support_payment.error'));
 							}
 						},
 					);
 				} else {
-					this.toastError(this.L('support_payment.error'));
+					this.toastError(this.$t('support_payment.error'));
 				}
 			}
 			if (reference_coinpayments_support_payment) {
@@ -1194,9 +1194,9 @@ export default class Home extends PageChildBase {
 							if (d.valid) {
 								localStorage.removeItem('reference_coinpayments_support_payment');
 								localStorage.removeItem('data_coinpayments_support_payment');
-								this.toastSuccess(this.L('support_payment.success'));
+								this.toastSuccess(this.$t('support_payment.success'));
 							} else {
-								this.toastError(this.L('support_payment.error'));
+								this.toastError(this.$t('support_payment.error'));
 							}
 						},
 					);
@@ -1225,16 +1225,16 @@ export default class Home extends PageChildBase {
 						}),
 						d => {
 							if (d.valid) {
-								this.toastSuccess(this.L('deposit.success'));
+								this.toastSuccess(this.$t('deposit.success'));
 								this.get_balance();
 								this.get_records();
 							} else {
-								this.toastError(this.L('deposit.error'));
+								this.toastError(this.$t('deposit.error'));
 							}
 						},
 					);
 				} else {
-					this.toastError(this.L('deposit.error'));
+					this.toastError(this.$t('deposit.error'));
 				}
 			}
 			if (reference_coinpayments) {
@@ -1255,11 +1255,11 @@ export default class Home extends PageChildBase {
 						if (d.valid) {
 							localStorage.removeItem('reference_coinpayments');
 							localStorage.removeItem('data_coinpayments');
-							this.toastSuccess(this.L('deposit.success'));
+							this.toastSuccess(this.$t('deposit.success'));
 							this.get_balance();
 							this.get_records();
 						} else {
-							this.toastError(this.L('deposit.error'));
+							this.toastError(this.$t('deposit.error'));
 						}
 					});
 				});
@@ -1293,13 +1293,13 @@ export default class Home extends PageChildBase {
 				if (this.deposit_method_selected === 'paypal') {
 					this.has_button_payment = true;
 					this.isOpenDepositModal = true;
-					this.deposit_direct_text = `${this.LC(
+					this.deposit_direct_text = `${this.$tc(
 						'deposit.deposit_direct_text.a',
-						this.formatMoney(this.moneyDeposit),
-					)} ${this.LC(
+						this.formatMoney(this.moneyDeposit) as any,
+					)} ${this.$tc(
 						'deposit.deposit_direct_text.b',
-						this.deposit_suscription.find(m => m.membershipId === this.deposit_membership_selected)?.name ||
-							'',
+						(this.deposit_suscription.find(m => m.membershipId === this.deposit_membership_selected)
+							?.name || '') as any,
 					)}`;
 					this.to_pay();
 				} else if (this.deposit_method_selected === 'stripe') {
@@ -1307,13 +1307,13 @@ export default class Home extends PageChildBase {
 					this.isOpenDepositModal = true;
 					this.to_pay();
 				} else if (this.deposit_method_selected === 'blockchain') {
-					this.deposit_direct_text = `${this.LC(
+					this.deposit_direct_text = `${this.$tc(
 						'deposit.deposit_direct_text.a',
-						this.formatMoney(this.moneyDeposit),
-					)} ${this.LC(
+						this.formatMoney(this.moneyDeposit) as any,
+					)} ${this.$tc(
 						'deposit.deposit_direct_text.b',
-						this.deposit_suscription.find(m => m.membershipId === this.deposit_membership_selected)?.name ||
-							'',
+						(this.deposit_suscription.find(m => m.membershipId === this.deposit_membership_selected)
+							?.name || '') as any,
 					)}`;
 					this.isOpenDepositModal = true;
 				}
@@ -1468,11 +1468,11 @@ export default class Home extends PageChildBase {
 			}),
 			d => {
 				if (d.valid) {
-					this.toastSuccess(this.L('withdrawal.success'));
+					this.toastSuccess(this.$t('withdrawal.success'));
 					this.get_balance();
 					this.get_records();
 				} else {
-					this.toastError(this.L('withdrawal.error'));
+					this.toastError(this.$t('withdrawal.error'));
 				}
 				this.isOpenWithdrawalModal = false;
 			},
@@ -1537,12 +1537,12 @@ export default class Home extends PageChildBase {
 			}),
 			d => {
 				if (d.valid) {
-					this.toastSuccess(this.L('deposit.success'));
+					this.toastSuccess(this.$t('deposit.success'));
 					this.get_balance();
 					this.get_records();
 					this.DepositStep = 3;
 				} else {
-					this.toastError(this.L('deposit.error'));
+					this.toastError(this.$t('deposit.error'));
 				}
 			},
 		);
@@ -1578,12 +1578,12 @@ export default class Home extends PageChildBase {
 								})
 								.render('#paypal-button-container');
 						} else {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						}
 					});
 				})
 				.catch(() => {
-					this.toastError(this.L('error.e000'));
+					this.toastError(this.$t('error.e000'));
 				});
 		} else if (this.deposit_method_selected === 'stripe') {
 			this.has_button_payment = true;
@@ -1607,13 +1607,13 @@ export default class Home extends PageChildBase {
 									})
 									.then(result => {
 										if (result.error) {
-											this.toastError(this.L('error.e000'));
+											this.toastError(this.$t('error.e000'));
 										}
 									});
 							}
 						})
 						.catch(() => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						});
 				},
 			);
@@ -1622,7 +1622,7 @@ export default class Home extends PageChildBase {
 			const reference_coinpayments = localStorage.getItem('reference_coinpayments');
 			if (reference_coinpayments) {
 				this.$buefy.dialog.confirm({
-					message: this.L('deposit.has_blockchain'),
+					message: this.$t('deposit.has_blockchain') as string,
 					onConfirm: this.process_blockchain,
 					onCancel: () => {
 						this.isOpenDepositModal = false;
@@ -1678,11 +1678,11 @@ export default class Home extends PageChildBase {
 						if (d.valid) {
 							localStorage.removeItem('reference_coinpayments');
 							localStorage.removeItem('data_coinpayments');
-							this.toastSuccess(this.L('deposit.success'));
+							this.toastSuccess(this.$t('deposit.success'));
 							this.get_balance();
 							this.get_records();
 						} else {
-							this.toastError(this.L('deposit.error'));
+							this.toastError(this.$t('deposit.error'));
 						}
 					});
 				});
@@ -1718,12 +1718,12 @@ export default class Home extends PageChildBase {
 								})
 								.render('#paypal-button-container-support');
 						} else {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						}
 					});
 				})
 				.catch(() => {
-					this.toastError(this.L('error.e000'));
+					this.toastError(this.$t('error.e000'));
 				});
 		} else if (this.support_payment_method_selected === 'stripe') {
 			this.has_button_support_payment = true;
@@ -1742,13 +1742,13 @@ export default class Home extends PageChildBase {
 									})
 									.then(result => {
 										if (result.error) {
-											this.toastError(this.L('error.e000'));
+											this.toastError(this.$t('error.e000'));
 										}
 									});
 							}
 						})
 						.catch(() => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						});
 				},
 			);
@@ -1786,9 +1786,9 @@ export default class Home extends PageChildBase {
 							if (d.valid) {
 								localStorage.removeItem('reference_coinpayments_support_payment');
 								localStorage.removeItem('data_coinpayments_support_payment');
-								this.toastSuccess(this.L('support_payment.success'));
+								this.toastSuccess(this.$t('support_payment.success'));
 							} else {
-								this.toastError(this.L('support_payment.error'));
+								this.toastError(this.$t('support_payment.error'));
 							}
 						});
 					});
@@ -1807,9 +1807,9 @@ export default class Home extends PageChildBase {
 			d => {
 				if (d.valid) {
 					this.isOpenSupportPaymentModal = false;
-					this.toastSuccess(this.L('support_payment.success'));
+					this.toastSuccess(this.$t('support_payment.success'));
 				} else {
-					this.toastError(this.L('support_payment.error'));
+					this.toastError(this.$t('support_payment.error'));
 				}
 			},
 		);

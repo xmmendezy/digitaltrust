@@ -5,27 +5,27 @@
 				<article class="media">
 					<div class="media-content has-text-centered">
 						<b-image class="logo" :src="require('../../assets/images/logo4.png')"></b-image>
-						<p class="title">{{ L('login.a') }}</p>
+						<p class="title">{{ $t('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
 								<c-input
 									ref="input"
 									v-model="login_form.email"
 									@keyup.enter.native="login()"
-									:placeholder="L('login.b')"
+									:placeholder="$t('login.b')"
 								></c-input>
 							</b-field>
 							<b-field>
 								<c-input
 									v-model="login_form.password"
 									@keyup.enter.native="login()"
-									:placeholder="L('login.c')"
+									:placeholder="$t('login.c')"
 									password
 								>
 								</c-input>
 							</b-field>
 							<b-field>
-								<b-button @click="login()" rounded type="is-white">{{ L('login.e') }}</b-button>
+								<b-button @click="login()" rounded type="is-white">{{ $t('login.e') }}</b-button>
 							</b-field>
 						</section>
 					</div>
@@ -63,13 +63,13 @@ export default class Login extends PageChildBase {
 	private async login() {
 		this.load_form_api(await this.store.api.login(this.login_form), () => {}, {
 			e000: () => {
-				this.toastError(this.L('login.error.e000'));
+				this.toastError(this.$t('login.error.e000'));
 			},
 		});
 		this.auth_data = this.store.api.auth_data;
 		if (await this.store.api.isLogged()) {
 			this.$i18n.locale = this.store.api.country.locale || 'en';
-			this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.api.name}`);
+			this.toastSuccess(`${this.$t('helper.welcome')}, ${this.store.api.name}`);
 			if (this.auth_data?.user?.role === 'admin') {
 				this.$router.push({ name: 'AdminHome' });
 			} else {

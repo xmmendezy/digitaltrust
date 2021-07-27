@@ -1,28 +1,33 @@
 <template>
 	<div class="admin">
 		<b-field class="has-text-right">
-			<b-button @click="new_client()" type="is-primary">{{ L('admin.new_client') }}</b-button>
+			<b-button @click="new_client()" type="is-primary">{{ $t('admin.new_client') }}</b-button>
 		</b-field>
 		<article class="box">
 			<b-table :data="client_data" sticky-header :mobile-cards="false">
-				<b-table-column field="name" :label="L('admin.table_client.a')" header-class="header" v-slot="props">
+				<b-table-column field="name" :label="$t('admin.table_client.a')" header-class="header" v-slot="props">
 					<div class="has-text-left" @click="edit_client(props.row.id)">
 						{{ props.row.name }}
 					</div>
 				</b-table-column>
-				<b-table-column field="email" :label="L('admin.table_client.b')" header-class="header" v-slot="props">
+				<b-table-column field="email" :label="$t('admin.table_client.b')" header-class="header" v-slot="props">
 					<div class="has-text-left" @click="edit_client(props.row.id)">
 						{{ props.row.email }}
 					</div>
 				</b-table-column>
-				<b-table-column field="balance" :label="L('admin.table_client.c')" header-class="header" v-slot="props">
+				<b-table-column
+					field="balance"
+					:label="$t('admin.table_client.c')"
+					header-class="header"
+					v-slot="props"
+				>
 					<div class="has-text-left" @click="records_client(props.row.id)">
 						{{ formatMoney(props.row.balance) }}
 					</div>
 				</b-table-column>
 				<b-table-column
 					field="lastDeposit"
-					:label="L('admin.table_client.d')"
+					:label="$t('admin.table_client.d')"
 					header-class="header header-center has-text-right"
 					v-slot="props"
 				>
@@ -39,7 +44,7 @@
 
 				<b-table-column
 					field="has_withdrawal"
-					:label="L('admin.table_client.e')"
+					:label="$t('admin.table_client.e')"
 					header-class="header header-center has-text-center"
 					v-slot="props"
 				>
@@ -57,7 +62,7 @@
 
 				<b-table-column
 					field="deposit"
-					:label="L('admin.table_client.f')"
+					:label="$t('admin.table_client.f')"
 					header-class="header header-center has-text-center"
 					v-slot="props"
 				>
@@ -70,7 +75,7 @@
 
 				<b-table-column
 					field="withdrawal"
-					:label="L('admin.table_client.g')"
+					:label="$t('admin.table_client.g')"
 					header-class="header header-center has-text-center"
 					v-slot="props"
 				>
@@ -88,21 +93,21 @@
 				<div class="card-content modal-client">
 					<div class="media">
 						<div class="media-content has-text-centered">
-							<p class="title">{{ L('admin.new_client') }}</p>
+							<p class="title">{{ $t('admin.new_client') }}</p>
 							<section class="form has-text-centered">
 								<div class="columns">
 									<div class="column">
 										<c-input
 											v-model="client_form.firstname"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.c')"
+											:placeholder="$t('register.c')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="client_form.lastname"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.d')"
+											:placeholder="$t('register.d')"
 										></c-input>
 									</div>
 								</div>
@@ -111,14 +116,14 @@
 										<c-input
 											v-model="client_form.email"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.e')"
+											:placeholder="$t('register.e')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-tel-input
 											v-model="client_form.telephone"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.f')"
+											:placeholder="$t('register.f')"
 											@validate="validateNumber"
 											@country-changed="changeCountry"
 										></c-tel-input>
@@ -129,14 +134,14 @@
 										<c-input
 											v-model="client_form.state"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.g')"
+											:placeholder="$t('register.g')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="client_form.address"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.h')"
+											:placeholder="$t('register.h')"
 										></c-input>
 									</div>
 								</div>
@@ -145,7 +150,7 @@
 										<c-input
 											v-model="client_form.password"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.i')"
+											:placeholder="$t('register.i')"
 											password
 										></c-input>
 									</div>
@@ -153,7 +158,7 @@
 										<c-input
 											v-model="client_form.password_confirm"
 											@keyup.enter.native="register_client()"
-											:placeholder="L('register.j')"
+											:placeholder="$t('register.j')"
 											password
 										></c-input>
 									</div>
@@ -162,7 +167,7 @@
 									<div class="column">
 										<b-field>
 											<b-checkbox v-model="client_form.freeSupport">
-												{{ L('register.free_support') }}
+												{{ $t('register.free_support') }}
 											</b-checkbox>
 										</b-field>
 									</div>
@@ -170,7 +175,7 @@
 								</div>
 								<b-field>
 									<b-button @click="register_client()" type="is-primary">{{
-										L('admin.save_client')
+										$t('admin.save_client')
 									}}</b-button>
 								</b-field>
 							</section>
@@ -188,7 +193,7 @@
 							<section class="form-user has-text-centered">
 								<div class="columns">
 									<div class="column has-text-left">
-										<h3 class="title">{{ L('admin.edit_client') }}</h3>
+										<h3 class="title">{{ $t('admin.edit_client') }}</h3>
 									</div>
 									<div class="column"></div>
 								</div>
@@ -197,14 +202,14 @@
 										<c-input
 											v-model="edit_client_form.firstname"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.b')"
+											:placeholder="$t('setting.user.b')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.lastname"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.c')"
+											:placeholder="$t('setting.user.c')"
 										></c-input>
 									</div>
 								</div>
@@ -213,7 +218,7 @@
 										<c-input
 											v-model="edit_client_form.email"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.d')"
+											:placeholder="$t('setting.user.d')"
 										></c-input>
 									</div>
 									<div class="column">
@@ -222,7 +227,7 @@
 											:defaultCountry="default_country"
 											:autoDefaultCountry="false"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.e')"
+											:placeholder="$t('setting.user.e')"
 											@validate="validateNumber"
 											@country-changed="changeCountryUpdate"
 										></c-tel-input>
@@ -233,14 +238,14 @@
 										<c-input
 											v-model="edit_client_form.state"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.f')"
+											:placeholder="$t('setting.user.f')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.address"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.g')"
+											:placeholder="$t('setting.user.g')"
 										></c-input>
 									</div>
 								</div>
@@ -249,7 +254,7 @@
 										<c-input
 											v-model="edit_client_form.password"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.h')"
+											:placeholder="$t('setting.user.h')"
 											password
 										></c-input>
 									</div>
@@ -257,7 +262,7 @@
 										<c-input
 											v-model="edit_client_form.password_confirm"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.user.i')"
+											:placeholder="$t('setting.user.i')"
 											password
 										></c-input>
 									</div>
@@ -271,7 +276,7 @@
 							<section class="form-user has-text-centered">
 								<div class="columns">
 									<div class="column has-text-left">
-										<h3 class="title">{{ L('setting.accounts.a') }}</h3>
+										<h3 class="title">{{ $t('setting.accounts.a') }}</h3>
 									</div>
 									<div class="column"></div>
 								</div>
@@ -280,7 +285,7 @@
 										<c-input
 											v-model="edit_client_form.paypal_account"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.accounts.b')"
+											:placeholder="$t('setting.accounts.b')"
 										></c-input>
 									</div>
 								</div>
@@ -289,7 +294,7 @@
 										<c-input
 											v-model="edit_client_form.stripe_account"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.accounts.c')"
+											:placeholder="$t('setting.accounts.c')"
 										></c-input>
 									</div>
 								</div>
@@ -298,7 +303,7 @@
 										<c-input
 											v-model="edit_client_form.coinpayments_account"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.accounts.d')"
+											:placeholder="$t('setting.accounts.d')"
 										></c-input>
 									</div>
 								</div>
@@ -307,7 +312,7 @@
 										<c-input
 											v-model="edit_client_form.banck_account"
 											@keyup.enter.native="update_client()"
-											:placeholder="L('setting.accounts.e')"
+											:placeholder="$t('setting.accounts.e')"
 										></c-input>
 									</div>
 								</div>
@@ -319,9 +324,9 @@
 						<div class="column"></div>
 						<div class="column is-4 buttons has-text-right">
 							<b-button v-if="edit_client_form.can_remove" @click="delete_client()" type="is-danger">
-								{{ L('setting.delete') }}
+								{{ $t('setting.delete') }}
 							</b-button>
-							<b-button @click="update_client()" type="is-primary">{{ L('setting.save') }}</b-button>
+							<b-button @click="update_client()" type="is-primary">{{ $t('setting.save') }}</b-button>
 						</div>
 					</div>
 				</div>
@@ -342,7 +347,7 @@
 					>
 						<b-table-column
 							field="balance"
-							:label="L('home.table_balance.a')"
+							:label="$t('home.table_balance.a')"
 							header-class="header"
 							centered
 							v-slot="props"
@@ -351,7 +356,7 @@
 						</b-table-column>
 						<b-table-column
 							field="withdrawal"
-							:label="L('home.table_balance.b')"
+							:label="$t('home.table_balance.b')"
 							header-class="header"
 							v-slot="props"
 						>
@@ -360,7 +365,7 @@
 
 						<b-table-column
 							field="earning"
-							:label="L('home.table_balance.c')"
+							:label="$t('home.table_balance.c')"
 							header-class="header"
 							v-slot="props"
 						>
@@ -369,7 +374,7 @@
 
 						<b-table-column
 							field="earning"
-							:label="L('home.table_balance.e')"
+							:label="$t('home.table_balance.e')"
 							header-class="header"
 							v-slot="props"
 						>
@@ -378,7 +383,7 @@
 
 						<b-table-column
 							field="month"
-							:label="L('home.table_balance.f')"
+							:label="$t('home.table_balance.f')"
 							header-class="header header-center has-text-right"
 							v-slot="props"
 						>
@@ -397,7 +402,7 @@
 					<div class="columns reverse-columns">
 						<div class="column">
 							<p class="title has-text-left">
-								{{ L('balance.title') }} -
+								{{ $t('balance.title') }} -
 								{{
 									store.api.DateTime.fromUnix(balance_detail_data.date)
 										.setZone(client_timezone_now.value)
@@ -409,36 +414,36 @@
 							<b-button @click="isTableBalance = true" type="is-light" icon-right="arrow-left" />
 						</div>
 					</div>
-					<p class="subtitle has-text-left">{{ L('balance.subtitle') }}</p>
+					<p class="subtitle has-text-left">{{ $t('balance.subtitle') }}</p>
 					<div class="box-balance">
 						<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.a') }}</div>
+							<div class="column balance-text">{{ $t('balance.a') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.available_balance) }}
 							</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.b') }}</div>
+							<div class="column balance-text">{{ $t('balance.b') }}</div>
 							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.balance) }}</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.c') }}</div>
+							<div class="column balance-text">{{ $t('balance.c') }}</div>
 							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.earning) }}</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.d') }}</div>
+							<div class="column balance-text">{{ $t('balance.d') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.earning_extra) }}
 							</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.e') }}</div>
+							<div class="column balance-text">{{ $t('balance.e') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.investment) }}
 							</div>
 						</div>
 						<div class="columns has-text-left">
-							<div class="column balance-text">{{ L('balance.f') }}</div>
+							<div class="column balance-text">{{ $t('balance.f') }}</div>
 							<div class="column balance-money is-4">
 								{{ formatMoney(balance_detail_data.withdrawal) }}
 							</div>
@@ -456,14 +461,14 @@
 								</div>
 								<div class="columns has-text-left">
 									<div class="column">
-										{{ L('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
+										{{ $t('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
 									</div>
 								</div>
 							</div>
 							<div class="column">
 								<div class="columns has-text-left">
 									<div class="column">
-										{{ L('balance.suscription.b') }}:
+										{{ $t('balance.suscription.b') }}:
 										{{
 											store.api.DateTime.fromUnix(suscription.date_begin)
 												.setZone(client_timezone_now.value)
@@ -473,7 +478,7 @@
 								</div>
 								<div class="columns has-text-left">
 									<div class="column">
-										{{ L('balance.suscription.c') }}:
+										{{ $t('balance.suscription.c') }}:
 										{{
 											store.api.DateTime.fromUnix(suscription.date_end)
 												.setZone(client_timezone_now.value)
@@ -485,11 +490,11 @@
 						</div>
 					</div>
 					<div v-if="balance_detail_data.deposits.length" class="deposits">
-						<p class="title has-text-left">{{ L('balance.deposits.title') }}</p>
+						<p class="title has-text-left">{{ $t('balance.deposits.title') }}</p>
 						<b-table :data="balance_detail_data.deposits" sticky-header :mobile-cards="false">
 							<b-table-column
 								field="suscription"
-								:label="L('balance.deposits.a')"
+								:label="$t('balance.deposits.a')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -498,7 +503,7 @@
 
 							<b-table-column
 								field="date"
-								:label="L('balance.deposits.b')"
+								:label="$t('balance.deposits.b')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -513,7 +518,7 @@
 
 							<b-table-column
 								field="money"
-								:label="L('balance.deposits.c')"
+								:label="$t('balance.deposits.c')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -522,7 +527,7 @@
 
 							<b-table-column
 								field="payment_method"
-								:label="L('balance.deposits.d')"
+								:label="$t('balance.deposits.d')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -531,7 +536,7 @@
 
 							<b-table-column
 								field="reference"
-								:label="L('balance.deposits.e')"
+								:label="$t('balance.deposits.e')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -540,11 +545,11 @@
 						</b-table>
 					</div>
 					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
-						<p class="title has-text-left">{{ L('balance.withdrawals.title') }}</p>
+						<p class="title has-text-left">{{ $t('balance.withdrawals.title') }}</p>
 						<b-table :data="balance_detail_data.withdrawals" sticky-header :mobile-cards="false">
 							<b-table-column
 								field="date"
-								:label="L('balance.withdrawals.a')"
+								:label="$t('balance.withdrawals.a')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -559,7 +564,7 @@
 
 							<b-table-column
 								field="money"
-								:label="L('balance.withdrawals.b')"
+								:label="$t('balance.withdrawals.b')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -568,7 +573,7 @@
 
 							<b-table-column
 								field="withdrawal_method"
-								:label="L('balance.withdrawals.c')"
+								:label="$t('balance.withdrawals.c')"
 								header-class="header"
 								v-slot="props"
 							>
@@ -579,7 +584,7 @@
 
 							<b-table-column
 								field="status"
-								:label="L('balance.withdrawals.d')"
+								:label="$t('balance.withdrawals.d')"
 								header-class="header header-center has-text-center"
 								v-slot="props"
 							>
@@ -601,11 +606,11 @@
 		<b-modal v-model="isOpenWithdrawalsModal" :can-cancel="['x', 'escape']">
 			<div class="card">
 				<div class="card-content model-withdrawals-client">
-					<p class="title">{{ L('balance.withdrawals.title') }}</p>
+					<p class="title">{{ $t('balance.withdrawals.title') }}</p>
 					<b-table :data="withdrawals_client_data" sticky-header :mobile-cards="false">
 						<b-table-column
 							field="date"
-							:label="L('balance.withdrawals.a')"
+							:label="$t('balance.withdrawals.a')"
 							header-class="header"
 							v-slot="props"
 						>
@@ -620,7 +625,7 @@
 
 						<b-table-column
 							field="money"
-							:label="L('balance.withdrawals.b')"
+							:label="$t('balance.withdrawals.b')"
 							header-class="header"
 							v-slot="props"
 						>
@@ -629,7 +634,7 @@
 
 						<b-table-column
 							field="withdrawal_method"
-							:label="L('balance.withdrawals.c')"
+							:label="$t('balance.withdrawals.c')"
 							header-class="header"
 							v-slot="props"
 						>
@@ -640,7 +645,7 @@
 
 						<b-table-column
 							field="has_withdrawal"
-							:label="L('helper.confirm')"
+							:label="$t('helper.confirm')"
 							header-class="header header-center has-text-center"
 							v-slot="props"
 						>
@@ -660,11 +665,11 @@
 				<div class="card-content modal-client">
 					<div class="media">
 						<div class="media-content has-text-centered">
-							<p class="title">{{ L('withdrawal.title') }}</p>
+							<p class="title">{{ $t('withdrawal.title') }}</p>
 							<section class="form has-text-centered">
 								<div class="columns">
 									<div class="column">
-										<b-field :label="L('withdrawal.step_1')">
+										<b-field :label="$t('withdrawal.step_1')">
 											<b-select v-model="withdrawal_method_selected" expanded>
 												<option
 													v-for="withdrawal_method in withdrawal_methods"
@@ -679,7 +684,7 @@
 									<div class="column">
 										<c-input
 											v-model="moneyWithdrawal"
-											:placeholder="L('withdrawal.money')"
+											:placeholder="$t('withdrawal.money')"
 											type="number"
 											:max="moneyWithdrawalMax"
 											icon="fa-dollar-sign"
@@ -689,7 +694,7 @@
 								</div>
 								<div class="columns">
 									<div class="column">
-										<b-field :label="L('withdrawal.date')">
+										<b-field :label="$t('withdrawal.date')">
 											<b-datepicker
 												v-model="dateWithdrawal"
 												:locale="$i18n.locale"
@@ -700,7 +705,7 @@
 										</b-field>
 									</div>
 									<div class="column helper">
-										{{ L('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
+										{{ $t('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
 									</div>
 								</div>
 
@@ -710,7 +715,7 @@
 										:disabled="moneyWithdrawal < 100 || moneyWithdrawal > moneyWithdrawalMax"
 										@click="finish_withdrawal()"
 									>
-										{{ L('helper.confirm') }}
+										{{ $t('helper.confirm') }}
 									</b-button>
 								</b-field>
 							</section>
@@ -725,11 +730,11 @@
 				<div class="card-content modal-client">
 					<div class="media">
 						<div class="media-content has-text-centered">
-							<p class="title">{{ L('deposit.title') }}</p>
+							<p class="title">{{ $t('deposit.title') }}</p>
 							<section class="form has-text-centered">
 								<div class="columns">
 									<div class="column">
-										<b-field :label="L('deposit.step_1')">
+										<b-field :label="$t('deposit.step_1')">
 											<b-select v-model="deposit_membership_selected" expanded>
 												<option
 													v-for="deposit_suscription in deposit_suscriptions"
@@ -742,7 +747,7 @@
 										</b-field>
 									</div>
 									<div class="column">
-										<b-field :label="L('deposit.step_2')">
+										<b-field :label="$t('deposit.step_2')">
 											<b-select v-model="deposit_method_selected" expanded>
 												<option
 													v-for="deposit_method in deposit_methods"
@@ -759,7 +764,7 @@
 									<div class="column">
 										<c-input
 											v-model="moneyDeposit"
-											:placeholder="L('deposit.money')"
+											:placeholder="$t('deposit.money')"
 											type="number"
 											:min="moneyDepositMin"
 											:max="moneyDepositMax"
@@ -770,7 +775,7 @@
 									<div class="column">
 										<b-field
 											v-if="deposit_method_selected === 'blockchain'"
-											:label="L('deposit.to_pay')"
+											:label="$t('deposit.to_pay')"
 										>
 											<b-select v-model="deposit_blockchain_currency" expanded>
 												<option
@@ -786,11 +791,11 @@
 								</div>
 								<div class="columns">
 									<div class="column">
-										<c-input v-model="referenceDeposit" :placeholder="L('deposit.reference')">
+										<c-input v-model="referenceDeposit" :placeholder="$t('deposit.reference')">
 										</c-input>
 									</div>
 									<div class="column">
-										<b-field :label="L('deposit.date')">
+										<b-field :label="$t('deposit.date')">
 											<b-datepicker
 												v-model="dateDeposit"
 												:locale="$i18n.locale"
@@ -811,12 +816,12 @@
 												"
 												@click="proccess_deposit()"
 											>
-												{{ L('helper.confirm') }}
+												{{ $t('helper.confirm') }}
 											</b-button>
 										</b-field>
 									</div>
 									<div v-if="deposit_method_selected !== 'balance'" class="column is-6">
-										{{ L('admin.url_pay') }}
+										{{ $t('admin.url_pay') }}
 										<div class="url-pay">
 											{{ url_pay }}
 										</div>
@@ -1012,7 +1017,7 @@ export default class Admin extends PageChildBase {
 			errors.push('validator.auth.h');
 		}
 		if (errors.length) {
-			this.toastError(this.L(errors[0]));
+			this.toastError(this.$t(errors[0]));
 		} else {
 			this.client_form.telephone = this.telephoneInternational;
 			this.load_form_api(
@@ -1023,7 +1028,7 @@ export default class Admin extends PageChildBase {
 				},
 				{
 					e000: () => {
-						this.toastError(this.L('error.e000'));
+						this.toastError(this.$t('error.e000'));
 					},
 				},
 			);
@@ -1049,28 +1054,28 @@ export default class Admin extends PageChildBase {
 			}
 
 			if (errors.length) {
-				this.toastError(this.L(errors[0]));
+				this.toastError(this.$t(errors[0]));
 			} else {
 				this.load_form_api(
 					await this.store.api.update_client({ id: this.id_edit_client, data: this.edit_client_form }),
 					data => {
 						this.edit_client_form = new UpdateDto(data);
 						if ((data as any).errors.length) {
-							this.toastSuccess(this.L('setting.not_ok'));
+							this.toastSuccess(this.$t('setting.not_ok'));
 							for (const error of (data as any).errors) {
-								this.toastError(this.L(error));
+								this.toastError(this.$t(error));
 							}
 						} else {
 							this.edit_client_form = new UpdateDto();
 							this.id_edit_client = '';
 							this.isOpenEditClientModal = false;
 							this.get_clients();
-							this.toastSuccess(this.L('setting.ok'));
+							this.toastSuccess(this.$t('setting.ok'));
 						}
 					},
 					{
 						e000: () => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						},
 					},
 				);
@@ -1081,10 +1086,10 @@ export default class Admin extends PageChildBase {
 
 	private async delete_client() {
 		this.$buefy.dialog.confirm({
-			title: this.L('setting.remove.a'),
-			message: this.L('setting.remove.b'),
-			cancelText: this.L('setting.remove.c'),
-			confirmText: this.L('setting.remove.d'),
+			title: this.$t('setting.remove.a') as string,
+			message: this.$t('setting.remove.b') as string,
+			cancelText: this.$t('setting.remove.c') as string,
+			confirmText: this.$t('setting.remove.d') as string,
 			type: 'is-danger',
 			hasIcon: true,
 			onConfirm: async () => {
@@ -1095,11 +1100,11 @@ export default class Admin extends PageChildBase {
 						this.id_edit_client = '';
 						this.isOpenEditClientModal = false;
 						this.get_clients();
-						this.toastSuccess(this.L('setting.ok'));
+						this.toastSuccess(this.$t('setting.ok'));
 					},
 					{
 						e000: () => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						},
 					},
 				);
@@ -1168,17 +1173,17 @@ export default class Admin extends PageChildBase {
 
 	private async withdrawal_accept(id: string) {
 		this.$buefy.dialog.confirm({
-			message: this.L('helper.continue_task'),
-			confirmText: this.L('helper.confirm'),
-			cancelText: this.L('helper.cancel'),
+			message: this.$t('helper.continue_task') as string,
+			confirmText: this.$t('helper.confirm') as string,
+			cancelText: this.$t('helper.cancel') as string,
 			onConfirm: async () => {
 				this.load_form_api(await this.store.api.process_withdrawal({ id }), result => {
 					if (result.valid) {
 						this.get_clients();
 						this.isOpenWithdrawalsModal = false;
-						this.toastSuccess(this.L('helper.success_task'));
+						this.toastSuccess(this.$t('helper.success_task'));
 					} else {
-						this.toastError(this.L('helper.error_task'));
+						this.toastError(this.$t('helper.error_task'));
 					}
 				});
 			},
@@ -1226,10 +1231,10 @@ export default class Admin extends PageChildBase {
 			}),
 			d => {
 				if (d.valid) {
-					this.toastSuccess(this.L('withdrawal.success'));
+					this.toastSuccess(this.$t('withdrawal.success'));
 					this.get_clients();
 				} else {
-					this.toastError(this.L('withdrawal.error'));
+					this.toastError(this.$t('withdrawal.error'));
 				}
 				this.isOpenWithdrawalModal = false;
 			},
@@ -1288,10 +1293,10 @@ export default class Admin extends PageChildBase {
 			d => {
 				if (d.valid) {
 					this.isOpenDepositModal = false;
-					this.toastSuccess(this.L('deposit.success'));
+					this.toastSuccess(this.$t('deposit.success'));
 					this.get_clients();
 				} else {
-					this.toastError(this.L('deposit.error'));
+					this.toastError(this.$t('deposit.error'));
 				}
 				this.isOpenWithdrawalModal = false;
 			},

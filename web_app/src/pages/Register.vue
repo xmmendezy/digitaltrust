@@ -4,12 +4,12 @@
 			<div class="box is-inline-block">
 				<article class="media">
 					<div class="media-content has-text-centered">
-						<p class="title">{{ L('register.a') }}</p>
+						<p class="title">{{ $t('register.a') }}</p>
 						<p v-if="ref_name" class="subtitle">
-							{{ L('register.b') }} <b>{{ ref_name }}.</b>
+							{{ $t('register.b') }} <b>{{ ref_name }}.</b>
 						</p>
 						<p v-else-if="ref_error" class="subtitle">
-							{{ L('register.ref_error') }}
+							{{ $t('register.ref_error') }}
 						</p>
 						<section class="form has-text-centered">
 							<div class="columns">
@@ -18,14 +18,14 @@
 										ref="input"
 										v-model="signup_form.firstname"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.c')"
+										:placeholder="$t('register.c')"
 									></c-input>
 								</div>
 								<div class="column">
 									<c-input
 										v-model="signup_form.lastname"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.d')"
+										:placeholder="$t('register.d')"
 									></c-input>
 								</div>
 							</div>
@@ -34,14 +34,14 @@
 									<c-input
 										v-model="signup_form.email"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.e')"
+										:placeholder="$t('register.e')"
 									></c-input>
 								</div>
 								<div class="column">
 									<c-tel-input
 										v-model="signup_form.telephone"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.f')"
+										:placeholder="$t('register.f')"
 										@validate="validateNumber"
 										@country-changed="changeCountry"
 									></c-tel-input>
@@ -52,14 +52,14 @@
 									<c-input
 										v-model="signup_form.state"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.g')"
+										:placeholder="$t('register.g')"
 									></c-input>
 								</div>
 								<div class="column">
 									<c-input
 										v-model="signup_form.address"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.h')"
+										:placeholder="$t('register.h')"
 									></c-input>
 								</div>
 							</div>
@@ -68,7 +68,7 @@
 									<c-input
 										v-model="signup_form.password"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.i')"
+										:placeholder="$t('register.i')"
 										password
 									></c-input>
 								</div>
@@ -76,7 +76,7 @@
 									<c-input
 										v-model="signup_form.password_confirm"
 										@keyup.enter.native="signup()"
-										:placeholder="L('register.j')"
+										:placeholder="$t('register.j')"
 										password
 									></c-input>
 								</div>
@@ -86,14 +86,18 @@
 								<div class="column column-check is-6 has-text-left">
 									<b-field>
 										<b-checkbox v-model="check1">
-											{{ L('helper.see') }}
-											<a :href="publicPath + 'doc1.pdf'" target="_blank">{{ L('register.k') }}</a>
+											{{ $t('helper.see') }}
+											<a :href="publicPath + 'doc1.pdf'" target="_blank">{{
+												$t('register.k')
+											}}</a>
 										</b-checkbox>
 									</b-field>
 									<b-field>
 										<b-checkbox v-model="check2">
-											{{ L('helper.see') }}
-											<a :href="publicPath + 'doc2.pdf'" target="_blank">{{ L('register.l') }}</a>
+											{{ $t('helper.see') }}
+											<a :href="publicPath + 'doc2.pdf'" target="_blank">{{
+												$t('register.l')
+											}}</a>
 										</b-checkbox>
 									</b-field>
 								</div>
@@ -101,7 +105,7 @@
 							</div>
 							<b-field>
 								<b-button @click="signup()" type="is-primary" :disabled="!(check1 && check2)">{{
-									L('register.m')
+									$t('register.m')
 								}}</b-button>
 							</b-field>
 						</section>
@@ -152,7 +156,7 @@ export default class Register extends PageChildBase {
 				},
 				{
 					e000: () => {
-						this.toastError(this.L('register.e000'));
+						this.toastError(this.$t('register.e000'));
 					},
 				},
 			);
@@ -172,19 +176,19 @@ export default class Register extends PageChildBase {
 				errors.push('validator.auth.h');
 			}
 			if (errors.length) {
-				this.toastError(this.L(errors[0]));
+				this.toastError(this.$t(errors[0]));
 			} else {
 				const telephone = this.signup_form.telephone;
 				this.signup_form.telephone = this.telephoneInternational;
 				this.load_form_api(await this.store.api.signup(this.signup_form), () => {}, {
 					e000: () => {
-						this.toastError(this.L('error.e000'));
+						this.toastError(this.$t('error.e000'));
 					},
 				});
 				this.auth_data = this.store.api.auth_data;
 				this.signup_form.telephone = telephone;
 				if (await this.store.api.isLogged()) {
-					this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.api.name}`);
+					this.toastSuccess(`${this.$t('helper.welcome')}, ${this.store.api.name}`);
 					this.$router.push('/');
 				}
 			}

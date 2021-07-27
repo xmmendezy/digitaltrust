@@ -4,7 +4,7 @@
 			<b-navbar>
 				<template #brand>
 					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-						<p class="title has-text-primary">{{ L('title') }}</p>
+						<p class="title has-text-primary">{{ $t('title') }}</p>
 					</b-navbar-item>
 				</template>
 
@@ -79,7 +79,7 @@
 			<div class="modal-card" style="width: auto">
 				<header class="modal-card-head">
 					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-						<p class="title has-text-primary">{{ L('title') }}</p>
+						<p class="title has-text-primary">{{ $t('title') }}</p>
 					</b-navbar-item>
 					<a role="button" class="navbar-burger" aria-label="menu" @click="triggerSidebar()">
 						<span aria-hidden="true"></span>
@@ -106,7 +106,7 @@
 		<b-modal v-model="isOpenHelpModal" has-modal-card class="modal-help">
 			<div class="modal-card">
 				<header class="modal-card-head">
-					<p class="modal-card-title">{{ L('help-center.title') }}</p>
+					<p class="modal-card-title">{{ $t('help-center.title') }}</p>
 				</header>
 				<section class="modal-card-body">
 					<b-collapse
@@ -120,7 +120,7 @@
 						<template #trigger="props">
 							<div class="card-header" role="button">
 								<p class="card-header-title">
-									{{ L('help-center.' + option + '.title') }}
+									{{ $t('help-center.' + option + '.title') }}
 								</p>
 								<a class="card-header-icon">
 									<b-icon :icon="props.open ? 'chevron-up' : 'chevron-down'"> </b-icon>
@@ -138,7 +138,7 @@
 								</p>
 								<p class="has-text-right">
 									<b-button type="is-primary" outlined @click="driver_gruide(option)">
-										{{ L('help-center.' + option + '.guide-me') }}
+										{{ $t('help-center.' + option + '.guide-me') }}
 									</b-button>
 								</p>
 							</div>
@@ -233,8 +233,8 @@ export default class AppBase extends PageBase {
 	}
 
 	private get_helper_texts_i18n(option: string) {
-		return [...Array(parseInt(this.L('help-center.' + option + '.text_count')))].map((_, i) =>
-			this.L('help-center.' + option + '.texts.' + i),
+		return [...Array(parseInt(this.$t('help-center.' + option + '.text_count') as string))].map((_, i) =>
+			this.$t('help-center.' + option + '.texts.' + i),
 		);
 	}
 
@@ -260,10 +260,10 @@ export default class AppBase extends PageBase {
 			_;
 		}
 		const options = {
-			doneBtnText: this.L('helper.done'),
-			closeBtnText: this.L('helper.close'),
-			nextBtnText: this.L('helper.next'),
-			prevBtnText: this.L('helper.prev'),
+			doneBtnText: this.$t('helper.done') as string,
+			closeBtnText: this.$t('helper.close') as string,
+			nextBtnText: this.$t('helper.next') as string,
+			prevBtnText: this.$t('helper.prev') as string,
 			onReset: () => {
 				this.child_page.moveNext = () => {
 					0;
@@ -271,7 +271,8 @@ export default class AppBase extends PageBase {
 			},
 		};
 		const driver = new Driver(options);
-		const L = (step: number, key: number) => this.L(`driver-guide.a.${step}.${key === 1 ? 'title' : 'subtitle'}`);
+		const L = (step: number, key: number): string =>
+			this.$t(`driver-guide.a.${step}.${key === 1 ? 'title' : 'subtitle'}`) as string;
 		driver.defineSteps([
 			{
 				element: '#driver-guide-a-1',
@@ -432,10 +433,10 @@ export default class AppBase extends PageBase {
 			_;
 		}
 		const options = {
-			doneBtnText: this.L('helper.done'),
-			closeBtnText: this.L('helper.close'),
-			nextBtnText: this.L('helper.next'),
-			prevBtnText: this.L('helper.prev'),
+			doneBtnText: this.$t('helper.done') as string,
+			closeBtnText: this.$t('helper.close') as string,
+			nextBtnText: this.$t('helper.next') as string,
+			prevBtnText: this.$t('helper.prev') as string,
 			onReset: () => {
 				this.child_page.moveNext = () => {
 					0;
@@ -443,7 +444,8 @@ export default class AppBase extends PageBase {
 			},
 		};
 		const driver = new Driver(options);
-		const L = (step: number, key: number) => this.L(`driver-guide.b.${step}.${key === 1 ? 'title' : 'subtitle'}`);
+		const L = (step: number, key: number): string =>
+			this.$t(`driver-guide.b.${step}.${key === 1 ? 'title' : 'subtitle'}`) as string;
 		driver.defineSteps([
 			{
 				element: '#driver-guide-b-1',
@@ -549,12 +551,13 @@ export default class AppBase extends PageBase {
 
 	private drive_guide_c() {
 		const driver = new Driver({
-			doneBtnText: this.L('helper.done'),
-			closeBtnText: this.L('helper.close'),
-			nextBtnText: this.L('helper.next'),
-			prevBtnText: this.L('helper.prev'),
+			doneBtnText: this.$t('helper.done') as string,
+			closeBtnText: this.$t('helper.close') as string,
+			nextBtnText: this.$t('helper.next') as string,
+			prevBtnText: this.$t('helper.prev') as string,
 		});
-		const L = (step: number, key: number) => this.L(`driver-guide.c.${step}.${key === 1 ? 'title' : 'subtitle'}`);
+		const L = (step: number, key: number): string =>
+			this.$t(`driver-guide.c.${step}.${key === 1 ? 'title' : 'subtitle'}`) as string;
 		this.moveNext = driver.moveNext;
 		driver.defineSteps([
 			{

@@ -3,13 +3,13 @@
 		<div class="body has-text-centered">
 			<div class="box is-inline-block">
 				<p class="title has-text-left">
-					{{ L('donations.title') }}
+					{{ $t('donations.title') }}
 				</p>
 				<p class="subtitle has-text-left">
-					{{ L('donations.subtitle') }}
+					{{ $t('donations.subtitle') }}
 				</p>
 				<b-steps v-model="DepositStep">
-					<b-step-item step="1" :label="L('donations.step_1')" :clickable="false">
+					<b-step-item step="1" :label="$t('donations.step_1')" :clickable="false">
 						<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
 							<div class="columns columns-deposit">
 								<div
@@ -35,7 +35,7 @@
 							class="message-deposit"
 						>
 							<div class="column title has-text-left">
-								{{ L('donations.description') }}
+								{{ $t('donations.description') }}
 							</div>
 							<div class="buttons">
 								<button
@@ -56,7 +56,7 @@
 							class="message-deposit"
 						>
 							<div class="column title has-text-left">
-								{{ L('donations.description_dollar') }}
+								{{ $t('donations.description_dollar') }}
 							</div>
 							<div class="buttons">
 								<button
@@ -111,7 +111,7 @@
 						</div>
 					</b-step-item>
 
-					<b-step-item step="3" :label="L('donations.step_3')" :clickable="false">
+					<b-step-item step="3" :label="$t('donations.step_3')" :clickable="false">
 						<div class="message-deposit">
 							<div class="columns">
 								<div class="column">
@@ -138,7 +138,7 @@
 							icon-left="chevron-left"
 							@click.prevent="previous.action"
 						>
-							{{ L('helper.prev') }}
+							{{ $t('helper.prev') }}
 						</b-button>
 						<b-button
 							v-if="DepositStep === 0"
@@ -148,7 +148,7 @@
 							icon-right="chevron-right"
 							@click.prevent="next.action"
 						>
-							{{ L('helper.next') }}
+							{{ $t('helper.next') }}
 						</b-button>
 						<b-button
 							v-if="DepositStep === 1 && !has_button_payment"
@@ -158,7 +158,7 @@
 							icon-right="dollar-sign"
 							@click.prevent="to_pay()"
 						>
-							{{ L('donations.to_pay') }}
+							{{ $t('donations.to_pay') }}
 						</b-button>
 						<b-button
 							v-if="DepositStep === 2"
@@ -169,7 +169,7 @@
 							icon-right="check"
 							href="/"
 						>
-							{{ L('helper.finish') }}
+							{{ $t('helper.finish') }}
 						</b-button>
 					</template>
 				</b-steps>
@@ -243,12 +243,12 @@ export default class Donations extends PageChildBase {
 								})
 								.render('#paypal-button-container');
 						} else {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						}
 					});
 				})
 				.catch(() => {
-					this.toastError(this.L('error.e000'));
+					this.toastError(this.$t('error.e000'));
 				});
 		} else if (this.deposit_method_selected === 'stripe') {
 			this.has_button_payment = true;
@@ -266,13 +266,13 @@ export default class Donations extends PageChildBase {
 									})
 									.then(result => {
 										if (result.error) {
-											this.toastError(this.L('error.e000'));
+											this.toastError(this.$t('error.e000'));
 										}
 									});
 							}
 						})
 						.catch(() => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						});
 				},
 			);
