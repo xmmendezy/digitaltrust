@@ -21,9 +21,10 @@
 				:label="$t('helper.home')"
 			></b-menu-item>
 			<b-menu-item
+				v-if="!is_admin"
 				icon="shopping-cart"
 				tag="router-link"
-				:to="{ name: is_admin ? 'AdminHome' : 'Home' }"
+				:to="{ name: 'BuyMore' }"
 				:label="$t('helper.shopping')"
 			></b-menu-item>
 			<b-menu-item
@@ -86,6 +87,15 @@ export default class Menu extends ComponentBase {
 
 <style lang="scss">
 @import '../styles/initial_variables.scss';
+.is-mini {
+	.menu-list.contact a:hover {
+		background-color: transparent;
+		color: white;
+		i {
+			color: white;
+		}
+	}
+}
 
 .menu {
 	.menu-list {

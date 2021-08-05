@@ -9,6 +9,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										ref="input"
 										v-model="preregister_form.firstname"
 										@keyup.enter.native="preregister()"
@@ -17,6 +18,7 @@
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.lastname"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.lastname')"
@@ -26,6 +28,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.email"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.email')"
@@ -33,6 +36,7 @@
 								</div>
 								<div class="column">
 									<c-tel-input
+										class="md"
 										v-model="preregister_form.telephone"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.telephone')"
@@ -44,6 +48,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.state"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.state')"
@@ -51,6 +56,7 @@
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.address"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.address')"
@@ -60,6 +66,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_1"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.ans_1')"
@@ -69,6 +76,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_2"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.ans_2')"
@@ -78,6 +86,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_3"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.ans_3')"
@@ -87,6 +96,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_4"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.ans_4')"
@@ -96,6 +106,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_5"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.ans_5')"
@@ -105,6 +116,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_6"
 										@keyup.enter.native="preregister()"
 										:placeholder="$t('preregister.ans_6')"
@@ -295,41 +307,6 @@ export default class Preregister extends PageChildBase {
 
 					@include mobile {
 						width: 90%;
-					}
-
-					.c-input,
-					.c-tel-input {
-						margin: 1rem 0;
-
-						.vfl-label {
-							color: white !important;
-						}
-
-						.vfl-label + input {
-							border-bottom: 2px solid white;
-						}
-
-						.fas {
-							color: white !important;
-						}
-
-						.input,
-						.vti__input {
-							color: white !important;
-							background-color: transparent !important;
-
-							&::placeholder {
-								color: white !important;
-							}
-
-							&:-ms-input-placeholder {
-								color: white !important;
-							}
-
-							&::-ms-input-placeholder {
-								color: white !important;
-							}
-						}
 					}
 
 					.column-check {

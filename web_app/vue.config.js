@@ -5,6 +5,9 @@ const vueSrc = './src';
 
 module.exports = {
 	publicPath: '/app',
+	devServer: {
+		disableHostCheck: true,
+	},
 	pwa: {
 		name: 'DigitalTrust App',
 		description: 'DigitalTrust App',

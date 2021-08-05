@@ -4,7 +4,7 @@
 			<b-navbar>
 				<template #brand>
 					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-						<p class="title has-text-primary">{{ $t('title') }}</p>
+						<p class="title has-text-white">{{ $t('title') }}</p>
 					</b-navbar-item>
 				</template>
 
@@ -12,7 +12,12 @@
 					<b-navbar-item tag="div">
 						<b-dropdown :triggers="['hover']" aria-role="list">
 							<template #trigger>
-								<b-button type="is-ghost" icon-left="globe-americas" :label="$i18n.locale" />
+								<b-button
+									type="is-ghost"
+									class="has-text-white"
+									icon-left="globe-americas"
+									:label="$i18n.locale"
+								/>
 							</template>
 							<b-dropdown-item
 								v-for="(lang, i) in ['en', 'es']"
@@ -25,8 +30,8 @@
 					</b-navbar-item>
 					<b-navbar-item v-if="!$isAdmin" tag="div">
 						<b-button
-							type="is-text"
-							class="has-text-primary"
+							type="is-ghost"
+							class="has-text-white"
 							icon-left="info-circle"
 							@click="isOpenInfoModal = true"
 						>
@@ -34,14 +39,19 @@
 					</b-navbar-item>
 					<b-navbar-item v-if="!$isAdmin" tag="div">
 						<b-button
-							type="is-text"
-							class="has-text-primary"
+							type="is-ghost"
+							class="has-text-white"
 							icon-left="question"
 							@click="isOpenHelpModal = true"
 						>
 						</b-button>
 					</b-navbar-item>
-					<b-navbar-item id="driver-guide-c-1" tag="div" class="navbar-burger" @click="triggerSidebar()">
+					<b-navbar-item
+						id="driver-guide-c-1"
+						tag="div"
+						class="navbar-burger has-text-white"
+						@click="triggerSidebar()"
+					>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
@@ -49,7 +59,7 @@
 				</template>
 
 				<template #burger>
-					<a role="button" class="navbar-burger" aria-label="menu" @click="triggerSidebar()">
+					<a role="button" class="navbar-burger has-text-white" aria-label="menu" @click="triggerSidebar()">
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
@@ -79,9 +89,9 @@
 			<div class="modal-card" style="width: auto">
 				<header class="modal-card-head">
 					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
-						<p class="title has-text-primary">{{ $t('title') }}</p>
+						<p class="title has-text-white">{{ $t('title') }}</p>
 					</b-navbar-item>
-					<a role="button" class="navbar-burger" aria-label="menu" @click="triggerSidebar()">
+					<a role="button" class="navbar-burger has-text-white" aria-label="menu" @click="triggerSidebar()">
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
 						<span aria-hidden="true"></span>
@@ -136,7 +146,7 @@
 								>
 									{{ text }}
 								</p>
-								<p class="has-text-right">
+								<p class="has-text-right is-hidden">
 									<b-button type="is-primary" outlined @click="driver_gruide(option)">
 										{{ $t('help-center.' + option + '.guide-me') }}
 									</b-button>
@@ -152,10 +162,9 @@
 
 <script lang="ts">
 import PageBase from '../../utils/page_base.utils';
+import { pdf } from '../../utils/base.utils';
 import { Component, Ref, Vue } from 'vue-property-decorator';
 import Menu from '../../components/Menu.vue';
-import pdf from 'vue-pdf';
-import Driver from 'driver.js';
 
 @Component({
 	components: { Menu, pdf },
@@ -198,6 +207,7 @@ export default class AppBase extends PageBase {
 			this.pdf_src = await pdf.createLoadingTask(this.publicPath + 'doc5_' + this.$i18n.locale + '.pdf');
 			this.pdf_src.promise.then((pdf: { numPages: number }) => {
 				this.numPages = pdf.numPages;
+				console.clear();
 			});
 		});
 	}
@@ -237,379 +247,6 @@ export default class AppBase extends PageBase {
 			this.$t('help-center.' + option + '.texts.' + i),
 		);
 	}
-
-	private async driver_gruide(option: string) {
-		this.isOpenHelpModal = false;
-		await this.sleep(100);
-		switch (option) {
-			case 'a':
-				return this.drive_guide_a();
-			case 'b':
-				return this.drive_guide_b();
-			case 'c':
-				return this.drive_guide_c();
-			default:
-				break;
-		}
-	}
-
-	private async drive_guide_a() {
-		try {
-			await this.$router.push({ name: 'Home' });
-		} catch (_) {
-			_;
-		}
-		const options = {
-			doneBtnText: this.$t('helper.done') as string,
-			closeBtnText: this.$t('helper.close') as string,
-			nextBtnText: this.$t('helper.next') as string,
-			prevBtnText: this.$t('helper.prev') as string,
-			onReset: () => {
-				this.child_page.moveNext = () => {
-					0;
-				};
-			},
-		};
-		const driver = new Driver(options);
-		const L = (step: number, key: number): string =>
-			this.$t(`driver-guide.a.${step}.${key === 1 ? 'title' : 'subtitle'}`) as string;
-		driver.defineSteps([
-			{
-				element: '#driver-guide-a-1',
-				popover: {
-					title: L(1, 1),
-					description: L(1, 2),
-					position: 'left',
-				},
-				onNext: async () => {
-					driver.preventMove();
-					await this.child_page.open_deposit();
-				},
-			},
-			{
-				element: '#driver-guide-a-2',
-				popover: {
-					title: L(2, 1),
-					description: L(2, 2),
-					position: 'top',
-				},
-			},
-		]);
-		this.child_page.moveNext = () => {
-			driver.defineSteps([
-				{
-					element: '#driver-guide-a-2',
-					stageBackground: '#ffffff00',
-					popover: {
-						title: L(2, 1),
-						description: L(2, 2),
-						position: 'top',
-					},
-					onNext: () => {
-						driver.preventMove();
-						(driver as any).overlay.options = {
-							...(driver as any).overlay.options,
-							onReset: () => {
-								0;
-							},
-						};
-						driver.reset();
-						this.child_page.moveNext = async () => {
-							await this.sleep(100);
-							(driver as any).overlay.options = {
-								...(driver as any).overlay.options,
-								onReset: () => {
-									this.child_page.moveNext = () => {
-										0;
-									};
-								},
-							};
-							driver.defineSteps([
-								{
-									element: '#driver-guide-a-3',
-									stageBackground: '#ffffff00',
-									popover: {
-										title: L(3, 1),
-										description: L(3, 2),
-										position: 'top',
-									},
-									onNext: async () => {
-										driver.preventMove();
-										(driver as any).overlay.options = {
-											...(driver as any).overlay.options,
-											onReset: () => {
-												0;
-											},
-										};
-										driver.reset();
-										this.child_page.DepositStep = 1;
-										await this.sleep(100);
-										this.child_page.moveNext = () => {
-											driver.defineSteps([
-												{
-													element: '#driver-guide-a-4',
-													stageBackground: '#ffffff00',
-													popover: {
-														title: L(4, 1),
-														description: L(4, 2),
-														position: 'top',
-													},
-												},
-												{
-													element: '#driver-guide-a-4-end',
-												},
-											]);
-											this.child_page.moveNext = async () => {
-												await this.sleep(100);
-												driver.defineSteps([
-													{
-														element: '#driver-guide-a-3',
-														stageBackground: '#ffffff00',
-														popover: {
-															title: L(5, 1),
-															description: L(5, 2),
-															position: 'top',
-														},
-														onNext: async () => {
-															driver.preventMove();
-															(driver as any).overlay.options = {
-																...(driver as any).overlay.options,
-																onReset: () => {
-																	0;
-																},
-															};
-															driver.reset();
-															this.child_page.DepositStep = 2;
-															await this.sleep(100);
-															this.child_page.moveNext = () => {
-																driver.defineSteps([
-																	{
-																		element: '#driver-guide-a-6',
-																		stageBackground: '#ffffff00',
-																		popover: {
-																			title: L(6, 1),
-																			description: L(6, 2),
-																			position: 'top',
-																		},
-																	},
-																]);
-																driver.start();
-															};
-															this.child_page.moveNext();
-														},
-													},
-													{
-														element: '#driver-guide-a-3-end',
-													},
-												]);
-												driver.start();
-											};
-											driver.start();
-										};
-										this.child_page.moveNext();
-									},
-								},
-								{
-									element: '#driver-guide-a-3-end',
-								},
-							]);
-							driver.start();
-						};
-					},
-				},
-				{
-					element: '#driver-guide-a-2-end',
-				},
-			]);
-			driver.start();
-		};
-		driver.start();
-	}
-
-	private async drive_guide_b() {
-		try {
-			await this.$router.push({ name: 'Home' });
-		} catch (_) {
-			_;
-		}
-		const options = {
-			doneBtnText: this.$t('helper.done') as string,
-			closeBtnText: this.$t('helper.close') as string,
-			nextBtnText: this.$t('helper.next') as string,
-			prevBtnText: this.$t('helper.prev') as string,
-			onReset: () => {
-				this.child_page.moveNext = () => {
-					0;
-				};
-			},
-		};
-		const driver = new Driver(options);
-		const L = (step: number, key: number): string =>
-			this.$t(`driver-guide.b.${step}.${key === 1 ? 'title' : 'subtitle'}`) as string;
-		driver.defineSteps([
-			{
-				element: '#driver-guide-b-1',
-				popover: {
-					title: L(1, 1),
-					description: L(1, 2),
-					position: 'left',
-				},
-				onNext: async () => {
-					driver.preventMove();
-					await this.child_page.open_withdrawal();
-				},
-			},
-			{
-				element: '#driver-guide-b-1-end',
-			},
-		]);
-		this.child_page.moveNext = () => {
-			driver.defineSteps([
-				{
-					element: '#driver-guide-b-2',
-					stageBackground: '#ffffff00',
-					popover: {
-						title: L(2, 1),
-						description: L(2, 2),
-						position: 'top',
-					},
-					onNext: () => {
-						driver.preventMove();
-						(driver as any).overlay.options = {
-							...(driver as any).overlay.options,
-							onReset: () => {
-								0;
-							},
-						};
-						driver.reset();
-						this.child_page.moveNext = async () => {
-							await this.sleep(100);
-							(driver as any).overlay.options = {
-								...(driver as any).overlay.options,
-								onReset: () => {
-									this.child_page.moveNext = () => {
-										0;
-									};
-								},
-							};
-							driver.defineSteps([
-								{
-									element: '#driver-guide-b-3',
-									stageBackground: '#ffffff00',
-									popover: {
-										title: L(3, 1),
-										description: L(3, 2),
-										position: 'top',
-									},
-									onNext: async () => {
-										driver.preventMove();
-										(driver as any).overlay.options = {
-											...(driver as any).overlay.options,
-											onReset: () => {
-												0;
-											},
-										};
-										driver.reset();
-										this.child_page.WithdrawalStep = 1;
-										await this.sleep(100);
-										this.child_page.moveNext = () => {
-											driver.defineSteps([
-												{
-													element: '#driver-guide-b-4',
-													stageBackground: '#ffffff00',
-													popover: {
-														title: L(4, 1),
-														description: L(4, 2),
-														position: 'top',
-													},
-												},
-											]);
-											this.child_page.moveNext = () => {
-												0;
-											};
-											driver.start();
-										};
-										this.child_page.moveNext();
-									},
-								},
-								{
-									element: '#driver-guide-a-3-end',
-								},
-							]);
-							driver.start();
-						};
-					},
-				},
-				{
-					element: '#driver-guide-a-2-end',
-				},
-			]);
-			driver.start();
-		};
-		driver.start();
-	}
-
-	private drive_guide_c() {
-		const driver = new Driver({
-			doneBtnText: this.$t('helper.done') as string,
-			closeBtnText: this.$t('helper.close') as string,
-			nextBtnText: this.$t('helper.next') as string,
-			prevBtnText: this.$t('helper.prev') as string,
-		});
-		const L = (step: number, key: number): string =>
-			this.$t(`driver-guide.c.${step}.${key === 1 ? 'title' : 'subtitle'}`) as string;
-		this.moveNext = driver.moveNext;
-		driver.defineSteps([
-			{
-				element: '#driver-guide-c-1',
-				popover: {
-					title: L(1, 1),
-					description: L(1, 2),
-					position: 'left',
-				},
-				onNext: async () => {
-					driver.preventMove();
-					await this.triggerSidebar();
-				},
-			},
-			{
-				element: '#driver-guide-c-2',
-				popover: {
-					title: L(2, 1),
-					description: L(2, 2),
-					position: 'right',
-				},
-				onNext: async () => {
-					driver.preventMove();
-					await this.$router
-						.push({ name: 'Setting' })
-						.then(async () => {
-							await this.sleep(250);
-							driver.highlight({
-								element: '#driver-guide-c-3',
-								popover: {
-									title: L(3, 1),
-									description: L(3, 2),
-									position: 'top',
-								},
-							});
-						})
-						.catch(() => {
-							driver.moveNext();
-						});
-				},
-			},
-			{
-				element: '#driver-guide-c-3',
-				popover: {
-					title: L(3, 1),
-					description: L(3, 2),
-					position: 'top',
-				},
-			},
-		]);
-		driver.start();
-	}
 }
 </script>
 
@@ -617,12 +254,14 @@ export default class AppBase extends PageBase {
 @import '../../styles/initial_variables.scss';
 
 .app {
+	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+
 	.body {
 		height: 100%;
 		position: relative;
 
 		.navbar {
-			border-bottom: 1px solid $border;
+			background-color: $box;
 
 			.navbar-brand {
 				padding-left: 1.5rem;
@@ -639,6 +278,10 @@ export default class AppBase extends PageBase {
 
 				.button {
 					text-decoration: none !important;
+
+					&:hover {
+						background-color: $box-hover;
+					}
 				}
 
 				.navbar-item.navbar-burger {
@@ -648,18 +291,15 @@ export default class AppBase extends PageBase {
 		}
 
 		.section-main {
-			height: 100%;
-
-			@include tablet-only {
-				height: calc(100vh - 2.75rem);
-			}
-
-			@include desktop {
-				height: calc(100vh - 3.5rem);
-			}
+			height: calc(100vh - 2.75rem);
 
 			.b-sidebar {
 				padding-bottom: 0;
+				padding-right: 0;
+
+				@include mobile {
+					display: none;
+				}
 
 				@include tablet {
 					flex: none;
@@ -669,7 +309,7 @@ export default class AppBase extends PageBase {
 					}
 					&.column-reduce {
 						transition: width 150ms ease-out;
-						width: 12%;
+						width: 8%;
 					}
 				}
 
@@ -698,7 +338,7 @@ export default class AppBase extends PageBase {
 				}
 
 				.sidebar-content {
-					background-color: white !important;
+					background-color: $box;
 					height: 100%;
 					padding-top: 1rem;
 
@@ -736,30 +376,23 @@ export default class AppBase extends PageBase {
 			.content-main {
 				transition: width 150ms ease-out;
 				padding-top: 1.5rem;
-				padding-right: 3rem;
+				padding-right: 2rem;
 				margin-left: 1rem;
-
-				.donations {
-					height: 100%;
-
-					.body {
-						padding-top: 0;
-						height: 100%;
-					}
-				}
 
 				@include mobile {
 					margin-left: 0;
-					padding-top: 1rem !important;
-					padding-right: 1rem !important;
+					padding-top: 0 !important;
+					margin-top: 1rem !important;
+					padding-right: 0.5rem !important;
 				}
 
 				@include tablet {
 					flex: none;
 
 					&.column-expand {
-						width: 88%;
+						width: 92%;
 					}
+
 					&.column-reduce {
 						transition: width 120ms ease-out;
 						width: 70%;
@@ -793,16 +426,42 @@ export default class AppBase extends PageBase {
 		}
 	}
 
+	.dropdown-content {
+		background-color: $box;
+
+		.dropdown-item {
+			color: white;
+
+			&:hover {
+				background-color: $box-hover;
+			}
+		}
+	}
+
 	.modal-menu {
+		.modal-background {
+			background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+		}
+
+		.animation-content,
+		.modal-card {
+			background-color: transparent !important;
+		}
+
 		.modal-card-head {
-			background-color: white;
-			padding: 0 0 0 1.75rem;
+			background-color: $box;
+			padding: 0 0 0 1.65rem;
+			border-bottom: 1px solid $box;
 
 			.title {
 				font-size: 24px !important;
 				margin: 0 !important;
-				font-weight: 500 !important;
+				font-weight: bold !important;
 			}
+		}
+
+		.modal-card-body {
+			background-color: $box;
 		}
 	}
 

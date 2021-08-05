@@ -24,6 +24,11 @@ const routes: Array<RouteConfig> = [
 						component: () => import(/* webpackChunkName: "home" */ '@app/pages/App/Home.vue'),
 					},
 					{
+						path: 'buy',
+						name: 'BuyMore',
+						component: () => import(/* webpackChunkName: "home" */ '@app/pages/App/BuyMore.vue'),
+					},
+					{
 						path: 'donations_user',
 						name: 'AppDonations',
 						component: () => import(/* webpackChunkName: "app-donations" */ '@app/pages/Donations.vue'),
@@ -32,18 +37,6 @@ const routes: Array<RouteConfig> = [
 						path: 'setting',
 						name: 'Setting',
 						component: () => import(/* webpackChunkName: "setting" */ '@app/pages/App/Setting.vue'),
-					},
-				],
-			},
-			{
-				path: 'app2',
-				name: 'App2',
-				component: () => import(/* webpackChunkName: "app-main2" */ '@app/pages/App2/AppBase.vue'),
-				children: [
-					{
-						path: '',
-						name: 'Home2',
-						component: () => import(/* webpackChunkName: "home2" */ '@app/pages/App2/Home.vue'),
 					},
 				],
 			},
@@ -85,14 +78,6 @@ const routes: Array<RouteConfig> = [
 				path: '/login',
 				name: 'Login',
 				component: () => import(/* webpackChunkName: "login" */ '@app/pages/Login.vue'),
-				meta: {
-					free_page: true,
-				},
-			},
-			{
-				path: '/register',
-				name: 'Register',
-				component: () => import(/* webpackChunkName: "register" */ '@app/pages/Register.vue'),
 				meta: {
 					free_page: true,
 				},

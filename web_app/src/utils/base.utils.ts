@@ -1,4 +1,5 @@
 import { ValidationError, validateSync } from 'class-validator';
+import pdf from 'vue-pdf';
 
 function extract_errors(obj: ValidationError): string[] {
 	return (obj.constraints ? Object.values(obj.constraints) : []).concat(...(obj.children || []).map(extract_errors));
@@ -10,4 +11,4 @@ abstract class ClassBase {
 	}
 }
 
-export { ClassBase };
+export { ClassBase, pdf };

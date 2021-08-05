@@ -19,3 +19,42 @@ export default class AppBase extends PageBase {
 	}
 }
 </script>
+
+<style lang="scss">
+@import '../styles/initial_variables.scss';
+
+.app-base > .donations {
+	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+	height: 100vh !important;
+	position: relative;
+	padding-top: 0;
+
+	.body {
+		padding-top: 4.5rem;
+		height: 100vh !important;
+		margin-left: 0.75rem;
+		position: relative;
+
+		&.paypalExtend {
+			height: 1500px !important;
+
+			@include mobile {
+				height: 1000px !important;
+			}
+
+			@include mobile {
+				.box {
+					height: 100% !important;
+					margin-top: 15%;
+				}
+			}
+		}
+
+		@include mobile {
+			.box {
+				height: max-content !important;
+			}
+		}
+	}
+}
+</style>

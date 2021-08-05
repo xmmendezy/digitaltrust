@@ -17,6 +17,45 @@
 	}
 }
 
+.c-input.md,
+.c-tel-input.md {
+	margin: 1rem 0;
+
+	.vfl-label {
+		color: white !important;
+	}
+
+	.vfl-label-on-focus + .vue-tel-input {
+		border-bottom: 2px solid white;
+	}
+
+	.vfl-label + input {
+		border-bottom: 2px solid white;
+	}
+
+	.fas {
+		color: white !important;
+	}
+
+	.input,
+	.vti__input {
+		color: white !important;
+		background-color: transparent !important;
+
+		&::placeholder {
+			color: white !important;
+		}
+
+		&:-ms-input-placeholder {
+			color: white !important;
+		}
+
+		&::-ms-input-placeholder {
+			color: white !important;
+		}
+	}
+}
+
 ::-webkit-scrollbar {
 	width: 3px;
 	height: 3px;

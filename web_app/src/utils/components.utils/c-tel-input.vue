@@ -1,5 +1,10 @@
 <template>
-	<float-label class="c-tel-input">
+	<float-label
+		class="c-tel-input"
+		:class="{
+			'is-active': !!content,
+		}"
+	>
 		<vue-tel-input
 			ref="input"
 			onkeypress="return /[0-9]/i.test(event.key)"
@@ -102,8 +107,6 @@ export default class extends ComponentBase {
 @import '../../styles/initial_variables.scss';
 
 .c-tel-input {
-	margin: 3rem 0;
-
 	.vue-tel-input {
 		width: 100%;
 		padding: 0.55rem 0;
@@ -117,6 +120,14 @@ export default class extends ComponentBase {
 			-webkit-box-shadow: none;
 			box-shadow: none;
 			border-color: none;
+		}
+	}
+
+	&.is-active {
+		.vfl-label {
+			top: -1.3em;
+			pointer-events: all;
+			opacity: 1;
 		}
 	}
 

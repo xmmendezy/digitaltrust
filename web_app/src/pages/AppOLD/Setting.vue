@@ -1,5 +1,5 @@
 <template>
-	<div class="setting">
+	<div class="setting" ref="setting">
 		<article class="box">
 			<div class="columns">
 				<div class="column" :class="{ 'is-7': !is_admin }">
@@ -13,7 +13,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									ref="input"
 									v-model="update_form.firstname"
 									@keyup.enter.native="update()"
@@ -22,7 +21,6 @@
 							</div>
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.lastname"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.user.c')"
@@ -32,7 +30,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.email"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.user.d')"
@@ -40,7 +37,6 @@
 							</div>
 							<div class="column">
 								<c-tel-input
-									class="md"
 									v-model="update_form.telephone"
 									:defaultCountry="default_country"
 									:autoDefaultCountry="false"
@@ -54,7 +50,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.state"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.user.f')"
@@ -62,7 +57,6 @@
 							</div>
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.address"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.user.g')"
@@ -72,7 +66,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.password"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.user.h')"
@@ -81,7 +74,6 @@
 							</div>
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.password_confirm"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.user.i')"
@@ -105,7 +97,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.paypal_account"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.accounts.b')"
@@ -115,7 +106,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.stripe_account"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.accounts.c')"
@@ -125,7 +115,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.coinpayments_account"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.accounts.d')"
@@ -135,7 +124,6 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
-									class="md"
 									v-model="update_form.banck_account"
 									@keyup.enter.native="update()"
 									:placeholder="$t('setting.accounts.e')"
@@ -147,9 +135,7 @@
 			</div>
 
 			<b-field class="has-text-right">
-				<b-button id="driver-guide-c-3" @click="update()" type="is-primary" inverted outlined>{{
-					$t('setting.save')
-				}}</b-button>
+				<b-button id="driver-guide-c-3" @click="update()" type="is-primary">{{ $t('setting.save') }}</b-button>
 			</b-field>
 		</article>
 	</div>
@@ -247,19 +233,15 @@ export default class Setting extends PageChildBase {
 @import '../../styles/initial_variables.scss';
 
 .setting {
-	height: calc(100vh - 6rem);
-	overflow-y: scroll;
-	padding-right: 1rem;
+	height: 100%;
 
 	.box {
-		background-color: $box;
-		color: white !important;
+		height: 100%;
 		padding: 4rem 0;
 
 		.title {
 			font-size: 25px;
 			font-weight: bold;
-			color: white !important;
 		}
 
 		.is-divider-vertical {

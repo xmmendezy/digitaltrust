@@ -11,6 +11,7 @@
 						<section class="form has-text-centered">
 							<b-field>
 								<c-input
+									class="md"
 									ref="input"
 									v-model="login_form.email"
 									@keyup.enter.native="login()"
@@ -19,12 +20,19 @@
 							</b-field>
 							<b-field>
 								<c-input
+									class="md"
 									v-model="login_form.password"
 									@keyup.enter.native="login()"
 									:placeholder="$t('login.c')"
 									password
 								>
 								</c-input>
+							</b-field>
+							<b-field>
+								<vue-hcaptcha
+									sitekey="64ba7c4f-e890-4fbf-bffe-4c3364b64e87"
+									@verify="captcha()"
+								></vue-hcaptcha>
 							</b-field>
 							<b-field>
 								<b-button @click="isModalForgotPassword = true" type="is-text">
@@ -34,7 +42,9 @@
 							<br />
 							<br />
 							<b-field>
-								<b-button @click="login()" rounded type="is-white">{{ $t('login.e') }}</b-button>
+								<b-button :disabled="!valid_form" @click="login()" rounded type="is-white">{{
+									$t('login.e')
+								}}</b-button>
 							</b-field>
 						</section>
 					</div>
@@ -86,15 +96,18 @@ import PageChildBase from '../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
 import { LoginDto } from '../store';
 import Points from '../components/Points.vue';
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 
 @Component({
-	components: { Points },
+	components: { Points, VueHcaptcha },
 })
 export default class Login extends PageChildBase {
 	private isModalForgotPassword: boolean = false;
 	private email_forgot_password: string = '';
 
 	private telephone: string = '+16469803342';
+
+	private valid_captcha: boolean = false;
 
 	private login_form: LoginDto = {
 		email: '',
@@ -103,6 +116,14 @@ export default class Login extends PageChildBase {
 
 	public async created() {
 		await super.created();
+	}
+
+	public captcha() {
+		this.valid_captcha = true;
+	}
+
+	get valid_form(): boolean {
+		return this.valid_captcha && !!this.login_form.email && !!this.login_form.password;
 	}
 
 	private async mounted() {
@@ -221,34 +242,7 @@ export default class Login extends PageChildBase {
 					}
 
 					.c-input {
-						.vfl-label {
-							color: white !important;
-						}
-
-						.vfl-label + input {
-							border-bottom: 2px solid white;
-						}
-
-						.fas {
-							color: white !important;
-						}
-
-						.input {
-							color: white !important;
-							background-color: transparent !important;
-
-							&::placeholder {
-								color: white !important;
-							}
-
-							&:-ms-input-placeholder {
-								color: white !important;
-							}
-
-							&::-ms-input-placeholder {
-								color: white !important;
-							}
-						}
+						margin: 3rem 0;
 					}
 
 					.button.is-text {

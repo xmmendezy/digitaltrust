@@ -93,7 +93,8 @@
 		"c": "Email",
 		"d": "Phone",
 		"e": "Message",
-		"f": "Send"
+		"f": "Send",
+		"g": "Our offices"
 	},
 	"about": {
 		"a": "About us",
@@ -126,7 +127,6 @@
 					"Development of social and economic interaction platforms based on the DTI Blockchain.",
 					"Development of a digital ecosystem with exclusive services and products based on the DTI Blockchain.",
 					"Development of the proprietary payment system based on the DTI Blockchain.",
-					"Development of the proprietary payment system based on Blockchain Digital Trust.",
 					"Blue debit and credit card issuance for preferred members of Digital Trust.",
 					"Creation of the digital platform NeoBanco to introduce the credit system for small and medium-sized companies with seed capital to boost new businesses."
 				]
