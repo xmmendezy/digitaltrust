@@ -42,7 +42,12 @@ export class User extends BaseEntity implements IUser {
 			this.paypal_account = data.paypal_account || data.email;
 			this.stripe_account = data.stripe_account || data.email;
 			this.coinpayments_account = data.coinpayments_account || data.email;
+			this.banck_name = data.banck_name || '';
+			this.banck_address = data.banck_address || '';
+			this.banck_account_name = data.banck_account_name || '';
 			this.banck_account = data.banck_account || '';
+			this.banck_routing_name = data.banck_routing_name || '';
+			this.banck_account_username = data.banck_account_username || '';
 			this.ref = data.ref;
 		}
 	}
@@ -173,7 +178,32 @@ export class User extends BaseEntity implements IUser {
 	@Column({
 		default: '',
 	})
+	public banck_name: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_address: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_account_name: string;
+
+	@Column({
+		default: '',
+	})
 	public banck_account: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_routing_name: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_account_username: string;
 
 	@Column({
 		default: '',

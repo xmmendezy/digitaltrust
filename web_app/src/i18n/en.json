@@ -109,8 +109,14 @@
 			"a": "Accounts",
 			"b": "PayPal",
 			"c": "Stripe",
-			"d": "CoinPayments",
-			"e": "Bank information"
+			"d": "Blockchain Wallet",
+			"e": "Bank information",
+			"f": "Bank name",
+			"g": "Bank address",
+			"h": "Account name",
+			"i": "Account number",
+			"j": "Routing number",
+			"k": "Name of the account beneficiary"
 		},
 		"save": "Save",
 		"delete": "Remove",
@@ -167,13 +173,16 @@
 			"b": "Start date",
 			"c": "End date"
 		},
-		"deposits": {
-			"title": "Deposits",
+		"moves": {
+			"title": "Moves",
+			"0": "Type",
 			"a": "Membership",
 			"b": "Date",
 			"c": "Money",
 			"d": "Payment method",
-			"e": "Reference"
+			"e": "Withdrawal method",
+			"f": "Deposit reference",
+			"g": "Withdrawal status"
 		},
 		"withdrawals": {
 			"title": "Withdrawals",
@@ -243,7 +252,7 @@
 		"paypal": "PayPal",
 		"stripe": "Stripe",
 		"blockchain": "CoinPayments",
-		"balance": "Balance",
+		"balance": "Reinvestment",
 		"bankcheck": "Bank Check",
 		"wire_transfer": "Wire Transfer",
 		"investment": "Investment"
@@ -385,10 +394,15 @@
 		"cancel": "Cancel",
 		"done": "Done",
 		"close": "Close",
+		"summary": "Summary",
+		"details": "Details",
+		"password_suscess": "Password sent to email",
+		"password_error": "Your password could not be changed, possibly this email is wrong",
 		"continue_task": "Continue on this task?",
 		"success_task": "Task completed successfully",
 		"error_task": "Could not be processed",
-		"to_pay": "To pay"
+		"to_pay": "To pay",
+		"method": "Method"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",

@@ -1825,7 +1825,7 @@ export default class Home extends PageChildBase {
 		if (typeof date === 'string') {
 			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
 		}
-		this.load_form_api(await this.store.api.balance_detail({ id: '', date }), (data: IBalanceDetail) => {
+		this.load_form_api(await this.store.api.balance_detail({ id: '' }), (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
 			this.isOpenBalanceDetailModal = true;
 		});

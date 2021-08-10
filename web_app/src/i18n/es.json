@@ -109,8 +109,14 @@
 			"a": "Cuentas",
 			"b": "PayPal",
 			"c": "Stripe",
-			"d": "CoinPayments",
-			"e": "Información bancaria"
+			"d": "Monedero Blockchain",
+			"e": "Información bancaria",
+			"f": "Nombre del banco",
+			"g": "Dirección del banco",
+			"h": "Nombre de cuenta",
+			"i": "Número de cuenta",
+			"j": "Número de ruta bancaria",
+			"k": "Beneficiario de la cuenta"
 		},
 		"save": "Guardar",
 		"delete": "Eliminar",
@@ -167,13 +173,16 @@
 			"b": "Fecha de inicio",
 			"c": "Fecha de fin"
 		},
-		"deposits": {
-			"title": "Depósitos",
+		"moves": {
+			"title": "Movimientos",
+			"0": "Tipo",
 			"a": "Membresía",
 			"b": "Fecha",
 			"c": "Cantidad",
 			"d": "Método de pago",
-			"e": "Referencia"
+			"e": "Método de retiro",
+			"f": "Referencia del depósito",
+			"g": "Estado del retiro"
 		},
 		"withdrawals": {
 			"title": "Retiros",
@@ -243,7 +252,7 @@
 		"paypal": "PayPal",
 		"stripe": "Stripe",
 		"blockchain": "CoinPayments",
-		"balance": "Saldo",
+		"balance": "Reinversión de saldo",
 		"bankcheck": "Cheque bancario",
 		"wire_transfer": "Transferencia bancaria",
 		"investment": "Inversión"
@@ -385,10 +394,15 @@
 		"cancel": "Cancelar",
 		"done": "Hecho",
 		"close": "Cerrar",
+		"summary": "Resumen",
+		"details": "Detalles",
+		"password_suscess": "Contraseña enviada al correo",
+		"password_error": "No se ha podido cambiar su contraseña, posiblemente este correo sea erróneo",
 		"continue_task": "¿Continuar con esta opción?",
 		"success_task": "Tarea realizada con éxito",
 		"error_task": "No se pudo procesar",
-		"to_pay": "Pagar"
+		"to_pay": "Pagar",
+		"method": "Método"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

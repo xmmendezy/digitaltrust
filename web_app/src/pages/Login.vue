@@ -136,6 +136,9 @@ export default class Login extends PageChildBase {
 	}
 
 	private async login() {
+		if (!this.valid_form) {
+			return;
+		}
 		this.load_form_api(await this.store.api.login(this.login_form), () => {}, {
 			e000: () => {
 				this.toastError(this.$t('login.error.e000'));
@@ -155,10 +158,11 @@ export default class Login extends PageChildBase {
 
 	public async passowrd_forgot() {
 		if (this.email_forgot_password) {
-			window.open(
-				`https://wa.me/${this.telephone}?text=Hi, I need help with my password. My email is ${this.email_forgot_password}.`,
-				'_blank',
-			);
+			if (await this.store.api.reset_password(this.email_forgot_password)) {
+				this.toastSuccess(this.$t('helper.password_suscess'), 5000);
+			} else {
+				this.toastError(this.$t('helper.password_error'), 8000);
+			}
 		} else {
 			this.toastError(this.$t('error.u5'));
 		}

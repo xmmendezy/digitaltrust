@@ -102,6 +102,48 @@ export class ApiService {
 		});
 	}
 
+	public async reset_password(email: string): Promise<Error> {
+		const user = await User.createQueryBuilder('user')
+			.leftJoinAndSelect('user.country', 'country')
+			.leftJoinAndSelect('country.time_zones', 'time_zones')
+			.where('user.email = :email', { email })
+			.getOne();
+		if (user) {
+			const password: string = [
+				'Hola12345',
+				'Digital2021',
+				'NewPassword2021',
+				'Aa12Bb34Cc56',
+				'ABCDEabcde',
+				'MNOPQmnopq',
+				'Mm12Nn34Oo56',
+				'ZYXzyx212019',
+				'DIGITAL2021',
+				'HOLA12345',
+			][Math.floor(Math.random() * 10)];
+			await user.set_password(password);
+			await user.save();
+			const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'new_password.hbs'), 'utf8');
+			const template_compile = handlebars.compile(templeate_hbs);
+			return await this.mailerService
+				.sendMail({
+					to: email,
+					subject: 'DigitalTrust - New password',
+					html: template_compile({
+						password,
+					}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		} else {
+			return { error: 'e000' };
+		}
+	}
+
 	public async update(user: User, data: UpdateDto): Promise<UserDto | Error> {
 		if (data.country != user.country.id) {
 			const country = await Country.createQueryBuilder('country')
@@ -122,7 +164,12 @@ export class ApiService {
 			'paypal_account',
 			'stripe_account',
 			'coinpayments_account',
+			'banck_name',
+			'banck_address',
+			'banck_account_name',
 			'banck_account',
+			'banck_routing_name',
+			'banck_account_username',
 		];
 		const errors: string[] = [];
 		for (const key in data) {
@@ -539,8 +586,7 @@ export class ApiService {
 			earning_extra: 0,
 			investment: 0,
 			suscriptions: [],
-			deposits: [],
-			withdrawals: [],
+			moves: [],
 		};
 		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 		if (suscriptions.length) {
@@ -601,48 +647,47 @@ export class ApiService {
 					membershipId: suscription.membershipId,
 				});
 			}
-
-			balance.deposits = (
+			balance.moves = (
 				await Deposit.createQueryBuilder()
 					.where('"suscriptionId" in (:...ids)')
-					.andWhere('date >= :date_begin')
-					.andWhere('date <= :date_end')
 					.setParameters({
 						ids: suscriptions.map((s) => s.id),
-						date_begin: date.startOf('month').toSeconds(),
-						date_end: date.endOf('month').toSeconds(),
 					})
-					.orderBy('"suscriptionId"', 'ASC')
 					.getMany()
 			).map((d) => {
 				return {
+					type: 'deposit',
 					date: d.date,
 					suscription: d.suscriptionId,
 					money: d.money,
-					payment_method: d.payment_method,
+					method: d.payment_method,
 					reference: d.reference !== 'default' ? d.reference : '',
+					status: true,
 				};
 			});
-			balance.withdrawals = (
-				await Withdrawal.createQueryBuilder()
-					.where('"userId" = :id')
-					.andWhere('date >= :date_begin')
-					.andWhere('date <= :date_end')
-					.setParameters({
-						id: user.id,
-						date_begin: date.startOf('month').toSeconds(),
-						date_end: date.endOf('month').toSeconds(),
-					})
-					.getMany()
-			).map((d) => {
-				return {
-					date: d.date,
-					money: d.money,
-					withdrawal_method: d.withdrawal_method,
-					status: d.status,
-				};
-			});
+
+			balance.moves.push(
+				...(
+					await Withdrawal.createQueryBuilder()
+						.where('"userId" = :id')
+						.setParameters({
+							id: user.id,
+						})
+						.getMany()
+				).map((w) => {
+					return {
+						type: 'withdrawal' as 'withdrawal',
+						date: w.date,
+						suscription: '',
+						reference: '',
+						money: w.money,
+						method: w.withdrawal_method,
+						status: w.status,
+					};
+				}),
+			);
 		}
+		balance.moves.sort((a, b) => b.date - a.date);
 		return balance;
 	}
 

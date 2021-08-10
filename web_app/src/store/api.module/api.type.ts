@@ -32,7 +32,12 @@ interface IUser {
 	paypal_account: string;
 	stripe_account: string;
 	coinpayments_account: string;
+	banck_name: string;
+	banck_address: string;
+	banck_account_name: string;
 	banck_account: string;
+	banck_routing_name: string;
+	banck_account_username: string;
 	can_remove: boolean;
 	created: string | Date;
 }
@@ -54,7 +59,12 @@ class UpdateDto extends ClassBase {
 			this.paypal_account = data.paypal_account;
 			this.stripe_account = data.stripe_account;
 			this.coinpayments_account = data.coinpayments_account;
+			this.banck_name = data.banck_name;
+			this.banck_address = data.banck_address;
+			this.banck_account_name = data.banck_account_name;
 			this.banck_account = data.banck_account;
+			this.banck_routing_name = data.banck_routing_name;
+			this.banck_account_username = data.banck_account_username;
 			this.can_remove = data.can_remove;
 		} else {
 			this.firstname = '';
@@ -69,7 +79,12 @@ class UpdateDto extends ClassBase {
 			this.paypal_account = '';
 			this.stripe_account = '';
 			this.coinpayments_account = '';
+			this.banck_name = '';
+			this.banck_address = '';
+			this.banck_account_name = '';
 			this.banck_account = '';
+			this.banck_routing_name = '';
+			this.banck_account_username = '';
 			this.can_remove = false;
 		}
 	}
@@ -119,7 +134,12 @@ class UpdateDto extends ClassBase {
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	coinpayments_account!: string;
 
+	banck_name!: string;
+	banck_address!: string;
+	banck_account_name!: string;
 	banck_account!: string;
+	banck_routing_name!: string;
+	banck_account_username!: string;
 
 	can_remove!: boolean;
 
@@ -351,6 +371,16 @@ interface IWithdrawal {
 	status: boolean;
 }
 
+interface IMove {
+	date: number;
+	type: 'deposit' | 'withdrawal';
+	suscription: string;
+	money: number;
+	method: string;
+	reference: string;
+	status: boolean;
+}
+
 interface IBalanceDetail {
 	date: number;
 	available_balance: number;
@@ -366,8 +396,7 @@ interface IBalanceDetail {
 		date_end: number;
 		membershipId: string;
 	}[];
-	deposits: IDeposit[];
-	withdrawals: IWithdrawal[];
+	moves: IMove[];
 }
 
 export {
@@ -385,5 +414,6 @@ export {
 	IRecord,
 	IBalance,
 	IBalanceDetail,
+	IDeposit,
 	IWithdrawal,
 };

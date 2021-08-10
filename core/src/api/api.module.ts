@@ -46,6 +46,7 @@ export class ApiModule implements NestModule {
 			.apply(JwtMiddleware)
 			.exclude(
 				'/api/login',
+				'/api/reset_password',
 				'/api/signup',
 				'/api/preregister',
 				'/api/ref_user',

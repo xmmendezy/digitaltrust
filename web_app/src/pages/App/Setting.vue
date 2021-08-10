@@ -1,15 +1,9 @@
 <template>
 	<div class="setting">
 		<article class="box">
-			<div class="columns">
-				<div class="column" :class="{ 'is-7': !is_admin }">
+			<b-tabs>
+				<b-tab-item :label="$t('setting.user.a')">
 					<section class="form-user has-text-centered">
-						<div class="columns">
-							<div class="column has-text-left">
-								<h3 class="title">{{ $t('setting.user.a') }}</h3>
-							</div>
-							<div class="column is-hidden-mobile"></div>
-						</div>
 						<div class="columns">
 							<div class="column">
 								<c-input
@@ -90,61 +84,120 @@
 							</div>
 						</div>
 					</section>
-				</div>
+				</b-tab-item>
 
-				<div v-if="!is_admin" class="is-divider-vertical is-hidden-mobile"></div>
+				<b-tab-item v-if="!is_admin" :label="$t('setting.accounts.a')">
+					<div class="columns">
+						<div class="column">
+							<section class="form-user has-text-centered">
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.paypal_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.b')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.stripe_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.c')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.coinpayments_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.d')"
+										></c-input>
+									</div>
+								</div>
+							</section>
+						</div>
 
-				<div v-if="!is_admin" class="column">
-					<section class="form-user has-text-centered">
-						<div class="columns">
-							<div class="column has-text-left">
-								<h3 class="title">{{ $t('setting.accounts.a') }}</h3>
-							</div>
-							<div class="column is-hidden-mobile"></div>
+						<div class="is-divider-vertical is-hidden-mobile"></div>
+
+						<div class="column">
+							<section class="form-user has-text-centered">
+								<div class="columns is-paddingless">
+									<div class="column has-text-left">
+										<h3 class="title">{{ $t('setting.accounts.e') }}</h3>
+									</div>
+									<div class="column is-hidden-mobile"></div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_name"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.f')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_address"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.g')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_account_name"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.h')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.i')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_routing_name"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.j')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_account_username"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.k')"
+										></c-input>
+									</div>
+								</div>
+							</section>
 						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									class="md"
-									v-model="update_form.paypal_account"
-									@keyup.enter.native="update()"
-									:placeholder="$t('setting.accounts.b')"
-								></c-input>
-							</div>
-						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									class="md"
-									v-model="update_form.stripe_account"
-									@keyup.enter.native="update()"
-									:placeholder="$t('setting.accounts.c')"
-								></c-input>
-							</div>
-						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									class="md"
-									v-model="update_form.coinpayments_account"
-									@keyup.enter.native="update()"
-									:placeholder="$t('setting.accounts.d')"
-								></c-input>
-							</div>
-						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									class="md"
-									v-model="update_form.banck_account"
-									@keyup.enter.native="update()"
-									:placeholder="$t('setting.accounts.e')"
-								></c-input>
-							</div>
-						</div>
-					</section>
-				</div>
-			</div>
+					</div>
+				</b-tab-item>
+			</b-tabs>
 
 			<b-field class="has-text-right">
 				<b-button id="driver-guide-c-3" @click="update()" type="is-primary" inverted outlined>{{
@@ -263,10 +316,10 @@ export default class Setting extends PageChildBase {
 		}
 
 		.is-divider-vertical {
-			padding: 0;
+			padding: 1rem;
 		}
 
-		.form-user {
+		.b-tabs {
 			margin: auto;
 			width: 70%;
 
@@ -274,10 +327,24 @@ export default class Setting extends PageChildBase {
 				width: 85%;
 			}
 
-			.columns:first-child,
-			.columns:last-child {
-				padding-bottom: 2rem;
+			.tabs {
+				li a {
+					color: white;
+					border-bottom: none;
+				}
+				li.is-active {
+					font-size: 1.5rem;
+					font-weight: bold;
+				}
 			}
+
+			.tab-content {
+				padding-top: 2.5rem;
+			}
+		}
+
+		.form-user {
+			width: 100%;
 
 			.c-input,
 			.c-tel-input {

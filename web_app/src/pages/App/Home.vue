@@ -1,7 +1,10 @@
 <template>
 	<div class="home">
 		<div class="box">
-			<h1 class="title">{{ $t('home.balance_now.title') }}</h1>
+			<h1 class="title">
+				{{ $t('home.balance_now.title') }} -
+				{{ store.api.DateTime.now().toFormat('LLLL yyyy') }}
+			</h1>
 			<div class="columns">
 				<div class="column">
 					<div class="box earning">
@@ -18,7 +21,7 @@
 					</div>
 				</div>
 				<div class="column">
-					<div class="box balance">
+					<div class="box balance" @click="isOpenBalanceDetailModal = true">
 						<div class="columns has-text-left">
 							<div class="column balance-text">{{ $t('home.balance_now.a') }}</div>
 							<div class="column balance-money is-7">{{ formatMoney(balance_data.balance) }}</div>
@@ -34,6 +37,8 @@
 		<div class="box">
 			<Chart />
 		</div>
+
+		<BalanceModal v-model="isOpenBalanceDetailModal" />
 	</div>
 </template>
 
@@ -42,9 +47,10 @@ import PageChildBase from '../../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
 import { IBalance } from '../../store';
 import Chart from '../../components/Chart.vue';
+import BalanceModal from '../../components/BalanceModal.vue';
 
 @Component({
-	components: { Chart },
+	components: { Chart, BalanceModal },
 })
 export default class Home extends PageChildBase {
 	private balance_data: IBalance = {
@@ -52,6 +58,8 @@ export default class Home extends PageChildBase {
 		earning: 0,
 		investment: 0,
 	};
+
+	private isOpenBalanceDetailModal: boolean = false;
 
 	public async created() {
 		await super.created();
@@ -106,6 +114,7 @@ export default class Home extends PageChildBase {
 
 		&.balance {
 			background-image: linear-gradient(150deg, #611bf7, #8b61e4) !important;
+			cursor: pointer;
 		}
 
 		.balance-text {

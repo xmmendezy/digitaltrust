@@ -21,7 +21,7 @@
 					header-class="header"
 					v-slot="props"
 				>
-					<div class="has-text-left" @click="records_client(props.row.id)">
+					<div class="has-text-left" @click="balance_detail_client(props.row.id)">
 						{{ formatMoney(props.row.balance) }}
 					</div>
 				</b-table-column>
@@ -31,7 +31,7 @@
 					header-class="header header-center has-text-right"
 					v-slot="props"
 				>
-					<div class="has-text-right has-text-gray" @click="records_client(props.row.id)">
+					<div class="has-text-center" @click="balance_detail_client(props.row.id)">
 						{{
 							props.row.lastDeposit
 								? store.api.DateTime.fromUnix(props.row.lastDeposit)
@@ -67,7 +67,7 @@
 					v-slot="props"
 				>
 					<div class="has-text-center">
-						<b-button outlined type="is-primary" @click="open_deposit(props.row.id)">
+						<b-button outlined type="is-white" @click="open_deposit(props.row.id)">
 							<i class="fas fa-plus"></i>
 						</b-button>
 					</div>
@@ -80,7 +80,7 @@
 					v-slot="props"
 				>
 					<div class="has-text-center">
-						<b-button outlined type="is-primary" @click="open_withdrawal(props.row.id)">
+						<b-button outlined type="is-white" @click="open_withdrawal(props.row.id)">
 							<i class="fas fa-minus"></i>
 						</b-button>
 					</div>
@@ -189,26 +189,28 @@
 			<div class="card">
 				<div class="card-content model-update-client">
 					<div class="columns">
-						<div class="column is-7">
+						<div class="column has-text-left">
+							<h3 class="title">{{ $t('admin.edit_client') }}</h3>
+						</div>
+						<div class="column"></div>
+					</div>
+
+					<b-tabs>
+						<b-tab-item :label="$t('setting.user.a')">
 							<section class="form-user has-text-centered">
-								<div class="columns">
-									<div class="column has-text-left">
-										<h3 class="title">{{ $t('admin.edit_client') }}</h3>
-									</div>
-									<div class="column"></div>
-								</div>
 								<div class="columns">
 									<div class="column">
 										<c-input
+											ref="input"
 											v-model="edit_client_form.firstname"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.b')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.lastname"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.c')"
 										></c-input>
 									</div>
@@ -217,7 +219,7 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.email"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.d')"
 										></c-input>
 									</div>
@@ -226,10 +228,10 @@
 											v-model="edit_client_form.telephone"
 											:defaultCountry="default_country"
 											:autoDefaultCountry="false"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.e')"
 											@validate="validateNumber"
-											@country-changed="changeCountryUpdate"
+											@country-changed="changeCountry"
 										></c-tel-input>
 									</div>
 								</div>
@@ -237,14 +239,14 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.state"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.f')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.address"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.g')"
 										></c-input>
 									</div>
@@ -253,7 +255,7 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.password"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.h')"
 											password
 										></c-input>
@@ -261,64 +263,118 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.password_confirm"
-											@keyup.enter.native="update_client()"
+											@keyup.enter.native="update()"
 											:placeholder="$t('setting.user.i')"
 											password
 										></c-input>
 									</div>
 								</div>
 							</section>
-						</div>
+						</b-tab-item>
 
-						<div class="is-divider-vertical is-hidden-mobile"></div>
+						<b-tab-item :label="$t('setting.accounts.a')">
+							<div class="columns">
+								<div class="column">
+									<section class="form-user has-text-centered">
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.paypal_account"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.b')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.stripe_account"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.c')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.coinpayments_account"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.d')"
+												></c-input>
+											</div>
+										</div>
+									</section>
+								</div>
 
-						<div class="column">
-							<section class="form-user has-text-centered">
-								<div class="columns">
-									<div class="column has-text-left">
-										<h3 class="title">{{ $t('setting.accounts.a') }}</h3>
-									</div>
-									<div class="column"></div>
+								<div class="is-divider-vertical is-hidden-mobile"></div>
+
+								<div class="column">
+									<section class="form-user has-text-centered">
+										<div class="columns is-paddingless">
+											<div class="column has-text-left">
+												<h3 class="title">{{ $t('setting.accounts.e') }}</h3>
+											</div>
+											<div class="column is-hidden-mobile"></div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_name"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.f')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_address"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.g')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_account_name"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.h')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_account"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.i')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_routing_name"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.j')"
+												></c-input>
+											</div>
+										</div>
+										<div class="columns">
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_account_username"
+													@keyup.enter.native="update()"
+													:placeholder="$t('setting.accounts.k')"
+												></c-input>
+											</div>
+										</div>
+									</section>
 								</div>
-								<div class="columns">
-									<div class="column">
-										<c-input
-											v-model="edit_client_form.paypal_account"
-											@keyup.enter.native="update_client()"
-											:placeholder="$t('setting.accounts.b')"
-										></c-input>
-									</div>
-								</div>
-								<div class="columns">
-									<div class="column">
-										<c-input
-											v-model="edit_client_form.stripe_account"
-											@keyup.enter.native="update_client()"
-											:placeholder="$t('setting.accounts.c')"
-										></c-input>
-									</div>
-								</div>
-								<div class="columns">
-									<div class="column">
-										<c-input
-											v-model="edit_client_form.coinpayments_account"
-											@keyup.enter.native="update_client()"
-											:placeholder="$t('setting.accounts.d')"
-										></c-input>
-									</div>
-								</div>
-								<div class="columns">
-									<div class="column">
-										<c-input
-											v-model="edit_client_form.banck_account"
-											@keyup.enter.native="update_client()"
-											:placeholder="$t('setting.accounts.e')"
-										></c-input>
-									</div>
-								</div>
-							</section>
-						</div>
-					</div>
+							</div>
+						</b-tab-item>
+					</b-tabs>
 
 					<div class="columns">
 						<div class="column"></div>
@@ -333,280 +389,19 @@
 			</div>
 		</b-modal>
 
-		<b-modal v-model="isOpenRecordsClientModal" :can-cancel="['x', 'escape']">
-			<div class="card">
-				<div v-if="isTableBalance" class="card-content model-records-client">
-					<p class="title" v-if="client_data_now">
-						{{ formatName(client_data_now) }}
-					</p>
-					<b-table
-						:data="records_client_data"
-						sticky-header
-						:mobile-cards="false"
-						@click="row => balance_detail(row.date)"
-					>
-						<b-table-column
-							field="balance"
-							:label="$t('home.table_balance.a')"
-							header-class="header"
-							centered
-							v-slot="props"
-						>
-							{{ formatMoney(props.row.balance) }}
-						</b-table-column>
-						<b-table-column
-							field="withdrawal"
-							:label="$t('home.table_balance.b')"
-							header-class="header"
-							v-slot="props"
-						>
-							<div class="has-text-left">{{ formatMoney(props.row.withdrawal) }}</div>
-						</b-table-column>
-
-						<b-table-column
-							field="earning"
-							:label="$t('home.table_balance.c')"
-							header-class="header"
-							v-slot="props"
-						>
-							<div class="has-text-left">{{ formatMoney(props.row.earning) }}</div>
-						</b-table-column>
-
-						<b-table-column
-							field="earning"
-							:label="$t('home.table_balance.e')"
-							header-class="header"
-							v-slot="props"
-						>
-							<div class="has-text-left">{{ formatMoney(props.row.investment) }}</div>
-						</b-table-column>
-
-						<b-table-column
-							field="month"
-							:label="$t('home.table_balance.f')"
-							header-class="header header-center has-text-right"
-							v-slot="props"
-						>
-							<div class="has-text-right has-text-gray">
-								{{
-									store.api.DateTime.fromFormat(props.row.date, 'yyyy-LL')
-										.setLocale($i18n.locale)
-										.setZone(client_timezone_now.value)
-										.toFormat('LLL yyyy')
-								}}
-							</div>
-						</b-table-column>
-					</b-table>
-				</div>
-				<div v-else class="card-content model-balance_detail">
-					<div class="columns reverse-columns">
-						<div class="column">
-							<p class="title has-text-left">
-								{{ $t('balance.title') }} -
-								{{
-									store.api.DateTime.fromUnix(balance_detail_data.date)
-										.setZone(client_timezone_now.value)
-										.toFormat('LLLL yyyy')
-								}}
-							</p>
-						</div>
-						<div class="column is-2 has-text-right">
-							<b-button @click="isTableBalance = true" type="is-light" icon-right="arrow-left" />
-						</div>
-					</div>
-					<p class="subtitle has-text-left">{{ $t('balance.subtitle') }}</p>
-					<div class="box-balance">
-						<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
-							<div class="column balance-text">{{ $t('balance.a') }}</div>
-							<div class="column balance-money is-4">
-								{{ formatMoney(balance_detail_data.available_balance) }}
-							</div>
-						</div>
-						<div class="columns has-text-left">
-							<div class="column balance-text">{{ $t('balance.b') }}</div>
-							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.balance) }}</div>
-						</div>
-						<div class="columns has-text-left">
-							<div class="column balance-text">{{ $t('balance.c') }}</div>
-							<div class="column balance-money is-4">{{ formatMoney(balance_detail_data.earning) }}</div>
-						</div>
-						<div class="columns has-text-left">
-							<div class="column balance-text">{{ $t('balance.d') }}</div>
-							<div class="column balance-money is-4">
-								{{ formatMoney(balance_detail_data.earning_extra) }}
-							</div>
-						</div>
-						<div class="columns has-text-left">
-							<div class="column balance-text">{{ $t('balance.e') }}</div>
-							<div class="column balance-money is-4">
-								{{ formatMoney(balance_detail_data.investment) }}
-							</div>
-						</div>
-						<div class="columns has-text-left">
-							<div class="column balance-text">{{ $t('balance.f') }}</div>
-							<div class="column balance-money is-4">
-								{{ formatMoney(balance_detail_data.withdrawal) }}
-							</div>
-						</div>
-					</div>
-					<div
-						v-for="suscription in balance_detail_data.suscriptions"
-						:key="suscription.id"
-						class="suscription-box"
-					>
-						<div class="columns columns-suscription">
-							<div class="column">
-								<div class="columns has-text-left">
-									<div class="column title">{{ get_name_suscription(suscription.id) }}</div>
-								</div>
-								<div class="columns has-text-left">
-									<div class="column">
-										{{ $t('balance.suscription.a') }}: {{ formatMoney(suscription.investment) }}
-									</div>
-								</div>
-							</div>
-							<div class="column">
-								<div class="columns has-text-left">
-									<div class="column">
-										{{ $t('balance.suscription.b') }}:
-										{{
-											store.api.DateTime.fromUnix(suscription.date_begin)
-												.setZone(client_timezone_now.value)
-												.toFormat('dd LLL yyyy')
-										}}
-									</div>
-								</div>
-								<div class="columns has-text-left">
-									<div class="column">
-										{{ $t('balance.suscription.c') }}:
-										{{
-											store.api.DateTime.fromUnix(suscription.date_end)
-												.setZone(client_timezone_now.value)
-												.toFormat('dd LLL yyyy')
-										}}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div v-if="balance_detail_data.deposits.length" class="deposits">
-						<p class="title has-text-left">{{ $t('balance.deposits.title') }}</p>
-						<b-table :data="balance_detail_data.deposits" sticky-header :mobile-cards="false">
-							<b-table-column
-								field="suscription"
-								:label="$t('balance.deposits.a')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">{{ get_name_suscription(props.row.suscription) }}</div>
-							</b-table-column>
-
-							<b-table-column
-								field="date"
-								:label="$t('balance.deposits.b')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">
-									{{
-										store.api.DateTime.fromUnix(props.row.date)
-											.setZone(client_timezone_now.value)
-											.toFormat('dd LLL yyyy')
-									}}
-								</div>
-							</b-table-column>
-
-							<b-table-column
-								field="money"
-								:label="$t('balance.deposits.c')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
-							</b-table-column>
-
-							<b-table-column
-								field="payment_method"
-								:label="$t('balance.deposits.d')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">{{ L(`payment_method.${props.row.payment_method}`) }}</div>
-							</b-table-column>
-
-							<b-table-column
-								field="reference"
-								:label="$t('balance.deposits.e')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">{{ props.row.reference }}</div>
-							</b-table-column>
-						</b-table>
-					</div>
-					<div v-if="balance_detail_data.withdrawals.length" class="withdrawals">
-						<p class="title has-text-left">{{ $t('balance.withdrawals.title') }}</p>
-						<b-table :data="balance_detail_data.withdrawals" sticky-header :mobile-cards="false">
-							<b-table-column
-								field="date"
-								:label="$t('balance.withdrawals.a')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">
-									{{
-										store.api.DateTime.fromUnix(props.row.date)
-											.setZone(client_timezone_now.value)
-											.toFormat('dd LLL yyyy')
-									}}
-								</div>
-							</b-table-column>
-
-							<b-table-column
-								field="money"
-								:label="$t('balance.withdrawals.b')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">{{ formatMoney(props.row.money) }}</div>
-							</b-table-column>
-
-							<b-table-column
-								field="withdrawal_method"
-								:label="$t('balance.withdrawals.c')"
-								header-class="header"
-								v-slot="props"
-							>
-								<div class="has-text-left">
-									{{ L(`payment_method.${props.row.withdrawal_method}`) }}
-								</div>
-							</b-table-column>
-
-							<b-table-column
-								field="status"
-								:label="$t('balance.withdrawals.d')"
-								header-class="header header-center has-text-center"
-								v-slot="props"
-							>
-								<div class="has-text-center">
-									<i
-										class="fas"
-										:class="[
-											props.row.status ? 'fa-check has-text-success' : 'fa-times has-text-gray',
-										]"
-									></i>
-								</div>
-							</b-table-column>
-						</b-table>
-					</div>
-				</div>
-			</div>
-		</b-modal>
+		<BalanceModal
+			v-model="isOpenBalanceDetailClientModal"
+			:user_name="client_data_now ? formatName(client_data_now) : ''"
+			:user_id="client_data_now ? client_data_now.id : ''"
+		/>
 
 		<b-modal v-model="isOpenWithdrawalsModal" :can-cancel="['x', 'escape']">
 			<div class="card">
 				<div class="card-content model-withdrawals-client">
-					<p class="title">{{ $t('balance.withdrawals.title') }}</p>
+					<p class="title">
+						{{ $t('balance.withdrawals.title') }}
+						{{ client_data_now ? ' - ' + formatName(client_data_now) : '' }}
+					</p>
 					<b-table :data="withdrawals_client_data" sticky-header :mobile-cards="false">
 						<b-table-column
 							field="date"
@@ -639,7 +434,7 @@
 							v-slot="props"
 						>
 							<div class="has-text-left">
-								{{ L(`payment_method.${props.row.withdrawal_method}`) }}
+								{{ $t(`payment_method.${props.row.withdrawal_method}`) }}
 							</div>
 						</b-table-column>
 
@@ -665,7 +460,10 @@
 				<div class="card-content modal-client">
 					<div class="media">
 						<div class="media-content has-text-centered">
-							<p class="title">{{ $t('withdrawal.title') }}</p>
+							<p class="title">
+								{{ $t('withdrawal.title') }}
+								{{ client_data_now ? ' - ' + formatName(client_data_now) : '' }}
+							</p>
 							<section class="form has-text-centered">
 								<div class="columns">
 									<div class="column">
@@ -676,7 +474,7 @@
 													:key="withdrawal_method"
 													:value="withdrawal_method"
 												>
-													{{ L(`payment_method.${withdrawal_method}`) }}
+													{{ $t(`payment_method.${withdrawal_method}`) }}
 												</option>
 											</b-select>
 										</b-field>
@@ -730,7 +528,10 @@
 				<div class="card-content modal-client">
 					<div class="media">
 						<div class="media-content has-text-centered">
-							<p class="title">{{ $t('deposit.title') }}</p>
+							<p class="title">
+								{{ $t('deposit.title') }}
+								{{ client_data_now ? ' - ' + formatName(client_data_now) : '' }}
+							</p>
 							<section class="form has-text-centered">
 								<div class="columns">
 									<div class="column">
@@ -754,7 +555,7 @@
 													:key="deposit_method"
 													:value="deposit_method"
 												>
-													{{ L(`payment_method.${deposit_method}`) }}
+													{{ $t(`payment_method.${deposit_method}`) }}
 												</option>
 											</b-select>
 										</b-field>
@@ -773,9 +574,26 @@
 										</c-input>
 									</div>
 									<div class="column">
+										<c-input v-model="referenceDeposit" :placeholder="$t('deposit.reference')">
+										</c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<b-field :label="$t('deposit.date')">
+											<b-datepicker
+												v-model="dateDeposit"
+												:locale="$i18n.locale"
+												icon="calendar-alt"
+												inline
+											>
+											</b-datepicker>
+										</b-field>
+									</div>
+									<div class="column">
 										<b-field
 											v-if="deposit_method_selected === 'blockchain'"
-											:label="$t('deposit.to_pay')"
+											:label="$t('deposit.method')"
 										>
 											<b-select v-model="deposit_blockchain_currency" expanded>
 												<option
@@ -786,23 +604,6 @@
 													{{ deposit_blockchain.name }}
 												</option>
 											</b-select>
-										</b-field>
-									</div>
-								</div>
-								<div class="columns">
-									<div class="column">
-										<c-input v-model="referenceDeposit" :placeholder="$t('deposit.reference')">
-										</c-input>
-									</div>
-									<div class="column">
-										<b-field :label="$t('deposit.date')">
-											<b-datepicker
-												v-model="dateDeposit"
-												:locale="$i18n.locale"
-												icon="calendar-alt"
-												inline
-											>
-											</b-datepicker>
 										</b-field>
 									</div>
 								</div>
@@ -820,7 +621,13 @@
 											</b-button>
 										</b-field>
 									</div>
-									<div v-if="deposit_method_selected !== 'balance'" class="column is-6">
+									<div
+										v-if="
+											deposit_method_selected !== 'balance' &&
+											deposit_method_selected !== 'bankcheck'
+										"
+										class="column is-6"
+									>
 										{{ $t('admin.url_pay') }}
 										<div class="url-pay">
 											{{ url_pay }}
@@ -852,8 +659,11 @@ import {
 	IBalanceDetail,
 	IWithdrawal,
 } from '../../store';
+import BalanceModal from '../../components/BalanceModal.vue';
 
-@Component
+@Component({
+	components: { BalanceModal },
+})
 export default class Admin extends PageChildBase {
 	private client_data: IClient[] = [];
 	private memberships_data: IMembership[] = [];
@@ -866,7 +676,7 @@ export default class Admin extends PageChildBase {
 	private id_edit_client: string = '';
 	private default_country: string = '';
 
-	private isOpenRecordsClientModal: boolean = false;
+	private isOpenBalanceDetailClientModal: boolean = false;
 	private records_client_data: IRecord[] = [];
 	private balance_detail_data: IBalanceDetail = null as any;
 	private suscriptions_data: ISuscription[] = [];
@@ -900,7 +710,7 @@ export default class Admin extends PageChildBase {
 	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
 		this.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
-	private moneyDepositMin: number = 500;
+	private moneyDepositMin: number = 200;
 	private moneyDepositMax: number = 100000000;
 	private dateDeposit: Date = new Date();
 	private referenceDeposit: string = '';
@@ -936,9 +746,9 @@ export default class Admin extends PageChildBase {
 					this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 						s => s.membershipId === this.deposit_membership_selected,
 					)
-						? 500
+						? 200
 						: this.deposit_suscriptions.find(s => s.membershipId === this.deposit_membership_selected)
-							?.min_money || 500;
+							?.min_money || 200;
 					if (this.moneyDepositMin > this.moneyDepositMax) {
 						this.moneyDepositMax = 100000000;
 					}
@@ -1154,13 +964,9 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private async records_client(id: string) {
+	private async balance_detail_client(id: string) {
 		await this.get_data_client_now(id);
-		this.load_form_api(await this.store.api.records(id), (data: IRecord[]) => {
-			this.records_client_data = data;
-			this.isOpenRecordsClientModal = true;
-			this.isTableBalance = true;
-		});
+		this.isOpenBalanceDetailClientModal = true;
 	}
 
 	private async withdrawal_client(id: string) {
@@ -1188,25 +994,6 @@ export default class Admin extends PageChildBase {
 				});
 			},
 		});
-	}
-
-	private async balance_detail(date: number) {
-		if (typeof date === 'string') {
-			date = this.store.api.DateTime.fromFormat(date, 'yyyy-LL').toSeconds();
-		}
-		const id = this.client_data_now.id;
-		this.load_form_api(await this.store.api.suscriptions(id), (data: ISuscription[]) => {
-			this.suscriptions_data = data;
-		});
-		this.load_form_api(await this.store.api.balance_detail({ id, date }), (data: IBalanceDetail) => {
-			this.balance_detail_data = data;
-			this.isTableBalance = false;
-		});
-	}
-
-	private get_name_suscription(id: string) {
-		return this.memberships_data.find(m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId)
-			?.name;
 	}
 
 	private async open_withdrawal(id: string) {
@@ -1266,7 +1053,7 @@ export default class Admin extends PageChildBase {
 			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 				s => s.membershipId === this.deposit_membership_selected,
 			)
-				? 500
+				? 200
 				: this.deposit_suscriptions[1].min_money;
 			if (this.moneyDepositMin > this.moneyDepositMax) {
 				this.moneyDepositMax = 100000000;
@@ -1309,26 +1096,60 @@ export default class Admin extends PageChildBase {
 @import '../../styles/initial_variables.scss';
 
 .admin {
-	height: 100%;
+	height: calc(100vh - 6rem);
+	overflow-y: scroll;
+	padding-right: 1rem;
+
+	@include mobile {
+		padding-right: 0.5rem !important;
+	}
 
 	.box {
-		padding: 2rem 0;
+		background-color: $box;
+		color: white !important;
 
 		.table-wrapper {
-			height: 48rem;
+			height: calc(100vh - 12rem);
+		}
+
+		.table {
+			background-color: transparent;
+			color: white !important;
 		}
 
 		.header {
 			padding-top: 0.9rem;
 			padding-bottom: 0.9rem;
 
-			color: $gray;
+			color: white !important;
 
 			&:first-child {
+				background: linear-gradient(135deg, #3f84dc, #4086dc) !important;
 				padding-left: 3rem;
 			}
 
+			&:nth-child(2) {
+				background: linear-gradient(135deg, #4086dc, #4189dc) !important;
+			}
+
+			&:nth-child(3) {
+				background: linear-gradient(135deg, #4189dc, #418bdc) !important;
+			}
+
+			&:nth-child(4) {
+				background: linear-gradient(135deg, #418bdc, #428ddc) !important;
+			}
+
+			&:nth-child(5) {
+				background: linear-gradient(135deg, #428ddc, #428edc) !important;
+			}
+
+			&:nth-child(6) {
+				background: linear-gradient(135deg, #428edc, #438fdc) !important;
+			}
+
 			&:last-child {
+				background: linear-gradient(135deg, #438fdc, #4390dc) !important;
 				padding-right: 3rem;
 			}
 
@@ -1432,9 +1253,34 @@ export default class Admin extends PageChildBase {
 			padding: 0;
 		}
 
+		.b-tabs {
+			margin: auto;
+			width: 100%;
+
+			@include mobile {
+				width: 95%;
+			}
+
+			.tabs {
+				li a {
+					color: $gray;
+					border-bottom: none;
+				}
+
+				li.is-active {
+					font-size: 1.5rem;
+					font-weight: bold;
+				}
+			}
+
+			.tab-content {
+				padding-top: 2.5rem;
+			}
+		}
+
 		.form-user {
 			margin: auto;
-			width: 70%;
+			width: 80%;
 
 			.columns:first-child,
 			.columns:last-child {
@@ -1453,107 +1299,6 @@ export default class Admin extends PageChildBase {
 				padding: 1.5rem 1rem;
 				margin: 2rem;
 				width: 60%;
-			}
-		}
-	}
-
-	.model-records-client {
-		.title {
-			font-size: 25px;
-			font-weight: bold;
-		}
-
-		.table-wrapper {
-			overflow-x: hidden;
-			height: 29rem;
-		}
-
-		.header {
-			padding-top: 0.9rem;
-			padding-bottom: 0.9rem;
-			color: $gray;
-
-			&.header-center span {
-				width: 100%;
-			}
-		}
-
-		tbody tr td {
-			padding-top: 0.9rem;
-			padding-bottom: 0.9rem;
-		}
-	}
-
-	.model-balance_detail {
-		@include mobile {
-			.reverse-columns {
-				flex-direction: column-reverse;
-				display: flex;
-			}
-		}
-
-		.title {
-			font-size: 28px;
-			padding-bottom: 2rem;
-		}
-
-		.subtitle {
-			font-size: 20px;
-			padding-bottom: 1rem;
-			margin-bottom: 0;
-		}
-
-		.box-balance {
-			padding: 1rem 2rem;
-			margin-bottom: 2rem;
-
-			.balance-text {
-				font-size: 20px;
-				color: $gray;
-			}
-		}
-
-		.suscription-box {
-			border-top: 1px solid $border;
-
-			&:last-child {
-				border-bottom: 1px solid $border;
-			}
-
-			.columns-suscription {
-				padding: 1rem 1.5rem;
-				color: $gray;
-
-				.title {
-					font-size: 26px;
-					color: $black;
-					padding-bottom: 0.5rem;
-				}
-			}
-		}
-
-		.deposits,
-		.withdrawals {
-			.title {
-				padding: 1rem;
-				margin-top: 1rem;
-				margin-bottom: 0;
-			}
-
-			.table {
-				padding: 0 1.5rem;
-
-				.header {
-					padding-top: 0.9rem;
-					padding-bottom: 0.9rem;
-					color: $gray;
-
-					&.header-center .th-wrap span {
-						&.is-relative {
-							width: 90%;
-						}
-					}
-				}
 			}
 		}
 	}
@@ -1583,6 +1328,10 @@ export default class Admin extends PageChildBase {
 			padding-top: 0.9rem;
 			padding-bottom: 0.9rem;
 		}
+	}
+
+	.dropdown-content {
+		background-color: white !important;
 	}
 }
 </style>

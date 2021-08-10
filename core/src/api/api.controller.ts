@@ -24,6 +24,11 @@ export class ApiController {
 		return await this.apiService.createToken(req.user);
 	}
 
+	@Get('reset_password')
+	public async reset_password(@Query('email') email: string) {
+		return await this.apiService.reset_password(email);
+	}
+
 	@Patch('user')
 	public async update(@Req() req: Request, @Body() data: UpdateDto) {
 		data = new UpdateDto(data);

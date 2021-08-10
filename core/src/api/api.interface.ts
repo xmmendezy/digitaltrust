@@ -32,7 +32,12 @@ interface IUser {
 	readonly paypal_account?: string;
 	readonly stripe_account?: string;
 	readonly coinpayments_account?: string;
+	readonly banck_name?: string;
+	readonly banck_address?: string;
+	readonly banck_account_name?: string;
 	readonly banck_account?: string;
+	readonly banck_routing_name?: string;
+	readonly banck_account_username?: string;
 	readonly ref?: string;
 }
 
