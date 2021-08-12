@@ -169,6 +169,8 @@ class UserDto {
 		this.banck_account = data.banck_account;
 		this.banck_routing_name = data.banck_routing_name;
 		this.banck_account_username = data.banck_account_username;
+		this.banck_swift_code = data.banck_swift_code;
+		this.banck_iban = data.banck_iban;
 		this.can_remove = data instanceof User ? !data.lastDeposit : data.can_remove;
 	}
 
@@ -197,6 +199,8 @@ class UserDto {
 	public banck_account: string;
 	public banck_routing_name: string;
 	public banck_account_username: string;
+	public banck_swift_code: string;
+	public banck_iban: string;
 	public can_remove: boolean;
 }
 
@@ -230,6 +234,8 @@ interface IUpdateDto {
 	banck_account: string;
 	banck_routing_name: string;
 	banck_account_username: string;
+	banck_swift_code: string;
+	banck_iban: string;
 }
 
 class UpdateDto extends BaseDTO {
@@ -252,6 +258,8 @@ class UpdateDto extends BaseDTO {
 		this.banck_account = data.banck_account;
 		this.banck_routing_name = data.banck_routing_name;
 		this.banck_account_username = data.banck_account_username;
+		this.banck_swift_code = data.banck_swift_code;
+		this.banck_iban = data.banck_iban;
 	}
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
@@ -298,6 +306,8 @@ class UpdateDto extends BaseDTO {
 	banck_account!: string;
 	banck_routing_name!: string;
 	banck_account_username!: string;
+	banck_swift_code!: string;
+	banck_iban!: string;
 }
 
 interface IRefer {

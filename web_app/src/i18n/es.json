@@ -81,6 +81,10 @@
 			"e": "Inversión",
 			"f": "Mes"
 		},
+		"graphic_balance": {
+			"title": "Ganancias en el tiempo",
+			"a": "Ganancias"
+		},
 		"refer": {
 			"a": "Invita a tus socios",
 			"b": "Comparte tu enlace de referido y recibo un beneficio del 7% extra por cada suscripción de su socio, y ademas un 3% por cada depósito adicional.",
@@ -116,7 +120,9 @@
 			"h": "Nombre de cuenta",
 			"i": "Número de cuenta",
 			"j": "Número de ruta bancaria",
-			"k": "Beneficiario de la cuenta"
+			"k": "Beneficiario de la cuenta",
+			"l": "Código Swift",
+			"m": "IBAN"
 		},
 		"save": "Guardar",
 		"delete": "Eliminar",

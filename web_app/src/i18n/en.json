@@ -81,6 +81,10 @@
 			"e": "Investment",
 			"f": "Month"
 		},
+		"graphic_balance": {
+			"title": "Earnings over time",
+			"a": "Earnings"
+		},
 		"refer": {
 			"a": "Invite your friends",
 			"b": "Share your referral link and I receive a profit of 7% extra for each subscription of your friend, and also 3% for each additional deposit.",
@@ -116,7 +120,9 @@
 			"h": "Account name",
 			"i": "Account number",
 			"j": "Routing number",
-			"k": "Name of the account beneficiary"
+			"k": "Name of the account beneficiary",
+			"l": "Swift Code",
+			"m": "IBAN"
 		},
 		"save": "Save",
 		"delete": "Remove",

@@ -99,8 +99,6 @@
 											:placeholder="$t('setting.accounts.b')"
 										></c-input>
 									</div>
-								</div>
-								<div class="columns">
 									<div class="column">
 										<c-input
 											class="md"
@@ -119,17 +117,12 @@
 											:placeholder="$t('setting.accounts.d')"
 										></c-input>
 									</div>
+									<div class="column"></div>
 								</div>
-							</section>
-						</div>
 
-						<div class="is-divider-vertical is-hidden-mobile"></div>
-
-						<div class="column">
-							<section class="form-user has-text-centered">
-								<div class="columns is-paddingless">
+								<div class="columns">
 									<div class="column has-text-left">
-										<h3 class="title">{{ $t('setting.accounts.e') }}</h3>
+										<h3 class="title has-text-weight-bold">{{ $t('setting.accounts.e') }}</h3>
 									</div>
 									<div class="column is-hidden-mobile"></div>
 								</div>
@@ -142,8 +135,6 @@
 											:placeholder="$t('setting.accounts.f')"
 										></c-input>
 									</div>
-								</div>
-								<div class="columns">
 									<div class="column">
 										<c-input
 											class="md"
@@ -162,8 +153,6 @@
 											:placeholder="$t('setting.accounts.h')"
 										></c-input>
 									</div>
-								</div>
-								<div class="columns">
 									<div class="column">
 										<c-input
 											class="md"
@@ -182,14 +171,30 @@
 											:placeholder="$t('setting.accounts.j')"
 										></c-input>
 									</div>
-								</div>
-								<div class="columns">
 									<div class="column">
 										<c-input
 											class="md"
 											v-model="update_form.banck_account_username"
 											@keyup.enter.native="update()"
 											:placeholder="$t('setting.accounts.k')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_swift_code"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.l')"
+										></c-input>
+									</div>
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_iban"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.m')"
 										></c-input>
 									</div>
 								</div>

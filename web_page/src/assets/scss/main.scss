@@ -163,7 +163,7 @@ $link-focus-border: $primary;
 // Footer
 $footer-background-color: $primary;
 $footer-color: $white;
-$footer-padding: 7rem 7rem;
+$footer-padding: 3rem 5rem;
 
 @import 'bulma/bulma.sass';
 @import 'bulma-accordion/src/sass/index.sass';
@@ -550,7 +550,7 @@ body {
 
 .footer {
 	@include mobile {
-		padding: 7rem 3rem;
+		padding: 3rem 3rem;
 	}
 
 	.title-page {

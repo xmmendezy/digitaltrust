@@ -48,6 +48,8 @@ export class User extends BaseEntity implements IUser {
 			this.banck_account = data.banck_account || '';
 			this.banck_routing_name = data.banck_routing_name || '';
 			this.banck_account_username = data.banck_account_username || '';
+			this.banck_swift_code = data.banck_swift_code || '';
+			this.banck_iban = data.banck_iban || '';
 			this.ref = data.ref;
 		}
 	}
@@ -204,6 +206,16 @@ export class User extends BaseEntity implements IUser {
 		default: '',
 	})
 	public banck_account_username: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_swift_code: string;
+
+	@Column({
+		default: '',
+	})
+	public banck_iban: string;
 
 	@Column({
 		default: '',

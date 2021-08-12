@@ -11,7 +11,15 @@
 					</p>
 					<b-steps v-model="DepositStep">
 						<b-step-item step="1" :label="$t('deposit.step_1')" id="driver-guide-a-2" :clickable="false">
-							<div v-if="deposit_suscription.length" class="prices">
+							<div class="buttons">
+								<div v-for="d in deposit_suscription" :key="d.id" class="button box-membership">
+									<div class="columns has-text-left">
+										<div class="column">Hola</div>
+										<div class="column is-7">Hola</div>
+									</div>
+								</div>
+							</div>
+							<!-- <div v-if="deposit_suscription.length" class="prices">
 								<div class="columns">
 									<div class="column">
 										<div
@@ -178,7 +186,7 @@
 									</div>
 									<div class="column is-2"></div>
 								</div>
-							</div>
+							</div> -->
 						</b-step-item>
 
 						<b-step-item step="2" :label="$t('deposit.step_2')" id="driver-guide-a-4" :clickable="false">
@@ -374,6 +382,7 @@ export default class Home extends PageChildBase {
 	private has_button_payment: boolean = false;
 	private deposit_suscription: {
 		name: string;
+		description: string;
 		months: number;
 		min_money: number;
 		interest: string;
@@ -405,12 +414,14 @@ export default class Home extends PageChildBase {
 					min_money: m.money_a,
 					money_a: m.money_a,
 					money_b: m.money_b,
-					interest: (m.interest * 100).toFixed(0),
+					interest: (m.interest * 100).toFixed(1),
 					membershipId: m.id,
 					suscriptionId: suscription?.id || '',
 					investment: suscription?.investment || 0,
+					description: this.$i18n.locale === 'en' ? m.description_en : m.description_es,
 				};
 			});
+			console.log(this.deposit_suscription);
 			this.deposit_membership_selected = this.deposit_suscription[1].membershipId;
 			if (this.balance_detail_data.available_balance) {
 				this.deposit_methods = ['balance', 'paypal', 'stripe', 'blockchain'];
@@ -541,6 +552,18 @@ export default class Home extends PageChildBase {
 			.b-radio.radio input[type='radio']:checked + .check {
 				&:before {
 					background-color: white !important;
+				}
+			}
+
+			.box-membership {
+				border: none !important;
+				background-image: linear-gradient(150deg, #611bf7, #8b61e4) !important;
+				color: white !important;
+				padding: 3rem 2rem;
+				margin: 2rem;
+
+				.title {
+					color: white !important;
 				}
 			}
 

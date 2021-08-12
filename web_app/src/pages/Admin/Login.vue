@@ -9,6 +9,7 @@
 						<section class="form has-text-centered">
 							<b-field>
 								<c-input
+									class="md"
 									ref="input"
 									v-model="login_form.email"
 									@keyup.enter.native="login()"
@@ -17,6 +18,7 @@
 							</b-field>
 							<b-field>
 								<c-input
+									class="md"
 									v-model="login_form.password"
 									@keyup.enter.native="login()"
 									:placeholder="$t('login.c')"
@@ -151,34 +153,7 @@ export default class Login extends PageChildBase {
 					}
 
 					.c-input {
-						.vfl-label {
-							color: white !important;
-						}
-
-						.vfl-label + input {
-							border-bottom: 2px solid white;
-						}
-
-						.fas {
-							color: white !important;
-						}
-
-						.input {
-							color: white !important;
-							background-color: transparent !important;
-
-							&::placeholder {
-								color: white !important;
-							}
-
-							&:-ms-input-placeholder {
-								color: white !important;
-							}
-
-							&::-ms-input-placeholder {
-								color: white !important;
-							}
-						}
+						margin: 3rem 0;
 					}
 
 					.button.is-white {

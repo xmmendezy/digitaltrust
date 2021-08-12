@@ -67,6 +67,7 @@ export default class ApiStore extends VuexModule {
 			records: `${ApiStore.config.Api}/records`,
 			balance: `${ApiStore.config.Api}/balance`,
 			balance_detail: `${ApiStore.config.Api}/balance_detail`,
+			balance_graphic: `${ApiStore.config.Api}/balance_graphic`,
 			deposit: `${ApiStore.config.Api}/deposit`,
 			withdrawal: `${ApiStore.config.Api}/withdrawal`,
 			withdrawals_alert: `${ApiStore.config.Api}/withdrawals_alert`,
@@ -559,6 +560,25 @@ export default class ApiStore extends VuexModule {
 	public async balance_detail(params: { id?: string }): Promise<IBalanceDetail> {
 		return await ApiStore.http
 			.get(`${this.url.balance_detail}`, { params, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async balance_graphic(params: { id?: string }): Promise<{
+		labels: number[];
+		data: number[];
+	}> {
+		return await ApiStore.http
+			.get(`${this.url.balance_graphic}`, { params, headers: this.headers })
 			.then(response => {
 				const error = get_errors(response);
 				if (error) {

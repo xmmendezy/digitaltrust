@@ -203,14 +203,14 @@
 										<c-input
 											ref="input"
 											v-model="edit_client_form.firstname"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.b')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.lastname"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.c')"
 										></c-input>
 									</div>
@@ -219,7 +219,7 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.email"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.d')"
 										></c-input>
 									</div>
@@ -228,7 +228,7 @@
 											v-model="edit_client_form.telephone"
 											:defaultCountry="default_country"
 											:autoDefaultCountry="false"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.e')"
 											@validate="validateNumber"
 											@country-changed="changeCountry"
@@ -239,14 +239,14 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.state"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.f')"
 										></c-input>
 									</div>
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.address"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.g')"
 										></c-input>
 									</div>
@@ -255,7 +255,7 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.password"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.h')"
 											password
 										></c-input>
@@ -263,7 +263,7 @@
 									<div class="column">
 										<c-input
 											v-model="edit_client_form.password_confirm"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.i')"
 											password
 										></c-input>
@@ -280,16 +280,14 @@
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.paypal_account"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.b')"
 												></c-input>
 											</div>
-										</div>
-										<div class="columns">
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.stripe_account"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.c')"
 												></c-input>
 											</div>
@@ -298,21 +296,18 @@
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.coinpayments_account"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.d')"
 												></c-input>
 											</div>
+											<div class="column"></div>
 										</div>
-									</section>
-								</div>
 
-								<div class="is-divider-vertical is-hidden-mobile"></div>
-
-								<div class="column">
-									<section class="form-user has-text-centered">
-										<div class="columns is-paddingless">
+										<div class="columns">
 											<div class="column has-text-left">
-												<h3 class="title">{{ $t('setting.accounts.e') }}</h3>
+												<h3 class="title has-text-weight-bold">
+													{{ $t('setting.accounts.e') }}
+												</h3>
 											</div>
 											<div class="column is-hidden-mobile"></div>
 										</div>
@@ -320,16 +315,14 @@
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.banck_name"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.f')"
 												></c-input>
 											</div>
-										</div>
-										<div class="columns">
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.banck_address"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.g')"
 												></c-input>
 											</div>
@@ -338,16 +331,14 @@
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.banck_account_name"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.h')"
 												></c-input>
 											</div>
-										</div>
-										<div class="columns">
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.banck_account"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.i')"
 												></c-input>
 											</div>
@@ -356,17 +347,31 @@
 											<div class="column">
 												<c-input
 													v-model="edit_client_form.banck_routing_name"
-													@keyup.enter.native="update()"
+													@keyup.enter.native="update_client()"
 													:placeholder="$t('setting.accounts.j')"
+												></c-input>
+											</div>
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_account_username"
+													@keyup.enter.native="update_client()"
+													:placeholder="$t('setting.accounts.k')"
 												></c-input>
 											</div>
 										</div>
 										<div class="columns">
 											<div class="column">
 												<c-input
-													v-model="edit_client_form.banck_account_username"
-													@keyup.enter.native="update()"
-													:placeholder="$t('setting.accounts.k')"
+													v-model="edit_client_form.banck_swift_code"
+													@keyup.enter.native="update_client()"
+													:placeholder="$t('setting.accounts.l')"
+												></c-input>
+											</div>
+											<div class="column">
+												<c-input
+													v-model="edit_client_form.banck_iban"
+													@keyup.enter.native="update_client()"
+													:placeholder="$t('setting.accounts.m')"
 												></c-input>
 											</div>
 										</div>
@@ -542,7 +547,7 @@
 													:key="deposit_suscription.membershipId"
 													:value="deposit_suscription.membershipId"
 												>
-													{{ deposit_suscription.name }}
+													{{ deposit_suscription.name }} {{ deposit_suscription.interest }}%
 												</option>
 											</b-select>
 										</b-field>
@@ -1040,7 +1045,7 @@ export default class Admin extends PageChildBase {
 					min_money: m.money_a,
 					money_a: m.money_a,
 					money_b: m.money_b,
-					interest: (m.interest * 100).toFixed(0),
+					interest: (m.interest * 100).toFixed(1),
 					membershipId: m.id,
 					suscriptionId: suscription?.id || '',
 					investment: suscription?.investment || 0,

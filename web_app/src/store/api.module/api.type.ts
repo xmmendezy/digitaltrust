@@ -38,6 +38,8 @@ interface IUser {
 	banck_account: string;
 	banck_routing_name: string;
 	banck_account_username: string;
+	banck_swift_code: string;
+	banck_iban: string;
 	can_remove: boolean;
 	created: string | Date;
 }
@@ -65,6 +67,8 @@ class UpdateDto extends ClassBase {
 			this.banck_account = data.banck_account;
 			this.banck_routing_name = data.banck_routing_name;
 			this.banck_account_username = data.banck_account_username;
+			this.banck_swift_code = data.banck_swift_code;
+			this.banck_iban = data.banck_iban;
 			this.can_remove = data.can_remove;
 		} else {
 			this.firstname = '';
@@ -85,6 +89,8 @@ class UpdateDto extends ClassBase {
 			this.banck_account = '';
 			this.banck_routing_name = '';
 			this.banck_account_username = '';
+			this.banck_swift_code = '';
+			this.banck_iban = '';
 			this.can_remove = false;
 		}
 	}
@@ -140,6 +146,8 @@ class UpdateDto extends ClassBase {
 	banck_account!: string;
 	banck_routing_name!: string;
 	banck_account_username!: string;
+	banck_swift_code!: string;
+	banck_iban!: string;
 
 	can_remove!: boolean;
 
@@ -320,6 +328,8 @@ interface IRefer {
 interface IMembership {
 	id: string;
 	name: string;
+	description_es: string;
+	description_en: string;
 	money_a: number;
 	money_b: number;
 	months: number;

@@ -1,31 +1,37 @@
-<script>
+<script lang="ts">
+import PageChildBase from '../utils/page_child_base.utils';
+import { Component, Watch } from 'vue-property-decorator';
 import { Line } from 'vue-chartjs';
+import { Decimal } from 'decimal.js';
 
-export default {
+@Component({
 	extends: Line,
-	props: ['chartdata', 'options'],
-	mounted() {
+})
+export default class Chart extends PageChildBase {
+	public renderChart!: (chartData: Chart.ChartData, options?: Chart.ChartOptions) => void;
+
+	@Watch('$i18n.locale', { immediate: true })
+	public changeLocale() {
+		this.renderComponent();
+	}
+
+	public mounted() {
+		this.renderComponent();
+	}
+
+	public async renderComponent() {
+		const data = await this.store.api.balance_graphic({});
 		this.renderChart(
 			{
-				labels: [
-					'Enero',
-					'Febrero',
-					'Marzo',
-					'Abril',
-					'Mayo',
-					'Junio',
-					'Julio',
-					'Agosto',
-					'Septiembre',
-					'Octubre',
-				],
-
+				labels: data.labels.map(d =>
+					this.store.api.DateTime.fromUnix(d).setLocale(this.$i18n.locale).toFormat('LLLL-yyyy'),
+				),
 				datasets: [
 					{
-						label: 'Ganancia',
+						label: this.$t('home.graphic_balance.a') as string,
 						borderColor: '#fff',
 						fill: false,
-						data: [40, 20, 25, 30, 35, 35, 35, 40, 25, 30],
+						data: data.data.map(d => parseFloat(new Decimal(d).toFixed(2))),
 					},
 				],
 			},
@@ -39,7 +45,7 @@ export default {
 					display: true,
 					fontColor: '#fff',
 					fontSize: 20,
-					text: 'Ganancias en el tiempo',
+					text: this.$t('home.graphic_balance.title') as string,
 				},
 				scales: {
 					yAxes: [
@@ -60,8 +66,8 @@ export default {
 				},
 			},
 		);
-	},
-};
+	}
+}
 </script>
 
 <style></style>

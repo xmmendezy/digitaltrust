@@ -38,6 +38,8 @@ interface IUser {
 	readonly banck_account?: string;
 	readonly banck_routing_name?: string;
 	readonly banck_account_username?: string;
+	readonly banck_swift_code?: string;
+	readonly banck_iban?: string;
 	readonly ref?: string;
 }
 

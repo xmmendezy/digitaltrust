@@ -19,7 +19,7 @@
 									{{ formatMoney(balance_detail_data.balance) }}
 								</div>
 							</div>
-							<div class="columns has-text-left">
+							<!-- <div class="columns has-text-left">
 								<div class="column balance-text">{{ $t('balance.c') }}</div>
 								<div class="column balance-money is-4">
 									{{ formatMoney(balance_detail_data.earning) }}
@@ -30,19 +30,19 @@
 								<div class="column balance-money is-4">
 									{{ formatMoney(balance_detail_data.earning_extra) }}
 								</div>
-							</div>
+							</div> -->
 							<div class="columns has-text-left">
 								<div class="column balance-text">{{ $t('balance.e') }}</div>
 								<div class="column balance-money is-4">
 									{{ formatMoney(balance_detail_data.investment) }}
 								</div>
 							</div>
-							<div class="columns has-text-left">
+							<!-- <div class="columns has-text-left">
 								<div class="column balance-text">{{ $t('balance.f') }}</div>
 								<div class="column balance-money is-4">
 									{{ formatMoney(balance_detail_data.withdrawal) }}
 								</div>
-							</div>
+							</div> -->
 						</div>
 						<div
 							v-for="suscription in balance_detail_data.suscriptions"
@@ -228,10 +228,10 @@ export default class BalanceModal extends PageChildBase {
 	}
 
 	private get_name_suscription(id: string) {
-		return (
-			this.memberships_data.find(m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId)
-				?.name || '---'
+		const membership = this.memberships_data.find(
+			m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId,
 		);
+		return membership ? membership.name + ' ' + (membership.interest * 100).toFixed(1) + '%' : '---';
 	}
 }
 </script>

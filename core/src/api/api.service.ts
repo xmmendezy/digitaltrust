@@ -27,7 +27,7 @@ import {
 	WithdrawalDto,
 	SupportPaymentDto,
 } from './api.dto';
-import { IRecord, PaymentMethod, WithdrawalMethod } from './api.interface';
+import { IRecord, PaymentMethod, UserRole, WithdrawalMethod } from './api.interface';
 
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
@@ -170,6 +170,8 @@ export class ApiService {
 			'banck_account',
 			'banck_routing_name',
 			'banck_account_username',
+			'banck_swift_code',
+			'banck_iban',
 		];
 		const errors: string[] = [];
 		for (const key in data) {
@@ -274,11 +276,27 @@ export class ApiService {
 		await User.createQueryBuilder().delete().where('id = :id', { id }).execute();
 	}
 
-	public async memberships(): Promise<Membership[]> {
-		return await Membership.createQueryBuilder()
-			.where('is_active = :is_active', { is_active: true })
-			.orderBy('money_a', 'ASC')
-			.getMany();
+	public async memberships(user: User): Promise<Membership[]> {
+		if (user.role === UserRole.ADMIN) {
+			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
+		} else {
+			const memberships: Membership[] = await Membership.createQueryBuilder()
+				.where('is_active = :is_active', { is_active: false })
+				.andWhere('id in (:...ids)', {
+					ids: (
+						await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
+					).map((s) => s.membershipId),
+				})
+				.orderBy('interest', 'ASC')
+				.getMany();
+			memberships.push(
+				...(await Membership.createQueryBuilder()
+					.where('is_active = :is_active', { is_active: true })
+					.orderBy('interest', 'ASC')
+					.getMany()),
+			);
+			return memberships;
+		}
 	}
 
 	public async suscriptions(user: User): Promise<Suscription[]> {
@@ -665,7 +683,6 @@ export class ApiService {
 					status: true,
 				};
 			});
-
 			balance.moves.push(
 				...(
 					await Withdrawal.createQueryBuilder()
@@ -689,6 +706,33 @@ export class ApiService {
 		}
 		balance.moves.sort((a, b) => b.date - a.date);
 		return balance;
+	}
+
+	public async balance_graphic(user: User): Promise<{
+		labels: number[];
+		data: number[];
+	}> {
+		const data: {
+			labels: number[];
+			data: number[];
+		} = {
+			labels: [],
+			data: [],
+		};
+		await this.records(user);
+		const records = await Record.createQueryBuilder('record')
+			.select('record.date')
+			.addSelect('record.balance')
+			.where('"userId" = :id', {
+				id: user.id,
+			})
+			.orderBy('date', 'ASC')
+			.getMany();
+		for (const record of records) {
+			data.labels.push(record.date);
+			data.data.push(record.balance);
+		}
+		return data;
 	}
 
 	public async record(
