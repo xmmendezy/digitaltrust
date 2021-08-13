@@ -70,3 +70,13 @@
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: $box;
 }
+
+.modal-content {
+	@include tablet {
+		margin-left: 7.5rem !important;
+	}
+}
+
+.is-circular {
+	border-radius: 50%;
+}

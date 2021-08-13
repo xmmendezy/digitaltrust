@@ -19,30 +19,12 @@
 									{{ formatMoney(balance_detail_data.balance) }}
 								</div>
 							</div>
-							<!-- <div class="columns has-text-left">
-								<div class="column balance-text">{{ $t('balance.c') }}</div>
-								<div class="column balance-money is-4">
-									{{ formatMoney(balance_detail_data.earning) }}
-								</div>
-							</div>
-							<div class="columns has-text-left">
-								<div class="column balance-text">{{ $t('balance.d') }}</div>
-								<div class="column balance-money is-4">
-									{{ formatMoney(balance_detail_data.earning_extra) }}
-								</div>
-							</div> -->
 							<div class="columns has-text-left">
 								<div class="column balance-text">{{ $t('balance.e') }}</div>
 								<div class="column balance-money is-4">
 									{{ formatMoney(balance_detail_data.investment) }}
 								</div>
 							</div>
-							<!-- <div class="columns has-text-left">
-								<div class="column balance-text">{{ $t('balance.f') }}</div>
-								<div class="column balance-money is-4">
-									{{ formatMoney(balance_detail_data.withdrawal) }}
-								</div>
-							</div> -->
 						</div>
 						<div
 							v-for="suscription in balance_detail_data.suscriptions"
@@ -65,9 +47,9 @@
 										<div class="column">
 											{{ $t('balance.suscription.b') }}:
 											{{
-												store.api.DateTime.fromUnix(suscription.date_begin).toFormat(
-													'dd LLL yyyy',
-												)
+												store.api.DateTime.fromUnix(suscription.date_begin)
+													.setLocale($i18n.locale)
+													.toFormat('dd LLL yyyy')
 											}}
 										</div>
 									</div>
@@ -75,9 +57,9 @@
 										<div class="column">
 											{{ $t('balance.suscription.c') }}:
 											{{
-												store.api.DateTime.fromUnix(suscription.date_end).toFormat(
-													'dd LLL yyyy',
-												)
+												store.api.DateTime.fromUnix(suscription.date_end)
+													.setLocale($i18n.locale)
+													.toFormat('dd LLL yyyy')
 											}}
 										</div>
 									</div>
@@ -112,7 +94,11 @@
 								v-slot="props"
 							>
 								<div class="has-text-left">
-									{{ store.api.DateTime.fromUnix(props.row.date).toFormat('dd LLL yyyy') }}
+									{{
+										store.api.DateTime.fromUnix(props.row.date)
+											.setLocale($i18n.locale)
+											.toFormat('dd LLL yyyy')
+									}}
 								</div>
 							</b-table-column>
 
@@ -157,7 +143,7 @@
 
 							<b-table-column
 								field="status"
-								:label="$t('balance.moves.f')"
+								:label="$t('balance.moves.g')"
 								header-class="header"
 								v-slot="props"
 							>

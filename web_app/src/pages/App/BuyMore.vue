@@ -10,196 +10,46 @@
 						{{ $t('deposit.subtitle') }}
 					</p>
 					<b-steps v-model="DepositStep">
-						<b-step-item step="1" :label="$t('deposit.step_1')" id="driver-guide-a-2" :clickable="false">
-							<div class="buttons">
-								<div v-for="d in deposit_suscription" :key="d.id" class="button box-membership">
-									<div class="columns has-text-left">
-										<div class="column">Hola</div>
-										<div class="column is-7">Hola</div>
+						<b-step-item step="1" :label="$t('deposit.step_1')" :clickable="false">
+							<div class="buttons is-centered prices">
+								<div
+									v-for="membership in deposit_memberships"
+									:key="membership.id"
+									class="button box-membership"
+									:class="{ 'box-suscription': !!membership.suscriptionId }"
+								>
+									<b-tooltip
+										:label="membership.description"
+										type="is-primary is-light"
+										position="is-bottom"
+										multilined
+									>
+										<p class="title">
+											{{ get_name_membership(membership.id) }}
+										</p>
+									</b-tooltip>
+
+									<div>
+										<b-button
+											class="is-circular button-add"
+											icon-right="plus"
+											@click="deposit_membership_selected = membership.id"
+										/>
+									</div>
+
+									<div v-if="deposit_membership_selected === membership.id">
+										{{ membership.min_money }}
 									</div>
 								</div>
 							</div>
-							<!-- <div v-if="deposit_suscription.length" class="prices">
-								<div class="columns">
-									<div class="column">
-										<div
-											class="card"
-											:class="{
-												'price-selected':
-													deposit_membership_selected === deposit_suscription[0].membershipId,
-											}"
-											@click="
-												() => {
-													deposit_membership_selected = deposit_suscription[0].membershipId;
-													moveNext();
-												}
-											"
-										>
-											<p class="price-title title-1">
-												{{ deposit_suscription[0].name }}
-											</p>
-											<div v-if="!deposit_suscription[0].suscriptionId">
-												<i class="fas fa-plus-circle"></i>
-											</div>
-											<ul class="has-text-left has-text-gray">
-												<li v-if="deposit_suscription[0].suscriptionId">
-													{{
-														$tc(
-															'deposit.investment_count',
-															formatMoney(deposit_suscription[0].investment),
-														)
-													}}
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="column">
-										<div
-											class="card"
-											:class="{
-												'price-selected':
-													deposit_membership_selected === deposit_suscription[1].membershipId,
-											}"
-											@click="
-												() => {
-													deposit_membership_selected = deposit_suscription[1].membershipId;
-													moveNext();
-												}
-											"
-										>
-											<p class="price-title title-2">
-												{{ deposit_suscription[1].name }}
-											</p>
-											<div v-if="!deposit_suscription[1].suscriptionId">
-												<i class="fas fa-plus-circle"></i>
-											</div>
-											<ul class="has-text-left has-text-gray">
-												<li v-if="deposit_suscription[1].suscriptionId">
-													{{
-														$tc(
-															'deposit.investment_count',
-															formatMoney(deposit_suscription[1].investment),
-														)
-													}}
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="column">
-										<div
-											class="card"
-											:class="{
-												'price-selected':
-													deposit_membership_selected === deposit_suscription[2].membershipId,
-											}"
-											@click="
-												() => {
-													deposit_membership_selected = deposit_suscription[2].membershipId;
-													moveNext();
-												}
-											"
-										>
-											<p class="price-title title-3">
-												{{ deposit_suscription[2].name }}
-											</p>
-											<div v-if="!deposit_suscription[2].suscriptionId">
-												<i class="fas fa-plus-circle"></i>
-											</div>
-											<ul class="has-text-left has-text-gray">
-												<li v-if="deposit_suscription[2].suscriptionId">
-													{{
-														$tc(
-															'deposit.investment_count',
-															formatMoney(deposit_suscription[2].investment),
-														)
-													}}
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="columns">
-									<div class="column is-2"></div>
-									<div class="column">
-										<div
-											class="card"
-											:class="{
-												'price-selected':
-													deposit_membership_selected === deposit_suscription[3].membershipId,
-											}"
-											@click="
-												() => {
-													deposit_membership_selected = deposit_suscription[3].membershipId;
-													moveNext();
-												}
-											"
-										>
-											<p class="price-title title-4">
-												{{ deposit_suscription[3].name }}
-											</p>
-											<div v-if="!deposit_suscription[3].suscriptionId">
-												<i class="fas fa-plus-circle"></i>
-											</div>
-											<ul class="has-text-left has-text-gray">
-												<li v-if="deposit_suscription[3].suscriptionId">
-													{{
-														$tc(
-															'deposit.investment_count',
-															formatMoney(deposit_suscription[3].investment),
-														)
-													}}
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="column">
-										<div
-											class="card"
-											:class="{
-												'price-selected':
-													deposit_membership_selected === deposit_suscription[4].membershipId,
-											}"
-											@click="
-												() => {
-													deposit_membership_selected = deposit_suscription[4].membershipId;
-													moveNext();
-												}
-											"
-										>
-											<p class="price-title title-4">
-												{{ deposit_suscription[4].name }}
-											</p>
-											<div v-if="!deposit_suscription[4].suscriptionId">
-												<i class="fas fa-plus-circle"></i>
-											</div>
-											<ul class="has-text-left has-text-gray">
-												<li v-if="deposit_suscription[4].suscriptionId">
-													{{
-														$tc(
-															'deposit.investment_count',
-															formatMoney(deposit_suscription[4].investment),
-														)
-													}}
-												</li>
-											</ul>
-										</div>
-									</div>
-									<div class="column is-2"></div>
-								</div>
-							</div> -->
 						</b-step-item>
 
-						<b-step-item step="2" :label="$t('deposit.step_2')" id="driver-guide-a-4" :clickable="false">
+						<b-step-item step="2" :label="$t('deposit.step_2')" :clickable="false">
 							<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
 								<div class="columns columns-deposit">
 									<div
 										class="column title has-text-left"
-										@click="
-											() => {
-												deposit_method_selected = deposit_method;
-												moveNext();
-											}
-										"
+										@click="deposit_method_selected = deposit_method"
 									>
 										{{ $t(`payment_method.${deposit_method}`) }}
 									</div>
@@ -207,7 +57,6 @@
 										<b-radio
 											v-model="deposit_method_selected"
 											:native-value="deposit_method"
-											@input="moveNext()"
 										></b-radio>
 									</div>
 								</div>
@@ -227,12 +76,9 @@
 									{{ $t('deposit.description') }}
 								</div>
 								<c-input
-									id="driver-guide-a-6"
 									v-model="moneyDeposit"
 									:placeholder="$t('deposit.money')"
 									type="number"
-									:max="moneyDepositMax"
-									:min="moneyDepositMin"
 									icon="fa-dollar-sign"
 								>
 								</c-input>
@@ -250,8 +96,6 @@
 										v-model="moneyDeposit"
 										:placeholder="$t('deposit.money')"
 										type="number"
-										:max="moneyDepositMax"
-										:min="moneyDepositMin"
 										icon="fa-dollar-sign"
 									>
 									</c-input>
@@ -324,16 +168,10 @@
 							<b-button
 								v-if="DepositStep === 0 || DepositStep === 1"
 								outlined
-								id="driver-guide-a-3"
 								type="is-primary"
 								icon-pack="fas"
 								icon-right="chevron-right"
-								@click.prevent="
-									() => {
-										next.action();
-										moveNext();
-									}
-								"
+								@click.prevent="next.action()"
 							>
 								{{ $t('helper.next') }}
 							</b-button>
@@ -380,49 +218,31 @@ export default class Home extends PageChildBase {
 
 	private DepositStep: number = 0;
 	private has_button_payment: boolean = false;
-	private deposit_suscription: {
+	private deposit_memberships: {
+		id: string;
 		name: string;
 		description: string;
 		months: number;
 		min_money: number;
 		interest: string;
-		membershipId: string;
 		suscriptionId: string;
 		investment: number;
 	}[] = [];
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
-	private moneyDepositMin: number = 200;
-	private moneyDepositMax: number = 100000000;
+	private moneyDepositAvailable: number = 0;
 
 	public async created() {
 		await super.created();
 		await this.get_memberships();
 		this.load_form_api(await this.store.api.balance_detail({ id: '' }), async (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
-			this.deposit_suscription = this.memberships_data.map(m => {
-				const suscription = this.balance_detail_data.suscriptions.find(s => s.membershipId === m.id);
-				return {
-					name: m.name,
-					months: m.months,
-					min_money: m.money_a,
-					money_a: m.money_a,
-					money_b: m.money_b,
-					interest: (m.interest * 100).toFixed(1),
-					membershipId: m.id,
-					suscriptionId: suscription?.id || '',
-					investment: suscription?.investment || 0,
-					description: this.$i18n.locale === 'en' ? m.description_en : m.description_es,
-				};
-			});
-			console.log(this.deposit_suscription);
-			this.deposit_membership_selected = this.deposit_suscription[1].membershipId;
 			if (this.balance_detail_data.available_balance) {
 				this.deposit_methods = ['balance', 'paypal', 'stripe', 'blockchain'];
 				this.deposit_method_selected = 'balance';
@@ -432,20 +252,25 @@ export default class Home extends PageChildBase {
 			}
 			this.DepositStep = 0;
 			this.moneyDeposit = 0;
-			this.moneyDepositMax = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
-			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
-				s => s.membershipId === this.deposit_membership_selected,
-			)
-				? 200
-				: this.deposit_suscription[1].min_money;
-			if (this.moneyDepositMin > this.moneyDepositMax) {
-				this.moneyDepositMax = 100000000;
-			}
+			this.moneyDepositAvailable = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
+			this.deposit_memberships = this.memberships_data.map(m => {
+				const suscription = this.balance_detail_data.suscriptions.find(s => s.membershipId === m.id);
+				return {
+					id: m.id,
+					name: m.name,
+					months: m.months,
+					money_a: m.money_a,
+					money_b: m.money_b,
+					min_money: suscription?.id ? 100 : m.money_a,
+					interest: (m.interest * 100).toFixed(1),
+					suscriptionId: suscription?.id || '',
+					investment: suscription?.investment || 0,
+					description: this.$i18n.locale === 'en' ? m.description_en : m.description_es,
+				};
+			});
+			console.log(this.deposit_memberships);
 			this.has_button_payment = false;
-			if (this.moveNext) {
-				await this.sleep(250);
-				this.moveNext();
-			}
+			await this.sleep(250);
 		});
 	}
 
@@ -460,9 +285,10 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	private moveNext: () => void = () => {
-		0;
-	};
+	private get_name_membership(id: string) {
+		const membership = this.deposit_memberships.find(s => s.id === id);
+		return membership ? membership.name + ' ' + membership.interest + '%' : '---';
+	}
 }
 </script>
 
@@ -479,20 +305,14 @@ export default class Home extends PageChildBase {
 	}
 
 	.body {
-		padding-top: 4.5rem;
+		padding-top: 0.5rem;
 		position: relative;
 
 		.box {
 			background-color: $box;
 			width: 90%;
 			border-radius: 24px;
-			margin: 0;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			-ms-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-			transition: width 150ms ease-out;
+			margin: auto;
 
 			@include mobile {
 				width: 100%;
@@ -555,68 +375,39 @@ export default class Home extends PageChildBase {
 				}
 			}
 
-			.box-membership {
-				border: none !important;
-				background-image: linear-gradient(150deg, #611bf7, #8b61e4) !important;
-				color: white !important;
-				padding: 3rem 2rem;
-				margin: 2rem;
-
-				.title {
-					color: white !important;
-				}
-			}
-
 			.prices {
-				padding-top: 1rem;
+				.box-membership {
+					cursor: auto;
+					display: inline-block;
+					height: 100%;
+					border: none !important;
+					background-image: linear-gradient(150deg, #611bf7, #8b61e4) !important;
+					color: white !important;
+					padding: 3rem 2rem;
+					margin: 2rem;
+					border-radius: 10%;
 
-				.columns {
-					padding-bottom: 1.5rem;
-				}
-
-				.card {
-					border-radius: 20px;
-
-					&.price-selected {
-						background-color: $selected;
+					&.box-suscription {
+						background-image: linear-gradient(150deg, #0712e0, #6466f9) !important;
 					}
 
-					.price-title {
-						font-size: 30px;
-						font-weight: bold;
-						padding-top: 2rem;
-						padding-bottom: 2rem;
-
-						&.title-1 {
-							color: #cd602e;
-						}
-
-						&.title-2 {
-							color: #c8c4c1;
-						}
-
-						&.title-3 {
-							color: #f3e74b;
-						}
-
-						&.title-4 {
-							color: #74d5e3;
-						}
+					.title {
+						font-size: 1.5rem;
+						color: white !important;
 					}
 
-					.fa-plus-circle {
-						color: $border;
-						font-size: 25px;
-					}
+					.button-add {
+						background: transparent;
+						color: white;
 
-					ul {
-						list-style: disc outside;
-						margin-left: 3rem;
-						margin-top: 1rem;
-						padding-bottom: 1rem;
+						&:hover {
+							background-color: rgba(0, 0, 0, 0.05);
+						}
 
-						li {
-							padding-bottom: 1rem;
+						&:focus {
+							background-color: rgba(0, 0, 0, 0.25);
+							box-shadow: none;
+							border-color: white;
 						}
 					}
 				}

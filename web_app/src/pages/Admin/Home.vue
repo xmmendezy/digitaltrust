@@ -515,7 +515,7 @@
 								<b-field>
 									<b-button
 										type="is-primary"
-										:disabled="moneyWithdrawal < 100 || moneyWithdrawal > moneyWithdrawalMax"
+										:disabled="moneyWithdrawal < 50 || moneyWithdrawal > moneyWithdrawalMax"
 										@click="finish_withdrawal()"
 									>
 										{{ $t('helper.confirm') }}
@@ -710,12 +710,12 @@ export default class Admin extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'bankcheck', 'paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
-	private moneyDepositMin: number = 200;
+	private moneyDepositMin: number = 100;
 	private moneyDepositMax: number = 100000000;
 	private dateDeposit: Date = new Date();
 	private referenceDeposit: string = '';
@@ -751,9 +751,9 @@ export default class Admin extends PageChildBase {
 					this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 						s => s.membershipId === this.deposit_membership_selected,
 					)
-						? 200
+						? 100
 						: this.deposit_suscriptions.find(s => s.membershipId === this.deposit_membership_selected)
-							?.min_money || 200;
+							?.min_money || 100;
 					if (this.moneyDepositMin > this.moneyDepositMax) {
 						this.moneyDepositMax = 100000000;
 					}
@@ -1058,7 +1058,7 @@ export default class Admin extends PageChildBase {
 			this.moneyDepositMin = this.balance_detail_data.suscriptions.find(
 				s => s.membershipId === this.deposit_membership_selected,
 			)
-				? 200
+				? 100
 				: this.deposit_suscriptions[1].min_money;
 			if (this.moneyDepositMin > this.moneyDepositMax) {
 				this.moneyDepositMax = 100000000;

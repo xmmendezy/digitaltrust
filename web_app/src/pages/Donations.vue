@@ -18,7 +18,7 @@
 							<div class="column title has-text-left">
 								{{ $t('donations.description') }}
 							</div>
-							<div class="buttons">
+							<div class="buttons is-centered">
 								<button
 									v-for="money_option in [20, 50, 75, 100]"
 									:key="money_option"
@@ -162,10 +162,10 @@ export default class Donations extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'paypal';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDonation: number = 100;
 
 	public async created() {
@@ -373,61 +373,6 @@ export default class Donations extends PageChildBase {
 				}
 			}
 
-			.prices {
-				padding-top: 1rem;
-
-				.columns {
-					padding-bottom: 1.5rem;
-				}
-
-				.card {
-					border-radius: 20px;
-
-					&.price-selected {
-						background-color: $selected;
-					}
-
-					.price-title {
-						font-size: 30px;
-						font-weight: bold;
-						padding-top: 2rem;
-						padding-bottom: 2rem;
-
-						&.title-1 {
-							color: #cd602e;
-						}
-
-						&.title-2 {
-							color: #c8c4c1;
-						}
-
-						&.title-3 {
-							color: #f3e74b;
-						}
-
-						&.title-4 {
-							color: #74d5e3;
-						}
-					}
-
-					.fa-plus-circle {
-						color: $border;
-						font-size: 25px;
-					}
-
-					ul {
-						list-style: disc outside;
-						margin-left: 3rem;
-						margin-top: 1rem;
-						padding-bottom: 1rem;
-
-						li {
-							padding-bottom: 1rem;
-						}
-					}
-				}
-			}
-
 			.deposit-box {
 				&:first-child {
 					margin-top: 3rem;
@@ -438,7 +383,6 @@ export default class Donations extends PageChildBase {
 				}
 
 				.columns-deposit {
-					width: 60%;
 					margin: auto;
 					font-size: 16px;
 					padding: 1rem 3rem;
