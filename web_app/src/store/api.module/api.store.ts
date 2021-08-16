@@ -590,7 +590,9 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
-	public async balance_graphic(params: { id?: string }): Promise<{
+	public async balance_graphic(params: {
+		id?: string;
+	}): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

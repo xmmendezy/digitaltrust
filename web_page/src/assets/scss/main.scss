@@ -454,9 +454,14 @@ body {
 			}
 
 			.address {
-				ul {
+				p {
 					list-style: none !important;
 					margin-left: 0.5rem;
+					margin-bottom: 0.5rem;
+
+					font {
+						padding-left: 2rem;
+					}
 				}
 			}
 		}

@@ -86,23 +86,17 @@ export default class Login extends PageChildBase {
 @import '../../styles/initial_variables.scss';
 
 .login-admin {
+	height: 100vh;
+	overflow-y: scroll;
 	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
 
 	.body {
 		padding-top: 4.5rem;
 		height: 100vh;
-		position: relative;
 
 		.box {
 			width: 40%;
-			border-radius: 24px;
-			margin: 0;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			-ms-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-			transition: width 150ms ease-out;
+			margin: auto;
 			background-color: transparent;
 			box-shadow: none;
 
