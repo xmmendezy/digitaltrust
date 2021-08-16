@@ -1,7 +1,7 @@
 <template>
 	<section class="login section">
 		<div class="body has-text-centered">
-			<div class="box is-inline-block">
+			<div class="box">
 				<article class="media">
 					<div class="media-content has-text-centered">
 						<b-image class="logo" :src="require('../assets/images/logo4.png')"></b-image>
@@ -175,25 +175,17 @@ export default class Login extends PageChildBase {
 @import '../styles/initial_variables.scss';
 
 .login {
+	height: 100vh;
+	overflow-y: scroll;
 	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
-	position: relative;
-	padding-top: 0;
 
 	.body {
 		padding-top: 4.5rem;
 		height: 100vh;
-		position: relative;
 
 		.box {
 			width: 40%;
-			border-radius: 24px;
-			margin: 0;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			-ms-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-			transition: width 150ms ease-out;
+			margin: auto;
 			background-color: transparent;
 			box-shadow: none;
 
