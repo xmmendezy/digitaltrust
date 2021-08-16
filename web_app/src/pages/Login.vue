@@ -7,34 +7,44 @@
 						<b-image class="logo" :src="require('../assets/images/logo4.png')"></b-image>
 						<br />
 						<br />
-						<p class="title">{{ L('login.a') }}</p>
+						<p class="title">{{ $t('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
 								<c-input
+									class="md"
 									ref="input"
 									v-model="login_form.email"
 									@keyup.enter.native="login()"
-									:placeholder="L('login.b')"
+									:placeholder="$t('login.b')"
 								></c-input>
 							</b-field>
 							<b-field>
 								<c-input
+									class="md"
 									v-model="login_form.password"
 									@keyup.enter.native="login()"
-									:placeholder="L('login.c')"
+									:placeholder="$t('login.c')"
 									password
 								>
 								</c-input>
 							</b-field>
 							<b-field>
+								<vue-hcaptcha
+									sitekey="64ba7c4f-e890-4fbf-bffe-4c3364b64e87"
+									@verify="captcha()"
+								></vue-hcaptcha>
+							</b-field>
+							<b-field>
 								<b-button @click="isModalForgotPassword = true" type="is-text">
-									{{ L('login.d') }}
+									{{ $t('login.d') }}
 								</b-button>
 							</b-field>
 							<br />
 							<br />
 							<b-field>
-								<b-button @click="login()" rounded type="is-white">{{ L('login.e') }}</b-button>
+								<b-button :disabled="!valid_form" @click="login()" rounded type="is-white">{{
+									$t('login.e')
+								}}</b-button>
 							</b-field>
 						</section>
 					</div>
@@ -53,19 +63,19 @@
 		>
 			<div class="modal-card">
 				<section class="modal-card-body">
-					<p class="title">{{ L('login.forgot_password.a') }}</p>
-					<p class="subtitle has-text-justified">{{ L('login.forgot_password.b') }}</p>
+					<p class="title">{{ $t('login.forgot_password.a') }}</p>
+					<p class="subtitle has-text-justified">{{ $t('login.forgot_password.b') }}</p>
 					<b-field>
 						<c-input
 							v-model="email_forgot_password"
 							@keyup.enter.native="passowrd_forgot()"
-							:placeholder="L('login.forgot_password.c')"
+							:placeholder="$t('login.forgot_password.c')"
 						>
 						</c-input>
 					</b-field>
 					<b-field>
 						<b-button @click="passowrd_forgot()" type="is-primary">{{
-							L('login.forgot_password.d')
+							$t('login.forgot_password.d')
 						}}</b-button>
 					</b-field>
 				</section>
@@ -86,15 +96,18 @@ import PageChildBase from '../utils/page_child_base.utils';
 import { Component } from 'vue-property-decorator';
 import { LoginDto } from '../store';
 import Points from '../components/Points.vue';
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 
 @Component({
-	components: { Points },
+	components: { Points, VueHcaptcha },
 })
 export default class Login extends PageChildBase {
 	private isModalForgotPassword: boolean = false;
 	private email_forgot_password: string = '';
 
 	private telephone: string = '+16469803342';
+
+	private valid_captcha: boolean = false;
 
 	private login_form: LoginDto = {
 		email: '',
@@ -103,6 +116,14 @@ export default class Login extends PageChildBase {
 
 	public async created() {
 		await super.created();
+	}
+
+	public captcha() {
+		this.valid_captcha = true;
+	}
+
+	get valid_form(): boolean {
+		return this.valid_captcha && !!this.login_form.email && !!this.login_form.password;
 	}
 
 	private async mounted() {
@@ -115,15 +136,18 @@ export default class Login extends PageChildBase {
 	}
 
 	private async login() {
+		if (!this.valid_form) {
+			return;
+		}
 		this.load_form_api(await this.store.api.login(this.login_form), () => {}, {
 			e000: () => {
-				this.toastError(this.L('login.error.e000'));
+				this.toastError(this.$t('login.error.e000'));
 			},
 		});
 		this.auth_data = this.store.api.auth_data;
 		if (await this.store.api.isLogged()) {
 			this.$i18n.locale = this.store.api.country.locale || 'en';
-			this.toastSuccess(`${this.L('helper.welcome')}, ${this.store.api.name}`);
+			this.toastSuccess(`${this.$t('helper.welcome')}, ${this.store.api.name}`);
 			if (this.auth_data?.user?.role === 'admin') {
 				this.$router.push({ name: 'AdminHome' });
 			} else {
@@ -134,12 +158,13 @@ export default class Login extends PageChildBase {
 
 	public async passowrd_forgot() {
 		if (this.email_forgot_password) {
-			window.open(
-				`https://wa.me/${this.telephone}?text=Hi, I need help with my password. My email is ${this.email_forgot_password}.`,
-				'_blank',
-			);
+			if (await this.store.api.reset_password(this.email_forgot_password)) {
+				this.toastSuccess(this.$t('helper.password_suscess'), 5000);
+			} else {
+				this.toastError(this.$t('helper.password_error'), 8000);
+			}
 		} else {
-			this.toastError(this.L('error.u5'));
+			this.toastError(this.$t('error.u5'));
 		}
 		this.isModalForgotPassword = false;
 	}
@@ -221,34 +246,7 @@ export default class Login extends PageChildBase {
 					}
 
 					.c-input {
-						.vfl-label {
-							color: white !important;
-						}
-
-						.vfl-label + input {
-							border-bottom: 2px solid white;
-						}
-
-						.fas {
-							color: white !important;
-						}
-
-						.input {
-							color: white !important;
-							background-color: transparent !important;
-
-							&::placeholder {
-								color: white !important;
-							}
-
-							&:-ms-input-placeholder {
-								color: white !important;
-							}
-
-							&::-ms-input-placeholder {
-								color: white !important;
-							}
-						}
+						margin: 3rem 0;
 					}
 
 					.button.is-text {

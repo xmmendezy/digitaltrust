@@ -56,17 +56,19 @@ export default class ApiStore extends VuexModule {
 			login: `${ApiStore.config.Api}/login`,
 			user: `${ApiStore.config.Api}/user`,
 			see_welcome: `${ApiStore.config.Api}/see_welcome`,
-			reset_password: `${ApiStore.config.Api}/auth/reset_password`,
-			change_password: `${ApiStore.config.Api}/auth/change_password`,
+			reset_password: `${ApiStore.config.Api}/reset_password`,
+			change_password: `${ApiStore.config.Api}/change_password`,
 			ref_user: `${ApiStore.config.Api}/ref_user`,
 			is_refer: `${ApiStore.config.Api}/is_refer`,
 			memberships: `${ApiStore.config.Api}/memberships`,
 			suscriptions: `${ApiStore.config.Api}/suscriptions`,
 			clients: `${ApiStore.config.Api}/clients`,
 			client: `${ApiStore.config.Api}/client`,
+			binary_tree: `${ApiStore.config.Api}/binary_tree`,
 			records: `${ApiStore.config.Api}/records`,
 			balance: `${ApiStore.config.Api}/balance`,
 			balance_detail: `${ApiStore.config.Api}/balance_detail`,
+			balance_graphic: `${ApiStore.config.Api}/balance_graphic`,
 			deposit: `${ApiStore.config.Api}/deposit`,
 			withdrawal: `${ApiStore.config.Api}/withdrawal`,
 			withdrawals_alert: `${ApiStore.config.Api}/withdrawals_alert`,
@@ -316,6 +318,21 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
+	public async reset_password(email: string): Promise<boolean> {
+		return await ApiStore.http
+			.get(this.url.reset_password, { params: { email } })
+			.then(async response => {
+				if (get_errors(response)) {
+					return false;
+				}
+				return true;
+			})
+			.catch(() => {
+				return false;
+			});
+	}
+
+	@action
 	public async update(data: UpdateDto): Promise<IAuthData | string> {
 		return await ApiStore.http
 			.patch(this.url.user, data, { headers: this.headers })
@@ -346,25 +363,6 @@ export default class ApiStore extends VuexModule {
 					seeWelcome: false,
 				});
 				return { valid: true };
-			})
-			.catch(e => {
-				return get_errors(e);
-			});
-	}
-
-	@action
-	public async reset_password(email: string): Promise<string> {
-		return await ApiStore.http
-			.post(`${this.url.reset_password}`, { email })
-			.then(response => {
-				const error = get_errors(response);
-				if (error) {
-					return error;
-				}
-				this.update_user({
-					change_password: true,
-				});
-				return error;
 			})
 			.catch(e => {
 				return get_errors(e);
@@ -512,6 +510,22 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
+	public async binary_tree(): Promise<any> {
+		return await ApiStore.http
+			.get(`${this.url.binary_tree}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
 	public async records(id?: string): Promise<IRecord[]> {
 		return await ApiStore.http
 			.get(`${this.url.records}`, { params: { id }, headers: this.headers })
@@ -560,9 +574,28 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
-	public async balance_detail(params: { id?: string; date?: number }): Promise<IBalanceDetail> {
+	public async balance_detail(params: { id?: string }): Promise<IBalanceDetail> {
 		return await ApiStore.http
 			.get(`${this.url.balance_detail}`, { params, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async balance_graphic(params: { id?: string }): Promise<{
+		labels: number[];
+		data: number[];
+	}> {
+		return await ApiStore.http
+			.get(`${this.url.balance_graphic}`, { params, headers: this.headers })
 			.then(response => {
 				const error = get_errors(response);
 				if (error) {
@@ -605,6 +638,7 @@ export default class ApiStore extends VuexModule {
 		type: string;
 		money: number;
 		date?: number;
+		reference?: string;
 	}): Promise<{ valid: boolean } | string> {
 		return await ApiStore.http
 			.post(this.url.withdrawal, data, { headers: this.headers })

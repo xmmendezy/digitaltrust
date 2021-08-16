@@ -1,47 +1,45 @@
 <template>
-	<div class="setting" ref="setting">
+	<div class="setting">
 		<article class="box">
-			<div class="columns">
-				<div class="column" :class="{ 'is-7': !is_admin }">
+			<b-tabs>
+				<b-tab-item :label="$t('setting.user.a')">
 					<section class="form-user has-text-centered">
-						<div class="columns">
-							<div class="column has-text-left">
-								<h3 class="title">{{ L('setting.user.a') }}</h3>
-							</div>
-							<div class="column is-hidden-mobile"></div>
-						</div>
 						<div class="columns">
 							<div class="column">
 								<c-input
+									class="md"
 									ref="input"
 									v-model="update_form.firstname"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.b')"
+									:placeholder="$t('setting.user.b')"
 								></c-input>
 							</div>
 							<div class="column">
 								<c-input
+									class="md"
 									v-model="update_form.lastname"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.c')"
+									:placeholder="$t('setting.user.c')"
 								></c-input>
 							</div>
 						</div>
 						<div class="columns">
 							<div class="column">
 								<c-input
+									class="md"
 									v-model="update_form.email"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.d')"
+									:placeholder="$t('setting.user.d')"
 								></c-input>
 							</div>
 							<div class="column">
 								<c-tel-input
+									class="md"
 									v-model="update_form.telephone"
 									:defaultCountry="default_country"
 									:autoDefaultCountry="false"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.e')"
+									:placeholder="$t('setting.user.e')"
 									@validate="validateNumber"
 									@country-changed="changeCountry"
 								></c-tel-input>
@@ -50,92 +48,166 @@
 						<div class="columns">
 							<div class="column">
 								<c-input
+									class="md"
 									v-model="update_form.state"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.f')"
+									:placeholder="$t('setting.user.f')"
 								></c-input>
 							</div>
 							<div class="column">
 								<c-input
+									class="md"
 									v-model="update_form.address"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.g')"
+									:placeholder="$t('setting.user.g')"
 								></c-input>
 							</div>
 						</div>
 						<div class="columns">
 							<div class="column">
 								<c-input
+									class="md"
 									v-model="update_form.password"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.h')"
+									:placeholder="$t('setting.user.h')"
 									password
 								></c-input>
 							</div>
 							<div class="column">
 								<c-input
+									class="md"
 									v-model="update_form.password_confirm"
 									@keyup.enter.native="update()"
-									:placeholder="L('setting.user.i')"
+									:placeholder="$t('setting.user.i')"
 									password
 								></c-input>
 							</div>
 						</div>
 					</section>
-				</div>
+				</b-tab-item>
 
-				<div v-if="!is_admin" class="is-divider-vertical is-hidden-mobile"></div>
+				<b-tab-item v-if="!is_admin" :label="$t('setting.accounts.a')">
+					<div class="columns">
+						<div class="column">
+							<section class="form-user has-text-centered">
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.paypal_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.b')"
+										></c-input>
+									</div>
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.stripe_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.c')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.coinpayments_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.d')"
+										></c-input>
+									</div>
+									<div class="column"></div>
+								</div>
 
-				<div v-if="!is_admin" class="column">
-					<section class="form-user has-text-centered">
-						<div class="columns">
-							<div class="column has-text-left">
-								<h3 class="title">{{ L('setting.accounts.a') }}</h3>
-							</div>
-							<div class="column is-hidden-mobile"></div>
+								<div class="columns">
+									<div class="column has-text-left">
+										<h3 class="title has-text-weight-bold">{{ $t('setting.accounts.e') }}</h3>
+									</div>
+									<div class="column is-hidden-mobile"></div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_name"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.f')"
+										></c-input>
+									</div>
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_address"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.g')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_account_name"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.h')"
+										></c-input>
+									</div>
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_account"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.i')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_routing_name"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.j')"
+										></c-input>
+									</div>
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_account_username"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.k')"
+										></c-input>
+									</div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_swift_code"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.l')"
+										></c-input>
+									</div>
+									<div class="column">
+										<c-input
+											class="md"
+											v-model="update_form.banck_iban"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.accounts.m')"
+										></c-input>
+									</div>
+								</div>
+							</section>
 						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									v-model="update_form.paypal_account"
-									@keyup.enter.native="update()"
-									:placeholder="L('setting.accounts.b')"
-								></c-input>
-							</div>
-						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									v-model="update_form.stripe_account"
-									@keyup.enter.native="update()"
-									:placeholder="L('setting.accounts.c')"
-								></c-input>
-							</div>
-						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									v-model="update_form.coinpayments_account"
-									@keyup.enter.native="update()"
-									:placeholder="L('setting.accounts.d')"
-								></c-input>
-							</div>
-						</div>
-						<div class="columns">
-							<div class="column">
-								<c-input
-									v-model="update_form.banck_account"
-									@keyup.enter.native="update()"
-									:placeholder="L('setting.accounts.e')"
-								></c-input>
-							</div>
-						</div>
-					</section>
-				</div>
-			</div>
+					</div>
+				</b-tab-item>
+			</b-tabs>
 
 			<b-field class="has-text-right">
-				<b-button id="driver-guide-c-3" @click="update()" type="is-primary">{{ L('setting.save') }}</b-button>
+				<b-button id="driver-guide-c-3" @click="update()" type="is-primary" inverted outlined>{{
+					$t('setting.save')
+				}}</b-button>
 			</b-field>
 		</article>
 	</div>
@@ -183,24 +255,24 @@ export default class Setting extends PageChildBase {
 			}
 
 			if (errors.length) {
-				this.toastError(this.L(errors[0]));
+				this.toastError(this.$t(errors[0]));
 			} else {
 				this.load_form_api(
 					await this.store.api.update(this.update_form),
 					data => {
 						this.update_form = new UpdateDto(data.user);
 						if ((data.user as any).errors.length) {
-							this.toastSuccess(this.L('setting.not_ok'));
+							this.toastSuccess(this.$t('setting.not_ok'));
 							for (const error of (data.user as any).errors) {
-								this.toastError(this.L(error));
+								this.toastError(this.$t(error));
 							}
 						} else {
-							this.toastSuccess(this.L('setting.ok'));
+							this.toastSuccess(this.$t('setting.ok'));
 						}
 					},
 					{
 						e000: () => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						},
 					},
 				);
@@ -233,22 +305,26 @@ export default class Setting extends PageChildBase {
 @import '../../styles/initial_variables.scss';
 
 .setting {
-	height: 100%;
+	height: calc(100vh - 6rem);
+	overflow-y: scroll;
+	padding-right: 1rem;
 
 	.box {
-		height: 100%;
+		background-color: $box;
+		color: white !important;
 		padding: 4rem 0;
 
 		.title {
 			font-size: 25px;
 			font-weight: bold;
+			color: white !important;
 		}
 
 		.is-divider-vertical {
-			padding: 0;
+			padding: 1rem;
 		}
 
-		.form-user {
+		.b-tabs {
 			margin: auto;
 			width: 70%;
 
@@ -256,10 +332,24 @@ export default class Setting extends PageChildBase {
 				width: 85%;
 			}
 
-			.columns:first-child,
-			.columns:last-child {
-				padding-bottom: 2rem;
+			.tabs {
+				li a {
+					color: white;
+					border-bottom: none;
+				}
+				li.is-active {
+					font-size: 1.5rem;
+					font-weight: bold;
+				}
 			}
+
+			.tab-content {
+				padding-top: 2.5rem;
+			}
+		}
+
+		.form-user {
+			width: 100%;
 
 			.c-input,
 			.c-tel-input {

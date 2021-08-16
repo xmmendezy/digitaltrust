@@ -24,6 +24,11 @@ export class ApiController {
 		return await this.apiService.createToken(req.user);
 	}
 
+	@Get('reset_password')
+	public async reset_password(@Query('email') email: string) {
+		return await this.apiService.reset_password(email);
+	}
+
 	@Patch('user')
 	public async update(@Req() req: Request, @Body() data: UpdateDto) {
 		data = new UpdateDto(data);
@@ -43,6 +48,11 @@ export class ApiController {
 	@Get('ref_user')
 	public async ref_user(@Query() query: { id: string }) {
 		return await this.apiService.ref_user(query.id);
+	}
+
+	@Get('binary_tree')
+	public async binary_tree(@Req() req: Request) {
+		return await this.apiService.binary_tree(req.user);
 	}
 
 	@Get('is_refer')
@@ -97,8 +107,8 @@ export class ApiController {
 	}
 
 	@Get('memberships')
-	public async memberships() {
-		return await this.apiService.memberships();
+	public async memberships(@Req() req: Request) {
+		return await this.apiService.memberships(req.user);
 	}
 
 	@Get('suscriptions')
@@ -250,6 +260,19 @@ export class ApiController {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
 		return await this.apiService.balance_detail(user, date);
+	}
+
+	@Get('balance_graphic')
+	public async balance_graphic(@Req() req: Request, @Query() query: { id: string }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		return await this.apiService.balance_graphic(user);
 	}
 
 	@Post('get_stripe')

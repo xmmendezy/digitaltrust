@@ -63,13 +63,15 @@
 	},
 	"home": {
 		"balance_now": {
+			"title": "Balance",
 			"a": "Balance",
 			"b": "Total earnings",
 			"c": "Investment capital",
 			"d": "Withdrawals",
 			"e": "Earnings",
 			"f": "Withdrawal",
-			"g": "Deposit"
+			"g": "Deposit",
+			"earn_more": "Earn more"
 		},
 		"table_balance": {
 			"a": "Balance",
@@ -78,6 +80,10 @@
 			"d": "Earning from referrals",
 			"e": "Investment",
 			"f": "Month"
+		},
+		"graphic_balance": {
+			"title": "Earnings over time",
+			"a": "Earnings"
 		},
 		"refer": {
 			"a": "Invite your friends",
@@ -107,8 +113,16 @@
 			"a": "Accounts",
 			"b": "PayPal",
 			"c": "Stripe",
-			"d": "CoinPayments",
-			"e": "Bank information"
+			"d": "Blockchain Wallet",
+			"e": "Bank information",
+			"f": "Bank name",
+			"g": "Bank address",
+			"h": "Account name",
+			"i": "Account number",
+			"j": "Routing number",
+			"k": "Name of the account beneficiary",
+			"l": "Swift Code",
+			"m": "IBAN"
 		},
 		"save": "Save",
 		"delete": "Remove",
@@ -165,13 +179,16 @@
 			"b": "Start date",
 			"c": "End date"
 		},
-		"deposits": {
-			"title": "Deposits",
+		"moves": {
+			"title": "Moves",
+			"0": "Type",
 			"a": "Membership",
 			"b": "Date",
 			"c": "Money",
 			"d": "Payment method",
-			"e": "Reference"
+			"e": "Withdrawal method",
+			"f": "Deposit reference",
+			"g": "Withdrawal status"
 		},
 		"withdrawals": {
 			"title": "Withdrawals",
@@ -189,7 +206,8 @@
 		"step_3": "Confirm",
 		"money": "Money",
 		"date": "Date",
-		"description": "Enter the amount to withdraw, this cannot be greater than ",
+		"reference": "Reference",
+		"description": "Enter the amount to withdraw, this cannot be less than 50 nor greater than ",
 		"completed_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
 		"success": "Requested",
 		"error": "There was an error, please try again"
@@ -221,6 +239,10 @@
 		},
 		"to_pay": "To pay"
 	},
+	"binary_tree": {
+		"title": "Binary Tree",
+		"subtitle": "Share your referral link and receive an extra profit for each subscription of your partner, and also an extra profit for each additional deposit."
+	},
 	"donations": {
 		"title": "A friendly hand",
 		"subtitle": "Give someone the reason to smile.",
@@ -241,10 +263,16 @@
 		"paypal": "PayPal",
 		"stripe": "Stripe",
 		"blockchain": "CoinPayments",
-		"balance": "Balance",
+		"balance": "Reinvestment",
 		"bankcheck": "Bank Check",
 		"wire_transfer": "Wire Transfer",
 		"investment": "Investment"
+	},
+	"payment_method_icon": {
+		"paypal": ["fab", "paypal"],
+		"stripe": ["fab", "stripe"],
+		"blockchain": ["fab", "btc"],
+		"balance": ["fas", "money-bill"]
 	},
 	"validator": {
 		"auth": {
@@ -370,6 +398,8 @@
 		"welcome": "Welcome",
 		"support": "Support",
 		"home": "Home",
+		"shopping": "Buy more",
+		"binary_tree": "Binary Tree",
 		"donations": "Donations",
 		"setting": "Setting",
 		"logout": "Sign out",
@@ -382,10 +412,16 @@
 		"cancel": "Cancel",
 		"done": "Done",
 		"close": "Close",
+		"summary": "Summary",
+		"details": "Details",
+		"you": "You",
+		"password_suscess": "Password sent to email",
+		"password_error": "Your password could not be changed, possibly this email is wrong",
 		"continue_task": "Continue on this task?",
 		"success_task": "Task completed successfully",
 		"error_task": "Could not be processed",
-		"to_pay": "To pay"
+		"to_pay": "To pay",
+		"method": "Method"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",

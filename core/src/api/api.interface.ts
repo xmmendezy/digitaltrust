@@ -32,7 +32,14 @@ interface IUser {
 	readonly paypal_account?: string;
 	readonly stripe_account?: string;
 	readonly coinpayments_account?: string;
+	readonly banck_name?: string;
+	readonly banck_address?: string;
+	readonly banck_account_name?: string;
 	readonly banck_account?: string;
+	readonly banck_routing_name?: string;
+	readonly banck_account_username?: string;
+	readonly banck_swift_code?: string;
+	readonly banck_iban?: string;
 	readonly ref?: string;
 }
 
@@ -96,6 +103,7 @@ interface IWithdrawal {
 	readonly money?: number;
 	readonly withdrawal_method?: WithdrawalMethod;
 	readonly status?: boolean;
+	readonly reference?: string;
 }
 
 interface ISupportPayment {

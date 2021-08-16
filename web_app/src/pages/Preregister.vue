@@ -4,38 +4,42 @@
 			<div class="box is-inline-block">
 				<article class="media">
 					<div class="media-content has-text-centered">
-						<p class="title">{{ L('preregister.title') }}</p>
+						<p class="title">{{ $t('preregister.title') }}</p>
 						<section class="form has-text-centered">
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										ref="input"
 										v-model="preregister_form.firstname"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.firstname')"
+										:placeholder="$t('preregister.firstname')"
 									></c-input>
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.lastname"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.lastname')"
+										:placeholder="$t('preregister.lastname')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.email"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.email')"
+										:placeholder="$t('preregister.email')"
 									></c-input>
 								</div>
 								<div class="column">
 									<c-tel-input
+										class="md"
 										v-model="preregister_form.telephone"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.telephone')"
+										:placeholder="$t('preregister.telephone')"
 										@validate="validateNumber"
 										@country-changed="changeCountry"
 									></c-tel-input>
@@ -44,70 +48,78 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.state"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.state')"
+										:placeholder="$t('preregister.state')"
 									></c-input>
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.address"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.address')"
+										:placeholder="$t('preregister.address')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_1"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.ans_1')"
+										:placeholder="$t('preregister.ans_1')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_2"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.ans_2')"
+										:placeholder="$t('preregister.ans_2')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_3"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.ans_3')"
+										:placeholder="$t('preregister.ans_3')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_4"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.ans_4')"
+										:placeholder="$t('preregister.ans_4')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_5"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.ans_5')"
+										:placeholder="$t('preregister.ans_5')"
 									></c-input>
 								</div>
 							</div>
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="preregister_form.ans_6"
 										@keyup.enter.native="preregister()"
-										:placeholder="L('preregister.ans_6')"
+										:placeholder="$t('preregister.ans_6')"
 									></c-input>
 								</div>
 							</div>
@@ -116,17 +128,17 @@
 								<div class="column column-check is-6 has-text-left">
 									<b-field>
 										<b-checkbox v-model="check1">
-											{{ L('helper.see') }}
+											{{ $t('helper.see') }}
 											<a :href="publicPath + 'doc1.pdf'" target="_blank">{{
-												L('preregister.check1')
+												$t('preregister.check1')
 											}}</a>
 										</b-checkbox>
 									</b-field>
 									<b-field>
 										<b-checkbox v-model="check2">
-											{{ L('helper.see') }}
+											{{ $t('helper.see') }}
 											<a :href="publicPath + 'doc2.pdf'" target="_blank">{{
-												L('preregister.check2')
+												$t('preregister.check2')
 											}}</a>
 										</b-checkbox>
 									</b-field>
@@ -139,7 +151,7 @@
 									rounded
 									type="is-white"
 									:disabled="!(check1 && check2)"
-									>{{ L('preregister.next') }}</b-button
+									>{{ $t('preregister.next') }}</b-button
 								>
 							</b-field>
 						</section>
@@ -189,24 +201,24 @@ export default class Preregister extends PageChildBase {
 				errors.push('validator.auth.h');
 			}
 			if (errors.length) {
-				this.toastError(this.L(errors[0]));
+				this.toastError(this.$t(errors[0]));
 			} else {
 				this.preregister_form.telephone = this.telephoneInternational;
 				this.load_form_api(
 					await this.store.api.preregister(this.preregister_form),
 					data => {
 						if (data.valid) {
-							this.toastSuccess(`${this.L('preregister.success')}, ${this.preregister_form.firstname}`);
+							this.toastSuccess(`${this.$t('preregister.success')}, ${this.preregister_form.firstname}`);
 							setTimeout(() => {
 								location.href = '/';
 							}, 4000);
 						} else {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						}
 					},
 					{
 						e000: () => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						},
 					},
 				);
@@ -295,41 +307,6 @@ export default class Preregister extends PageChildBase {
 
 					@include mobile {
 						width: 90%;
-					}
-
-					.c-input,
-					.c-tel-input {
-						margin: 1rem 0;
-
-						.vfl-label {
-							color: white !important;
-						}
-
-						.vfl-label + input {
-							border-bottom: 2px solid white;
-						}
-
-						.fas {
-							color: white !important;
-						}
-
-						.input,
-						.vti__input {
-							color: white !important;
-							background-color: transparent !important;
-
-							&::placeholder {
-								color: white !important;
-							}
-
-							&:-ms-input-placeholder {
-								color: white !important;
-							}
-
-							&::-ms-input-placeholder {
-								color: white !important;
-							}
-						}
 					}
 
 					.column-check {

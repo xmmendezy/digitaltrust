@@ -1,7 +1,12 @@
 <template>
 	<float-label
 		class="c-input control"
-		:class="{ 'is-clearfix': icon || password, 'has-icons-left': icon, 'has-icons-right': password }"
+		:class="{
+			'is-clearfix': icon || password,
+			'has-icons-left': icon,
+			'has-icons-right': password,
+			'is-active': !!content,
+		}"
 	>
 		<input
 			ref="input"
@@ -94,8 +99,6 @@ export default class extends ComponentBase {
 @import '../../styles/initial_variables.scss';
 
 .c-input {
-	margin: 3rem 0;
-
 	input {
 		font-family: $font-family !important;
 		font-size: 18px !important;
@@ -103,6 +106,14 @@ export default class extends ComponentBase {
 		padding: 0.8rem 0;
 		box-shadow: none;
 		border-radius: 0;
+	}
+
+	&.is-active {
+		.vfl-label {
+			top: -1.3em;
+			pointer-events: all;
+			opacity: 1;
+		}
 	}
 
 	.input:focus {

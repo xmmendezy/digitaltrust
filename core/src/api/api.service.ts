@@ -27,7 +27,7 @@ import {
 	WithdrawalDto,
 	SupportPaymentDto,
 } from './api.dto';
-import { IRecord, PaymentMethod, WithdrawalMethod } from './api.interface';
+import { IRecord, PaymentMethod, UserRole, WithdrawalMethod } from './api.interface';
 
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
@@ -102,6 +102,48 @@ export class ApiService {
 		});
 	}
 
+	public async reset_password(email: string): Promise<Error> {
+		const user = await User.createQueryBuilder('user')
+			.leftJoinAndSelect('user.country', 'country')
+			.leftJoinAndSelect('country.time_zones', 'time_zones')
+			.where('user.email = :email', { email })
+			.getOne();
+		if (user) {
+			const password: string = [
+				'Hola12345',
+				'Digital2021',
+				'NewPassword2021',
+				'Aa12Bb34Cc56',
+				'ABCDEabcde',
+				'MNOPQmnopq',
+				'Mm12Nn34Oo56',
+				'ZYXzyx212019',
+				'DIGITAL2021',
+				'HOLA12345',
+			][Math.floor(Math.random() * 10)];
+			await user.set_password(password);
+			await user.save();
+			const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'new_password.hbs'), 'utf8');
+			const template_compile = handlebars.compile(templeate_hbs);
+			return await this.mailerService
+				.sendMail({
+					to: email,
+					subject: 'DigitalTrust - New password',
+					html: template_compile({
+						password,
+					}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		} else {
+			return { error: 'e000' };
+		}
+	}
+
 	public async update(user: User, data: UpdateDto): Promise<UserDto | Error> {
 		if (data.country != user.country.id) {
 			const country = await Country.createQueryBuilder('country')
@@ -122,7 +164,14 @@ export class ApiService {
 			'paypal_account',
 			'stripe_account',
 			'coinpayments_account',
+			'banck_name',
+			'banck_address',
+			'banck_account_name',
 			'banck_account',
+			'banck_routing_name',
+			'banck_account_username',
+			'banck_swift_code',
+			'banck_iban',
 		];
 		const errors: string[] = [];
 		for (const key in data) {
@@ -227,11 +276,128 @@ export class ApiService {
 		await User.createQueryBuilder().delete().where('id = :id', { id }).execute();
 	}
 
-	public async memberships(): Promise<Membership[]> {
-		return await Membership.createQueryBuilder()
-			.where('is_active = :is_active', { is_active: true })
-			.orderBy('money_a', 'ASC')
+	public async binary_tree(user: User) {
+		const data = [
+			{
+				name: 'Empty',
+				description: '',
+				children: [
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+				],
+			},
+			{
+				name: 'Empty',
+				description: '',
+				children: [
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+				],
+			},
+		];
+		const users_ref = await User.createQueryBuilder('user')
+			.where('user.ref = :id', { id: user.id })
+			.orderBy('created', 'ASC')
 			.getMany();
+		const level = (index: number, d: any, user_ref: User) => {
+			if (index < 2) {
+				d[index].name = user_ref.name;
+			} else if (index >= 2 && index < 6) {
+				level(index % 2, d[Math.floor(index / 2) - 1].children, user_ref);
+			} else {
+				level(
+					index % 2,
+					d[Math.floor((Math.floor((2 * (index - 6)) / 4) + 2) / 2) - 1].children[
+						(Math.floor((2 * (index - 6)) / 4) + 2) % 2
+					].children,
+					user_ref,
+				);
+			}
+		};
+		for (let index = 0; index < users_ref.length; index++) {
+			const user_ref = users_ref[index];
+			level(index, data, user_ref);
+		}
+		return data;
+	}
+
+	public async memberships(user: User): Promise<Membership[]> {
+		if (user.role === UserRole.ADMIN) {
+			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
+		} else {
+			const memberships: Membership[] = await Membership.createQueryBuilder()
+				.where('is_active = :is_active', { is_active: false })
+				.andWhere('id in (:...ids)', {
+					ids: (
+						await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
+					).map((s) => s.membershipId),
+				})
+				.orderBy('interest', 'ASC')
+				.getMany();
+			memberships.push(
+				...(await Membership.createQueryBuilder()
+					.where('is_active = :is_active', { is_active: true })
+					.orderBy('interest', 'ASC')
+					.getMany()),
+			);
+			return memberships;
+		}
 	}
 
 	public async suscriptions(user: User): Promise<Suscription[]> {
@@ -400,6 +566,7 @@ export class ApiService {
 			date: date.toSeconds(),
 			money: data.money,
 			withdrawal_method: data.type,
+			reference: data.reference,
 		});
 		if (is_admin) {
 			withdrawal.status = true;
@@ -539,8 +706,7 @@ export class ApiService {
 			earning_extra: 0,
 			investment: 0,
 			suscriptions: [],
-			deposits: [],
-			withdrawals: [],
+			moves: [],
 		};
 		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 		if (suscriptions.length) {
@@ -601,49 +767,74 @@ export class ApiService {
 					membershipId: suscription.membershipId,
 				});
 			}
-
-			balance.deposits = (
+			balance.moves = (
 				await Deposit.createQueryBuilder()
 					.where('"suscriptionId" in (:...ids)')
-					.andWhere('date >= :date_begin')
-					.andWhere('date <= :date_end')
 					.setParameters({
 						ids: suscriptions.map((s) => s.id),
-						date_begin: date.startOf('month').toSeconds(),
-						date_end: date.endOf('month').toSeconds(),
 					})
-					.orderBy('"suscriptionId"', 'ASC')
 					.getMany()
 			).map((d) => {
 				return {
+					type: 'deposit',
 					date: d.date,
 					suscription: d.suscriptionId,
 					money: d.money,
-					payment_method: d.payment_method,
+					method: d.payment_method,
 					reference: d.reference !== 'default' ? d.reference : '',
+					status: true,
 				};
 			});
-			balance.withdrawals = (
-				await Withdrawal.createQueryBuilder()
-					.where('"userId" = :id')
-					.andWhere('date >= :date_begin')
-					.andWhere('date <= :date_end')
-					.setParameters({
-						id: user.id,
-						date_begin: date.startOf('month').toSeconds(),
-						date_end: date.endOf('month').toSeconds(),
-					})
-					.getMany()
-			).map((d) => {
-				return {
-					date: d.date,
-					money: d.money,
-					withdrawal_method: d.withdrawal_method,
-					status: d.status,
-				};
-			});
+			balance.moves.push(
+				...(
+					await Withdrawal.createQueryBuilder()
+						.where('"userId" = :id')
+						.setParameters({
+							id: user.id,
+						})
+						.getMany()
+				).map((w) => {
+					return {
+						type: 'withdrawal' as 'withdrawal',
+						date: w.date,
+						suscription: '',
+						reference: w.reference !== 'default' ? w.reference : '',
+						money: w.money,
+						method: w.withdrawal_method,
+						status: w.status,
+					};
+				}),
+			);
 		}
+		balance.moves.sort((a, b) => b.date - a.date);
 		return balance;
+	}
+
+	public async balance_graphic(user: User): Promise<{
+		labels: number[];
+		data: number[];
+	}> {
+		const data: {
+			labels: number[];
+			data: number[];
+		} = {
+			labels: [],
+			data: [],
+		};
+		await this.records(user);
+		const records = await Record.createQueryBuilder('record')
+			.select('record.date')
+			.addSelect('record.balance')
+			.where('"userId" = :id', {
+				id: user.id,
+			})
+			.orderBy('date', 'ASC')
+			.getMany();
+		for (const record of records) {
+			data.labels.push(record.date);
+			data.data.push(record.balance);
+		}
+		return data;
 	}
 
 	public async record(
@@ -901,7 +1092,7 @@ export class ApiService {
 	}
 
 	public async get_stripe(data: DepositDto): Promise<{ id: string; reference: string }> {
-		const success_url = `${config.url_root}/app?success_stripe=true&${Object.entries(data)
+		const success_url = `${config.url_root}/app/buy?success_stripe=true&${Object.entries(data)
 			.map(([key, val]) => `${key}=${val}`)
 			.join('&')}`;
 		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
@@ -926,7 +1117,7 @@ export class ApiService {
 			],
 			mode: 'payment',
 			success_url,
-			cancel_url: `${config.url_root}/app?success_stripe=false`,
+			cancel_url: `${config.url_root}/app/buy?success_stripe=false`,
 		});
 		return { id: session.id, reference: session.payment_intent as string };
 	}
@@ -935,7 +1126,7 @@ export class ApiService {
 		user: User,
 		data: DepositDto & { currency: string },
 	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
-		const success_url = `${config.url_root}/app?success_coinpayments=true&${Object.entries(data)
+		const success_url = `${config.url_root}/app/buy?success_coinpayments=true&${Object.entries(data)
 			.map(([key, val]) => `${key}=${val}`)
 			.join('&')}`;
 		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
@@ -948,7 +1139,7 @@ export class ApiService {
 			item_name: `Payment - ${membership.name}`,
 			address,
 			success_url,
-			cancel_url: `${config.url_root}/app?success_coinpayments=false`,
+			cancel_url: `${config.url_root}/app/buy?success_coinpayments=false`,
 		});
 	}
 

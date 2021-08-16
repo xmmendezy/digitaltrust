@@ -3,7 +3,9 @@
 		<ul class="menu-list menu-user">
 			<li>
 				<a class="icon-text data-user" @click="open()">
-					<b-image v-if="has_image_user" :src="require('../assets/images/avatar.png')"></b-image>
+					<span class="icon is-small">
+						<i class="fas fa-user-circle"></i>
+					</span>
 					<span class="info-user">
 						<font class="name">{{ store.api.name }} </font>
 						<font class="email">{{ store.api.email }}</font>
@@ -16,23 +18,37 @@
 				icon="dashboard"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminHome' : 'Home' }"
-				:label="L('helper.home')"
+				:label="$t('helper.home')"
+			></b-menu-item>
+			<b-menu-item
+				v-if="!is_admin"
+				icon="shopping-cart"
+				tag="router-link"
+				:to="{ name: 'BuyMore' }"
+				:label="$t('helper.shopping')"
+			></b-menu-item>
+			<b-menu-item
+				v-if="!is_admin"
+				icon="user-friends"
+				tag="router-link"
+				:to="{ name: 'BinaryTree' }"
+				:label="$t('helper.binary_tree')"
 			></b-menu-item>
 			<b-menu-item
 				v-if="!is_admin"
 				icon="hands-helping"
 				tag="router-link"
 				:to="{ name: 'AppDonations' }"
-				:label="L('helper.donations')"
+				:label="$t('helper.donations')"
 			></b-menu-item>
 			<b-menu-item
 				id="driver-guide-c-2"
 				icon="ellipsis-h"
 				tag="router-link"
 				:to="{ name: is_admin ? 'AdminSetting' : 'Setting' }"
-				:label="L('helper.setting')"
+				:label="$t('helper.setting')"
 			></b-menu-item>
-			<b-menu-item icon="sign-out-alt" @click="logout()" :label="L('helper.logout')"></b-menu-item>
+			<b-menu-item icon="sign-out-alt" @click="logout()" :label="$t('helper.logout')"></b-menu-item>
 		</b-menu-list>
 		<ul v-if="auth_data && auth_data.user && auth_data.user.role === 'user'" class="menu-list contact">
 			<li>
@@ -78,6 +94,15 @@ export default class Menu extends ComponentBase {
 
 <style lang="scss">
 @import '../styles/initial_variables.scss';
+.is-mini {
+	.menu-list.contact a:hover {
+		background-color: transparent;
+		color: white;
+		i {
+			color: white;
+		}
+	}
+}
 
 .menu {
 	.menu-list {
@@ -94,17 +119,10 @@ export default class Menu extends ComponentBase {
 				white-space: pre-wrap;
 				word-wrap: break-word;
 			}
-
-			a:hover {
-				background-color: rgba(255, 255, 255, 0);
-				color: $primary;
-				i {
-					color: $primary;
-				}
-			}
 		}
 
 		a {
+			color: white;
 			padding-left: 1.75rem;
 			white-space: nowrap;
 			overflow: hidden;
@@ -113,34 +131,31 @@ export default class Menu extends ComponentBase {
 
 			&.icon-text.is-active {
 				background-color: rgba(255, 255, 255, 0);
-				color: $gray;
+				color: white;
+				font-weight: bold;
+			}
+
+			&:hover {
+				background-color: rgba(0, 0, 0, 0.05);
+				color: white;
+				i {
+					color: white;
+				}
 			}
 		}
 
 		.router-link-exact-active {
 			i {
-				color: $primary;
+				color: $white;
+				font-weight: bold;
 			}
 		}
 
 		i {
-			color: $border;
+			color: $white;
 		}
 
 		.data-user {
-			display: inline-flex;
-			width: 100%;
-			padding: 0.5em 0.75em;
-
-			.image {
-				max-width: 5rem;
-
-				img {
-					display: inline;
-					height: auto;
-				}
-			}
-
 			.info-user {
 				width: 50%;
 				padding-top: 1rem;
@@ -155,16 +170,10 @@ export default class Menu extends ComponentBase {
 				}
 
 				.email {
+					padding-left: 2.5rem;
 					font-size: 14px;
-					color: $gray;
 				}
 			}
-		}
-	}
-
-	.menu-list:not(.menu-user) {
-		a {
-			color: $gray;
 		}
 	}
 }

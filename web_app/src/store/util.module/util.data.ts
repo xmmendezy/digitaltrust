@@ -31,7 +31,7 @@ const data_countries: { [key: string]: ICountry } = {
 			},
 			{
 				id: '791e5e0e-17c5-4e06-8716-4209e61aab4f',
-				value: 'America/Mazatlan',
+				value: 'America/TijuanaF',
 			},
 		],
 	},

@@ -1,36 +1,20 @@
 <footer class="footer is-primary">
 	<div class="columns">
 		<div class="column has-text-left">
-			<p class="title title-page has-text-white">
-				{{#image_src 'logo.png' 'logo-footer'}}{{/image_src}}
-			</p>
-			<p class="description">
-				{{ footer.a }}
-			</p>
-
 			<div class="security has-text-left">
+				<p>{{ footer.a }}</p>
+				<br />
 				<p>{{ footer.b }}</p>
 				<br />
 				<i class="fab fa-expeditedssl"></i>
 				<i class="fab fa-cc-visa"></i>
 				<i class="fab fa-cc-mastercard"></i>
 				<i class="fab fa-cc-amex"></i>
+				<i class="fab fa-cc-paypal"></i>
+				<i class="fab fa-cc-stripe"></i>
 				<i class="fab fa-btc"></i>
 			</div>
-		</div>
-		<div class="column has-text-left">
-			<br />
-			<br />
-			<div class="security has-text-left">
-				<p>{{ footer.c }}</p>
-				<br />
-				{{#image_src 'flags/canada.svg' 'flag'}}{{/image_src}}
-				{{#image_src 'flags/united-states.svg' 'flag'}}{{/image_src}}
-				{{#image_src 'flags/costa-rica.svg' 'flag'}}{{/image_src}}
-				{{#image_src 'flags/united-kingdom.svg' 'flag'}}{{/image_src}}
-				{{#image_src 'flags/mexico.svg' 'flag'}}{{/image_src}}
-				{{#image_src 'flags/guatemala.svg' 'flag'}}{{/image_src}}
-			</div>
+
 			<div class="social has-text-left">
 				<p>{{ footer.d }}</p>
 				<a href="https://www.instagram.com/digitaltrustinvestment/" target="_blank">
@@ -43,9 +27,50 @@
 					<i class="fab fa-twitter"></i>
 				</a>
 			</div>
-			<p class="description">
-				© 2021 - DT Investments {{ footer.e }}
-			</p>
+		</div>
+		<div class="column has-text-left">
+
+			<div class="security has-text-left">
+				<p>
+					Digital Trust Company LLC
+				</p>
+
+				<p>
+					The document number of this company is L21000348204
+				</p>
+
+				<br />
+				<p>
+					© 2021 - DT Investments {{ footer.e }}
+				</p>
+				<br />
+				<p>
+					<a href="/app/doc1.pdf" target="_blank">
+						Privacy Policy
+					</a> - <a href="/app/doc2.pdf" target="_blank">
+						Legal Terms and Conditions
+					</a>
+				</p>
+			</div>
+
+			<div>
+				<br />
+				<p id="siteseal">
+					<script async type="text/javascript"
+						src="https://seal.godaddy.com/getSeal?sealID=gdx8j0szQCaFsRsU67uu7Aah6IIOIpX0sJR3zMUXBmlHwK8Ywa2g9rfXumXC"></script>
+				</p>
+			</div>
+
+			<div class="security has-text-left">
+				<p>{{ footer.c }}</p>
+				<br />
+				{{#image_src 'flags/canada.svg' 'flag'}}{{/image_src}}
+				{{#image_src 'flags/united-states.svg' 'flag'}}{{/image_src}}
+				{{#image_src 'flags/costa-rica.svg' 'flag'}}{{/image_src}}
+				{{#image_src 'flags/united-kingdom.svg' 'flag'}}{{/image_src}}
+				{{#image_src 'flags/mexico.svg' 'flag'}}{{/image_src}}
+				{{#image_src 'flags/guatemala.svg' 'flag'}}{{/image_src}}
+			</div>
 		</div>
 	</div>
 

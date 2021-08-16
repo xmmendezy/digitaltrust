@@ -63,13 +63,15 @@
 	},
 	"home": {
 		"balance_now": {
+			"title": "Saldos",
 			"a": "Saldo",
 			"b": "Ganancia total",
 			"c": "Capital de inversión",
 			"d": "Retiros",
 			"e": "Ganancias",
 			"f": "Retirar",
-			"g": "Depositar"
+			"g": "Depositar",
+			"earn_more": "Ganar más"
 		},
 		"table_balance": {
 			"a": "Saldo",
@@ -78,6 +80,10 @@
 			"d": "Ganancia por referidos",
 			"e": "Inversión",
 			"f": "Mes"
+		},
+		"graphic_balance": {
+			"title": "Ganancias en el tiempo",
+			"a": "Ganancias"
 		},
 		"refer": {
 			"a": "Invita a tus socios",
@@ -107,8 +113,16 @@
 			"a": "Cuentas",
 			"b": "PayPal",
 			"c": "Stripe",
-			"d": "CoinPayments",
-			"e": "Información bancaria"
+			"d": "Monedero Blockchain",
+			"e": "Información bancaria",
+			"f": "Nombre del banco",
+			"g": "Dirección del banco",
+			"h": "Nombre de cuenta",
+			"i": "Número de cuenta",
+			"j": "Número de ruta bancaria",
+			"k": "Beneficiario de la cuenta",
+			"l": "Código Swift",
+			"m": "IBAN"
 		},
 		"save": "Guardar",
 		"delete": "Eliminar",
@@ -165,13 +179,16 @@
 			"b": "Fecha de inicio",
 			"c": "Fecha de fin"
 		},
-		"deposits": {
-			"title": "Depósitos",
+		"moves": {
+			"title": "Movimientos",
+			"0": "Tipo",
 			"a": "Membresía",
 			"b": "Fecha",
 			"c": "Cantidad",
 			"d": "Método de pago",
-			"e": "Referencia"
+			"e": "Método de retiro",
+			"f": "Referencia del depósito",
+			"g": "Estado del retiro"
 		},
 		"withdrawals": {
 			"title": "Retiros",
@@ -189,7 +206,8 @@
 		"step_3": "Solicitar",
 		"money": "Cantidad",
 		"date": "Fecha",
-		"description": "Ingrese la cantidad a retirar, esta no puede ser mayor a ",
+		"reference": "Referencia",
+		"description": "Ingrese la cantidad a retirar, esta no puede ser menor a 50 ni mayor a ",
 		"completed_description": "Sus fondos pronto serán enviados por el medio que ha seleccionado. Gracias por confiar en DigitalTrust.",
 		"success": "Solicitado",
 		"error": "Hubo un error, vuelva a intentar"
@@ -221,6 +239,10 @@
 		},
 		"to_pay": "Pagar"
 	},
+	"binary_tree": {
+		"title": "Árbol Binario",
+		"subtitle": "Comparta su enlace de referido y reciba un beneficio extra por cada suscripción de su socio, y además una ganancia extra por cada depósito adicional."
+	},
 	"donations": {
 		"title": "Una mano amiga",
 		"subtitle": "Dale a alguien una razón para sonreír.",
@@ -241,10 +263,16 @@
 		"paypal": "PayPal",
 		"stripe": "Stripe",
 		"blockchain": "CoinPayments",
-		"balance": "Saldo",
+		"balance": "Reinversión de saldo",
 		"bankcheck": "Cheque bancario",
 		"wire_transfer": "Transferencia bancaria",
 		"investment": "Inversión"
+	},
+	"payment_method_icon": {
+		"paypal": ["fab", "paypal"],
+		"stripe": ["fab", "stripe"],
+		"blockchain": ["fab", "btc"],
+		"balance": ["fas", "money-bill"]
 	},
 	"validator": {
 		"auth": {
@@ -370,6 +398,8 @@
 		"welcome": "Bienvenido",
 		"support": "Soporte",
 		"home": "Inicio",
+		"shopping": "Comprar más",
+		"binary_tree": "Árbol Binario",
 		"donations": "Donaciones",
 		"setting": "Configuración",
 		"logout": "Salir",
@@ -382,10 +412,16 @@
 		"cancel": "Cancelar",
 		"done": "Hecho",
 		"close": "Cerrar",
+		"summary": "Resumen",
+		"details": "Detalles",
+		"you": "Usted",
+		"password_suscess": "Contraseña enviada al correo",
+		"password_error": "No se ha podido cambiar su contraseña, posiblemente este correo sea erróneo",
 		"continue_task": "¿Continuar con esta opción?",
 		"success_task": "Tarea realizada con éxito",
 		"error_task": "No se pudo procesar",
-		"to_pay": "Pagar"
+		"to_pay": "Pagar",
+		"method": "Método"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

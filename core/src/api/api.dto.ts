@@ -163,7 +163,14 @@ class UserDto {
 		this.paypal_account = data.paypal_account;
 		this.stripe_account = data.stripe_account;
 		this.coinpayments_account = data.coinpayments_account;
+		this.banck_name = data.banck_name;
+		this.banck_address = data.banck_address;
+		this.banck_account_name = data.banck_account_name;
 		this.banck_account = data.banck_account;
+		this.banck_routing_name = data.banck_routing_name;
+		this.banck_account_username = data.banck_account_username;
+		this.banck_swift_code = data.banck_swift_code;
+		this.banck_iban = data.banck_iban;
 		this.can_remove = data instanceof User ? !data.lastDeposit : data.can_remove;
 	}
 
@@ -186,7 +193,14 @@ class UserDto {
 	public paypal_account: string;
 	public stripe_account: string;
 	public coinpayments_account: string;
+	public banck_name: string;
+	public banck_address: string;
+	public banck_account_name: string;
 	public banck_account: string;
+	public banck_routing_name: string;
+	public banck_account_username: string;
+	public banck_swift_code: string;
+	public banck_iban: string;
 	public can_remove: boolean;
 }
 
@@ -214,7 +228,14 @@ interface IUpdateDto {
 	paypal_account: string;
 	stripe_account: string;
 	coinpayments_account: string;
+	banck_name: string;
+	banck_address: string;
+	banck_account_name: string;
 	banck_account: string;
+	banck_routing_name: string;
+	banck_account_username: string;
+	banck_swift_code: string;
+	banck_iban: string;
 }
 
 class UpdateDto extends BaseDTO {
@@ -231,7 +252,14 @@ class UpdateDto extends BaseDTO {
 		this.paypal_account = data.paypal_account;
 		this.stripe_account = data.stripe_account;
 		this.coinpayments_account = data.coinpayments_account;
+		this.banck_name = data.banck_name;
+		this.banck_address = data.banck_address;
+		this.banck_account_name = data.banck_account_name;
 		this.banck_account = data.banck_account;
+		this.banck_routing_name = data.banck_routing_name;
+		this.banck_account_username = data.banck_account_username;
+		this.banck_swift_code = data.banck_swift_code;
+		this.banck_iban = data.banck_iban;
 	}
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
@@ -272,7 +300,14 @@ class UpdateDto extends BaseDTO {
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	coinpayments_account!: string;
 
+	banck_name!: string;
+	banck_address!: string;
+	banck_account_name!: string;
 	banck_account!: string;
+	banck_routing_name!: string;
+	banck_account_username!: string;
+	banck_swift_code!: string;
+	banck_iban!: string;
 }
 
 interface IRefer {
@@ -320,6 +355,16 @@ interface IWithdrawal {
 	status: boolean;
 }
 
+interface IMove {
+	type: 'deposit' | 'withdrawal';
+	date: number;
+	suscription: string;
+	money: number;
+	method: string;
+	reference: string;
+	status: boolean;
+}
+
 interface IBalanceDetail {
 	date: number;
 	available_balance: number;
@@ -335,8 +380,7 @@ interface IBalanceDetail {
 		date_end: number;
 		membershipId: string;
 	}[];
-	deposits: IDeposit[];
-	withdrawals: IWithdrawal[];
+	moves: IMove[];
 }
 
 interface DepositDto {
@@ -354,6 +398,7 @@ interface WithdrawalDto {
 	type: WithdrawalMethod;
 	money: number;
 	date?: number;
+	reference: string;
 }
 
 interface SupportPaymentDto {

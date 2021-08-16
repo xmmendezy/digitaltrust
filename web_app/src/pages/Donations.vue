@@ -1,95 +1,54 @@
 <template>
 	<div class="donations">
-		<div class="body has-text-centered">
-			<div class="box is-inline-block">
+		<div class="body" :class="{ paypalExtend }">
+			<div class="box">
 				<p class="title has-text-left">
-					{{ L('donations.title') }}
+					{{ $t('donations.title') }}
 				</p>
 				<p class="subtitle has-text-left">
-					{{ L('donations.subtitle') }}
+					{{ $t('donations.subtitle') }}
 				</p>
 				<b-steps v-model="DepositStep">
-					<b-step-item step="1" :label="L('donations.step_1')" :clickable="false">
-						<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
-							<div class="columns columns-deposit">
-								<div
-									class="column title has-text-left"
-									@click="deposit_method_selected = deposit_method"
+					<b-step-item
+						step="1"
+						:label="$t(!has_button_payment ? 'donations.step_2' : 'donations.to_pay')"
+						:clickable="false"
+					>
+						<div class="message-deposit">
+							<div class="column title has-text-left">
+								{{ $t('donations.description') }}
+							</div>
+							<div class="buttons is-centered">
+								<button
+									v-for="money_option in [20, 50, 75, 100]"
+									:key="money_option"
+									@click="moneyDonation = money_option"
+									class="button button-money"
+									:class="{
+										'is-white is-outlined': moneyDonation !== money_option,
+									}"
 								>
-									{{ L(`payment_method.${deposit_method}`) }}
-								</div>
-								<div class="column is-1">
-									<b-radio v-model="deposit_method_selected" :native-value="deposit_method"></b-radio>
-								</div>
+									<h3>${{ money_option }}</h3>
+								</button>
 							</div>
 						</div>
 					</b-step-item>
 
-					<b-step-item
-						step="2"
-						:label="L(!has_button_payment ? 'donations.step_2' : 'donations.to_pay')"
-						:clickable="false"
-					>
-						<div
-							v-if="!has_button_payment && deposit_method_selected !== 'blockchain'"
-							class="message-deposit"
-						>
-							<div class="column title has-text-left">
-								{{ L('donations.description') }}
-							</div>
-							<div class="buttons">
-								<button
-									v-for="money_option in [10, 25, 50, 100, 150, 225, 250, 300, 350, 400, 500]"
-									:key="money_option"
-									@click="moneyDonation = money_option"
-									class="button button-money"
-									:class="{
-										'is-primary': moneyDonation === money_option,
-									}"
-								>
-									<h3>${{ money_option }}</h3>
-								</button>
-							</div>
-						</div>
-						<div
-							v-if="!has_button_payment && deposit_method_selected === 'blockchain'"
-							class="message-deposit"
-						>
-							<div class="column title has-text-left">
-								{{ L('donations.description_dollar') }}
-							</div>
-							<div class="buttons">
-								<button
-									v-for="money_option in [100, 150, 225, 250, 300, 350, 400, 500]"
-									:key="money_option"
-									@click="moneyDonation = money_option"
-									class="button button-money"
-									:class="{
-										'is-primary': moneyDonation === money_option,
-									}"
-								>
-									<h3>${{ money_option }}</h3>
-								</button>
-							</div>
-							<div class="columns">
-								<div
-									v-for="deposit_blockchain in deposit_blockchains"
-									:key="deposit_blockchain.currency"
-									class="column"
-									@click="deposit_blockchain_currency = deposit_blockchain"
-								>
+					<b-step-item step="2" :label="$t('donations.step_1')" :clickable="false">
+						<div v-if="!has_button_payment">
+							<div v-for="deposit_method in deposit_methods" :key="deposit_method" class="deposit-box">
+								<div class="columns is-mobile columns-deposit">
 									<div
-										class="card card-blockchain"
-										:class="{
-											'blockchain-selected': deposit_blockchain_currency === deposit_blockchain,
-										}"
+										class="column title has-text-left"
+										@click="deposit_method_selected = deposit_method"
 									>
-										<div class="media">
-											<div class="media-content">
-												<b-image :src="deposit_blockchain.image" ratio="1by1"></b-image>
-												<h3>{{ deposit_blockchain.name }}</h3>
-											</div>
-										</div>
+										{{ $t(`payment_method.${deposit_method}`) }}
+									</div>
+									<div class="column is-1">
+										<b-radio
+											v-model="deposit_method_selected"
+											:native-value="deposit_method"
+										></b-radio>
 									</div>
 								</div>
 							</div>
@@ -111,7 +70,7 @@
 						</div>
 					</b-step-item>
 
-					<b-step-item step="3" :label="L('donations.step_3')" :clickable="false">
+					<b-step-item step="3" :label="$t('donations.step_3')" :clickable="false">
 						<div class="message-deposit">
 							<div class="columns">
 								<div class="column">
@@ -122,7 +81,7 @@
 								</div>
 								<div class="column">
 									<div v-for="i in [0, 1, 2]" :key="i" class="title title-thanks has-text-center">
-										{{ L(`donations.completed_description.${i}`) }}
+										{{ $t(`donations.completed_description.${i}`) }}
 									</div>
 								</div>
 							</div>
@@ -133,43 +92,43 @@
 						<b-button
 							v-if="DepositStep === 1 && !has_button_payment"
 							outlined
-							type="is-primary"
+							type="is-white"
 							icon-pack="fas"
 							icon-left="chevron-left"
 							@click.prevent="previous.action"
 						>
-							{{ L('helper.prev') }}
+							{{ $t('helper.prev') }}
 						</b-button>
 						<b-button
 							v-if="DepositStep === 0"
 							outlined
-							type="is-primary"
+							type="is-white"
 							icon-pack="fas"
 							icon-right="chevron-right"
 							@click.prevent="next.action"
 						>
-							{{ L('helper.next') }}
+							{{ $t('helper.next') }}
 						</b-button>
 						<b-button
 							v-if="DepositStep === 1 && !has_button_payment"
 							outlined
-							type="is-primary"
+							type="is-white"
 							icon-pack="fas"
 							icon-right="dollar-sign"
 							@click.prevent="to_pay()"
 						>
-							{{ L('donations.to_pay') }}
+							{{ $t('donations.to_pay') }}
 						</b-button>
 						<b-button
 							v-if="DepositStep === 2"
 							tag="a"
 							outlined
-							type="is-primary"
+							type="is-white"
 							icon-pack="fas"
 							icon-right="check"
 							href="/"
 						>
-							{{ L('helper.finish') }}
+							{{ $t('helper.finish') }}
 						</b-button>
 					</template>
 				</b-steps>
@@ -186,6 +145,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 @Component
 export default class Donations extends PageChildBase {
+	private paypalExtend: boolean = false;
 	private DepositStep: number = 0;
 	private has_button_payment: boolean = false;
 	private stripe_button_disabled: boolean = false;
@@ -202,10 +162,10 @@ export default class Donations extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'paypal';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDonation: number = 100;
 
 	public async created() {
@@ -226,6 +186,7 @@ export default class Donations extends PageChildBase {
 								.Buttons({
 									createOrder: (_, actions) => {
 										_;
+										this.paypalExtend = true;
 										return actions.order.create({
 											purchase_units: [
 												{
@@ -238,17 +199,18 @@ export default class Donations extends PageChildBase {
 									},
 									onApprove: async (data, _) => {
 										_;
+										this.paypalExtend = false;
 										this.DepositStep = 3;
 									},
 								})
 								.render('#paypal-button-container');
 						} else {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						}
 					});
 				})
 				.catch(() => {
-					this.toastError(this.L('error.e000'));
+					this.toastError(this.$t('error.e000'));
 				});
 		} else if (this.deposit_method_selected === 'stripe') {
 			this.has_button_payment = true;
@@ -266,13 +228,13 @@ export default class Donations extends PageChildBase {
 									})
 									.then(result => {
 										if (result.error) {
-											this.toastError(this.L('error.e000'));
+											this.toastError(this.$t('error.e000'));
 										}
 									});
 							}
 						})
 						.catch(() => {
-							this.toastError(this.L('error.e000'));
+							this.toastError(this.$t('error.e000'));
 						});
 				},
 			);
@@ -301,12 +263,34 @@ export default class Donations extends PageChildBase {
 @import '../styles/initial_variables.scss';
 
 .donations {
+	height: calc(100vh - 6rem);
+	overflow-y: scroll;
+	padding-right: 1rem;
+
+	@include mobile {
+		padding-right: 0.5rem !important;
+	}
+
 	.body {
 		padding-top: 4.5rem;
-		height: 100vh;
 		position: relative;
 
+		&.paypalExtend {
+			height: 1500px;
+
+			@include mobile {
+				height: 1000px;
+			}
+
+			@include tablet {
+				.box {
+					top: 45%;
+				}
+			}
+		}
+
 		.box {
+			background-color: $box;
 			width: 80%;
 			border-radius: 24px;
 			margin: 0;
@@ -317,24 +301,26 @@ export default class Donations extends PageChildBase {
 			transform: translate(-50%, -50%);
 			transition: width 150ms ease-out;
 
-			@include until-widescreen {
-				width: 60%;
+			@include desktop {
+				width: 70%;
 			}
 
 			@include mobile {
 				width: 100%;
+				height: 100%;
 				border-radius: 0;
-				padding-top: 20rem;
 			}
 
 			.title {
 				font-size: 28px;
 				padding-bottom: 2rem;
+				color: white !important;
 			}
 
 			.title.title-thanks {
 				font-size: 24px;
 				padding-bottom: 2rem;
+				color: white !important;
 			}
 
 			.image-thank {
@@ -347,10 +333,17 @@ export default class Donations extends PageChildBase {
 				}
 			}
 
+			.columns-deposit {
+				width: auto !important;
+				padding-left: 0 !important;
+				padding-right: 0 !important;
+			}
+
 			.subtitle {
 				font-size: 18px;
 				padding-bottom: 1rem;
 				margin-bottom: 0;
+				color: white !important;
 			}
 
 			.step-title {
@@ -358,78 +351,38 @@ export default class Donations extends PageChildBase {
 				padding-top: 0.5rem;
 				padding-bottom: 1rem;
 				margin-bottom: 0;
-				color: $black;
+				color: white !important;
 			}
 
-			.prices {
-				padding-top: 1rem;
-
-				.columns {
-					padding-bottom: 1.5rem;
+			.step-marker {
+				background: $border !important;
+				&:not(.is-active),
+				&.is-previous {
+					border-color: #458ff6 !important;
+					color: #458ff6 !important;
 				}
+			}
 
-				.card {
-					border-radius: 20px;
+			.b-radio.radio input[type='radio'] + .check {
+				border-color: white !important;
+			}
 
-					&.price-selected {
-						background-color: $selected;
-					}
-
-					.price-title {
-						font-size: 30px;
-						font-weight: bold;
-						padding-top: 2rem;
-						padding-bottom: 2rem;
-
-						&.title-1 {
-							color: #cd602e;
-						}
-
-						&.title-2 {
-							color: #c8c4c1;
-						}
-
-						&.title-3 {
-							color: #f3e74b;
-						}
-
-						&.title-4 {
-							color: #74d5e3;
-						}
-					}
-
-					.fa-plus-circle {
-						color: $border;
-						font-size: 25px;
-					}
-
-					ul {
-						list-style: disc outside;
-						margin-left: 3rem;
-						margin-top: 1rem;
-						padding-bottom: 1rem;
-
-						li {
-							padding-bottom: 1rem;
-						}
-					}
+			.b-radio.radio input[type='radio']:checked + .check {
+				&:before {
+					background-color: white !important;
 				}
 			}
 
 			.deposit-box {
-				border-top: 1px solid $border;
-
 				&:first-child {
 					margin-top: 3rem;
 				}
 
 				&:last-child {
 					margin-bottom: 3rem;
-					border-bottom: 1px solid $border;
 				}
 
 				.columns-deposit {
-					width: 60%;
 					margin: auto;
 					font-size: 16px;
 					padding: 1rem 3rem;
@@ -450,7 +403,7 @@ export default class Donations extends PageChildBase {
 				margin: auto;
 
 				@include tablet {
-					width: 60%;
+					width: 80%;
 				}
 
 				.button-money {

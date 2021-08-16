@@ -12,6 +12,16 @@ export class Membership extends BaseEntity implements IMembership {
 	public name: string;
 
 	@Column({
+		nullable: true,
+	})
+	public description_es: string;
+
+	@Column({
+		nullable: true,
+	})
+	public description_en: string;
+
+	@Column({
 		type: 'float8',
 		default: 0,
 	})
