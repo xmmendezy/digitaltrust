@@ -50,6 +50,11 @@ export class ApiController {
 		return await this.apiService.ref_user(query.id);
 	}
 
+	@Get('binary_tree')
+	public async binary_tree(@Req() req: Request) {
+		return await this.apiService.binary_tree(req.user);
+	}
+
 	@Get('is_refer')
 	public async is_refer(@Req() req: Request) {
 		return await this.apiService.is_refer(req.user);

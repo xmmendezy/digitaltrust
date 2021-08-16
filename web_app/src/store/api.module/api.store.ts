@@ -64,6 +64,7 @@ export default class ApiStore extends VuexModule {
 			suscriptions: `${ApiStore.config.Api}/suscriptions`,
 			clients: `${ApiStore.config.Api}/clients`,
 			client: `${ApiStore.config.Api}/client`,
+			binary_tree: `${ApiStore.config.Api}/binary_tree`,
 			records: `${ApiStore.config.Api}/records`,
 			balance: `${ApiStore.config.Api}/balance`,
 			balance_detail: `${ApiStore.config.Api}/balance_detail`,
@@ -509,6 +510,22 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
+	public async binary_tree(): Promise<any> {
+		return await ApiStore.http
+			.get(`${this.url.binary_tree}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
 	public async records(id?: string): Promise<IRecord[]> {
 		return await ApiStore.http
 			.get(`${this.url.records}`, { params: { id }, headers: this.headers })
@@ -621,6 +638,7 @@ export default class ApiStore extends VuexModule {
 		type: string;
 		money: number;
 		date?: number;
+		reference?: string;
 	}): Promise<{ valid: boolean } | string> {
 		return await ApiStore.http
 			.post(this.url.withdrawal, data, { headers: this.headers })

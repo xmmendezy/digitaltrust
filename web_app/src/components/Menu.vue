@@ -29,6 +29,13 @@
 			></b-menu-item>
 			<b-menu-item
 				v-if="!is_admin"
+				icon="user-friends"
+				tag="router-link"
+				:to="{ name: 'BinaryTree' }"
+				:label="$t('helper.binary_tree')"
+			></b-menu-item>
+			<b-menu-item
+				v-if="!is_admin"
 				icon="hands-helping"
 				tag="router-link"
 				:to="{ name: 'AppDonations' }"

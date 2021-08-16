@@ -103,6 +103,7 @@ interface IWithdrawal {
 	readonly money?: number;
 	readonly withdrawal_method?: WithdrawalMethod;
 	readonly status?: boolean;
+	readonly reference?: string;
 }
 
 interface ISupportPayment {

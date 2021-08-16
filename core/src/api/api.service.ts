@@ -276,6 +276,107 @@ export class ApiService {
 		await User.createQueryBuilder().delete().where('id = :id', { id }).execute();
 	}
 
+	public async binary_tree(user: User) {
+		const data = [
+			{
+				name: 'Empty',
+				description: '',
+				children: [
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+				],
+			},
+			{
+				name: 'Empty',
+				description: '',
+				children: [
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+					{
+						name: 'Empty',
+						description: '',
+						children: [
+							{
+								name: 'Empty',
+								description: '',
+							},
+
+							{
+								name: 'Empty',
+								description: '',
+							},
+						],
+					},
+				],
+			},
+		];
+		const users_ref = await User.createQueryBuilder('user')
+			.where('user.ref = :id', { id: user.id })
+			.orderBy('created', 'ASC')
+			.getMany();
+		const level = (index: number, d: any, user_ref: User) => {
+			if (index < 2) {
+				d[index].name = user_ref.name;
+			} else if (index >= 2 && index < 6) {
+				level(index % 2, d[Math.floor(index / 2) - 1].children, user_ref);
+			} else {
+				level(
+					index % 2,
+					d[Math.floor((Math.floor((2 * (index - 6)) / 4) + 2) / 2) - 1].children[
+						(Math.floor((2 * (index - 6)) / 4) + 2) % 2
+					].children,
+					user_ref,
+				);
+			}
+		};
+		for (let index = 0; index < users_ref.length; index++) {
+			const user_ref = users_ref[index];
+			level(index, data, user_ref);
+		}
+		return data;
+	}
+
 	public async memberships(user: User): Promise<Membership[]> {
 		if (user.role === UserRole.ADMIN) {
 			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
@@ -465,6 +566,7 @@ export class ApiService {
 			date: date.toSeconds(),
 			money: data.money,
 			withdrawal_method: data.type,
+			reference: data.reference,
 		});
 		if (is_admin) {
 			withdrawal.status = true;
@@ -696,7 +798,7 @@ export class ApiService {
 						type: 'withdrawal' as 'withdrawal',
 						date: w.date,
 						suscription: '',
-						reference: '',
+						reference: w.reference !== 'default' ? w.reference : '',
 						money: w.money,
 						method: w.withdrawal_method,
 						status: w.status,
@@ -990,7 +1092,7 @@ export class ApiService {
 	}
 
 	public async get_stripe(data: DepositDto): Promise<{ id: string; reference: string }> {
-		const success_url = `${config.url_root}/app?success_stripe=true&${Object.entries(data)
+		const success_url = `${config.url_root}/app/buy?success_stripe=true&${Object.entries(data)
 			.map(([key, val]) => `${key}=${val}`)
 			.join('&')}`;
 		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
@@ -1015,7 +1117,7 @@ export class ApiService {
 			],
 			mode: 'payment',
 			success_url,
-			cancel_url: `${config.url_root}/app?success_stripe=false`,
+			cancel_url: `${config.url_root}/app/buy?success_stripe=false`,
 		});
 		return { id: session.id, reference: session.payment_intent as string };
 	}
@@ -1024,7 +1126,7 @@ export class ApiService {
 		user: User,
 		data: DepositDto & { currency: string },
 	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
-		const success_url = `${config.url_root}/app?success_coinpayments=true&${Object.entries(data)
+		const success_url = `${config.url_root}/app/buy?success_coinpayments=true&${Object.entries(data)
 			.map(([key, val]) => `${key}=${val}`)
 			.join('&')}`;
 		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
@@ -1037,7 +1139,7 @@ export class ApiService {
 			item_name: `Payment - ${membership.name}`,
 			address,
 			success_url,
-			cancel_url: `${config.url_root}/app?success_coinpayments=false`,
+			cancel_url: `${config.url_root}/app/buy?success_coinpayments=false`,
 		});
 	}
 

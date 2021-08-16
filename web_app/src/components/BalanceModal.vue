@@ -67,7 +67,11 @@
 							</div>
 						</div>
 					</b-tab-item>
-					<b-tab-item v-if="balance_detail_data.moves.length" :label="$t('helper.details')" class="moves">
+					<b-tab-item
+						v-if="balance_detail_data.moves.length"
+						:label="$t('balance.moves.title')"
+						class="moves"
+					>
 						<b-table :data="balance_detail_data.moves" sticky-header :mobile-cards="false">
 							<b-table-column
 								field="type"
@@ -135,10 +139,9 @@
 								header-class="header"
 								v-slot="props"
 							>
-								<div v-if="props.row.type === 'deposit'" class="has-text-left">
+								<div class="has-text-center">
 									{{ props.row.reference }}
 								</div>
-								<div v-else class="has-text-center">---</div>
 							</b-table-column>
 
 							<b-table-column

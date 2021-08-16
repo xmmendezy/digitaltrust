@@ -26,12 +26,17 @@ const routes: Array<RouteConfig> = [
 					{
 						path: 'buy',
 						name: 'BuyMore',
-						component: () => import(/* webpackChunkName: "home" */ '@app/pages/App/BuyMore.vue'),
+						component: () => import(/* webpackChunkName: "buy" */ '@app/pages/App/BuyMore.vue'),
+					},
+					{
+						path: 'binary_tree',
+						name: 'BinaryTree',
+						component: () => import(/* webpackChunkName: "binary_tree" */ '@app/pages/App/BinaryTree.vue'),
 					},
 					{
 						path: 'donations_user',
 						name: 'AppDonations',
-						component: () => import(/* webpackChunkName: "app-donations" */ '@app/pages/Donations.vue'),
+						component: () => import(/* webpackChunkName: "donations_user" */ '@app/pages/Donations.vue'),
 					},
 					{
 						path: 'setting',
@@ -83,9 +88,17 @@ const routes: Array<RouteConfig> = [
 				},
 			},
 			{
+				path: '/register',
+				name: 'register',
+				component: () => import(/* webpackChunkName: "register" */ '@app/pages/Register.vue'),
+				meta: {
+					free_page: true,
+				},
+			},
+			{
 				path: '/preregister',
 				name: 'Preregister',
-				component: () => import(/* webpackChunkName: "register" */ '@app/pages/Preregister.vue'),
+				component: () => import(/* webpackChunkName: "preregister" */ '@app/pages/Preregister.vue'),
 				meta: {
 					free_page: true,
 				},

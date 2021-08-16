@@ -398,6 +398,7 @@ interface WithdrawalDto {
 	type: WithdrawalMethod;
 	money: number;
 	date?: number;
+	reference: string;
 }
 
 interface SupportPaymentDto {

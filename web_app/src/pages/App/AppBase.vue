@@ -207,6 +207,7 @@ export default class AppBase extends PageBase {
 			this.pdf_src = await pdf.createLoadingTask(this.publicPath + 'doc5_' + this.$i18n.locale + '.pdf');
 			this.pdf_src.promise.then((pdf: { numPages: number }) => {
 				this.numPages = pdf.numPages;
+				/* eslint-disable no-console */
 				console.clear();
 			});
 		});

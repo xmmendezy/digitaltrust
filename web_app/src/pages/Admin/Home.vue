@@ -485,6 +485,21 @@
 										</b-field>
 									</div>
 									<div class="column">
+										<b-field :label="$t('withdrawal.date')">
+											<b-datepicker
+												v-model="dateWithdrawal"
+												:locale="$i18n.locale"
+												icon="calendar-alt"
+											>
+											</b-datepicker>
+										</b-field>
+									</div>
+								</div>
+								<br />
+								<br />
+								<br />
+								<div class="columns">
+									<div class="column">
 										<c-input
 											v-model="moneyWithdrawal"
 											:placeholder="$t('withdrawal.money')"
@@ -494,23 +509,20 @@
 										>
 										</c-input>
 									</div>
-								</div>
-								<div class="columns">
 									<div class="column">
-										<b-field :label="$t('withdrawal.date')">
-											<b-datepicker
-												v-model="dateWithdrawal"
-												:locale="$i18n.locale"
-												icon="calendar-alt"
-												inline
-											>
-											</b-datepicker>
-										</b-field>
-									</div>
-									<div class="column helper">
-										{{ $t('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}
+										<c-input
+											v-model="referenceWithdrawal"
+											:placeholder="$t('withdrawal.reference')"
+										>
+										</c-input>
 									</div>
 								</div>
+
+								<p>{{ $t('withdrawal.description') }} {{ formatMoney(moneyWithdrawalMax) }}</p>
+
+								<br />
+								<br />
+								<br />
 
 								<b-field>
 									<b-button
@@ -590,7 +602,7 @@
 												v-model="dateDeposit"
 												:locale="$i18n.locale"
 												icon="calendar-alt"
-												inline
+												position="is-top-right"
 											>
 											</b-datepicker>
 										</b-field>
@@ -699,6 +711,7 @@ export default class Admin extends PageChildBase {
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;
 	private dateWithdrawal: Date = new Date();
+	private referenceWithdrawal: string = '';
 
 	private isOpenDepositModal: boolean = false;
 	private deposit_suscriptions: {
@@ -798,7 +811,7 @@ export default class Admin extends PageChildBase {
 	}
 
 	public get url_pay() {
-		const url_base = 'https://digitaltrustonline.net/app';
+		const url_base = 'https://digitaltrustonline.net/app/buy';
 		if (this.moneyDeposit) {
 			return `${url_base}?directDeposit=true&money=${this.moneyDeposit}&method=${this.deposit_method_selected}&membership=${this.deposit_membership_selected}`;
 		} else {
@@ -1009,6 +1022,7 @@ export default class Admin extends PageChildBase {
 			this.moneyWithdrawalMax = parseFloat(this.balance_detail_data.balance.toFixed(2));
 			this.moneyWithdrawal = 0;
 			this.dateWithdrawal = new Date();
+			this.referenceWithdrawal = '';
 			this.isOpenWithdrawalModal = true;
 		});
 	}
@@ -1020,6 +1034,7 @@ export default class Admin extends PageChildBase {
 				type: this.withdrawal_method_selected,
 				money: this.moneyWithdrawal,
 				date: this.store.api.DateTime.fromDate(this.dateWithdrawal).toSeconds(),
+				reference: this.referenceWithdrawal,
 			}),
 			d => {
 				if (d.valid) {

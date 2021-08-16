@@ -206,7 +206,8 @@
 		"step_3": "Confirm",
 		"money": "Money",
 		"date": "Date",
-		"description": "Enter the amount to withdraw, this cannot be greater than ",
+		"reference": "Reference",
+		"description": "Enter the amount to withdraw, this cannot be less than 50 nor greater than ",
 		"completed_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
 		"success": "Requested",
 		"error": "There was an error, please try again"
@@ -238,6 +239,10 @@
 		},
 		"to_pay": "To pay"
 	},
+	"binary_tree": {
+		"title": "Binary Tree",
+		"subtitle": "Share your referral link and receive an extra profit for each subscription of your partner, and also an extra profit for each additional deposit."
+	},
 	"donations": {
 		"title": "A friendly hand",
 		"subtitle": "Give someone the reason to smile.",
@@ -262,6 +267,12 @@
 		"bankcheck": "Bank Check",
 		"wire_transfer": "Wire Transfer",
 		"investment": "Investment"
+	},
+	"payment_method_icon": {
+		"paypal": ["fab", "paypal"],
+		"stripe": ["fab", "stripe"],
+		"blockchain": ["fab", "btc"],
+		"balance": ["fas", "money-bill"]
 	},
 	"validator": {
 		"auth": {
@@ -388,6 +399,7 @@
 		"support": "Support",
 		"home": "Home",
 		"shopping": "Buy more",
+		"binary_tree": "Binary Tree",
 		"donations": "Donations",
 		"setting": "Setting",
 		"logout": "Sign out",
@@ -402,6 +414,7 @@
 		"close": "Close",
 		"summary": "Summary",
 		"details": "Details",
+		"you": "You",
 		"password_suscess": "Password sent to email",
 		"password_error": "Your password could not be changed, possibly this email is wrong",
 		"continue_task": "Continue on this task?",
