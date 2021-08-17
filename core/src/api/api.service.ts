@@ -279,72 +279,72 @@ export class ApiService {
 	public async binary_tree(user: User) {
 		const data = [
 			{
-				name: 'Empty',
-				description: '',
+				name: '---',
+				description: 'Level 1',
 				children: [
 					{
-						name: 'Empty',
-						description: '',
+						name: '---',
+						description: 'Level 2',
 						children: [
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 						],
 					},
 					{
-						name: 'Empty',
-						description: '',
+						name: '---',
+						description: 'Level 2',
 						children: [
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 						],
 					},
 				],
 			},
 			{
-				name: 'Empty',
-				description: '',
+				name: '---',
+				description: 'Level 1',
 				children: [
 					{
-						name: 'Empty',
-						description: '',
+						name: '---',
+						description: 'Level 2',
 						children: [
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 						],
 					},
 					{
-						name: 'Empty',
-						description: '',
+						name: '---',
+						description: 'Level 2',
 						children: [
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 
 							{
-								name: 'Empty',
-								description: '',
+								name: '---',
+								description: 'Level 3',
 							},
 						],
 					},
