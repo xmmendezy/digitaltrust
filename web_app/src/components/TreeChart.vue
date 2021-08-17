@@ -130,7 +130,7 @@ td {
 .node {
 	position: relative;
 	display: inline-block;
-	width: 10rem;
+	width: 9rem;
 	box-sizing: border-box;
 	text-align: center;
 }
@@ -138,12 +138,12 @@ td {
 	position: relative;
 	display: inline-block;
 	z-index: 2;
-	width: 6em;
+	width: 100%;
 	overflow: hidden;
 }
 .node .person .avat {
 	display: block;
-	width: 4em;
+	width: 100%;
 	height: 4em;
 	margin: auto;
 	overflow: hidden;
