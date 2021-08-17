@@ -375,7 +375,7 @@ export default class BuyMore extends PageChildBase {
 					months: m.months,
 					min_money: suscription?.id ? 100 : m.money_a,
 					max_money: m.money_b,
-					interest: (m.interest * 100).toFixed(1),
+					interest: (m.interest * 100).toFixed(2),
 					suscriptionId: suscription?.id || '',
 					investment: suscription?.investment || 0,
 					description: this.$i18n.locale === 'en' ? m.description_en : m.description_es,
