@@ -145,6 +145,14 @@ export default abstract class ComponentBase extends Vue {
 		});
 	}
 
+	public toastWarning(message: string | TranslateResult, duration: number = 4000) {
+		this.$buefy.toast.open({
+			message: message as string,
+			type: 'is-warning',
+			duration,
+		});
+	}
+
 	public load_form_api<T>(data: T | string, callback: (data: T) => void, custom_data_error?: { [key: string]: any }) {
 		if (typeof data === 'string' && data !== '') {
 			const data_error: { [key: string]: any } = {

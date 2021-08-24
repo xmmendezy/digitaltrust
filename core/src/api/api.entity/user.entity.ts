@@ -16,6 +16,7 @@ export class User extends BaseEntity implements IUser {
 		super();
 		if (data) {
 			this.id = data.id;
+			this.username = data.username;
 			this.email = data.email;
 			this.telephone = data.telephone;
 			this.password = data.password;
@@ -53,6 +54,12 @@ export class User extends BaseEntity implements IUser {
 			this.ref = data.ref;
 		}
 	}
+
+	@Column({
+		nullable: true,
+		unique: true,
+	})
+	public username: string;
 
 	@Column({
 		nullable: true,

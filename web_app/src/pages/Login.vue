@@ -5,15 +5,13 @@
 				<article class="media">
 					<div class="media-content has-text-centered">
 						<b-image class="logo" :src="require('../assets/images/logo4.png')"></b-image>
-						<br />
-						<br />
-						<p class="title">{{ $t('login.a') }}</p>
+						<p class="subtitle">{{ $t('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
 								<c-input
 									class="md"
 									ref="input"
-									v-model="login_form.email"
+									v-model="login_form.username"
 									@keyup.enter.native="login()"
 									:placeholder="$t('login.b')"
 								></c-input>
@@ -39,8 +37,6 @@
 									{{ $t('login.d') }}
 								</b-button>
 							</b-field>
-							<br />
-							<br />
 							<b-field>
 								<b-button :disabled="!valid_form" @click="login()" rounded type="is-white">{{
 									$t('login.e')
@@ -110,7 +106,7 @@ export default class Login extends PageChildBase {
 	private valid_captcha: boolean = false;
 
 	private login_form: LoginDto = {
-		email: '',
+		username: '',
 		password: '',
 	};
 
@@ -123,7 +119,7 @@ export default class Login extends PageChildBase {
 	}
 
 	get valid_form(): boolean {
-		return this.valid_captcha && !!this.login_form.email && !!this.login_form.password;
+		return this.valid_captcha && !!this.login_form.username && !!this.login_form.password;
 	}
 
 	private async mounted() {
@@ -180,7 +176,6 @@ export default class Login extends PageChildBase {
 	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
 
 	.body {
-		padding-top: 4.5rem;
 		height: 100vh;
 
 		.box {
@@ -216,16 +211,16 @@ export default class Login extends PageChildBase {
 				.logo {
 					width: 15rem;
 					margin: auto;
-					margin-bottom: 3rem;
+					margin-bottom: 1.5rem;
 
 					@include mobile {
 						width: 10rem;
 					}
 				}
 
-				.title {
+				.subtitle {
 					color: white !important;
-					font-size: 32px;
+					font-size: 28px;
 					font-weight: normal !important;
 				}
 
@@ -238,7 +233,7 @@ export default class Login extends PageChildBase {
 					}
 
 					.c-input {
-						margin: 3rem 0;
+						margin: 2rem 0;
 					}
 
 					.button.is-text {

@@ -11,7 +11,7 @@
 								<c-input
 									class="md"
 									ref="input"
-									v-model="login_form.email"
+									v-model="login_form.username"
 									@keyup.enter.native="login()"
 									:placeholder="$t('login.b')"
 								></c-input>
@@ -45,7 +45,7 @@ import { LoginDto } from '../../store';
 @Component
 export default class Login extends PageChildBase {
 	private login_form: LoginDto = {
-		email: '',
+		username: '',
 		password: '',
 	};
 

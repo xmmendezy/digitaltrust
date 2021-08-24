@@ -11,6 +11,7 @@ enum UserStatus {
 
 interface IUser {
 	readonly id?: string;
+	readonly username?: string;
 	readonly email?: string;
 	readonly telephone?: string;
 	readonly password?: string;

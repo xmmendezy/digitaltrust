@@ -13,6 +13,7 @@ interface IAuthData {
 
 interface IUser {
 	id: string;
+	username: string;
 	email: string;
 	telephone: string;
 	lastname: string;
@@ -51,6 +52,7 @@ class UpdateDto extends ClassBase {
 			this.data = data;
 			this.firstname = data.firstname;
 			this.lastname = data.lastname;
+			this.username = data.username;
 			this.email = data.email;
 			this.telephone = data.telephone;
 			this.password = 'Secret00__';
@@ -73,6 +75,7 @@ class UpdateDto extends ClassBase {
 		} else {
 			this.firstname = '';
 			this.lastname = '';
+			this.username = '';
 			this.email = '';
 			this.telephone = '';
 			this.password = '';
@@ -104,6 +107,10 @@ class UpdateDto extends ClassBase {
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.c' })
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	lastname!: string;
+
+	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	username!: string;
 
 	@IsEmail({}, { message: 'validator.auth.d' })
 	@IsNotEmpty({ message: 'validator.auth.a' })
@@ -311,7 +318,7 @@ class PreregisterDto extends ClassBase {
 }
 
 interface LoginDto {
-	email: string;
+	username: string;
 	password: string;
 }
 

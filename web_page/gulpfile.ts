@@ -24,6 +24,7 @@ import replace from 'gulp-replace';
 import merge from 'merge2';
 
 import package_json from './package.json';
+import tsconfig from './tsconfig.json';
 import helpers from './handlebars_helpers';
 
 const src_folder = './src/';
@@ -53,7 +54,7 @@ function script(fn: any, str: string) {
 	fn;
 	if (str) {
 		if (is_production) {
-			return `<script src="/assets/js/${str}-${hash}"></script>`;
+			return `<script type="module" src="/assets/js/${str}-${hash}"></script>`;
 		} else {
 			return `<script src="/assets/js/${str}"></script>`;
 		}
@@ -273,11 +274,10 @@ task('js', () => {
 });
 
 task('ts', () => {
-	const tsconfig = JSON.parse(readFileSync('tsconfig.json', 'utf-8'));
 	return src([src_assets_folder + 'ts/main.ts'], { allowEmpty: true })
 		.pipe(plumber())
 		.pipe(init())
-		.pipe(tsc(tsconfig['compilerOptions']))
+		.pipe(tsc(tsconfig.compilerOptions))
 		.js.pipe(
 			minify({
 				ext: {

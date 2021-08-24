@@ -12,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	(window as any).bulmaAccordion.attach();
+
+	new Glide('.glide', {
+		autoplay: 2000,
+		hoverpause: false,
+	}).mount();
 });
 
 function contactForm() {
@@ -33,4 +38,4 @@ function contactForm() {
 	input_message.value = '';
 }
 
-window.contactForm = contactForm;
+(window as any).contactForm = contactForm;

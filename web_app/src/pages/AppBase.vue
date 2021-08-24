@@ -24,7 +24,6 @@ export default class AppBase extends PageBase {
 @import '../styles/initial_variables.scss';
 
 .app-base > .donations {
-	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
 	height: 100vh !important;
 	position: relative;
 	padding-top: 0;

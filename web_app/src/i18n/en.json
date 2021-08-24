@@ -2,7 +2,7 @@
 	"title": "DigitalTrust",
 	"login": {
 		"a": "Welcome",
-		"b": "Email",
+		"b": "Username",
 		"c": "Password",
 		"d": "Forgot Password?",
 		"e": "Sign in",
@@ -99,7 +99,8 @@
 	},
 	"setting": {
 		"user": {
-			"a": "User",
+			"title": "User",
+			"a": "Username",
 			"b": "Name",
 			"c": "Last Name",
 			"d": "Email",
@@ -286,7 +287,9 @@
 			"h": "It must be a valid phone",
 			"i": "Invalid country",
 			"j": "Phone not available, already registered",
-			"k": "Email not available, already registered"
+			"k": "Email not available, already registered",
+			"l": "The username must be only alphanumeric characters",
+			"m": "Username not available, already registered"
 		}
 	},
 	"info": {

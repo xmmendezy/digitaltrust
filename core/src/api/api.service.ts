@@ -184,7 +184,7 @@ export class ApiService {
 		}
 		if (
 			await User.createQueryBuilder('user')
-				.where('user.telephone = :telephone', { telephone: user.telephone })
+				.where('user.telephone = :telephone', { telephone: data.telephone })
 				.andWhere('user.id != :id', { id: user.id })
 				.getCount()
 		) {
@@ -194,13 +194,23 @@ export class ApiService {
 		}
 		if (
 			await User.createQueryBuilder('user')
-				.where('user.email = :email', { email: user.email })
+				.where('user.email = :email', { email: data.email })
 				.andWhere('user.id != :id', { id: user.id })
 				.getCount()
 		) {
 			errors.push('validator.auth.k');
 		} else {
 			user.email = data.email;
+		}
+		if (
+			await User.createQueryBuilder('user')
+				.where('user.username = :username', { username: data.username })
+				.andWhere('user.id != :id', { id: user.id })
+				.getCount()
+		) {
+			errors.push('validator.auth.m');
+		} else {
+			user.username = data.username;
 		}
 		await user.save();
 		if (user.errors.length) {
@@ -810,9 +820,7 @@ export class ApiService {
 		return balance;
 	}
 
-	public async balance_graphic(
-		user: User,
-	): Promise<{
+	public async balance_graphic(user: User): Promise<{
 		labels: number[];
 		data: number[];
 	}> {
