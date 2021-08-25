@@ -210,28 +210,6 @@ body {
 	border-bottom: 3px solid $black;
 }
 
-.accordions .accordion {
-	.accordion-header {
-		color: $black;
-		font-weight: bold;
-		background-color: #ffffff;
-		padding-top: 1.5rem !important;
-		padding-bottom: 1.5rem !important;
-	}
-
-	.accordion-body {
-		background-color: #ffffff;
-		text-align: left;
-		border-left: none !important;
-		border-right: none !important;
-
-		.accordion-content {
-			margin-left: 1rem !important;
-			margin-bottom: 1rem !important;
-		}
-	}
-}
-
 .control.has-floating-label {
 	position: relative;
 
@@ -292,38 +270,58 @@ body {
 }
 
 #info {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100vh;
+	position: relative;
 	margin-bottom: 0;
 	padding: 0 !important;
 
-	.columns {
-		position: relative;
+	@include tablet {
+		height: 100vh;
 	}
 
 	.content > * {
-		width: 100%;
 		margin: 0 !important;
+
+		@include tablet {
+			width: 100%;
+		}
 	}
 
 	.content {
-		display: flex;
-		flex-wrap: wrap;
-		align-content: center;
-		align-items: center;
-		height: 100%;
+		position: absolute;
+		top: 0;
+		background-color: $box !important;
+
+		@include tablet {
+			width: 100%;
+			height: 100vh;
+			margin: auto;
+			padding-top: 30vh;
+			margin-top: 10vh;
+		}
+
+		@include mobile {
+			height: 91.5vh;
+			padding-top: 40vh;
+			margin-top: 10vh;
+		}
 
 		.title-info {
 			color: $black !important;
-			font-size: 38px !important;
+			font-weight: bold;
+
+			@include tablet {
+				font-size: 40px !important;
+			}
 		}
 
 		.subtitle-info {
-			color: $gray;
-			font-size: 20px !important;
+			color: $black;
+			font-weight: bold;
 			padding-top: 1.5rem;
+
+			@include tablet {
+				font-size: 24px !important;
+			}
 		}
 
 		.button {
@@ -338,15 +336,26 @@ body {
 	}
 
 	.glide {
-		position: absolute;
-		top: 0;
-		left: 0;
-		margin: auto;
+		margin-top: -10vh;
+
+		.glide__slides {
+			@include tablet {
+				height: 110vh;
+			}
+		}
 	}
 }
 
 .hero-body .container {
-	margin-top: 90vh;
+	margin-top: 7rem;
+
+	@include mobile {
+		margin-top: 60vh;
+	}
+
+	&.secundary {
+		margin-top: 0 !important;
+	}
 }
 
 #friendly,
@@ -417,6 +426,14 @@ body {
 			}
 		}
 	}
+
+	.bbutton {
+		@extend .is-white;
+
+		&:hover {
+			background-color: $box !important;
+		}
+	}
 }
 
 #invest_now {
@@ -447,6 +464,37 @@ body {
 #fqa {
 	position: relative;
 	margin-bottom: 0;
+
+	.accordions .accordion {
+		background-color: transparent !important;
+
+		.accordion-header {
+			color: $black;
+			font-weight: bold;
+			background-color: transparent !important;
+			border-radius: 0 !important;
+			padding-top: 1.5rem !important;
+			padding-bottom: 1.5rem !important;
+		}
+
+		.accordion-header,
+		.accordion-body {
+			background-color: transparent !important;
+		}
+
+		.accordion-body {
+			border: 1px solid $gray;
+			text-align: left;
+			border-left: none !important;
+			border-right: none !important;
+
+			.accordion-content {
+				color: $black;
+				margin-left: 1rem !important;
+				margin-bottom: 1rem !important;
+			}
+		}
+	}
 }
 
 #contact {
@@ -568,6 +616,14 @@ body {
 		@include tablet {
 			width: 70% !important;
 		}
+
+		&.bbutton {
+			@extend .is-white;
+
+			&:hover {
+				background-color: $box !important;
+			}
+		}
 	}
 }
 
@@ -658,23 +714,5 @@ body {
 		height: 4rem;
 		width: 4rem;
 		font-size: 2rem;
-	}
-}
-
-.accordions .accordion {
-	background-color: transparent !important;
-	border-radius: 0 !important;
-
-	.accordion-header,
-	.accordion-body {
-		background-color: transparent !important;
-	}
-
-	.accordion-body {
-		border: 1px solid $gray;
-	}
-
-	.accordion-content {
-		color: $gray;
 	}
 }

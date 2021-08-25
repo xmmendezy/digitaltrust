@@ -10,7 +10,7 @@
 		"prebuild": "npm run lint",
 		"lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
 		"prelint": "npm run prettier",
-		"prettier": "prettier --write 'src/**/*.{ts,tsx,js,jsx,json,scss,css}'"
+		"prettier": "prettier --write 'src/**/*.{ts,js,json,scss,css}'"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^5.15.3",

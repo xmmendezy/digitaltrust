@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	(window as any).bulmaAccordion.attach();
 
 	new Glide('.glide', {
-		autoplay: 2000,
+		autoplay: 6000,
 		hoverpause: false,
 	}).mount();
 });

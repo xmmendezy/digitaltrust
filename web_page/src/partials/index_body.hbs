@@ -6,24 +6,21 @@
 				<li class="glide__slide">{{#image_src 'slider-2.jpg' ''}}{{/image_src}}</li>
 				<li class="glide__slide">{{#image_src 'slider-3.jpg' ''}}{{/image_src}}</li>
 				<li class="glide__slide">{{#image_src 'slider-4.jpg' ''}}{{/image_src}}</li>
+				<li class="glide__slide">{{#image_src 'slider-5.jpg' ''}}{{/image_src}}</li>
 			</ul>
 		</div>
 	</div>
 
-	<div class="columns">
-		<div class="column">
-			<div class="content has-text-centered">
-				<h1 class="title is-2 title-info">
-					{{ info.a }}
-				</h1>
-				<p class="subtitle-info">
-					{{ info.b }}
-				</p>
-				<a href="#invest_now" class="button is-primary is-light is-rounded">
-					{{ info.c }}
-				</a>
-			</div>
-		</div>
+	<div class="content has-text-centered">
+		<h1 class="title is-2 title-info">
+			{{ info.a }}
+		</h1>
+		<p class="subtitle-info">
+			{{ info.b }}
+		</p>
+		<a href="#invest_now" class="button is-primary is-light is-rounded">
+			{{ info.c }}
+		</a>
 	</div>
 
 	<div class="points_1">
@@ -113,7 +110,7 @@
 						</div>
 					</div>
 					<div class="column is-7">
-						{{#image_src 'image5.jpg' 'image5'}}{{/image_src}}
+						{{#image_src 'image5.png' 'image5'}}{{/image_src}}
 					</div>
 				</div>
 
@@ -125,7 +122,7 @@
 			<section id="service_info" class="section">
 				<div class="columns reverse-columns">
 					<div class="column is-5">
-						{{#image_src 'image2.jpg' 'image2'}}{{/image_src}}
+						{{#image_src 'image2.png' 'image2'}}{{/image_src}}
 					</div>
 					<div class="column">
 						<div class="content">
@@ -165,20 +162,21 @@
 								</li>
 								{{/each}}
 							</ul>
-							<a href="/app/preregister?i18n={{ i18n }}" class="button is-primary is-rounded is-outlined">
+							<a href="/app/preregister?i18n={{ i18n }}" class="button bbutton is-rounded is-outlined">
 								{{ invest_now.d }}
 							</a>
-							{{#page 'help' '@navbar.url.a8' '' 'button is-primary is-rounded is-outlined help-button'
+							{{#page 'help' '@navbar.url.a8' '' 'button bbutton is-rounded is-outlined help-button'
 							}}{{/page}}
 						</div>
 					</div>
 					<div class="column is-7">
-						{{#image_src 'image3.jpg' 'image3'}}{{/image_src}}
+						{{#image_src 'image3.png' 'image3'}}{{/image_src}}
 					</div>
 				</div>
 				<div class="columns column-trading">
 					<div class="column"></div>
 					<div class="column is-8">
+						{{> tradingview }}
 					</div>
 					<div class="column"></div>
 				</div>
