@@ -4,20 +4,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/css/admin-home.eb27b379.css"
   },
   {
-    "revision": "d77d17c88c539990d9ad",
+    "revision": "a00b9b9c2e6629725bec",
     "url": "/app/css/admin-login.1dbbf2b4.css"
   },
   {
-    "revision": "351f6516f66be3cedf0a",
-    "url": "/app/css/app-base.e5752e5a.css"
+    "revision": "b3494e9a91c88bbd9331",
+    "url": "/app/css/app-base.1b6d236c.css"
   },
   {
-    "revision": "33ff7b380b6977c16987",
-    "url": "/app/css/app-main.b0b9f283.css"
+    "revision": "d901315e9b90c4d00315",
+    "url": "/app/css/app-main.0999c9f3.css"
   },
   {
-    "revision": "89db2ccebd8e65f2404e",
-    "url": "/app/css/app.1bcf75a2.css"
+    "revision": "e01ca8087841a129ca40",
+    "url": "/app/css/app.9719c798.css"
   },
   {
     "revision": "2ec553558fe78831d828",
@@ -40,8 +40,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/css/home.a6b16dd0.css"
   },
   {
-    "revision": "16bb9a608c522bc2719e",
-    "url": "/app/css/login.f2dac39e.css"
+    "revision": "3cd41255602f10160d89",
+    "url": "/app/css/login.f3a09919.css"
   },
   {
     "revision": "17ffc01f0e696ad49d20",
@@ -52,7 +52,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/css/register.e50195b5.css"
   },
   {
-    "revision": "be7cc9dfa4aa00d0873e",
+    "revision": "ff31ffad237ea97f37b0",
     "url": "/app/css/setting.f4c42a45.css"
   },
   {
@@ -228,7 +228,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/img/logo4.18bff83d.png"
   },
   {
-    "revision": "5a1ba354d63fb615751cb253acc4b4e1",
+    "revision": "1bea1f6e6f8cca3ea4d487b6989fcd2a",
     "url": "/app/index.html"
   },
   {
@@ -236,20 +236,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/js/admin-home.b7718b08.js"
   },
   {
-    "revision": "d77d17c88c539990d9ad",
-    "url": "/app/js/admin-login.fdac69ad.js"
+    "revision": "a00b9b9c2e6629725bec",
+    "url": "/app/js/admin-login.2280dd6d.js"
   },
   {
-    "revision": "351f6516f66be3cedf0a",
-    "url": "/app/js/app-base.a378639c.js"
+    "revision": "b3494e9a91c88bbd9331",
+    "url": "/app/js/app-base.d17b9e0c.js"
   },
   {
-    "revision": "33ff7b380b6977c16987",
-    "url": "/app/js/app-main.e5e7a6fa.js"
+    "revision": "d901315e9b90c4d00315",
+    "url": "/app/js/app-main.dd3080e9.js"
   },
   {
-    "revision": "89db2ccebd8e65f2404e",
-    "url": "/app/js/app.236e7482.js"
+    "revision": "e01ca8087841a129ca40",
+    "url": "/app/js/app.3251b1e7.js"
   },
   {
     "revision": "2ec553558fe78831d828",
@@ -272,8 +272,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/js/home.c1e995a9.js"
   },
   {
-    "revision": "16bb9a608c522bc2719e",
-    "url": "/app/js/login.161d2221.js"
+    "revision": "3cd41255602f10160d89",
+    "url": "/app/js/login.9bc772b6.js"
   },
   {
     "revision": "17ffc01f0e696ad49d20",
@@ -284,8 +284,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/app/js/register.df5fe189.js"
   },
   {
-    "revision": "be7cc9dfa4aa00d0873e",
-    "url": "/app/js/setting.30758ae6.js"
+    "revision": "ff31ffad237ea97f37b0",
+    "url": "/app/js/setting.d5bf007a.js"
   },
   {
     "revision": "6bdf35b66d0ca92e5cb03fdc06077cd5",
