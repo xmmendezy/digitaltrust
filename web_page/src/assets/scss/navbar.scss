@@ -1,4 +1,5 @@
 nav.navbar {
+	background-color: $box;
 	padding: 1.5rem 9rem 0 9rem !important;
 
 	@include mobile {
@@ -10,10 +11,18 @@ nav.navbar {
 		margin: 0 !important;
 		padding: 0.5rem 0.75rem;
 	}
+
+	.navbar-burger {
+		color: $black;
+	}
+
+	&.secundary {
+		padding: 1.5rem 9rem !important;
+	}
 }
 
 a.navbar-item {
-	color: $gray;
+	color: $white;
 	margin-top: 0.5rem;
 	font-size: 16px !important;
 	font-weight: lighter;
@@ -35,10 +44,8 @@ a.navbar-item {
 	}
 
 	&.friendly {
-		color: $primary;
-
 		&:hover {
-			color: $main-dark-one;
+			font-weight: bold;
 		}
 
 		@include mobile {
@@ -55,13 +62,17 @@ a.navbar-item {
 	}
 
 	&:hover {
-		color: #458ff6;
+		color: $white;
+		background-color: $box-hover;
+		font-size: 2rem;
 	}
 }
 
 .navbar-menu.is-active {
 	@include mobile {
-		background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+		background-color: transparent !important;
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
 
 		a.navbar-item {
 			color: white;

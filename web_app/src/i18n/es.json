@@ -2,7 +2,7 @@
 	"title": "DigitalTrust",
 	"login": {
 		"a": "Bienvenido",
-		"b": "Correo",
+		"b": "Usuario",
 		"c": "Contraseña",
 		"d": "He olvidado mi contraseña",
 		"e": "Ingresar",
@@ -99,6 +99,7 @@
 	},
 	"setting": {
 		"user": {
+			"title": "Usuario",
 			"a": "Usuario",
 			"b": "Nombre",
 			"c": "Apellido",
@@ -286,7 +287,9 @@
 			"h": "Debe ser un teléfono valido",
 			"i": "País no valido",
 			"j": "Teléfono no disponible, ya registrado",
-			"k": "Correo no disponible, ya registrado"
+			"k": "Correo no disponible, ya registrado",
+			"l": "El usuario debe ser solo caracteres alfanumérico",
+			"m": "Usuario no disponible, ya registrado"
 		}
 	},
 	"info": {

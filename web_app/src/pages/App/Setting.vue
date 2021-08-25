@@ -2,8 +2,20 @@
 	<div class="setting">
 		<article class="box">
 			<b-tabs>
-				<b-tab-item :label="$t('setting.user.a')">
+				<b-tab-item :label="$t('setting.user.title')">
 					<section class="form-user has-text-centered">
+						<div class="columns">
+							<div class="column">
+								<c-input
+									class="md"
+									ref="input"
+									v-model="update_form.username"
+									@keyup.enter.native="update()"
+									:placeholder="$t('setting.user.a')"
+								></c-input>
+							</div>
+							<div class="column"></div>
+						</div>
 						<div class="columns">
 							<div class="column">
 								<c-input
@@ -262,7 +274,7 @@ export default class Setting extends PageChildBase {
 					data => {
 						this.update_form = new UpdateDto(data.user);
 						if ((data.user as any).errors.length) {
-							this.toastSuccess(this.$t('setting.not_ok'));
+							this.toastWarning(this.$t('setting.not_ok'));
 							for (const error of (data.user as any).errors) {
 								this.toastError(this.$t(error));
 							}

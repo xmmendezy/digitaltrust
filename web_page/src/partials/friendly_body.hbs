@@ -1,30 +1,33 @@
-<section class="hero ">
-	<div class="hero-body">
-		<div class="container">
-			<section id="friendly" class="section">
-				<div class="columns">
-					<div class="column is-6">
-						<div class="content is-medium has-text-centered">
-							<h1 class="title has-text-black">{{ friendly.a }}</h1>
+<section class='hero'>
+	<div class='hero-body'>
+		<div class='container secundary'>
+			<section id='friendly' class='section'>
+				<div class='columns'>
+					<div class='column is-6'>
+						<div class='content is-medium has-text-centered'>
+							<h1 class='title has-text-black'>
+								{{friendly.a}}
+							</h1>
 						</div>
-						<div class="content is-medium has-text-justified has-text-gray">
+						<div class='content is-medium has-text-justified has-text-gray'>
 							{{#each friendly.b}}
-							<p class="subtitle">
-								{{ this.a }}
-							</p>
-							{{#each this.b}}
-							<p>
-								{{ this }}
-							</p>
-							{{/each}}
+								<p class='subtitle'>
+									{{this.a}}
+								</p>
+								{{#each this.b}}
+									<p>
+										{{this}}
+									</p>
+								{{/each}}
 							{{/each}}
 						</div>
 					</div>
 
-					<div class="column friendly-image has-text-center">
-						{{#image_src 'image5.jpg' 'image5'}}{{/image_src}}
-						<a href="/app/donations?i18n={{ i18n }}" class="button is-primary is-rounded">{{ friendly.c
-							}}</a>
+					<div class='column friendly-image has-text-center'>
+						{{#image_src 'image5.png' 'image5'}}{{/image_src}}
+						<a href='/app/donations?i18n={{i18n}}' class='button bbutton is-rounded is-outlined'>
+							{{friendly.c}}
+						</a>
 					</div>
 				</div>
 			</section>

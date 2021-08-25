@@ -255,8 +255,6 @@ export default class AppBase extends PageBase {
 @import '../../styles/initial_variables.scss';
 
 .app {
-	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
-
 	.body {
 		height: 100%;
 		position: relative;

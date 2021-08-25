@@ -145,6 +145,7 @@ class PreregisterDto extends BaseDTO {
 class UserDto {
 	constructor(data: User | UserDto) {
 		this.id = data.id;
+		this.username = data.username;
 		this.email = data.email;
 		this.telephone = data.telephone;
 		this.firstname = data.firstname;
@@ -175,6 +176,7 @@ class UserDto {
 	}
 
 	public id: string;
+	public username: string;
 	public email: string;
 	public telephone: string;
 	public lastname: string;
@@ -219,6 +221,7 @@ class TokenDto {
 interface IUpdateDto {
 	firstname: string;
 	lastname: string;
+	username: string;
 	email: string;
 	telephone: string;
 	state: string;
@@ -243,6 +246,7 @@ class UpdateDto extends BaseDTO {
 		super();
 		this.firstname = data.firstname;
 		this.lastname = data.lastname;
+		this.username = data.username;
 		this.email = data.email;
 		this.telephone = data.telephone;
 		this.password = data.password;
@@ -269,6 +273,10 @@ class UpdateDto extends BaseDTO {
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.c' })
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	lastname!: string;
+
+	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	username!: string;
 
 	@IsEmail({}, { message: 'validator.auth.d' })
 	@IsNotEmpty({ message: 'validator.auth.a' })

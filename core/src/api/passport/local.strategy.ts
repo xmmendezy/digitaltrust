@@ -9,24 +9,29 @@ export class LocalStrategy extends Strategy {
 	constructor() {
 		super(
 			{
-				usernameField: 'email',
+				usernameField: 'username',
 				passReqToCallback: false,
 			},
-			async (email: string, password: string, done: (error: any, user?: any, options?: IVerifyOptions) => void) =>
-				await this.login(email, password, done),
+			async (
+				username: string,
+				password: string,
+				done: (error: any, user?: any, options?: IVerifyOptions) => void,
+			) => await this.login(username, password, done),
 		);
 		passport.use(this);
 	}
 
 	public async login(
-		email: string,
+		username: string,
 		password: string,
 		done: (error: any, user?: any, options?: IVerifyOptions) => void,
 	) {
 		return await User.createQueryBuilder('user')
 			.leftJoinAndSelect('user.country', 'country')
 			.leftJoinAndSelect('country.time_zones', 'time_zones')
-			.where('user.email = :email', { email })
+			.where('user.username = :username')
+			.orWhere('user.email = :username')
+			.setParameters({ username })
 			.getOne()
 			.then(async (user: any) => {
 				if (!user) {

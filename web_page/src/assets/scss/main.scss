@@ -3,9 +3,13 @@
 @import 'bulma/sass/utilities/_all';
 
 // Set your colors
-$gray: #7d7987;
-$black: #4c5862;
-$dark: #0f001a;
+$border: #d3d8dd;
+$gray: #eaecee;
+$black: white;
+$dark: #334d6e;
+$selected: #458ff62c;
+$box: #346fc280;
+$box-hover: rgba(0, 0, 0, 0.05);
 
 $primary: #458ff6;
 $primary-invert: findColorInvert($primary);
@@ -169,6 +173,8 @@ $footer-padding: 3rem 5rem;
 @import 'bulma-accordion/src/sass/index.sass';
 @import 'bulma-timeline/src/sass/index.sass';
 @import 'bulma-floating-button/dist/css/bulma-floating-button.sass';
+@import '@glidejs/glide/src/assets/sass/glide.core.scss';
+@import '@glidejs/glide/src/assets/sass/glide.theme.scss';
 
 @import './navbar.scss';
 @import './svg.scss';
@@ -180,7 +186,8 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: $black !important;
+	color: white !important;
+	background-image: linear-gradient(135deg, $primary, #45bff6, $primary) !important;
 }
 
 .hero-body {
@@ -203,28 +210,6 @@ body {
 	border-bottom: 3px solid $black;
 }
 
-.accordions .accordion {
-	.accordion-header {
-		color: $black;
-		font-weight: bold;
-		background-color: #ffffff;
-		padding-top: 1.5rem !important;
-		padding-bottom: 1.5rem !important;
-	}
-
-	.accordion-body {
-		background-color: #ffffff;
-		text-align: left;
-		border-left: none !important;
-		border-right: none !important;
-
-		.accordion-content {
-			margin-left: 1rem !important;
-			margin-bottom: 1rem !important;
-		}
-	}
-}
-
 .control.has-floating-label {
 	position: relative;
 
@@ -234,41 +219,24 @@ body {
 		line-height: 1;
 	}
 
-	.input.is-medium {
-		height: 3.75rem;
-		transition-duration: 0.2s;
+	.input,
+	.textarea {
+		background: transparent !important;
+		color: $gray;
 
-		&:placeholder-shown + .label.is-floating-label {
-			color: #4b5370;
-			display: block;
-			top: 1.375rem;
-			left: 0.75rem;
-			z-index: 0;
-		}
-
-		&:hover + .label.is-floating-label {
-			z-index: 2;
-		}
-
-		&:focus,
-		&:not(:placeholder-shown) {
-			padding-top: 1.5rem;
-
-			& + .label.is-floating-label {
-				color: #1c2a3f;
-				top: 0.5rem;
-				left: 0.75rem;
-				z-index: 11;
-			}
+		&:hover,
+		&:focus {
+			border-color: $border !important;
 		}
 	}
 
+	.input.is-medium,
 	.textarea.is-medium {
 		height: 3.75rem;
 		transition-duration: 0.2s;
 
 		&:placeholder-shown + .label.is-floating-label {
-			color: #4b5370;
+			color: $gray;
 			display: block;
 			top: 1.375rem;
 			left: 0.75rem;
@@ -284,7 +252,7 @@ body {
 			padding-top: 1.5rem;
 
 			& + .label.is-floating-label {
-				color: #1c2a3f;
+				color: $gray;
 				top: 0.5rem;
 				left: 0.75rem;
 				z-index: 11;
@@ -304,38 +272,89 @@ body {
 #info {
 	position: relative;
 	margin-bottom: 0;
+	padding: 0 !important;
+
+	@include tablet {
+		height: 100vh;
+	}
 
 	.content > * {
-		width: 100%;
 		margin: 0 !important;
+
+		@include tablet {
+			width: 100%;
+		}
 	}
 
 	.content {
-		display: flex;
-		flex-wrap: wrap;
-		align-content: center;
-		align-items: center;
-		height: 100%;
+		position: absolute;
+		top: 0;
+		background-color: $box !important;
+
+		@include tablet {
+			width: 100%;
+			height: 100vh;
+			margin: auto;
+			padding-top: 30vh;
+			margin-top: 10vh;
+		}
+
+		@include mobile {
+			height: 91.5vh;
+			padding-top: 40vh;
+			margin-top: 10vh;
+		}
 
 		.title-info {
 			color: $black !important;
-			font-size: 38px !important;
+			font-weight: bold;
+
+			@include tablet {
+				font-size: 40px !important;
+			}
 		}
 
 		.subtitle-info {
-			color: $gray;
-			font-size: 20px !important;
-			width: 80% !important;
+			color: $black;
+			font-weight: bold;
 			padding-top: 1.5rem;
+
+			@include tablet {
+				font-size: 24px !important;
+			}
 		}
 
 		.button {
 			width: 40% !important;
+			margin-left: auto !important;
+			margin-right: auto !important;
 			margin-top: 1.5rem !important;
 			padding-top: 1.5rem;
 			padding-bottom: 1.5rem;
 			font-weight: bold;
 		}
+	}
+
+	.glide {
+		margin-top: -10vh;
+
+		.glide__slides {
+			@include tablet {
+				height: 110vh;
+			}
+		}
+	}
+}
+
+.hero-body .container {
+	margin-top: 7rem;
+
+	@include mobile {
+		margin-top: 60vh;
+	}
+
+	&.secundary {
+		margin-top: 0 !important;
 	}
 }
 
@@ -353,9 +372,17 @@ body {
 		.button {
 			height: 100%;
 			margin-top: 1.5rem !important;
-			padding: 1.5rem 0;
+			padding: 1.5rem 1.5rem;
 			font-weight: bold;
 			white-space: pre-wrap;
+
+			&.bbutton {
+				@extend .is-white;
+
+				&:hover {
+					background-color: $box !important;
+				}
+			}
 		}
 	}
 }
@@ -399,6 +426,14 @@ body {
 			}
 		}
 	}
+
+	.bbutton {
+		@extend .is-white;
+
+		&:hover {
+			background-color: $box !important;
+		}
+	}
 }
 
 #invest_now {
@@ -429,6 +464,37 @@ body {
 #fqa {
 	position: relative;
 	margin-bottom: 0;
+
+	.accordions .accordion {
+		background-color: transparent !important;
+
+		.accordion-header {
+			color: $black;
+			font-weight: bold;
+			background-color: transparent !important;
+			border-radius: 0 !important;
+			padding-top: 1.5rem !important;
+			padding-bottom: 1.5rem !important;
+		}
+
+		.accordion-header,
+		.accordion-body {
+			background-color: transparent !important;
+		}
+
+		.accordion-body {
+			border: 1px solid $gray;
+			text-align: left;
+			border-left: none !important;
+			border-right: none !important;
+
+			.accordion-content {
+				color: $black;
+				margin-left: 1rem !important;
+				margin-bottom: 1rem !important;
+			}
+		}
+	}
 }
 
 #contact {
@@ -550,10 +616,20 @@ body {
 		@include tablet {
 			width: 70% !important;
 		}
+
+		&.bbutton {
+			@extend .is-white;
+
+			&:hover {
+				background-color: $box !important;
+			}
+		}
 	}
 }
 
 .footer {
+	background-color: $box;
+
 	@include mobile {
 		padding: 3rem 3rem;
 	}
@@ -625,5 +701,18 @@ body {
 			width: 2rem !important;
 			height: 2rem !important;
 		}
+	}
+}
+
+.wbutton {
+	background-color: $box;
+	color: $white;
+	border: none !important;
+
+	&:hover {
+		color: $white;
+		height: 4rem;
+		width: 4rem;
+		font-size: 2rem;
 	}
 }
