@@ -208,7 +208,7 @@
 		"money": "Cantidad",
 		"date": "Fecha",
 		"reference": "Referencia",
-		"description": "Ingrese la cantidad a retirar, esta no puede ser menor a 50 ni mayor a ",
+		"description": "Ingrese la cantidad a retirar, esta no puede ser menor a $50 ni mayor a ",
 		"completed_description": "Sus fondos pronto serán enviados por el medio que ha seleccionado. Gracias por confiar en DigitalTrust.",
 		"success": "Solicitado",
 		"error": "Hubo un error, vuelva a intentar"

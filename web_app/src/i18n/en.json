@@ -208,7 +208,7 @@
 		"money": "Money",
 		"date": "Date",
 		"reference": "Reference",
-		"description": "Enter the amount to withdraw, this cannot be less than 50 nor greater than ",
+		"description": "Enter the amount to withdraw, this cannot be less than $50 nor greater than ",
 		"completed_description": "Your funds will soon be sent via the medium you have selected. Thank you for trusting DigitalTrust",
 		"success": "Requested",
 		"error": "There was an error, please try again"
@@ -307,7 +307,7 @@
 				"1) On your Digital Trust dashboard you should see a green button with the text Deposit.",
 				"2) After clicking on this button, you will see the membership options, you can choose a membership that you want to buy or deposit more in a membership that you already have. Select one, and click Continue at the bottom.",
 				"3) Select the payment gateway of your choice. You can make deposits with PayPal, Stripe or Coinpayments if you want to use their cryptocurrencies. You also have the possibility of reinvesting your earnings with the Balance option, but if you do not have earnings, the option will not be available yet. Select one, and click Continue at the bottom.",
-				"4) Enter the amount to deposit. Depending on the membership there are different minimum and maximum values. In case you are depositing into a membership that you already own, the minimum value is $ 500. In case of paying with CoinPayments, you must select the cryptocurrency to use between Bitcoin, Etherum and Tether USD. Confirm your deposit value and click Pay at the bottom.",
+				"4) Enter the amount to deposit. Depending on the membership there are different minimum and maximum values. In case you are depositing into a membership that you already own, the minimum value is $500. In case of paying with CoinPayments, you must select the cryptocurrency to use between Bitcoin, Etherum and Tether USD. Confirm your deposit value and click Pay at the bottom.",
 				"5) Follow the steps proposed by each payment gateway, once the procedure has been carried out successfully, you will see your investment reflected on your dashboard."
 			],
 			"guide-me": "Guide me"

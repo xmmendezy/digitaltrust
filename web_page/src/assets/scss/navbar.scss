@@ -18,6 +18,16 @@ nav.navbar {
 
 	&.secundary {
 		padding: 1.5rem 9rem !important;
+
+		@include mobile {
+			padding: 0.5rem !important;
+		}
+
+		.navbar-menu.is-active {
+			@include mobile {
+				padding-bottom: 2rem;
+			}
+		}
 	}
 }
 
@@ -70,6 +80,7 @@ a.navbar-item {
 
 .navbar-menu.is-active {
 	@include mobile {
+		padding-bottom: 6rem;
 		background-color: transparent !important;
 		-webkit-box-shadow: none !important;
 		box-shadow: none !important;
