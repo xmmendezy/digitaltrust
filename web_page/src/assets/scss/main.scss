@@ -464,37 +464,6 @@ body {
 #fqa {
 	position: relative;
 	margin-bottom: 0;
-
-	.accordions .accordion {
-		background-color: transparent !important;
-
-		.accordion-header {
-			color: $black;
-			font-weight: bold;
-			background-color: transparent !important;
-			border-radius: 0 !important;
-			padding-top: 1.5rem !important;
-			padding-bottom: 1.5rem !important;
-		}
-
-		.accordion-header,
-		.accordion-body {
-			background-color: transparent !important;
-		}
-
-		.accordion-body {
-			border: 1px solid $gray;
-			text-align: left;
-			border-left: none !important;
-			border-right: none !important;
-
-			.accordion-content {
-				color: $black;
-				margin-left: 1rem !important;
-				margin-bottom: 1rem !important;
-			}
-		}
-	}
 }
 
 #contact {
@@ -649,6 +618,10 @@ body {
 	}
 
 	.social {
+		p {
+			padding-bottom: 1.5rem;
+		}
+
 		span {
 			padding-right: 1.5rem;
 		}
@@ -709,10 +682,46 @@ body {
 	color: $white;
 	border: none !important;
 
+	@include mobile {
+		bottom: 20px !important;
+		right: 20px !important;
+	}
+
 	&:hover {
 		color: $white;
 		height: 4rem;
 		width: 4rem;
 		font-size: 2rem;
+	}
+}
+
+.accordions .accordion {
+	background-color: transparent !important;
+
+	.accordion-header {
+		color: $black;
+		font-weight: bold;
+		background-color: transparent !important;
+		border-radius: 0 !important;
+		padding-top: 1.5rem !important;
+		padding-bottom: 1.5rem !important;
+	}
+
+	.accordion-header,
+	.accordion-body {
+		background-color: transparent !important;
+	}
+
+	.accordion-body {
+		border: 1px solid $gray;
+		text-align: left;
+		border-left: none !important;
+		border-right: none !important;
+
+		.accordion-content {
+			color: $black;
+			margin-left: 1rem !important;
+			margin-bottom: 1rem !important;
+		}
 	}
 }
