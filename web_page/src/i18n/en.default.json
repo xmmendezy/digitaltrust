@@ -17,7 +17,9 @@
 	"info": {
 		"a": "Grow your money safely",
 		"b": "Convert your investment into passive earnings, make money work for you.",
-		"c": "Start now"
+		"c": "Annual earnings 13.2% to 27.5%.",
+		"d": "We pay your monthly earnings by: Paypal, Bank Check, Transfer, Bitcoin.",
+		"e": "Start now"
 	},
 	"our_industries": {
 		"a": "Our industries",
@@ -229,7 +231,7 @@
 						"text": "3) Update your details. Do not provide sensitive information, such as bank keys or passwords for your electronic wallet, add only the data necessary so that our team can send you your earnings"
 					},
 					{
-						"text": "4) When finished, click Save and your profile will be updated..",
+						"text": "4) When finished, click Save and your profile will be updated.",
 						"image": "help-4-3.png"
 					}
 				]

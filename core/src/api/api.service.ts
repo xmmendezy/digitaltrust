@@ -820,9 +820,7 @@ export class ApiService {
 		return balance;
 	}
 
-	public async balance_graphic(
-		user: User,
-	): Promise<{
+	public async balance_graphic(user: User): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

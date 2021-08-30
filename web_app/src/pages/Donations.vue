@@ -162,10 +162,10 @@ export default class Donations extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'paypal';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
-		.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
-		.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+		this.store.util.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+		this.deposit_blockchains[0];
 	private moneyDonation: number = 100;
 
 	public async created() {
