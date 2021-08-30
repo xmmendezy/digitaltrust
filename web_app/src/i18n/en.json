@@ -95,6 +95,9 @@
 			"b": "Choose a membership, you can increase the amount.",
 			"c": "Investment",
 			"d": "at the end of the period"
+		},
+		"crypto": {
+			"title": "Cryptos"
 		}
 	},
 	"setting": {
@@ -303,12 +306,11 @@
 			"title": "How do I start investing?",
 			"text_count": "6",
 			"texts": [
-				"To invest and start earning in Digital Trust, you must make a deposit. Here we will guide you how to do it:",
-				"1) On your Digital Trust dashboard you should see a green button with the text Deposit.",
-				"2) After clicking on this button, you will see the membership options, you can choose a membership that you want to buy or deposit more in a membership that you already have. Select one, and click Continue at the bottom.",
-				"3) Select the payment gateway of your choice. You can make deposits with PayPal, Stripe or Coinpayments if you want to use their cryptocurrencies. You also have the possibility of reinvesting your earnings with the Balance option, but if you do not have earnings, the option will not be available yet. Select one, and click Continue at the bottom.",
-				"4) Enter the amount to deposit. Depending on the membership there are different minimum and maximum values. In case you are depositing into a membership that you already own, the minimum value is $500. In case of paying with CoinPayments, you must select the cryptocurrency to use between Bitcoin, Etherum and Tether USD. Confirm your deposit value and click Pay at the bottom.",
-				"5) Follow the steps proposed by each payment gateway, once the procedure has been carried out successfully, you will see your investment reflected on your dashboard."
+				"To invest and start earning in DigitalTrust, you must make a deposit. Here we will guide you how to do it:",
+				"1) On your DigitalTrust dashboard you should see a shopping cart button.",
+				"2) After clicking on this button, you will see the membership options, you can choose a membership that you want to buy or deposit more in a membership that you already have. Select one, and click to button (+).",
+				"3) Enter the amount to deposit. Depending on the membership there are different minimum and maximum values. In case you are depositing into a membership that you already own, the minimum value is $ 100. Then select the payment method of your preference. You can make deposits with PayPal, Stripe or Coinpayments if you want to use your cryptocurrencies, in the latter case you must select the cryptocurrency to use between Bitcoin, Etherum and Tether USD. You also have the possibility of reinvesting your earnings with the Reinvestment option, but if you do not have earnings, the option will not be available yet. Confirm your transaction by clicking on \"To pay\" at the bottom.",
+				"4) Follow the steps proposed by each payment gateway, once the procedure has been carried out successfully, you will see your investment reflected on your dashboard."
 			],
 			"guide-me": "Guide me"
 		},
@@ -316,11 +318,11 @@
 			"title": "How do I withdraw my earnings?",
 			"text_count": "5",
 			"texts": [
-				"You can withdraw earnings from Digital Trust whenever you want. Here we will guide you how to do it:",
-				"1) On your Digital Trust dashboard you should see a yellow-orange button with the text Withdrawal.",
-				"2) After clicking on this button, you will see the options that Digital Trust has to send you your earnings. It is important that you fill in your profile details with the information necessary to send you the money. Select a method, and click continue at the bottom.",
+				"You can withdraw earnings from DigitalTrust whenever you want. Here we will guide you how to do it:",
+				"1) On your DigitalTrust dashboard you should see your withdrawal information.",
+				"2) After clicking on this section, you will see the options that DigitalTrust has to send you your earnings. It is important that you fill in your profile details with the information necessary to send you the money. Select a method, and click continue at the bottom.",
 				"3) Enter the amount to withdraw. The amount available to withdraw depends on your available balance at the time. The available balance is all the profit that you have accumulated in your balance for at least one month. Confirm your deposit value and click Confirm at the bottom.",
-				"4) The Digital Trust team will be notified of your withdrawal and will proceed to send you your earnings, once the procedure is successful, you will see your deposit reflected on your dashboard."
+				"4) The DigitalTrust team will be notified of your withdrawal and will proceed to send you your earnings, once the procedure is successful, you will see your deposit reflected on your dashboard."
 			],
 			"guide-me": "Guide me"
 		},
@@ -329,10 +331,10 @@
 			"text_count": "5",
 			"texts": [
 				"It is important to have your profile data complete and updated, so we can send you your earnings in a more agile way. Here we will guide you how to do it:",
-				"1) On your Digital Trust dashboard you should see a sidebar on the left side or the menu button on the top right.",
+				"1) On your DigitalTrust dashboard you should see a sidebar on the left side or the menu button on the top right.",
 				"2) After clicking, you will be able to see the Setting option, click and you will be redirected to a form with your profile data",
 				"3) Update your details. Do not provide sensitive information, such as bank keys or passwords for your electronic wallet, add only the data necessary so that our team can send you your earnings",
-				"4) When finished, click Save and your profile will be updated.."
+				"4) When finished, click Save and your profile will be updated."
 			],
 			"guide-me": "Guide me"
 		}

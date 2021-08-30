@@ -1,34 +1,63 @@
 <template>
 	<div class="home">
-		<div class="box card-balance">
-			<h1 class="title">
-				{{ $t('home.balance_now.title') }} -
-				{{ store.api.DateTime.now().toFormat('LLLL yyyy') }}
-			</h1>
-			<div class="columns">
-				<div class="column">
-					<div class="box earning">
-						<div class="columns has-text-left">
-							<div class="column earning-text">{{ $t('home.balance_now.b') }}</div>
-							<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
+		<div class="columns">
+			<div class="column">
+				<div class="box detail">
+					<h1 class="title">
+						{{ $t('home.balance_now.title') }} -
+						{{ store.api.DateTime.now().toFormat('LLLL yyyy') }}
+					</h1>
+					<div class="columns">
+						<div class="column">
+							<div class="box earning">
+								<div class="columns has-text-left">
+									<div class="column earning-text">{{ $t('home.balance_now.b') }}</div>
+									<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
+								</div>
+							</div>
+							<div class="box withdrawal" @click="open_withdrawal">
+								<div class="columns has-text-left">
+									<div class="column withdrawal-text">{{ $t('home.balance_now.d') }}</div>
+									<div class="column withdrawal-money is-7">
+										{{ formatMoney(balance_data.withdrawal) }}
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="box withdrawal" @click="open_withdrawal">
-						<div class="columns has-text-left">
-							<div class="column withdrawal-text">{{ $t('home.balance_now.d') }}</div>
-							<div class="column withdrawal-money is-7">{{ formatMoney(balance_data.withdrawal) }}</div>
+						<div class="column">
+							<div class="box balance" @click="isOpenBalanceDetailModal = true">
+								<div class="columns has-text-left">
+									<div class="column balance-text">{{ $t('home.balance_now.a') }}</div>
+									<div class="column balance-money is-7">{{ formatMoney(balance_data.balance) }}</div>
+								</div>
+								<div class="columns has-text-left">
+									<div class="column investment-text">{{ $t('home.balance_now.c') }}</div>
+									<div class="column investment-money is-7">
+										{{ formatMoney(balance_data.investment) }}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="column">
-					<div class="box balance" @click="isOpenBalanceDetailModal = true">
-						<div class="columns has-text-left">
-							<div class="column balance-text">{{ $t('home.balance_now.a') }}</div>
-							<div class="column balance-money is-7">{{ formatMoney(balance_data.balance) }}</div>
+			</div>
+			<div class="column is-4">
+				<div class="box crypto">
+					<h1 class="title">
+						{{ $t('home.crypto.title') }}
+					</h1>
+					<div v-for="blockchain in blockchains" :key="blockchain.currency" class="columns is-mobile">
+						<div class="column is-4 has-text-left">
+							<h3>{{ blockchain.name }}</h3>
 						</div>
-						<div class="columns has-text-left">
-							<div class="column investment-text">{{ $t('home.balance_now.c') }}</div>
-							<div class="column investment-money is-7">{{ formatMoney(balance_data.investment) }}</div>
+						<div class="column">
+							<b-image :src="blockchain.image"></b-image>
+						</div>
+						<div class="column">
+							<b-icon icon="arrow-right" size="is-small" />
+						</div>
+						<div class="column is-4">
+							{{ blockchain.dollar }}
 						</div>
 					</div>
 				</div>
@@ -177,9 +206,15 @@ export default class Home extends PageChildBase {
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;
 
+	private blockchains: { name: string; currency: string; coingecko: string; image: string; dollar?: string }[] =
+		this.store.util.deposit_blockchains;
+
 	public async created() {
 		await super.created();
 		this.reload();
+		for (const blockchain of this.blockchains) {
+			await this.get_currency_to_dollar(blockchain);
+		}
 		this.$watch(
 			'moneyWithdrawal',
 			() => {
@@ -229,6 +264,18 @@ export default class Home extends PageChildBase {
 			},
 		);
 	}
+
+	private async get_currency_to_dollar(blockchain: {
+		name: string;
+		currency: string;
+		coingecko: string;
+		dollar?: string;
+		image: string;
+	}) {
+		this.load_form_api(await this.store.api.get_currency_to_dollar(blockchain.coingecko), d => {
+			blockchain.dollar = d ? this.formatMoney(d) : '---';
+		});
+	}
 }
 </script>
 
@@ -250,20 +297,6 @@ export default class Home extends PageChildBase {
 
 		.title {
 			color: white !important;
-		}
-
-		&.card-balance {
-			@include desktop-only {
-				width: 80%;
-				margin: auto;
-				margin-bottom: 1.5rem;
-			}
-
-			@include widescreen {
-				width: 60%;
-				margin: auto;
-				margin-bottom: 1.5rem;
-			}
 		}
 
 		&.earning {
@@ -318,6 +351,28 @@ export default class Home extends PageChildBase {
 		.withdrawal-money {
 			font-size: 26px;
 			font-weight: bold;
+		}
+
+		&.detail {
+			height: 100%;
+		}
+
+		&.crypto {
+			height: 100%;
+			img {
+				height: 35px;
+				width: 35px;
+				margin: auto;
+			}
+
+			.icon {
+				height: 100%;
+				width: 100%;
+
+				i {
+					margin: auto;
+				}
+			}
 		}
 	}
 

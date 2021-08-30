@@ -95,6 +95,9 @@
 			"b": "Escoja una membresía, puede aumentar la cantidad.",
 			"c": "Inversión",
 			"d": "al finalizar el período"
+		},
+		"crypto": {
+			"title": "Criptomonedas"
 		}
 	},
 	"setting": {
@@ -303,12 +306,11 @@
 			"title": "¿Cómo comienzo a invertir?",
 			"text_count": "6",
 			"texts": [
-				"Para invertir y comenzar a recibir ganancias en Digital Trust, usted debe realizar un depósito. Aquí lo guiaremos como hacerlo:",
-				"1) En su dashboard de Digital Trust deberá observar un botón verde con el texto Depositar.",
-				"2) Después de dar click en este botón, le saldrá las opciones de membresías, puede elegir una membresía que desea comprar o depositar mas en una membresía que usted ya posee. Seleccione una, y de click en continuar, en la parte inferior.",
-				"3) Seleccione la pasarela de pago de su preferencia. Puede realizar los depósitos con PayPal, Stripe o Coinpayments si desea utilizar sus criptomonedas. También dispone de la posibilidad de reinvertir sus ganancias con la opción Saldo, pero si no dispone de ganancias todavía no estará presenta la opción. Seleccione una, y de click en continuar, en la parte inferior.",
-				"4) Ingrese la cantidad a depositar. Dependiendo la membresía hay valores mínimos y máximos distintos. En caso de que este depositando en una membresía que usted ya posee, el valor mínimo es de $500. En caso de pagar con CoinPayments deberá seleccionar la criptomoneda a utilizar entre Bitcoin, Etherum y Tether USD. Confirme su valor a depositar y de click en Pagar, en la parte inferior.",
-				"5) Siga los pasos propuestos por cada pasarela de pago, una vez realizado el procedimiento con éxito, vera su inversión reflejada en su dashboard."
+				"Para invertir y comenzar a recibir ganancias en DigitalTrust, usted debe realizar un deposito. Aquí lo guiaremos como hacerlo:",
+				"1) En su dashboard de DigitalTrust deberá observar un botón de carrito de compras.",
+				"2) Después de dar click en este botón, le saldrá las opciones de membresías, puede elegir una membresía que desea comprar o depositar mas en una membresía que usted ya posee. Seleccione una, y de click en el botón (+).",
+				"3) Ingrese la cantidad a depositar. Dependiendo la membresía hay valores mínimos y máximos distintos. En caso de que este depositando en una membresía que usted ya posee, el valor mínimo es de $100. Luego seleccione el método de pago de su preferencia. Puede realizar los depositos con PayPal, Stripe o Coinpayments si desea utilizar sus criptomonedas, en este último caso deberá seleccionar la criptomoneda a utilizar entre Bitcoin, Etherum y Tether USD. También dispone de la posibilidad de reinvertir sus ganancias con la opción Reinversión de Saldo, pero si no dispone de ganancias todavía no estará presenta la opción. Confirme su transacción dando click en Pagar, en la parte inferior.",
+				"4) Siga los pasos propuestos por cada pasarela de pago, una vez realizado el procedimiento con éxito, vera su inversión reflejada en su dashboard."
 			],
 			"guide-me": "Guíame en el proceso"
 		},
@@ -316,11 +318,11 @@
 			"title": "¿Cómo retiro mis ganancias?",
 			"text_count": "5",
 			"texts": [
-				"Puede retirar ganancias en Digital Trust cuando usted lo desee. Aquí lo guiaremos como hacerlo:",
-				"1) En su dashboard de Digital Trust deberá observar un botón amarillo-naranja con el texto Retirar.",
-				"2) Después de dar click en este botón, le saldrá las opciones que Digital Trust dispone para enviarle sus ganancias. Es importante que complete sus datos de perfil con la información necesaria para enviarle el dinero. Seleccione un método, y de click en continuar, en la parte inferior.",
+				"Puede retirar ganancias en DigitalTrust cuando usted lo desee. Aquí lo guiaremos como hacerlo:",
+				"1) En su dashboard de DigitalTrust deberá observar su información de retiros.",
+				"2) Después de dar click en esta sección, le saldrá las opciones que DigitalTrust dispone para enviarle sus ganancias. Es importante que complete sus datos de perfil con la información necesaria para enviarle el dinero. Seleccione un método, y de click en continuar, en la parte inferior.",
 				"3) Ingrese la cantidad a retirar. La cantidad disponible para retirar depende de su saldo disponible en el momento. El saldo disponible es todo la ganancia que tenga por lo menos un mes acumulado en su saldo. Confirme su valor a depositar y de click en Confirmar, en la parte inferior.",
-				"4) El equipo de Digital Trust será notificado de su retiro y procederan a enviarle sus ganancias, una vez realizado el procedimiento con éxito, verá su depósito reflejado en su dashboard."
+				"4) El equipo de DigitalTrust será notificado de su retiro y procederan a enviarle sus ganancias, una vez realizado el procedimiento con éxito, verá su deposito reflejado en su dashboard."
 			],
 			"guide-me": "Guíame en el proceso"
 		},
@@ -329,7 +331,7 @@
 			"text_count": "5",
 			"texts": [
 				"Es importante tener completo y actualizado sus datos de perfil, así podremos enviarle sus ganancias de manera mas ágil. Aquí lo guiaremos como hacerlo:",
-				"1) En su dashboard de Digital Trust deberá observar una barra lateral en el lado izquierda o el botón de menú en la parte superior derecha.",
+				"1) En su dashboard de DigitalTrust deberá observar una barra lateral en el lado izquierda o el botón de menú en la parte superior derecha.",
 				"2) Después de dar click, podra ver la opcion de Configuracion, de click y sera redirigido a un formulario con sus datos de perfil",
 				"3) Actualice sus datos. No proporcione información sensible, como claves bancarias o contraseñas de su billetera electrónica, agregue solo los datos necesarios para que nuestro equipo pueda enviarle sus ganancias.",
 				"4) Cuando termine, de click en Guardar y su perfil estará actualizado."

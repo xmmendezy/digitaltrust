@@ -590,9 +590,7 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
-	public async balance_graphic(params: {
-		id?: string;
-	}): Promise<{
+	public async balance_graphic(params: { id?: string }): Promise<{
 		labels: number[];
 		data: number[];
 	}> {
@@ -825,6 +823,20 @@ export default class ApiStore extends VuexModule {
 			})
 			.catch(e => {
 				return get_errors(e);
+			});
+	}
+
+	@action
+	public async get_currency_to_dollar(currency: string) {
+		return await ApiStore.http
+			.get('https://api.coingecko.com/api/v3/simple/price', {
+				params: { ids: currency.toLowerCase(), vs_currencies: 'usd' },
+			})
+			.then(async response => {
+				return response.data[currency].usd;
+			})
+			.catch(() => {
+				return 0;
 			});
 	}
 }
