@@ -98,6 +98,9 @@
 		},
 		"crypto": {
 			"title": "Cryptos"
+		},
+		"suscriptions": {
+			"title": "Suscriptions"
 		}
 	},
 	"setting": {
