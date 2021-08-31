@@ -325,7 +325,7 @@ body {
 		}
 
 		.button {
-			width: fit-content;
+			width: 30%;
 			margin-left: auto !important;
 			margin-right: auto !important;
 			margin-top: 3.5rem !important;
@@ -333,12 +333,12 @@ body {
 			font-weight: bold;
 			height: fit-content;
 
+			@include mobile {
+				width: 50%;
+			}
+
 			p {
 				font-size: 1.25rem;
-
-				span {
-					font-size: 1rem;
-				}
 			}
 		}
 
