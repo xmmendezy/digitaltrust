@@ -31,7 +31,7 @@ export default class UtilStore extends VuexModule {
 
 	// prettier-ignore
 	public deposit_blockchains: { name: string; currency: string; coingecko: string; image: string }[] =
-		process.env.NODE_ENV !== 'production'
+		process.env.NODE_ENV === 'production'
 			? [
 				{ name: 'Bitcoin', currency: 'BTC', coingecko: 'bitcoin', image: 'https://www.coinpayments.net/images/coins/BTC.png' },
 				{ name: 'Ether', currency: 'ETH', coingecko: 'ethereum', image: 'https://www.coinpayments.net/images/coins/ETH.png' },

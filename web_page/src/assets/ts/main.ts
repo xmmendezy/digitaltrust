@@ -13,10 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	(window as any).bulmaAccordion.attach();
 
-	new Glide('.glide', {
+	const glide = new Glide('.glide', {
 		autoplay: 7000,
 		hoverpause: false,
-	}).mount();
+	});
+	glide.mount();
 });
 
 function contactForm() {
