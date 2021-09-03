@@ -4,6 +4,7 @@ import { User } from './api.entity';
 import { UserRole, UserStatus, PaymentMethod, WithdrawalMethod } from './api.interface';
 
 interface ISignupDto {
+	username: string;
 	firstname: string;
 	lastname: string;
 	email: string;
@@ -19,6 +20,7 @@ interface ISignupDto {
 class SignupDto extends BaseDTO {
 	constructor(data: ISignupDto) {
 		super();
+		this.username = data.username;
 		this.firstname = data.firstname;
 		this.lastname = data.lastname;
 		this.email = data.email;
@@ -30,6 +32,10 @@ class SignupDto extends BaseDTO {
 		this.ref = data.ref;
 		this.freeSupport = data.freeSupport;
 	}
+
+	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	username!: string;
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
 	@IsNotEmpty({ message: 'validator.auth.a' })

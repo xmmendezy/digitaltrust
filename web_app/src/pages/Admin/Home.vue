@@ -98,6 +98,17 @@
 								<div class="columns">
 									<div class="column">
 										<c-input
+											ref="input"
+											v-model="client_form.username"
+											@keyup.enter.native="register_client()"
+											:placeholder="$t('register.u')"
+										></c-input>
+									</div>
+									<div class="column"></div>
+								</div>
+								<div class="columns">
+									<div class="column">
+										<c-input
 											v-model="client_form.firstname"
 											@keyup.enter.native="register_client()"
 											:placeholder="$t('register.c')"
@@ -198,6 +209,17 @@
 					<b-tabs>
 						<b-tab-item :label="$t('setting.user.a')">
 							<section class="form-user has-text-centered">
+								<div class="columns">
+									<div class="column">
+										<c-input
+											ref="input"
+											v-model="edit_client_form.username"
+											@keyup.enter.native="update()"
+											:placeholder="$t('setting.user.a')"
+										></c-input>
+									</div>
+									<div class="column"></div>
+								</div>
 								<div class="columns">
 									<div class="column">
 										<c-input
@@ -723,10 +745,10 @@ export default class Admin extends PageChildBase {
 	private deposit_membership_selected: string = '';
 	private deposit_methods: string[] = ['balance', 'bankcheck', 'paypal', 'stripe', 'blockchain'];
 	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] =
-		this.store.util.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
-		this.deposit_blockchains[0];
+	private deposit_blockchains: { name: string; currency: string; image: string }[] = this.store.util
+		.deposit_blockchains;
+	private deposit_blockchain_currency: { name: string; currency: string; image: string } = this
+		.deposit_blockchains[0];
 	private moneyDeposit: number = 0;
 	private moneyDepositMin: number = 100;
 	private moneyDepositMax: number = 100000000;

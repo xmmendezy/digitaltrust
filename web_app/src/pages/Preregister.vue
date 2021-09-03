@@ -318,6 +318,11 @@ export default class Preregister extends PageChildBase {
 							border: 2px solid white !important;
 						}
 
+						.checkbox:hover {
+							color: white;
+							font-weight: bold;
+						}
+
 						.control-label {
 							a {
 								color: white !important;

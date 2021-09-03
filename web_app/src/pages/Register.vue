@@ -15,7 +15,19 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										ref="input"
+										v-model="signup_form.username"
+										@keyup.enter.native="signup()"
+										:placeholder="$t('register.u')"
+									></c-input>
+								</div>
+								<div class="column"></div>
+							</div>
+							<div class="columns">
+								<div class="column">
+									<c-input
+										class="md"
 										v-model="signup_form.firstname"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.c')"
@@ -23,6 +35,7 @@
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="signup_form.lastname"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.d')"
@@ -32,6 +45,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="signup_form.email"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.e')"
@@ -39,6 +53,7 @@
 								</div>
 								<div class="column">
 									<c-tel-input
+										class="md"
 										v-model="signup_form.telephone"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.f')"
@@ -50,6 +65,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="signup_form.state"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.g')"
@@ -57,6 +73,7 @@
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="signup_form.address"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.h')"
@@ -66,6 +83,7 @@
 							<div class="columns">
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="signup_form.password"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.i')"
@@ -74,6 +92,7 @@
 								</div>
 								<div class="column">
 									<c-input
+										class="md"
 										v-model="signup_form.password_confirm"
 										@keyup.enter.native="signup()"
 										:placeholder="$t('register.j')"
@@ -104,7 +123,7 @@
 								<div class="column"></div>
 							</div>
 							<b-field>
-								<b-button @click="signup()" type="is-primary" :disabled="!(check1 && check2)">{{
+								<b-button @click="signup()" type="is-white" :disabled="!(check1 && check2)">{{
 									$t('register.m')
 								}}</b-button>
 							</b-field>
@@ -152,6 +171,7 @@ export default class Register extends PageChildBase {
 						this.ref_name = ref_user.name;
 					} else {
 						this.ref_error = true;
+						this.$router.push({ name: 'Preregister' });
 					}
 				},
 				{
@@ -160,6 +180,8 @@ export default class Register extends PageChildBase {
 					},
 				},
 			);
+		} else {
+			this.$router.push({ name: 'Preregister' });
 		}
 	}
 
@@ -217,6 +239,10 @@ export default class Register extends PageChildBase {
 @import '../styles/initial_variables.scss';
 
 .register {
+	height: 100vh;
+	overflow-y: scroll;
+	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
+
 	.body {
 		padding-top: 4.5rem;
 		height: 100vh;
@@ -224,14 +250,9 @@ export default class Register extends PageChildBase {
 
 		.box {
 			width: 60%;
-			border-radius: 24px;
-			margin: 0;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			-ms-transform: translate(-50%, -50%);
-			transform: translate(-50%, -50%);
-			transition: width 150ms ease-out;
+			margin: auto;
+			background-color: transparent;
+			box-shadow: none;
 
 			@include until-widescreen {
 				width: 80%;
@@ -244,7 +265,8 @@ export default class Register extends PageChildBase {
 			}
 
 			.media {
-				padding: 4rem 0;
+				padding: 2rem 0;
+				background-color: transparent;
 
 				@include mobile {
 					padding: 3rem 0;
@@ -256,12 +278,13 @@ export default class Register extends PageChildBase {
 				}
 
 				.title {
-					color: $dark;
+					color: white !important;
 					font-size: 45px;
 					font-weight: bold !important;
 				}
 
 				.subtitle {
+					color: white !important;
 					padding-top: 2rem;
 					font-size: 18px;
 				}
@@ -280,14 +303,38 @@ export default class Register extends PageChildBase {
 					}
 
 					.column-check {
+						color: white !important;
 						font-size: 12px;
 						margin-left: 2rem;
+
+						.check {
+							border: 2px solid white !important;
+						}
+
+						.checkbox:hover {
+							color: white;
+							font-weight: bold;
+						}
+
+						.control-label {
+							a {
+								color: white !important;
+							}
+
+							&:hover {
+								color: white !important;
+								font-weight: bold;
+							}
+						}
 					}
 
-					.button.is-primary {
+					.button.is-white {
 						padding: 1.5rem 1rem;
 						margin: 1rem 0;
 						width: 50%;
+						color: $primary !important;
+						font-weight: bold;
+						box-shadow: 0 5px #5c5c5c6b;
 					}
 				}
 			}

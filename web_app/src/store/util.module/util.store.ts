@@ -30,19 +30,19 @@ export default class UtilStore extends VuexModule {
 	};
 
 	// prettier-ignore
-	public deposit_blockchains: { name: string; currency: string; coingecko: string; image: string }[] =
+	public deposit_blockchains: { name: string; currency: string; coingecko: string; image: string, dollar: string }[] =
 		process.env.NODE_ENV === 'production'
 			? [
-				{ name: 'Bitcoin', currency: 'BTC', coingecko: 'bitcoin', image: 'https://www.coinpayments.net/images/coins/BTC.png' },
-				{ name: 'Ether', currency: 'ETH', coingecko: 'ethereum', image: 'https://www.coinpayments.net/images/coins/ETH.png' },
+				{ name: 'Bitcoin', currency: 'BTC', coingecko: 'bitcoin', dollar: '---',  image: 'https://www.coinpayments.net/images/coins/BTC.png' },
+				{ name: 'Ether', currency: 'ETH', coingecko: 'ethereum',  dollar: '---', image: 'https://www.coinpayments.net/images/coins/ETH.png' },
 				{
 					name: 'Tether USD',
 					currency: 'USDT',
 					coingecko: 'tether',
-					image: 'https://www.coinpayments.net/images/coins/USDT.png',
+					 dollar: '---', image: 'https://www.coinpayments.net/images/coins/USDT.png',
 				},
 			  ]
-			: [{ name: 'Litecoin Testnet', currency: 'LTCT', coingecko: 'litecoin',image: 'https://www.coinpayments.net/images/coins/LTCT.png' }];
+			: [{ name: 'Litecoin Testnet', currency: 'LTCT', coingecko: 'litecoin', dollar: '---', image: 'https://www.coinpayments.net/images/coins/LTCT.png' }];
 
 	private data_obj: { [key: string]: { [id: string]: (newVal: DataDict, oldVal: DataDict) => void } } = {};
 

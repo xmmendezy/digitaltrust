@@ -40,7 +40,7 @@ export default class extends ComponentBase {
 	@Prop({ type: String, default: '' }) placeholder!: string;
 	@Prop({ type: String, default: '' }) icon!: string;
 
-	private content: string = this.value.toString();
+	private content: string = (this.value || '').toString();
 	private type: string = 'text';
 	private reveal_password: boolean = false;
 
@@ -53,8 +53,8 @@ export default class extends ComponentBase {
 
 	@Watch('value', { immediate: true })
 	private get_new_value(new_value: string) {
-		if (this.content !== new_value.toString()) {
-			this.content = new_value.toString();
+		if (this.content !== (new_value || '').toString()) {
+			this.content = (new_value || '').toString();
 			this.$emit('input', this.content.trim());
 		}
 	}

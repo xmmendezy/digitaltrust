@@ -46,6 +46,7 @@
 	"register": {
 		"a": "Sign up",
 		"b": "Welcome, you have been invited through",
+		"u": "Username",
 		"c": "Name",
 		"d": "Last Name",
 		"e": "Email",
