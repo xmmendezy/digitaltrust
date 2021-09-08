@@ -59,6 +59,13 @@ export class ApiService {
 		if (!country) {
 			return { error: 'validator.auth.i' };
 		}
+		if (
+			await User.createQueryBuilder('user')
+				.where('user.username = :username', { username: data.username })
+				.getCount()
+		) {
+			return { error: 'validator.auth.m' };
+		}
 		const ref_is_admin = data.ref === 'admin';
 		if (ref_is_admin) {
 			data.ref = '';
@@ -227,6 +234,9 @@ export class ApiService {
 	public async ref_user(id: string): Promise<IRefer> {
 		const user = await User.findOne(id);
 		if (user) {
+			if ((await User.createQueryBuilder('user').where('user.ref = :id', { id: user.id }).getCount()) >= 2) {
+				return { id: '', name: '' };
+			}
 			return { id: user.id, name: user.name };
 		} else {
 			return { id: '', name: '' };
@@ -391,15 +401,18 @@ export class ApiService {
 		if (user.role === UserRole.ADMIN) {
 			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
 		} else {
-			const memberships: Membership[] = await Membership.createQueryBuilder()
-				.where('is_active = :is_active', { is_active: false })
-				.andWhere('id in (:...ids)', {
-					ids: (
-						await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
-					).map((s) => s.membershipId),
-				})
-				.orderBy('interest', 'ASC')
-				.getMany();
+			let memberships: Membership[] = [];
+			if (await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getCount()) {
+				memberships = await Membership.createQueryBuilder()
+					.where('is_active = :is_active', { is_active: false })
+					.andWhere('id in (:...ids)', {
+						ids: (
+							await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
+						).map((s) => s.membershipId),
+					})
+					.orderBy('interest', 'ASC')
+					.getMany();
+			}
 			memberships.push(
 				...(await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: true })
@@ -820,7 +833,9 @@ export class ApiService {
 		return balance;
 	}
 
-	public async balance_graphic(user: User): Promise<{
+	public async balance_graphic(
+		user: User,
+	): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

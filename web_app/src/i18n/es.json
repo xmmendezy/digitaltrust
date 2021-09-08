@@ -46,6 +46,7 @@
 	"register": {
 		"a": "Registro",
 		"b": "Bienvenido, has sido invitado por medio de",
+		"u": "Usuario",
 		"c": "Nombre",
 		"d": "Apellido",
 		"e": "Correo",

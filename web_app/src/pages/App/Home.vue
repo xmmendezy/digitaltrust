@@ -1,24 +1,7 @@
 <template>
 	<div class="home">
-		<div class="columns">
-			<div v-if="suscriptions_data.length > 1" class="column is-4">
-				<div class="box suscriptions">
-					<h1 class="title">
-						{{ $t('home.suscriptions.title') }}
-					</h1>
-					<div v-for="suscription in suscriptions_data" :key="suscription.id" class="clock">
-						<h3 class="subtitle">{{ get_name_suscription(suscription.id) }}</h3>
-						<flip-countdown
-							:deadline="
-								store.api.DateTime.fromUnix(suscription.date_end)
-									.setLocale($i18n.locale)
-									.toFormat('yyyy-LL-dd HH:mm:ss')
-							"
-						></flip-countdown>
-					</div>
-				</div>
-			</div>
-			<div class="column">
+		<div class="columns" :style="{ height: isValidChart ? 'none' : '100%' }">
+			<div class="column" :class="{ 'centered-box': suscriptions_data.length <= 1 }">
 				<div class="box detail">
 					<h1 class="title">
 						{{ $t('home.balance_now.title') }} -
@@ -53,47 +36,109 @@
 								></flip-countdown>
 							</div>
 						</div>
-					</div>
-					<div class="box earning">
-						<div class="columns has-text-left">
-							<div class="column earning-text">{{ $t('home.balance_now.b') }}</div>
-							<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
-						</div>
-					</div>
-					<div class="box withdrawal" @click="open_withdrawal">
-						<div class="columns has-text-left">
-							<div class="column withdrawal-text">{{ $t('home.balance_now.d') }}</div>
-							<div class="column withdrawal-money is-7">
-								{{ formatMoney(balance_data.withdrawal) }}
+						<div v-else-if="suscriptions_data.length !== 0" class="column">
+							<div class="box earning">
+								<div class="columns has-text-left">
+									<div class="column earning-text">{{ $t('home.balance_now.b') }}</div>
+									<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
+								</div>
+							</div>
+							<div class="box withdrawal" @click="open_withdrawal">
+								<div class="columns has-text-left">
+									<div class="column withdrawal-text">{{ $t('home.balance_now.d') }}</div>
+									<div class="column withdrawal-money is-7">
+										{{ formatMoney(balance_data.withdrawal) }}
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
+					<div v-if="suscriptions_data.length <= 1" class="columns">
+						<div class="column">
+							<div class="box earning">
+								<div class="columns has-text-left">
+									<div class="column earning-text">{{ $t('home.balance_now.b') }}</div>
+									<div class="column earning-money is-7">{{ formatMoney(balance_data.earning) }}</div>
+								</div>
+							</div>
+							<div class="box withdrawal" @click="open_withdrawal">
+								<div class="columns has-text-left">
+									<div class="column withdrawal-text">{{ $t('home.balance_now.d') }}</div>
+									<div class="column withdrawal-money is-7">
+										{{ formatMoney(balance_data.withdrawal) }}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="column">
+							<div class="box crypto">
+								<h1 class="title">
+									{{ $t('home.crypto.title') }}
+								</h1>
+								<div
+									v-for="blockchain in blockchains"
+									:key="blockchain.currency"
+									class="columns is-mobile"
+								>
+									<div class="column is-4 has-text-left">
+										<h3>{{ blockchain.name }}</h3>
+									</div>
+									<div class="column">
+										<b-image :src="blockchain.image"></b-image>
+									</div>
+									<div class="column">
+										<b-icon icon="arrow-right" size="is-small" />
+									</div>
+									<div class="column is-4">
+										{{ blockchain.dollar }}
+									</div>
+								</div>
+								<b-loading :is-full-page="false" v-model="is_load_crypto_coin"></b-loading>
+							</div>
+						</div>
+					</div>
+					<div v-if="suscriptions_data.length > 1" class="box crypto">
+						<h1 class="title">
+							{{ $t('home.crypto.title') }}
+						</h1>
+						<div v-for="blockchain in blockchains" :key="blockchain.currency" class="columns is-mobile">
+							<div class="column is-4 has-text-left">
+								<h3>{{ blockchain.name }}</h3>
+							</div>
+							<div class="column">
+								<b-image :src="blockchain.image"></b-image>
+							</div>
+							<div class="column">
+								<b-icon icon="arrow-right" size="is-small" />
+							</div>
+							<div class="column is-4">
+								{{ blockchain.dollar }}
+							</div>
+						</div>
+						<b-loading :is-full-page="false" v-model="is_load_crypto_coin"></b-loading>
+					</div>
 				</div>
 			</div>
-			<div class="column is-4">
-				<div class="box crypto">
+			<div v-if="suscriptions_data.length > 1" class="column is-4">
+				<div class="box suscriptions">
 					<h1 class="title">
-						{{ $t('home.crypto.title') }}
+						{{ $t('home.suscriptions.title') }}
 					</h1>
-					<div v-for="blockchain in blockchains" :key="blockchain.currency" class="columns is-mobile">
-						<div class="column is-4 has-text-left">
-							<h3>{{ blockchain.name }}</h3>
-						</div>
-						<div class="column">
-							<b-image :src="blockchain.image"></b-image>
-						</div>
-						<div class="column">
-							<b-icon icon="arrow-right" size="is-small" />
-						</div>
-						<div class="column is-4">
-							{{ blockchain.dollar }}
-						</div>
+					<div v-for="suscription in suscriptions_data" :key="suscription.id" class="clock">
+						<h3 class="subtitle">{{ get_name_suscription(suscription.id) }}</h3>
+						<flip-countdown
+							:deadline="
+								store.api.DateTime.fromUnix(suscription.date_end)
+									.setLocale($i18n.locale)
+									.toFormat('yyyy-LL-dd HH:mm:ss')
+							"
+						></flip-countdown>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="box">
-			<Chart />
+		<div v-if="isValidChart" class="box">
+			<Chart @valid="isValidChart = $event" />
 		</div>
 
 		<BalanceModal v-model="isOpenBalanceDetailModal" />
@@ -230,6 +275,8 @@ export default class Home extends PageChildBase {
 	private memberships_data: IMembership[] = [];
 	private suscriptions_data: ISuscription[] = [];
 
+	private isValidChart: boolean = true;
+
 	private isOpenBalanceDetailModal: boolean = false;
 
 	private isOpenWithdrawalModal: boolean = false;
@@ -239,17 +286,16 @@ export default class Home extends PageChildBase {
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;
 
-	private blockchains: { name: string; currency: string; coingecko: string; image: string; dollar?: string }[] =
-		this.store.util.deposit_blockchains;
+	private blockchains: { name: string; currency: string; coingecko: string; image: string; dollar: string }[] = this
+		.store.util.deposit_blockchains;
+	private is_load_crypto_coin: boolean = false;
 
 	public async created() {
 		await super.created();
 		this.reload();
 		this.get_memberships();
 		this.get_suscriptions();
-		for (const blockchain of this.blockchains) {
-			await this.get_currency_to_dollar(blockchain);
-		}
+		this.relad_crypto_coin();
 		this.$watch(
 			'moneyWithdrawal',
 			() => {
@@ -263,6 +309,18 @@ export default class Home extends PageChildBase {
 
 	public reload() {
 		this.get_balance();
+	}
+
+	public async relad_crypto_coin() {
+		this.is_load_crypto_coin = true;
+		for (const blockchain of this.blockchains) {
+			await this.get_currency_to_dollar(blockchain);
+		}
+		this.is_load_crypto_coin = false;
+		await this.sleep(35000);
+		if (!this.is_destroyed) {
+			await this.relad_crypto_coin();
+		}
 	}
 
 	private async get_balance() {
@@ -345,6 +403,16 @@ export default class Home extends PageChildBase {
 		padding-right: 0.5rem !important;
 	}
 
+	.centered-box {
+		margin: auto;
+		flex: none;
+		width: 75%;
+
+		@include mobile {
+			width: 100%;
+		}
+	}
+
 	.box {
 		background-color: $box;
 		color: white !important;
@@ -424,6 +492,14 @@ export default class Home extends PageChildBase {
 				}
 			}
 
+			.flip-card {
+				font-size: 2rem !important;
+			}
+
+			.flip-clock__slot {
+				font-size: 1rem !important;
+			}
+
 			.flip-card__top,
 			.flip-card__bottom,
 			.flip-card__back-bottom {
@@ -444,7 +520,22 @@ export default class Home extends PageChildBase {
 		}
 
 		&.crypto {
-			height: 100%;
+			padding: 0.5rem;
+			position: relative;
+
+			.title {
+				margin-bottom: 0.5rem;
+			}
+
+			.columns {
+				margin: 0;
+
+				.column {
+					padding-top: 0.5rem;
+					padding-bottom: 0.5rem;
+				}
+			}
+
 			img {
 				height: 35px;
 				width: 35px;

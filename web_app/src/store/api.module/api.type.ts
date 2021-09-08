@@ -186,6 +186,7 @@ class UpdateDto extends ClassBase {
 class SignupDto extends ClassBase {
 	constructor() {
 		super();
+		this.username = '';
 		this.firstname = '';
 		this.lastname = '';
 		this.email = '';
@@ -198,6 +199,10 @@ class SignupDto extends ClassBase {
 		this.ref = '';
 		this.freeSupport = false;
 	}
+
+	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	username!: string;
 
 	@Matches(/^[a-zA-Z-ZñÑáéíóúÁÉÍÓÚ\s]+$/, { always: true, message: 'validator.auth.b' })
 	@IsNotEmpty({ message: 'validator.auth.a' })

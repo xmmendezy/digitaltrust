@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 
 export default abstract class ComponentBase extends Vue {
 	private uuid = uuid();
+	public is_destroyed = true;
 	private data_listener: Set<string> = new Set();
 
 	public store: Store = vxm;
@@ -25,6 +26,7 @@ export default abstract class ComponentBase extends Vue {
 	};
 
 	public async created() {
+		this.is_destroyed = false;
 		if ('i18n' in this.$route.query) {
 			if (this.$i18n.availableLocales.find((l: string) => l === (this.$route.query.i18n as string))) {
 				this.$i18n.locale = this.$route.query.i18n as string;
@@ -41,6 +43,7 @@ export default abstract class ComponentBase extends Vue {
 			}
 		};
 		this.$destroy = () => {
+			this.is_destroyed = true;
 			if (this.data_listener.size) {
 				for (const key of this.data_listener) {
 					this.store.util.watch_data({
