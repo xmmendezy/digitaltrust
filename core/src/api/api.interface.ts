@@ -71,6 +71,7 @@ interface ISuscription {
 	readonly date_begin?: number;
 	readonly date_end?: number;
 	readonly membershipId?: string;
+	readonly reinvestment?: boolean;
 }
 
 enum PaymentMethod {

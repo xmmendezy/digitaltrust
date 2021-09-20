@@ -176,6 +176,8 @@
 	"balance": {
 		"title": "Estado de cuenta",
 		"subtitle": "Historial de ganancia en sus membresías",
+		"sendmail": "Enviar por correo",
+		"reinvestment": "Se esta activando la reinversión automática solo para esta membresía",
 		"a": "Saldo disponible",
 		"b": "Saldo total",
 		"c": "Ganancia total",
@@ -185,7 +187,8 @@
 		"suscription": {
 			"a": "Inversión",
 			"b": "Fecha de inicio",
-			"c": "Fecha de fin"
+			"c": "Fecha de fin",
+			"d": "Reinversión automática"
 		},
 		"moves": {
 			"title": "Movimientos",
@@ -410,6 +413,7 @@
 		"shopping": "Comprar más",
 		"binary_tree": "Árbol Binario",
 		"donations": "Donaciones",
+		"membership": "Membresías",
 		"setting": "Configuración",
 		"logout": "Salir",
 		"locale": "Idioma",
@@ -430,7 +434,9 @@
 		"success_task": "Tarea realizada con éxito",
 		"error_task": "No se pudo procesar",
 		"to_pay": "Pagar",
-		"method": "Método"
+		"method": "Método",
+		"success": "Realizado con éxito",
+		"error": "Ha ocurrido un error, intente de nuevo más tarde"
 	},
 	"error": {
 		"e000": "Error inesperado, vuelva a intentarlo mas tarde",

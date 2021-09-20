@@ -417,6 +417,7 @@ interface IBalanceDetail {
 		date_begin: number;
 		date_end: number;
 		membershipId: string;
+		reinvestment: boolean;
 	}[];
 	moves: IMove[];
 }

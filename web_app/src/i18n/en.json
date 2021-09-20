@@ -176,6 +176,8 @@
 	"balance": {
 		"title": "Account status",
 		"subtitle": "Earning history on your memberships",
+		"sendmail": "Send by e-mail",
+		"reinvestment": "Automatic rollover is being activated for this membership only",
 		"a": "Available balance",
 		"b": "Total balance",
 		"c": "Total Earning",
@@ -185,7 +187,8 @@
 		"suscription": {
 			"a": "Investment capital",
 			"b": "Start date",
-			"c": "End date"
+			"c": "End date",
+			"d": "Automatic reinvestment"
 		},
 		"moves": {
 			"title": "Moves",
@@ -410,6 +413,7 @@
 		"shopping": "Buy more",
 		"binary_tree": "Binary Tree",
 		"donations": "Donations",
+		"membership": "Memberships",
 		"setting": "Setting",
 		"logout": "Sign out",
 		"locale": "Locale",
@@ -430,7 +434,9 @@
 		"success_task": "Task completed successfully",
 		"error_task": "Could not be processed",
 		"to_pay": "To pay",
-		"method": "Method"
+		"method": "Method",
+		"success": "Done successfully",
+		"error": "An error has occurred, please try again later"
 	},
 	"error": {
 		"e000": "Unexpected error, please try again later",

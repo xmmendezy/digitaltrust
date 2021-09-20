@@ -29,6 +29,18 @@
 		"e": "Plantation Found",
 		"f": "Health and Wellness"
 	},
+	"benefits": {
+		"a": "Benefits of working with us",
+		"list": [
+			{ "a": "fas fa-money-bill-wave-alt", "b": "Competitive salary" },
+			{ "a": "fas fa-chart-pie", "b": "Meaningful equity" },
+			{ "a": "fab fa-btc", "b": "Crypto bonus" },
+			{ "a": "fas fa-heartbeat", "b": "Healthcare" },
+			{ "a": "fas fa-microchip", "b": "Get the equipement you need" },
+			{ "a": "fas fa-laptop-house", "b": "Remote first" },
+			{ "a": "fas fa-globe", "b": "Offsites" }
+		]
+	},
 	"service_info": {
 		"a": "Safe service",
 		"b": [

@@ -42,6 +42,13 @@
 				:label="$t('helper.donations')"
 			></b-menu-item>
 			<b-menu-item
+				v-if="is_admin"
+				icon="clipboard-check"
+				tag="router-link"
+				:to="{ name: 'AdminMembership' }"
+				:label="$t('helper.membership')"
+			></b-menu-item>
+			<b-menu-item
 				id="driver-guide-c-2"
 				icon="ellipsis-h"
 				tag="router-link"

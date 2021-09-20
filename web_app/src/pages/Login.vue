@@ -175,6 +175,10 @@ export default class Login extends PageChildBase {
 	overflow-y: scroll;
 	background-image: linear-gradient(135deg, $primary, #45bff6) !important;
 
+	@include mobile {
+		padding: 2rem 0;
+	}
+
 	.body {
 		height: 100vh;
 
@@ -192,6 +196,7 @@ export default class Login extends PageChildBase {
 				width: 100%;
 				height: 100%;
 				border-radius: 0;
+				padding: 0.75rem;
 			}
 
 			.media {

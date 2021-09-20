@@ -198,6 +198,10 @@ body {
 
 .section {
 	margin-bottom: 8rem;
+
+	@include mobile {
+		margin-bottom: 3rem;
+	}
 }
 
 .title-underline {
@@ -463,6 +467,28 @@ body {
 
 		&:hover {
 			background-color: $box !important;
+		}
+	}
+}
+
+#benefits {
+	background-color: $main-dark-two;
+
+	@include tablet {
+		width: 100vw !important;
+		margin-bottom: 3rem;
+		padding-top: 5rem;
+		padding-bottom: 5rem;
+
+		.columns {
+			margin: auto;
+			width: 70vw !important;
+		}
+	}
+
+	@include mobile {
+		.column-trading {
+			height: 60vh;
 		}
 	}
 }

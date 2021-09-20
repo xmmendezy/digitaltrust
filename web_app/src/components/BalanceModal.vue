@@ -64,6 +64,15 @@
 										</div>
 									</div>
 								</div>
+								<div class="column is-2">
+									<b-switch
+										v-model="suscription.reinvestment"
+										type="is-success"
+										@input="set_reinvestment(suscription.id)"
+									>
+										{{ $t('balance.suscription.d') }}
+									</b-switch>
+								</div>
 							</div>
 						</div>
 					</b-tab-item>
@@ -163,6 +172,11 @@
 						</b-table>
 					</b-tab-item>
 				</b-tabs>
+				<div class="has-text-right">
+					<b-button type="is-primary" @click="send_mail()" :loading="button_loading">{{
+						$t('balance.sendmail')
+					}}</b-button>
+				</div>
 			</div>
 		</div>
 	</b-modal>
@@ -183,6 +197,8 @@ export default class BalanceModal extends PageChildBase {
 
 	private memberships_data: IMembership[] = [];
 	private suscriptions_data: ISuscription[] = [];
+
+	private button_loading: boolean = false;
 
 	public async created() {
 		await super.created();
@@ -221,6 +237,47 @@ export default class BalanceModal extends PageChildBase {
 			m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId,
 		);
 		return membership ? membership.name + ' ' + (membership.interest * 100).toFixed(1) + '%' : '---';
+	}
+
+	private async send_mail() {
+		this.button_loading = true;
+		this.load_form_api(await this.store.api.balance_send_mail({ id: this.user_id }), (data: { valid: boolean }) => {
+			this.button_loading = false;
+			if (data.valid) {
+				this.toastSuccess(this.$t('helper.success'));
+			} else {
+				this.toastError(this.$t('helper.error'));
+			}
+		});
+	}
+
+	private async set_reinvestment(id: string) {
+		const suscription = this.balance_detail_data.suscriptions.find(s => s.id === id);
+		if (suscription) {
+			if (suscription.reinvestment) {
+				this.balance_detail_data.suscriptions
+					.filter(s => s.id !== id)
+					.forEach(s => {
+						s.reinvestment = false;
+					});
+				this.$buefy.snackbar.open(this.$t('balance.reinvestment') as string);
+			}
+			this.load_form_api(
+				await this.store.api.set_reinvestment({
+					user_id: this.user_id,
+					id,
+					reinvestment: suscription.reinvestment,
+				}),
+				(data: { valid: boolean }) => {
+					this.button_loading = false;
+					if (data.valid) {
+						this.toastSuccess(this.$t('helper.success'));
+					} else {
+						this.toastError(this.$t('helper.error'));
+					}
+				},
+			);
+		}
 	}
 }
 </script>

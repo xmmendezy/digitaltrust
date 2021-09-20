@@ -262,6 +262,39 @@ export class ApiController {
 		return await this.apiService.balance_detail(user, date);
 	}
 
+	@Get('balance_send_mail')
+	public async balance_send_mail(@Req() req: Request, @Query() query: { id: string; date: number }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		let date = user.DateTime.now().startOf('month');
+		if (query.date) {
+			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
+		}
+		return await this.apiService.balance_send_mail(user, date);
+	}
+
+	@Get('set_reinvestment')
+	public async set_reinvestment(
+		@Req() req: Request,
+		@Query() query: { user_id: string; id: string; reinvestment: string },
+	) {
+		let user: User = req.user;
+		if (query.user_id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.user_id })
+				.getOne();
+		}
+		return await this.apiService.set_reinvestment(user, query.id, query.reinvestment === 'true');
+	}
+
 	@Get('balance_graphic')
 	public async balance_graphic(@Req() req: Request, @Query() query: { id: string }) {
 		let user: User = req.user;

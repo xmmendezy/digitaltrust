@@ -84,7 +84,32 @@
 					<div class="column is-hidden-mobile"></div>
 				</div>
 			</section>
+		</div>
+	</div>
+</section>
 
+<section id="benefits" class="section">
+	<div class="columns">
+		<div class="column">
+			<div class="content has-text-left">
+				<h1 class="title-underline">{{ benefits.a }}</h1>
+				{{#each benefits.list}}
+				<p>
+					<i class='{{this.a}} icon-margin'></i>
+					{{this.b}}
+				</p>
+				{{/each}}
+			</div>
+		</div>
+		<div class="column is-6 column-trading">
+			{{> tradingview }}
+		</div>
+	</div>
+</section>
+
+<section class="hero">
+	<div class="hero-body">
+		<div class="container secundary">
 			<section id="friendly" class="section">
 				<div class="columns">
 					<div class="column">
@@ -168,13 +193,6 @@
 					<div class="column is-7">
 						{{#image_src 'image3.png' 'image3'}}{{/image_src}}
 					</div>
-				</div>
-				<div class="columns column-trading">
-					<div class="column"></div>
-					<div class="column is-8">
-						{{> tradingview }}
-					</div>
-					<div class="column"></div>
 				</div>
 
 				<div class="points_8">

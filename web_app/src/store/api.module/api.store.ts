@@ -68,6 +68,8 @@ export default class ApiStore extends VuexModule {
 			records: `${ApiStore.config.Api}/records`,
 			balance: `${ApiStore.config.Api}/balance`,
 			balance_detail: `${ApiStore.config.Api}/balance_detail`,
+			balance_send_mail: `${ApiStore.config.Api}/balance_send_mail`,
+			set_reinvestment: `${ApiStore.config.Api}/set_reinvestment`,
 			balance_graphic: `${ApiStore.config.Api}/balance_graphic`,
 			deposit: `${ApiStore.config.Api}/deposit`,
 			withdrawal: `${ApiStore.config.Api}/withdrawal`,
@@ -590,9 +592,43 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
-	public async balance_graphic(params: {
-		id?: string;
-	}): Promise<{
+	public async balance_send_mail(params: { id?: string }): Promise<{ valid: boolean }> {
+		return await ApiStore.http
+			.get(`${this.url.balance_send_mail}`, { params, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async set_reinvestment(params: {
+		user_id: string;
+		id: string;
+		reinvestment: boolean;
+	}): Promise<{ valid: boolean }> {
+		return await ApiStore.http
+			.get(`${this.url.set_reinvestment}`, { params, headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async balance_graphic(params: { id?: string }): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

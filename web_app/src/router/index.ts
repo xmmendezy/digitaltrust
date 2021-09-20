@@ -59,6 +59,15 @@ const routes: Array<RouteConfig> = [
 						},
 					},
 					{
+						path: 'membership',
+						name: 'AdminMembership',
+						component: () =>
+							import(/* webpackChunkName: "admin-membership" */ '@app/pages/Admin/Membership.vue'),
+						meta: {
+							is_admin: true,
+						},
+					},
+					{
 						path: 'setting',
 						name: 'AdminSetting',
 						component: () => import(/* webpackChunkName: "admin-setting" */ '@app/pages/App/Setting.vue'),
