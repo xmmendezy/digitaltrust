@@ -10,7 +10,10 @@
 		"prebuild": "rm -rf dist && npm run lint",
 		"postbuild": "cp -r app dist/app && cp -r view dist/view",
 		"predocker": "npm run build",
-		"postdocker": "docker push xmmendezy/dt_core:latest"
+		"postdocker": "docker push xmmendezy/dt_core:latest",
+		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+		"prelint": "npm run prettier",
+		"prettier": "prettier --write '{src,test}/**/*.{ts,js,json}'"
 	},
 	"dependencies": {
 		"@nestjs-modules/mailer": "^1.6.0",
