@@ -83,6 +83,7 @@ enum PaymentMethod {
 	PAYPAL = 'paypal',
 	STRIPE = 'stripe',
 	BLOCKCHAIN = 'blockchain',
+	WIRE_TRANSFER = 'wire_transfer',
 }
 
 enum WithdrawalMethod {
