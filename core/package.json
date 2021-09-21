@@ -8,6 +8,8 @@
 		"serve": "docker-compose --project-name main up",
 		"start": "nest start --watch",
 		"build": "nest build",
+		"static": "cd ../dt_web_app && npm run build",
+		"prestatic": "cd ../dt_web_page && npm run build",
 		"prebuild": "rm -rf dist && npm run lint",
 		"preserve": "npm run build",
 		"postbuild": "cp -r app dist/app && cp -r view dist/view",

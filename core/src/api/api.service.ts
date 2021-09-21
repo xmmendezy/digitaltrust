@@ -961,9 +961,7 @@ export class ApiService {
 		return { valid: !suscription.errors.length };
 	}
 
-	public async balance_graphic(
-		user: User,
-	): Promise<{
+	public async balance_graphic(user: User): Promise<{
 		labels: number[];
 		data: number[];
 	}> {
