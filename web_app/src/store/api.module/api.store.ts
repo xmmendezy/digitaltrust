@@ -432,6 +432,22 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
+	public async update_memberships(data: IMembership[]): Promise<IMembership[]> {
+		return await ApiStore.http
+			.post(`${this.url.memberships}`, data, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
 	public async suscriptions(id?: string): Promise<ISuscription[]> {
 		return await ApiStore.http
 			.get(`${this.url.suscriptions}`, { params: { id }, headers: this.headers })
@@ -628,7 +644,9 @@ export default class ApiStore extends VuexModule {
 	}
 
 	@action
-	public async balance_graphic(params: { id?: string }): Promise<{
+	public async balance_graphic(params: {
+		id?: string;
+	}): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

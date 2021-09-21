@@ -158,6 +158,20 @@
 			"g": "Retiro"
 		}
 	},
+	"admin_membership": {
+		"save": "Guardar",
+		"add": "Agregar",
+		"table": {
+			"name": "Nombre",
+			"interest": "Interés",
+			"months": "Meses",
+			"money_a": "Cantidad Inf.",
+			"money_b": "Cantidad Sup.",
+			"description_en": "Descripción En",
+			"description_es": "Descripción Es",
+			"active": "Activo"
+		}
+	},
 	"support_payment": {
 		"text1": {
 			"title": "Saludos desde DigitalTrust",

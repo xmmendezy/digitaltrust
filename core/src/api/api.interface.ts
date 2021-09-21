@@ -64,6 +64,9 @@ interface IMembership {
 	readonly money_b?: number;
 	readonly months?: number;
 	readonly interest?: number;
+	readonly description_es?: string;
+	readonly description_en?: string;
+	readonly is_active?: boolean;
 }
 
 interface ISuscription {

@@ -346,6 +346,7 @@ interface IMembership {
 	money_b: number;
 	months: number;
 	interest: number;
+	is_active: boolean;
 }
 
 interface ISuscription {

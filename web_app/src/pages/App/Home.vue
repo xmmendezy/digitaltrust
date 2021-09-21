@@ -286,8 +286,8 @@ export default class Home extends PageChildBase {
 	private moneyWithdrawal: number = 0;
 	private moneyWithdrawalMax: number = 0;
 
-	private blockchains: { name: string; currency: string; coingecko: string; image: string; dollar: string }[] =
-		this.store.util.deposit_blockchains;
+	private blockchains: { name: string; currency: string; coingecko: string; image: string; dollar: string }[] = this
+		.store.util.deposit_blockchains;
 	private is_load_crypto_coin: boolean = false;
 
 	public async created() {

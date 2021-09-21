@@ -27,7 +27,7 @@ import {
 	WithdrawalDto,
 	SupportPaymentDto,
 } from './api.dto';
-import { IRecord, PaymentMethod, UserRole, WithdrawalMethod } from './api.interface';
+import { IRecord, PaymentMethod, UserRole, WithdrawalMethod, IMembership } from './api.interface';
 
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
@@ -421,6 +421,46 @@ export class ApiService {
 					.getMany()),
 			);
 			return memberships;
+		}
+	}
+
+	public async update_memberships(user: User, data: IMembership[]): Promise<Membership[]> {
+		if (user.role === UserRole.ADMIN) {
+			const memberships = await Membership.createQueryBuilder().getMany();
+			for (const membership_n of data) {
+				const membership = memberships.find((m) => m.id === membership_n.id);
+				if (membership) {
+					if (
+						membership_n.description_en !== membership.description_en ||
+						membership_n.description_es !== membership.description_es ||
+						membership_n.is_active !== membership.is_active
+					) {
+						membership.description_en = membership_n.description_en;
+						membership.description_es = membership_n.description_es;
+						membership.is_active = membership_n.is_active;
+						await membership.save();
+					}
+				} else {
+					if (
+						membership_n.name &&
+						membership_n.description_en &&
+						membership_n.description_es &&
+						membership_n.money_a &&
+						membership_n.money_b &&
+						membership_n.months &&
+						membership_n.interest &&
+						membership_n.is_active
+					) {
+						await Membership.createQueryBuilder()
+							.insert()
+							.values({ ...membership_n, interest: membership_n.interest / 100 })
+							.execute();
+					}
+				}
+			}
+			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
+		} else {
+			return [];
 		}
 	}
 
@@ -921,7 +961,9 @@ export class ApiService {
 		return { valid: !suscription.errors.length };
 	}
 
-	public async balance_graphic(user: User): Promise<{
+	public async balance_graphic(
+		user: User,
+	): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

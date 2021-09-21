@@ -158,6 +158,20 @@
 			"g": "Withdrawal"
 		}
 	},
+	"admin_membership": {
+		"save": "Save",
+		"add": "Add",
+		"table": {
+			"name": "Name",
+			"interest": "Interest",
+			"months": "Months",
+			"money_a": "Lower Quantity",
+			"money_b": "Top Quantity",
+			"description_en": "Description En",
+			"description_es": "Description Es",
+			"active": "Active"
+		}
+	},
 	"support_payment": {
 		"text1": {
 			"title": "Greetings from DigitalTrust",

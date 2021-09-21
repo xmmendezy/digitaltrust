@@ -2,7 +2,7 @@ import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query } from 
 import { ApiService } from './api.service';
 import { SignupDto, PreregisterDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
 import { User } from './api.entity';
-import { UserRole } from './api.interface';
+import { UserRole, IMembership } from './api.interface';
 
 @Controller('api')
 export class ApiController {
@@ -109,6 +109,11 @@ export class ApiController {
 	@Get('memberships')
 	public async memberships(@Req() req: Request) {
 		return await this.apiService.memberships(req.user);
+	}
+
+	@Post('memberships')
+	public async update_memberships(@Req() req: Request, @Body() data: IMembership[]) {
+		return await this.apiService.update_memberships(req.user, data);
 	}
 
 	@Get('suscriptions')
