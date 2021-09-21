@@ -1,0 +1,86 @@
+.icon-pl {
+	margin-left: 0.3rem;
+}
+
+.icon-pr {
+	margin-right: 0.3rem;
+}
+
+.is-divider {
+	border-top: 0.1rem solid $primary;
+
+	&:after {
+		font-size: 1.5rem !important;
+		color: $primary !important;
+		padding-top: 0 !important;
+		transform: translateY(-1.3rem) !important;
+	}
+}
+
+.c-input.md,
+.c-tel-input.md {
+	margin: 1rem 0;
+
+	.vfl-label {
+		color: white !important;
+	}
+
+	.vue-tel-input {
+		padding-bottom: 2.5px !important;
+	}
+
+	.vfl-label-on-focus + .vue-tel-input {
+		border-bottom: 2px solid white;
+	}
+
+	.vfl-label + input {
+		border-bottom: 2px solid white;
+	}
+
+	.fas {
+		color: white !important;
+	}
+
+	.input,
+	.vti__input {
+		color: white !important;
+		background-color: transparent !important;
+
+		&::placeholder {
+			color: white !important;
+		}
+
+		&:-ms-input-placeholder {
+			color: white !important;
+		}
+
+		&::-ms-input-placeholder {
+			color: white !important;
+		}
+	}
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	background: $box;
+	-webkit-box-shadow: inset 0 0 6px $box;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: $box;
+}
+
+.modal-content {
+	@include tablet {
+		margin-left: 7.5rem !important;
+	}
+}
+
+.is-circular {
+	border-radius: 50%;
+}

@@ -2,7 +2,7 @@ import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query } from 
 import { ApiService } from './api.service';
 import { SignupDto, PreregisterDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
 import { User } from './api.entity';
-import { UserRole } from './api.interface';
+import { UserRole, IMembership } from './api.interface';
 
 @Controller('api')
 export class ApiController {
@@ -109,6 +109,11 @@ export class ApiController {
 	@Get('memberships')
 	public async memberships(@Req() req: Request) {
 		return await this.apiService.memberships(req.user);
+	}
+
+	@Post('memberships')
+	public async update_memberships(@Req() req: Request, @Body() data: IMembership[]) {
+		return await this.apiService.update_memberships(req.user, data);
 	}
 
 	@Get('suscriptions')
@@ -260,6 +265,39 @@ export class ApiController {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
 		return await this.apiService.balance_detail(user, date);
+	}
+
+	@Get('balance_send_mail')
+	public async balance_send_mail(@Req() req: Request, @Query() query: { id: string; date: number }) {
+		let user: User = req.user;
+		if (query.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.id })
+				.getOne();
+		}
+		let date = user.DateTime.now().startOf('month');
+		if (query.date) {
+			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
+		}
+		return await this.apiService.balance_send_mail(user, date);
+	}
+
+	@Get('set_reinvestment')
+	public async set_reinvestment(
+		@Req() req: Request,
+		@Query() query: { user_id: string; id: string; reinvestment: string },
+	) {
+		let user: User = req.user;
+		if (query.user_id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: query.user_id })
+				.getOne();
+		}
+		return await this.apiService.set_reinvestment(user, query.id, query.reinvestment === 'true');
 	}
 
 	@Get('balance_graphic')

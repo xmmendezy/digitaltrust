@@ -1,0 +1,13 @@
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+node_modules
+/dist
+.cache
+package-lock.json
+pnpm-lock.yaml
+.pnpm-debug.log

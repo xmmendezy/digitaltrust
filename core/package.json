@@ -7,8 +7,8 @@
 	"scripts": {
 		"docker": "docker build --platform amd64 -t xmmendezy/dt_core .",
 		"build": "nest build",
-		"start": "nest start",
-		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+		"static": "cd ../dt_web_app && npm run build",
+		"prestatic": "cd ../dt_web_page && npm run build",
 		"prebuild": "rm -rf dist && npm run lint",
 		"postbuild": "cp -r app dist/app && cp -r view dist/view",
 		"predocker": "npm run build",

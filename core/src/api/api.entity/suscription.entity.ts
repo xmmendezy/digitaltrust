@@ -13,6 +13,7 @@ export class Suscription extends BaseEntity implements ISuscription {
 			this.date_begin = data.date_begin;
 			this.date_end = data.date_end;
 			this.membershipId = data.membershipId;
+			this.reinvestment = data.reinvestment;
 		}
 	}
 
@@ -33,4 +34,10 @@ export class Suscription extends BaseEntity implements ISuscription {
 
 	@Column('uuid')
 	public membershipId: string;
+
+	@Column({
+		default: false,
+		nullable: false,
+	})
+	public reinvestment: boolean;
 }

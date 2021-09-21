@@ -27,7 +27,7 @@ import {
 	WithdrawalDto,
 	SupportPaymentDto,
 } from './api.dto';
-import { IRecord, PaymentMethod, UserRole, WithdrawalMethod } from './api.interface';
+import { IRecord, PaymentMethod, UserRole, WithdrawalMethod, IMembership } from './api.interface';
 
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
@@ -40,6 +40,7 @@ import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
 
 import config from '@config';
+import { moveMessagePortToContext } from 'worker_threads';
 
 const stripe = new Stripe(config.stripe_secret_key, {
 	apiVersion: '2020-08-27',
@@ -423,6 +424,46 @@ export class ApiService {
 		}
 	}
 
+	public async update_memberships(user: User, data: IMembership[]): Promise<Membership[]> {
+		if (user.role === UserRole.ADMIN) {
+			const memberships = await Membership.createQueryBuilder().getMany();
+			for (const membership_n of data) {
+				const membership = memberships.find((m) => m.id === membership_n.id);
+				if (membership) {
+					if (
+						membership_n.description_en !== membership.description_en ||
+						membership_n.description_es !== membership.description_es ||
+						membership_n.is_active !== membership.is_active
+					) {
+						membership.description_en = membership_n.description_en;
+						membership.description_es = membership_n.description_es;
+						membership.is_active = membership_n.is_active;
+						await membership.save();
+					}
+				} else {
+					if (
+						membership_n.name &&
+						membership_n.description_en &&
+						membership_n.description_es &&
+						membership_n.money_a &&
+						membership_n.money_b &&
+						membership_n.months &&
+						membership_n.interest &&
+						membership_n.is_active
+					) {
+						await Membership.createQueryBuilder()
+							.insert()
+							.values({ ...membership_n, interest: membership_n.interest / 100 })
+							.execute();
+					}
+				}
+			}
+			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
+		} else {
+			return [];
+		}
+	}
+
 	public async suscriptions(user: User): Promise<Suscription[]> {
 		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 	}
@@ -788,6 +829,7 @@ export class ApiService {
 					date_begin: suscription.date_begin,
 					date_end: suscription.date_end,
 					membershipId: suscription.membershipId,
+					reinvestment: suscription.reinvestment,
 				});
 			}
 			balance.moves = (
@@ -833,9 +875,93 @@ export class ApiService {
 		return balance;
 	}
 
-	public async balance_graphic(
-		user: User,
-	): Promise<{
+	public async balance_send_mail(user: User, date: DateTime): Promise<{ valid: boolean }> {
+		const balance: IBalanceDetail = await this.balance_detail(user, date);
+		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'balance.hbs'), 'utf8');
+		handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+			return arg1 == arg2 ? options.fn(this) : options.inverse(this);
+		});
+		const template_compile = handlebars.compile(templeate_hbs);
+		const formatMoney = (n: number) => {
+			if (n) {
+				const x = n.toFixed(2).toString().split('.');
+				let x1 = x[0];
+				const rgx = /(\d+)(\d{3})/;
+				while (rgx.test(x1)) {
+					x1 = x1.replace(rgx, '$1' + ' ' + '$2');
+				}
+				return `$${x1}${x.length > 1 ? '.' + x[1] : ''}`;
+			} else {
+				return '$0';
+			}
+		};
+		const formatDate = (n: number) => {
+			return user.DateTime.fromUnix(n).toFormat('dd LLL yyyy');
+		};
+		const memberships = await Membership.createQueryBuilder()
+			.where('id in (:...ids)', { ids: balance.suscriptions.map((s) => s.membershipId) })
+			.getMany();
+		const get_name_suscription = (id: string) => {
+			const membership = memberships.find(
+				(m) => m.id === balance.suscriptions.find((s) => s.id === id)?.membershipId,
+			);
+			return membership ? membership.name + ' ' + (membership.interest * 100).toFixed(1) + '%' : '---';
+		};
+		const payment_mehtods: { [key: string]: string } = {
+			paypal: 'PayPal',
+			stripe: 'Stripe',
+			blockchain: 'CoinPayments',
+			balance: 'Reinvestment',
+			bankcheck: 'Bank Check',
+			wire_transfer: 'Wire Transfer',
+			investment: 'Investment',
+		};
+		const data = {
+			user: user.name,
+			date: formatDate(balance.date),
+			available_balance: formatMoney(balance.available_balance),
+			balance: formatMoney(balance.balance),
+			investment: formatMoney(balance.investment),
+			moves: balance.moves.map((m) => {
+				return {
+					...m,
+					date: formatDate(m.date),
+					money: formatMoney(m.money),
+					suscription: get_name_suscription(m.suscription),
+					method: payment_mehtods[m.method],
+				};
+			}),
+		};
+		return await this.mailerService
+			.sendMail({
+				to: user.email,
+				//to: 'xmmendezy@gmail.com',
+				subject: 'DigitalTrust - Balance',
+				html: template_compile(data),
+			})
+			.then(() => {
+				return { valid: true };
+			})
+			.catch(() => {
+				return { valid: false };
+			});
+	}
+
+	public async set_reinvestment(user: User, id: string, reinvestment: boolean): Promise<{ valid: boolean }> {
+		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		if (reinvestment) {
+			for (const suscription of suscriptions.filter((s) => s.id !== id)) {
+				suscription.reinvestment = false;
+				await suscription.save();
+			}
+		}
+		const suscription = suscriptions.find((s) => s.id === id);
+		suscription.reinvestment = reinvestment;
+		await suscription.save();
+		return { valid: !suscription.errors.length };
+	}
+
+	public async balance_graphic(user: User): Promise<{
 		labels: number[];
 		data: number[];
 	}> {
