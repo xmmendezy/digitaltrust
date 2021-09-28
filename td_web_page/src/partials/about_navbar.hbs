@@ -1,0 +1,20 @@
+<nav class='navbar secundary'>
+	<div class='container'>
+		<div class='navbar-brand'>
+			{{#page '' '@title' '' 'navbar-item title title-page'}}{{/page}}
+			<span class='navbar-burger burger' data-target='navbarMenu'>
+				<span></span>
+				<span></span>
+				<span></span>
+			</span>
+		</div>
+		<div id='navbarMenu' class='navbar-menu'>
+			<div class='navbar-end'>
+				{{#page 'price' '@navbar.url.a2' '' 'navbar-item is-size-5'}}{{/page}}
+			</div>
+			<a href='{{i18n_to}}/about' class='navbar-item is-size-5'>
+				{{navbar.url.a0}}
+			</a>
+		</div>
+	</div>
+</nav>
