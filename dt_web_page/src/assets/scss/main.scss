@@ -1,0 +1,850 @@
+@import './fonts.scss';
+
+@import 'bulma/sass/utilities/_all';
+
+// Set your colors
+$border: #d3d8dd;
+$gray: #eaecee;
+$black: white;
+$dark: #334d6e;
+$selected: #458ff62c;
+$box: #346fc280;
+$box-hover: rgba(0, 0, 0, 0.05);
+
+$primary: #458ff6;
+$primary-invert: findColorInvert($primary);
+$primary-light: findLightColor($primary);
+$primary-dark: findDarkColor($primary);
+
+$main: $primary;
+$main-invert: $primary-invert;
+$main-light: $primary-light;
+$main-dark: $primary-dark;
+
+$main-light-one: #5397f5;
+$main-light-one-invert: findColorInvert($main-light-one);
+$main-light-one-light: findLightColor($main-light-one);
+$main-light-one-dark: findDarkColor($main-light-one);
+
+$main-light-two: #6aa4f5;
+$main-light-two-invert: findColorInvert($main-light-two);
+$main-light-two-light: findLightColor($main-light-two);
+$main-light-two-dark: findDarkColor($main-light-two);
+
+$main-dark-one: #334d6e;
+$main-dark-one-invert: findColorInvert($main-dark-one);
+$main-dark-one-light: finddarkColor($main-dark-one);
+$main-dark-one-dark: findDarkColor($main-dark-one);
+
+$main-dark-two: #24364e;
+$main-dark-two-invert: findColorInvert($main-dark-two);
+$main-dark-two-light: finddarkColor($main-dark-two);
+$main-dark-two-dark: findDarkColor($main-dark-two);
+
+$link: $main-light-one;
+$link-invert: $main-light-one-invert;
+$link-light: $main-light-one-light;
+$link-dark: $main-light-one-dark;
+
+$info: $main-dark-one;
+$info-invert: $main-dark-one-invert;
+$info-light: $main-dark-one-light;
+$info-dark: $main-dark-one-dark;
+
+$success: #2ed47a;
+$success-invert: $white;
+$success-light: findLightColor($success);
+$success-dark: findDarkColor($success);
+
+$warning: #ffb946;
+$warning-invert: $black;
+$warning-light: findLightColor($warning);
+$warning-dark: findDarkColor($warning);
+
+$danger: #ff3c5f;
+$danger-invert: findColorInvert($danger);
+$danger-light: findLightColor($danger);
+$danger-dark: findDarkColor($danger);
+
+$colors: mergeColorMaps(
+	(
+		'white': (
+			$white,
+			$black,
+		),
+		'black': (
+			$black,
+			$white,
+		),
+		'light': (
+			$light,
+			$light-invert,
+		),
+		'dark': (
+			$dark,
+			$dark-invert,
+		),
+		'gray': (
+			$gray,
+			$gray,
+		),
+		'primary': (
+			$primary,
+			$primary-invert,
+			$primary-light,
+			$primary-dark,
+		),
+		'main': (
+			$main,
+			$main-invert,
+			$main-light,
+			$main-dark,
+		),
+		'main-light-one': (
+			$main-light-one,
+			$main-light-one-invert,
+			$main-light-one-light,
+			$main-light-one-dark,
+		),
+		'main-light-two': (
+			$main-light-two,
+			$main-light-two-invert,
+			$main-light-two-light,
+			$main-light-two-dark,
+		),
+		'main-dark-one': (
+			$main-dark-one,
+			$main-dark-one-invert,
+			$main-dark-one-light,
+			$main-dark-one-dark,
+		),
+		'main-dark-two': (
+			$main-dark-two,
+			$main-dark-two-invert,
+			$main-dark-two-light,
+			$main-dark-two-dark,
+		),
+		'link': (
+			$link,
+			$link-invert,
+			$link-light,
+			$link-dark,
+		),
+		'info': (
+			$info,
+			$info-invert,
+			$info-light,
+			$info-dark,
+		),
+		'success': (
+			$success,
+			$success-invert,
+			$success-light,
+			$success-dark,
+		),
+		'warning': (
+			$warning,
+			$warning-invert,
+			$warning-light,
+			$warning-dark,
+		),
+		'danger': (
+			$danger,
+			$danger-invert,
+			$danger-light,
+			$danger-dark,
+			image1,
+		),
+	),
+	$custom-colors
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Footer
+$footer-background-color: $primary;
+$footer-color: $white;
+$footer-padding: 3rem 5rem;
+
+@import 'bulma/bulma.sass';
+@import 'bulma-accordion/src/sass/index.sass';
+@import 'bulma-timeline/src/sass/index.sass';
+@import 'bulma-floating-button/dist/css/bulma-floating-button.sass';
+@import '@glidejs/glide/src/assets/sass/glide.core.scss';
+@import '@glidejs/glide/src/assets/sass/glide.theme.scss';
+
+@import './navbar.scss';
+@import './svg.scss';
+@import './image.scss';
+
+body {
+	font-family: 'Poppins';
+	font-weight: 300;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: white !important;
+	background-image: linear-gradient(135deg, $primary, #45bff6, $primary) !important;
+}
+
+.hero-body {
+	@include mobile {
+		padding: 3rem 0.5rem;
+	}
+}
+
+.section {
+	margin-bottom: 8rem;
+
+	@include mobile {
+		margin-bottom: 3rem;
+	}
+}
+
+.title-underline {
+	color: $black !important;
+	font-size: 38px !important;
+	padding-bottom: 1rem;
+	margin-top: 2rem !important;
+	margin-bottom: 2rem !important;
+	display: inline-block;
+	border-bottom: 3px solid $black;
+}
+
+.control.has-floating-label {
+	position: relative;
+
+	.label.is-floating-label {
+		font-weight: normal;
+		position: absolute;
+		line-height: 1;
+	}
+
+	.input,
+	.textarea {
+		background: transparent !important;
+		color: $gray;
+
+		&:hover,
+		&:focus {
+			border-color: $border !important;
+		}
+	}
+
+	.input.is-medium,
+	.textarea.is-medium {
+		height: 3.75rem;
+		transition-duration: 0.2s;
+
+		&:placeholder-shown + .label.is-floating-label {
+			color: $gray;
+			display: block;
+			top: 1.375rem;
+			left: 0.75rem;
+			z-index: 0;
+		}
+
+		&:hover + .label.is-floating-label {
+			z-index: 2;
+		}
+
+		&:focus,
+		&:not(:placeholder-shown) {
+			padding-top: 1.5rem;
+
+			& + .label.is-floating-label {
+				color: $gray;
+				top: 0.5rem;
+				left: 0.75rem;
+				z-index: 11;
+			}
+		}
+	}
+}
+
+.field.has-addons .control.has-floating-label .input {
+	position: static;
+}
+
+.help-button {
+	margin-left: 1rem !important;
+}
+
+#info {
+	position: relative;
+	margin-bottom: 0;
+	padding: 0 !important;
+
+	@include tablet {
+		height: 100vh;
+	}
+
+	.content > * {
+		margin: 0 !important;
+
+		@include tablet {
+			width: 100%;
+		}
+	}
+
+	.content {
+		position: absolute;
+		top: 0;
+		background-color: $box !important;
+
+		@include tablet {
+			width: 100%;
+			height: 100vh;
+			margin: auto;
+			padding-top: 25vh;
+			margin-top: 10vh;
+		}
+
+		@include mobile {
+			height: 91.5vh;
+			padding-top: 40vh;
+			margin-top: 10vh;
+		}
+
+		.title-info {
+			color: $black !important;
+			font-weight: bold;
+
+			@include tablet {
+				font-size: 40px !important;
+			}
+		}
+
+		.subtitle-info {
+			color: $black;
+			font-weight: bold;
+			padding-top: 1.5rem;
+
+			@include tablet {
+				font-size: 24px !important;
+			}
+		}
+
+		.button {
+			width: 30%;
+			margin-left: auto !important;
+			margin-right: auto !important;
+			margin-top: 3.5rem !important;
+			padding: 1rem 2.5rem;
+			font-weight: bold;
+			height: fit-content;
+
+			@include mobile {
+				width: 50%;
+			}
+
+			p {
+				font-size: 1.25rem;
+			}
+		}
+
+		.column-title-info {
+			height: 100%;
+			margin: auto;
+			display: inline;
+			text-align: center;
+			background-color: #458ff6;
+			cursor: pointer;
+			border-top-left-radius: 15px;
+			border-bottom-left-radius: 15px;
+
+			p {
+				color: #ffffff !important;
+				text-align: center;
+				margin: auto;
+				padding: 1rem;
+
+				font {
+					font-weight: bold;
+					font-size: 2rem;
+				}
+			}
+		}
+	}
+
+	.glide {
+		margin-top: -10vh;
+
+		.glide__slides {
+			@include tablet {
+				height: 110vh;
+			}
+		}
+	}
+}
+
+.hero-body .container {
+	margin-top: 7rem;
+
+	@include mobile {
+		margin-top: 60vh;
+	}
+
+	&.secundary {
+		margin-top: 0 !important;
+	}
+}
+
+#friendly {
+	.content {
+		@include tablet {
+			margin-left: 5rem;
+		}
+
+		.subtitle {
+			text-align: left;
+		}
+
+		.button {
+			height: 100%;
+			margin-top: 1.5rem !important;
+			padding: 1.5rem 1.5rem;
+			font-weight: bold;
+			white-space: pre-wrap;
+
+			&.bbutton {
+				@extend .is-white;
+
+				&:hover {
+					background-color: $box !important;
+				}
+			}
+		}
+	}
+}
+
+#service_info,
+#invest_now {
+	position: relative;
+
+	.content > p {
+		width: 100%;
+		margin: 0 !important;
+	}
+
+	@include mobile {
+		.reverse-columns {
+			flex-direction: column-reverse;
+			display: flex;
+		}
+	}
+
+	.content {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+		align-items: center;
+		height: 100%;
+
+		ul {
+			width: 80%;
+
+			li {
+				padding-bottom: 1rem;
+			}
+		}
+	}
+
+	.bbutton {
+		@extend .is-white;
+
+		&:hover {
+			background-color: $box !important;
+		}
+	}
+}
+
+#benefits {
+	background-color: $main-dark-two;
+
+	@include tablet {
+		width: 100vw !important;
+		margin-bottom: 3rem;
+		padding-top: 5rem;
+		padding-bottom: 5rem;
+
+		.columns {
+			margin: auto;
+			width: 70vw !important;
+		}
+	}
+
+	@include mobile {
+		.column-trading {
+			height: 60vh;
+		}
+	}
+
+	.btn-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.btn-send {
+			margin: auto;
+			background-color: $main-dark-two;
+		}
+	}
+}
+
+#our_industries {
+	background-color: white;
+
+	@include tablet {
+		width: 100vw !important;
+		margin-bottom: 3rem;
+		padding-top: 5rem;
+		padding-bottom: 5rem;
+
+		.columns {
+			margin: auto;
+			width: 70vw !important;
+		}
+	}
+
+	@include mobile {
+		.column-trading {
+			height: 60vh;
+		}
+	}
+
+	.content {
+		margin-left: 0;
+		color: $dark;
+
+		.title-underline {
+			color: $dark !important;
+		}
+
+		@include tablet {
+			margin-bottom: 5vh;
+		}
+	}
+
+	.image_our_industries {
+		width: 50vw;
+		height: 50vh;
+
+		@include mobile {
+			width: 80vw;
+			height: 80vh;
+		}
+	}
+}
+
+#invest_now {
+	.content {
+		@include tablet {
+			margin-left: 5rem;
+		}
+
+		.subtitle-invest-now {
+			text-align: left;
+		}
+
+		.button {
+			width: 40% !important;
+			margin-top: 1.5rem !important;
+			padding-top: 1.5rem;
+			padding-bottom: 1.5rem;
+			font-weight: bold;
+		}
+	}
+
+	.column-trading {
+		padding-top: 5rem;
+		height: 60vh;
+	}
+}
+
+#fqa {
+	background-color: $main-dark-two;
+	position: relative;
+	margin-bottom: 0;
+
+	@include tablet {
+		width: 100vw !important;
+		margin-bottom: 3rem;
+		padding-top: 5rem;
+		padding-bottom: 5rem;
+
+		.columns {
+			margin: auto;
+			width: 70vw !important;
+		}
+	}
+
+	@include mobile {
+		.column-trading {
+			height: 60vh;
+		}
+	}
+}
+
+#contact {
+	position: relative;
+
+	.content {
+		@include tablet {
+			padding-top: 5rem;
+		}
+
+		.contacts {
+			padding-left: 3rem;
+			list-style: none !important;
+
+			li {
+				padding-bottom: 0.5rem;
+
+				&.email {
+					a {
+						color: $black;
+					}
+				}
+			}
+
+			.address {
+				p {
+					list-style: none !important;
+					margin-left: 0.5rem;
+					margin-bottom: 0.5rem;
+
+					font {
+						padding-left: 2rem;
+					}
+				}
+			}
+		}
+	}
+
+	.button {
+		width: 100% !important;
+		margin-top: 1.5rem !important;
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+		border-radius: 10px;
+		font-weight: bold;
+	}
+}
+
+#about {
+	.about-image > * {
+		width: 100%;
+		margin: 0 !important;
+	}
+
+	.about-image {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.content {
+		p:last-child {
+			font-weight: bold;
+		}
+	}
+}
+
+#timeline {
+	.timeline {
+		@include mobile {
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+	}
+}
+
+#help {
+	.accordions .accordion.is-active .accordion-body {
+		max-height: 100% !important;
+	}
+}
+
+#friendly {
+	position: relative;
+
+	.friendly-image > * {
+		width: 100%;
+		margin: 0 !important;
+	}
+
+	.subtitle {
+		padding-top: 3rem;
+		padding-bottom: 1rem;
+		color: $black;
+		font-weight: bold;
+		font-size: 20px;
+	}
+
+	.friendly-image {
+		display: flex;
+		flex-wrap: wrap;
+		align-content: center;
+		align-items: center;
+		height: 100%;
+	}
+
+	.button {
+		margin: 2rem auto !important;
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+		font-weight: bold;
+
+		@include mobile {
+			width: 100% !important;
+		}
+
+		@include tablet {
+			width: 70% !important;
+		}
+
+		&.bbutton {
+			@extend .is-white;
+
+			&:hover {
+				background-color: $box !important;
+			}
+		}
+	}
+}
+
+.footer {
+	background-color: $box;
+
+	@include mobile {
+		padding: 3rem 3rem;
+	}
+
+	.title-page {
+		font-size: 24px !important;
+		margin: 0 !important;
+	}
+
+	.description {
+		margin-top: 1rem;
+		width: 40%;
+
+		@include touch {
+			width: 100%;
+		}
+	}
+
+	.social {
+		p {
+			padding-bottom: 1.5rem;
+		}
+
+		span {
+			padding-right: 1.5rem;
+		}
+
+		a {
+			color: white;
+
+			&:hover {
+				color: white;
+			}
+		}
+
+		svg {
+			margin: auto;
+			margin-left: 1.5rem;
+		}
+
+		.svg-inline--fa {
+			width: 1.5rem !important;
+			height: 1.5rem !important;
+		}
+	}
+
+	.security {
+		width: 80%;
+		padding: 2rem 0;
+
+		@include mobile {
+			width: 100%;
+		}
+
+		a {
+			color: white;
+
+			&:hover {
+				color: white;
+			}
+		}
+
+		span {
+			padding-right: 1.5rem;
+		}
+
+		svg {
+			margin: auto;
+			margin-left: 1.5rem;
+		}
+
+		.svg-inline--fa {
+			width: 2rem !important;
+			height: 2rem !important;
+		}
+	}
+}
+
+.wbutton {
+	background-color: $box;
+	color: $white;
+	border: none !important;
+
+	@include mobile {
+		bottom: 20px !important;
+		right: 20px !important;
+	}
+
+	&:hover {
+		color: $white;
+		height: 4rem;
+		width: 4rem;
+		font-size: 2rem;
+	}
+}
+
+.accordions .accordion {
+	background-color: transparent !important;
+
+	.accordion-header {
+		color: $black;
+		font-weight: bold;
+		background-color: transparent !important;
+		border-radius: 0 !important;
+		padding-top: 1.5rem !important;
+		padding-bottom: 1.5rem !important;
+	}
+
+	.accordion-header,
+	.accordion-body {
+		background-color: transparent !important;
+	}
+
+	.accordion-body {
+		border: 1px solid $gray;
+		text-align: left;
+		border-left: none !important;
+		border-right: none !important;
+
+		.accordion-content {
+			color: $black;
+			margin-left: 1rem !important;
+			margin-bottom: 1rem !important;
+		}
+	}
+}

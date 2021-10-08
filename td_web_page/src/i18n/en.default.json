@@ -1,0 +1,12 @@
+{
+	"title": "TradingDigital",
+	"i18n": "en",
+	"i18n_to": "es",
+	"navbar": {
+		"url": {
+			"a0": "ES",
+			"a1": "About us",
+			"a2": "Prices"
+		}
+	}
+}
