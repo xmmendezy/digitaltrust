@@ -39,7 +39,9 @@
 			{ "a": "fas fa-microchip", "b": "Get the equipement you need" },
 			{ "a": "fas fa-laptop-house", "b": "Remote first" },
 			{ "a": "fas fa-globe", "b": "Offsites" }
-		]
+		],
+		"help": "Suscripción a boletines y comentarios del mercado",
+		"send": "Suscribirse"
 	},
 	"service_info": {
 		"a": "Servicio Confiable",

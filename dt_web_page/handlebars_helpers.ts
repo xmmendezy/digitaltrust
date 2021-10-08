@@ -1,8 +1,8 @@
-function image_src(path: string, classess: string, style: string): string {
+function image_src(path: string, classess: string, style: string, oas: string): string {
 	if (path) {
 		classess = typeof classess === 'string' ? classess : '';
 		style = typeof style === 'string' ? style : '';
-		return `<img src="/assets/images/${path}" alt="image" class="${classess}" style="${style}">`;
+		return `<img src="/assets/images/${path}" alt="image" class="${classess}" style="${style}" data-aos="${oas}">`;
 	} else {
 		return '';
 	}
