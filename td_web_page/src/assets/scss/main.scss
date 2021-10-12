@@ -5,13 +5,14 @@
 // Set your colors
 $border: #afc5c2;
 $gray: #ebf0ef;
-$black: #1c6b62;
-$dark: #3f726c;
+$black: #ffffff;
+$dark: #00d9bf;
 $selected: #5cfdea2c;
 $box: #2cd8c480;
 $box-hover: rgba(0, 0, 0, 0.05);
+$background: #232928;
 
-$primary: #00d9bf;
+$primary: #16665d;
 $primary-invert: findColorInvert($primary);
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
@@ -186,7 +187,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: $black !important;
-	background-image: linear-gradient(135deg, $primary, #79fdee, $primary) !important;
+	background: $background !important;
 }
 
 .hero-body {
@@ -278,4 +279,41 @@ body {
 
 .field.has-addons .control.has-floating-label .input {
 	position: static;
+}
+
+#info {
+	position: relative;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	@include tablet {
+		height: 100vh;
+	}
+
+	.content > * {
+		margin: 0 !important;
+		margin-top: -10vh !important;
+		padding: 0 !important;
+
+		@include tablet {
+			width: 100%;
+		}
+	}
+
+	.content .over {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-image: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0),
+			#23292891,
+			#23292891,
+			$background,
+			$background
+		) !important;
+	}
 }
