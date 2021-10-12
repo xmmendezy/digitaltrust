@@ -381,15 +381,21 @@ body {
 	}
 }
 
-.hero-body .container {
-	margin-top: 7rem;
+.hero-body {
+	&.secundary {
+		padding-top: 0 !important;
 
-	@include mobile {
-		margin-top: 60vh;
+		.container {
+			margin-top: 0 !important;
+		}
 	}
 
-	&.secundary {
-		margin-top: 0 !important;
+	.container {
+		margin-top: 7rem;
+
+		@include mobile {
+			margin-top: 60vh;
+		}
 	}
 }
 
@@ -721,9 +727,10 @@ body {
 
 .footer {
 	background-color: $box;
+	padding: 1rem 3rem;
 
 	@include mobile {
-		padding: 3rem 3rem;
+		padding: 2rem 1.5rem;
 	}
 
 	.title-page {
