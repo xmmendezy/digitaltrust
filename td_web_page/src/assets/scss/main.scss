@@ -175,8 +175,6 @@ $footer-padding: 3rem 5rem;
 @import 'bulma-timeline/src/sass/index.sass';
 @import 'bulma-pricingtable/src/sass/index.sass';
 @import 'bulma-floating-button/dist/css/bulma-floating-button.sass';
-@import '@glidejs/glide/src/assets/sass/glide.core.scss';
-@import '@glidejs/glide/src/assets/sass/glide.theme.scss';
 
 @import './navbar.scss';
 
@@ -311,6 +309,39 @@ body {
 		//transform: translate(-50%, 50%);
 		background-image: linear-gradient(180deg, rgba(255, 255, 255, 0), #23292891, $background) !important;
 	}
+
+	.page-title {
+		display: block;
+		position: absolute;
+		bottom: 25%;
+		width: 50vw;
+		height: 30vh;
+		padding-left: calc(5vw) !important;
+
+		@include widescreen {
+			bottom: 40%;
+		}
+
+		h1,
+		p {
+			text-align: left;
+		}
+
+		h1 {
+			color: $black;
+		}
+
+		p {
+			padding-top: 2rem;
+		}
+
+		@include mobile {
+			bottom: -40%;
+			width: 70vw;
+			height: 20vh;
+			padding-left: calc(10vw) !important;
+		}
+	}
 }
 
 @mixin shadow {
@@ -324,3 +355,4 @@ body {
 @import './features.scss';
 @import './testimonials.scss';
 @import './footer.scss';
+@import './price.scss';

@@ -1,6 +1,14 @@
 .features {
 	position: relative;
 
+	@include tablet-only {
+		padding-top: 15rem;
+	}
+
+	@include mobile {
+		padding-top: 20rem;
+	}
+
 	&::before {
 		content: '';
 		width: 100%;
