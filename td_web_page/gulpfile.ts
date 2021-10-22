@@ -378,6 +378,12 @@ task('images-dev', () => {
 		.pipe(browserSync.stream());
 });
 
+task('videos', () => {
+	return src([src_assets_folder + 'images/**/*.+(mp4)'], { since: lastRun('videos') })
+		.pipe(dest(dist_assets_folder + 'images'))
+		.pipe(browserSync.stream());
+});
+
 task('fonts', () => {
 	return src([src_assets_folder + 'fonts/**/*'], { since: lastRun('fonts') })
 		.pipe(dest(dist_assets_folder + 'fonts'))
@@ -424,6 +430,10 @@ task('watch', () => {
 		'change',
 		browserSync.reload,
 	);
+	watch(src_assets_folder + 'images/**/*.+(mp4)', series('videos')).on(
+		'change',
+		browserSync.reload,
+	);
 	watch(watch_vendor, series('vendor')).on('change', browserSync.reload);
 });
 
@@ -467,10 +477,10 @@ task('templates', series(templates_tasks));
 task('compile', series(['ts', 'js', 'sass', 'scss', 'css', 'fonts', 'templates']));
 
 // Build
-task('build', series('clear', 'is_production', 'compile', 'images', 'vendor', 'sitemap'));
+task('build', series('clear', 'is_production', 'compile', 'images', 'videos', 'vendor', 'sitemap'));
 
 // Dev
-task('dev', series('compile', 'images-dev', 'vendor', 'sitemap'));
+task('dev', series('compile', 'images-dev', 'videos', 'vendor', 'sitemap'));
 
 // Default task
 task('default', series('clear', 'is_not_production', 'dev', parallel('serve', 'watch')));

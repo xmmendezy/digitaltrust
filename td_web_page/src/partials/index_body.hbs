@@ -1,6 +1,8 @@
 <section id="info" class="section">
 	<div class="content has-text-centered">
-		{{#image_src 'index.jpg' ''}}{{/image_src}}
+		<video id="indexmp4" class="video-js vjs-default-skin" src="/assets/images/index.mp4" width="640" height="264">
+		</video>
+		{{#image_src 'index.jpg' 'background'}}{{/image_src}}
 		<div class="over"></div>
 		<div class="page-title" data-aos="slide-right">
 			<h1>
@@ -11,9 +13,18 @@
 				estrategias, nunca dejes de aprender, porque esta es la única forma de triunfar en este negocio.
 			</p>
 		</div>
+		<script src="/node_modules/video.js/dist/video.min.js"></script>
 		<script>
 			AOS.init({
 				duration: 1200,
+			});
+			videojs('indexmp4', {
+				controls: false,
+				loop: true,
+				autoplay: true,
+				muted: true,
+				preload: true,
+				fluid: true
 			});
 		</script>
 	</div>
@@ -25,9 +36,10 @@
 			<div class="features-header text-center">
 				<div class="container-sm">
 					<h2 class="title-underline">Nuestros Servicios</h2>
-					<p class="subtitle has-text-white">Lorem ipsum is common placeholder text used to demonstrate the
-						graphic
-						elements of a document or visual presentation.</p>
+					<p class="subtitle has-text-white">Compartimos configuraciones y nuestras operaciones
+						como un propósito educativo para realizar análisis, detalles de entrada, nivel de parada y nivel
+						de
+						ganancias, todo lo necesario para que se vuelva un experto en Forex.</p>
 				</div>
 			</div>
 			<div class="features-wrap" data-aos="slide-left">

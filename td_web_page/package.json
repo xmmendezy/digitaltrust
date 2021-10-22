@@ -19,7 +19,8 @@
 		"bulma-accordion": "^2.0.1",
 		"bulma-floating-button": "^1.0.3",
 		"bulma-pricingtable": "^0.2.0",
-		"bulma-timeline": "^3.0.4"
+		"bulma-timeline": "^3.0.4",
+		"video.js": "^7.15.4"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.13.16",
