@@ -1,0 +1,103 @@
+#about {
+	position: relative;
+	margin: 0 !important;
+	padding: 0 !important;
+	height: auto;
+
+	.content > * {
+		margin: 0 !important;
+		margin-top: -10vh !important;
+		padding: 0 !important;
+
+		@include tablet {
+			width: 100%;
+		}
+	}
+
+	.video-js {
+		display: block;
+		position: absolute;
+		min-height: 130%;
+		min-width: 100%;
+		bottom: 0;
+		left: 0;
+		margin-top: 0 !important;
+		background-color: rgba(0, 0, 0, 0) !important;
+
+		@include mobile {
+			min-height: 150%;
+		}
+
+		.vjs-tech {
+			background-color: rgba(0, 0, 0, 0) !important;
+		}
+
+		&.vjs-error {
+			display: none;
+		}
+	}
+
+	img.background {
+		background-image: linear-gradient(180deg, $background, #23292891, rgba(255, 255, 255, 0)) !important;
+	}
+
+	.content .over {
+		display: block;
+		position: absolute;
+		min-height: 100%;
+		min-width: 100%;
+		bottom: 0;
+		left: 0;
+		//transform: translate(-50%, 50%);
+		background-image: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0),
+			rgba(255, 255, 255, 0),
+			#23292891,
+			$background,
+			$background
+		) !important;
+	}
+
+	.page-title {
+		display: block;
+		position: absolute;
+		top: 20%;
+		right: 0;
+		width: 50vw;
+		height: 30vh;
+		padding-right: calc(5vw) !important;
+
+		h1,
+		p {
+			text-align: left;
+		}
+
+		h1 {
+			color: $black;
+		}
+
+		p {
+			padding-top: 2rem;
+		}
+
+		@include mobile {
+			top: 60%;
+			width: 80vw;
+			height: 20vh;
+			padding-right: calc(10vw) !important;
+		}
+	}
+}
+
+#about_card {
+	margin-top: 15rem;
+
+	@include mobile {
+		margin-top: calc(100vh + 10rem);
+	}
+
+	.card {
+		border-radius: 15px;
+	}
+}
