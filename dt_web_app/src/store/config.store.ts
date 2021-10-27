@@ -12,7 +12,7 @@ const url_origin = [
 
 const config: ConfigStore = {
 	origin: `${url_origin}`,
-	Api: `${url_origin}/api`,
+	Api: `${url_origin}/dt/api`,
 };
 
 export default config;

@@ -11,7 +11,8 @@ import {
 	SupportPayment,
 	HLogin,
 	HQuery,
-} from './api.entity';
+	SuscribeMail,
+} from './dt.entity';
 import {
 	SignupDto,
 	PreregisterDto,
@@ -26,8 +27,8 @@ import {
 	DepositDto,
 	WithdrawalDto,
 	SupportPaymentDto,
-} from './api.dto';
-import { IRecord, PaymentMethod, UserRole, WithdrawalMethod, IMembership } from './api.interface';
+} from './dt.dto';
+import { IRecord, PaymentMethod, UserRole, WithdrawalMethod, IMembership } from './dt.interface';
 
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
@@ -40,7 +41,6 @@ import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
 
 import config from '@config';
-import { moveMessagePortToContext } from 'worker_threads';
 
 const stripe = new Stripe(config.stripe_secret_key, {
 	apiVersion: '2020-08-27',
@@ -49,8 +49,23 @@ const stripe = new Stripe(config.stripe_secret_key, {
 const coinpayments = new Coinpayments({ key: config.coinpayments_public_key, secret: config.coinpayments_secret_key });
 
 @Injectable()
-export class ApiService {
+export class DTService {
 	constructor(private readonly mailerService: MailerService) {}
+
+	public async suscribe_mail(email: string): Promise<Error> {
+		const re =
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if (re.test(String(email).toLowerCase())) {
+			const suscibe = await SuscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
+			if (suscibe) {
+				return { error: 'no_valid' };
+			}
+			//await SuscribeMail.createQueryBuilder().insert().values({ email }).execute();
+			return { error: '' };
+		} else {
+			return { error: 'no_valid' };
+		}
+	}
 
 	public async signup(data: SignupDto): Promise<TokenDto | Error> {
 		const country = await Country.createQueryBuilder('country')

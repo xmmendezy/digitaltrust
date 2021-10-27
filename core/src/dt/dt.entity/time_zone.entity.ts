@@ -1,11 +1,11 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 import { BaseEntity } from '@app/util/base.util';
-import { ITimeZone } from '@app/api/api.interface';
+import { ITimeZone } from '../dt.interface';
 import { Country } from './country.entity';
 
 @Entity({
-	name: 'time_zone',
+	name: 'dt_time_zone',
 })
 export class TimeZone extends BaseEntity implements ITimeZone {
 	@Column({

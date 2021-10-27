@@ -1,12 +1,22 @@
-import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query } from '@app/http';
-import { ApiService } from './api.service';
-import { SignupDto, PreregisterDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './api.dto';
-import { User } from './api.entity';
-import { UserRole, IMembership } from './api.interface';
+import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param } from '@app/dt/http';
+import { DTService } from './dt.service';
+import { SignupDto, PreregisterDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './dt.dto';
+import { User } from './dt.entity';
+import { UserRole, IMembership } from './dt.interface';
 
-@Controller('api')
-export class ApiController {
-	constructor(private readonly apiService: ApiService) {}
+@Controller('dt/api')
+export class DTController {
+	constructor(private readonly dtService: DTService) {}
+
+	@Get('ping')
+	public async ping() {
+		return { error: '' };
+	}
+
+	@Get('suscribe_mail/:email')
+	public async suscribe_mail(@Param('email') email: string) {
+		return await this.dtService.suscribe_mail(email);
+	}
 
 	@Post('signup')
 	public async signup(@Body() data: SignupDto) {
@@ -15,18 +25,18 @@ export class ApiController {
 		if (errors.length) {
 			return { error: errors[0] };
 		} else {
-			return await this.apiService.signup(data);
+			return await this.dtService.signup(data);
 		}
 	}
 
 	@Post('login')
 	public async login(@Req() req: Request) {
-		return await this.apiService.createToken(req.user);
+		return await this.dtService.createToken(req.user);
 	}
 
 	@Get('reset_password')
 	public async reset_password(@Query('email') email: string) {
-		return await this.apiService.reset_password(email);
+		return await this.dtService.reset_password(email);
 	}
 
 	@Patch('user')
@@ -36,34 +46,34 @@ export class ApiController {
 		if (errors.length) {
 			return { error: errors[0] };
 		} else {
-			return await this.apiService.update(req.user, data);
+			return await this.dtService.update(req.user, data);
 		}
 	}
 
 	@Patch('see_welcome')
 	public async see_welcome(@Req() req: Request) {
-		return await this.apiService.see_welcome(req.user);
+		return await this.dtService.see_welcome(req.user);
 	}
 
 	@Get('ref_user')
 	public async ref_user(@Query() query: { id: string }) {
-		return await this.apiService.ref_user(query.id);
+		return await this.dtService.ref_user(query.id);
 	}
 
 	@Get('binary_tree')
 	public async binary_tree(@Req() req: Request) {
-		return await this.apiService.binary_tree(req.user);
+		return await this.dtService.binary_tree(req.user);
 	}
 
 	@Get('is_refer')
 	public async is_refer(@Req() req: Request) {
-		return await this.apiService.is_refer(req.user);
+		return await this.dtService.is_refer(req.user);
 	}
 
 	@Get('clients')
 	public async clients(@Req() req: Request) {
 		if (req.user.role === 'admin') {
-			return await this.apiService.clients();
+			return await this.dtService.clients();
 		} else {
 			return [];
 		}
@@ -72,7 +82,7 @@ export class ApiController {
 	@Get('client')
 	public async client(@Req() req: Request, @Query() query: { id: string }) {
 		if (req.user.role === 'admin') {
-			return await this.apiService.client(query.id);
+			return await this.dtService.client(query.id);
 		} else {
 			return [];
 		}
@@ -93,14 +103,14 @@ export class ApiController {
 			if (!user) {
 				return { error: 'login.error.u1' };
 			}
-			return await this.apiService.update(user, data);
+			return await this.dtService.update(user, data);
 		}
 	}
 
 	@Delete('client')
 	public async remove_client(@Req() req: Request, @Query() query: { id: string }) {
 		if (req.user.role === 'admin') {
-			return await this.apiService.remove_client(query.id);
+			return await this.dtService.remove_client(query.id);
 		} else {
 			return [];
 		}
@@ -108,12 +118,12 @@ export class ApiController {
 
 	@Get('memberships')
 	public async memberships(@Req() req: Request) {
-		return await this.apiService.memberships(req.user);
+		return await this.dtService.memberships(req.user);
 	}
 
 	@Post('memberships')
 	public async update_memberships(@Req() req: Request, @Body() data: IMembership[]) {
-		return await this.apiService.update_memberships(req.user, data);
+		return await this.dtService.update_memberships(req.user, data);
 	}
 
 	@Get('suscriptions')
@@ -126,7 +136,7 @@ export class ApiController {
 				.where('user.id = :id', { id: query.id })
 				.getOne();
 		}
-		return await this.apiService.suscriptions(user);
+		return await this.dtService.suscriptions(user);
 	}
 
 	@Post('suscription')
@@ -147,7 +157,7 @@ export class ApiController {
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
 		}
-		return await this.apiService.create_suscription(user, date, data.membershipId);
+		return await this.dtService.create_suscription(user, date, data.membershipId);
 	}
 
 	@Post('deposit')
@@ -164,7 +174,7 @@ export class ApiController {
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
 		}
-		return await this.apiService.process_deposit(user, date, data, req.user.role === UserRole.ADMIN);
+		return await this.dtService.process_deposit(user, date, data, req.user.role === UserRole.ADMIN);
 	}
 
 	@Post('support_payment')
@@ -177,7 +187,7 @@ export class ApiController {
 				.where('user.id = :id', { id: data.userId })
 				.getOne();
 		}
-		return await this.apiService.process_support_payment(user, user.DateTime.now(), data);
+		return await this.dtService.process_support_payment(user, user.DateTime.now(), data);
 	}
 
 	@Get('withdrawals')
@@ -194,7 +204,7 @@ export class ApiController {
 		if (query.date) {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
-		return await this.apiService.withdrawals(user, date);
+		return await this.dtService.withdrawals(user, date);
 	}
 
 	@Get('withdrawals_alert')
@@ -207,7 +217,7 @@ export class ApiController {
 				.where('user.id = :id', { id: query.id })
 				.getOne();
 		}
-		return await this.apiService.withdrawals_alert(user);
+		return await this.dtService.withdrawals_alert(user);
 	}
 
 	@Post('withdrawal')
@@ -224,12 +234,12 @@ export class ApiController {
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
 		}
-		return await this.apiService.request_withdrawal(user, date, data, req.user.role === UserRole.ADMIN);
+		return await this.dtService.request_withdrawal(user, date, data, req.user.role === UserRole.ADMIN);
 	}
 
 	@Post('process_withdrawal')
 	public async process_withdrawal(@Body() data: { id: string }) {
-		return await this.apiService.process_withdrawal(data.id);
+		return await this.dtService.process_withdrawal(data.id);
 	}
 
 	@Get('records')
@@ -242,12 +252,12 @@ export class ApiController {
 				.where('user.id = :id', { id: query.id })
 				.getOne();
 		}
-		return await this.apiService.records(user);
+		return await this.dtService.records(user);
 	}
 
 	@Get('balance')
 	public async balance(@Req() req: Request) {
-		return await this.apiService.balance(req.user);
+		return await this.dtService.balance(req.user);
 	}
 
 	@Get('balance_detail')
@@ -264,7 +274,7 @@ export class ApiController {
 		if (query.date) {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
-		return await this.apiService.balance_detail(user, date);
+		return await this.dtService.balance_detail(user, date);
 	}
 
 	@Get('balance_send_mail')
@@ -281,7 +291,7 @@ export class ApiController {
 		if (query.date) {
 			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
 		}
-		return await this.apiService.balance_send_mail(user, date);
+		return await this.dtService.balance_send_mail(user, date);
 	}
 
 	@Get('set_reinvestment')
@@ -297,7 +307,7 @@ export class ApiController {
 				.where('user.id = :id', { id: query.user_id })
 				.getOne();
 		}
-		return await this.apiService.set_reinvestment(user, query.id, query.reinvestment === 'true');
+		return await this.dtService.set_reinvestment(user, query.id, query.reinvestment === 'true');
 	}
 
 	@Get('balance_graphic')
@@ -310,12 +320,12 @@ export class ApiController {
 				.where('user.id = :id', { id: query.id })
 				.getOne();
 		}
-		return await this.apiService.balance_graphic(user);
+		return await this.dtService.balance_graphic(user);
 	}
 
 	@Post('get_stripe')
 	public async get_stripe(@Body() data: DepositDto) {
-		return await this.apiService.get_stripe(data);
+		return await this.dtService.get_stripe(data);
 	}
 
 	@Post('get_coinpayments')
@@ -328,27 +338,27 @@ export class ApiController {
 				.where('user.id = :id', { id: data.id })
 				.getOne();
 		}
-		return await this.apiService.get_coinpayments(user, data);
+		return await this.dtService.get_coinpayments(user, data);
 	}
 
 	@Post('status_coinpayments')
 	public async status_coinpayments(@Body() data: { txid: string }) {
-		return await this.apiService.status_coinpayments(data.txid);
+		return await this.dtService.status_coinpayments(data.txid);
 	}
 
 	@Post('get_stripe_donation')
 	public async get_stripe_donation(@Body() data: { money: number }) {
-		return await this.apiService.get_stripe_donation(data);
+		return await this.dtService.get_stripe_donation(data);
 	}
 
 	@Post('get_coinpayments_donation')
 	public async get_coinpayments_donation(@Body() data: { money: number; currency: string }) {
-		return await this.apiService.get_coinpayments_donation(data);
+		return await this.dtService.get_coinpayments_donation(data);
 	}
 
 	@Post('get_stripe_support_payment')
 	public async get_stripe_support_payment(@Body() data: SupportPaymentDto) {
-		return await this.apiService.get_stripe_support_payment(data);
+		return await this.dtService.get_stripe_support_payment(data);
 	}
 
 	@Post('get_coinpayments_support_payment')
@@ -364,7 +374,7 @@ export class ApiController {
 				.where('user.id = :id', { id: data.userId })
 				.getOne();
 		}
-		return await this.apiService.get_coinpayments_support_payment(user, data);
+		return await this.dtService.get_coinpayments_support_payment(user, data);
 	}
 
 	@Post('preregister')
@@ -374,7 +384,7 @@ export class ApiController {
 		if (errors.length) {
 			return { error: errors[0] };
 		} else {
-			return await this.apiService.preregister(data);
+			return await this.dtService.preregister(data);
 		}
 	}
 }

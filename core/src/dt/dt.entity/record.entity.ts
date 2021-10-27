@@ -1,9 +1,9 @@
 import { Entity, Column } from 'typeorm';
 import { BaseEntity } from '@app/util/base.util';
-import { IRecord } from '../api.interface';
+import { IRecord } from '../dt.interface';
 
 @Entity({
-	name: 'record',
+	name: 'dt_record',
 })
 export class Record extends BaseEntity implements IRecord {
 	constructor(data: IRecord) {

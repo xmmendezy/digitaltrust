@@ -1,11 +1,11 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '@app/util/base.util';
-import { ICountry } from '@app/api/api.interface';
+import { ICountry } from '../dt.interface';
 import { TimeZone } from './time_zone.entity';
 import { User } from './user.entity';
 
 @Entity({
-	name: 'country',
+	name: 'dt_country',
 })
 export class Country extends BaseEntity implements ICountry {
 	@Column({

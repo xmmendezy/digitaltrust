@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '@app/util/base.util';
-import { IMembership } from '@app/api/api.interface';
+import { IMembership } from '../dt.interface';
 
 @Entity({
-	name: 'membership',
+	name: 'dt_membership',
 })
 export class Membership extends BaseEntity implements IMembership {
 	@Column({

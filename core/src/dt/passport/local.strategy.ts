@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import passport from 'passport';
 import { Strategy, IVerifyOptions } from 'passport-local';
-import { User } from '@app/api/api.entity';
-import { UserStatus } from '@app/api/api.interface';
+import { User } from '../dt.entity';
 
 @Injectable()
 export class LocalStrategy extends Strategy {

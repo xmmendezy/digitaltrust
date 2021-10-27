@@ -1,9 +1,9 @@
 import { Entity, Column } from 'typeorm';
 import { BaseEntity } from '@app/util/base.util';
-import { IWithdrawal, WithdrawalMethod } from '../api.interface';
+import { IWithdrawal, WithdrawalMethod } from '../dt.interface';
 
 @Entity({
-	name: 'withdrawal',
+	name: 'dt_withdrawal',
 })
 export class Withdrawal extends BaseEntity implements IWithdrawal {
 	constructor(data: IWithdrawal) {

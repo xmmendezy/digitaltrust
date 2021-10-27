@@ -1,7 +1,7 @@
 import { IsNotEmpty, Matches, IsEmail, Length } from 'class-validator';
 import { BaseDTO } from '@app/util/base.util';
-import { User } from './api.entity';
-import { UserRole, UserStatus, PaymentMethod, WithdrawalMethod } from './api.interface';
+import { User } from './dt.entity';
+import { UserRole, UserStatus, PaymentMethod, WithdrawalMethod } from './dt.interface';
 
 interface ISignupDto {
 	username: string;

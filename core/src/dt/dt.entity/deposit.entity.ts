@@ -1,16 +1,16 @@
 import { Entity, Column } from 'typeorm';
 import { BaseEntity } from '@app/util/base.util';
-import { ISupportPayment, PaymentMethod } from '../api.interface';
+import { IDeposit, PaymentMethod } from '../dt.interface';
 
 @Entity({
-	name: 'support_payment',
+	name: 'dt_deposit',
 })
-export class SupportPayment extends BaseEntity implements ISupportPayment {
-	constructor(data: ISupportPayment) {
+export class Deposit extends BaseEntity implements IDeposit {
+	constructor(data: IDeposit) {
 		super();
 		if (data) {
 			this.date = data.date;
-			this.userId = data.userId;
+			this.suscriptionId = data.suscriptionId;
 			this.money = data.money;
 			this.payment_method = data.payment_method;
 			this.reference = data.reference;
@@ -24,7 +24,7 @@ export class SupportPayment extends BaseEntity implements ISupportPayment {
 	public date: number;
 
 	@Column('uuid')
-	public userId: string;
+	public suscriptionId: string;
 
 	@Column({
 		type: 'float8',

@@ -1,9 +1,9 @@
 import { Entity, Column } from 'typeorm';
 import { BaseEntity } from '@app/util/base.util';
-import { ISuscription } from '../api.interface';
+import { ISuscription } from '../dt.interface';
 
 @Entity({
-	name: 'suscription',
+	name: 'dt_suscription',
 })
 export class Suscription extends BaseEntity implements ISuscription {
 	constructor(data: ISuscription) {

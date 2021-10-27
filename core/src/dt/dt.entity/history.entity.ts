@@ -2,7 +2,7 @@ import { Entity, BaseEntity, Column, PrimaryGeneratedColumn, ManyToOne } from 't
 import { User } from './user.entity';
 
 @Entity({
-	name: 'h_login',
+	name: 'dt_h_login',
 })
 export class HLogin extends BaseEntity {
 	constructor(user: User, date: Date) {
@@ -22,7 +22,7 @@ export class HLogin extends BaseEntity {
 }
 
 @Entity({
-	name: 'h_query',
+	name: 'dt_h_query',
 })
 export class HQuery extends BaseEntity {
 	constructor(user: User, date: Date) {

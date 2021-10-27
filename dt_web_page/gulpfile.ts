@@ -443,7 +443,7 @@ task('serve', async () => {
 
 // Is production
 task('is_production', async () => {
-	dist_folder = '../core/view/';
+	dist_folder = '../core/dt_view/';
 	dist_assets_folder = dist_folder + 'assets/';
 	dist_node_modules_folder = dist_folder + 'node_modules/';
 	is_production = true;

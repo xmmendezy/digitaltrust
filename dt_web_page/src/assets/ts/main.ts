@@ -37,6 +37,31 @@ function contactForm() {
 	input_email.value = '';
 	input_phone.value = '';
 	input_message.value = '';
+	return false;
 }
 
 (window as any).contactForm = contactForm;
+
+function suscribeForm() {
+	const suscribe = <HTMLInputElement>document.getElementById('suscribe');
+	console.log(suscribe.value);
+	if (suscribe.value) {
+		fetch('http://127.0.0.1:9001/dt/api/suscribe_mail/' + suscribe.value)
+			.then(res => {
+				res.json().then(data => {
+					if (!data.error) {
+						swal("Good job!", "You clicked the button!", "success");
+					}
+				});
+				//suscribe.value = '';
+			})
+			.catch(() => {
+				//suscribe.value = '';
+			});
+	} else {
+		//suscribe.value = '';
+	}
+	return false;
+}
+
+(window as any).suscribeForm = suscribeForm;

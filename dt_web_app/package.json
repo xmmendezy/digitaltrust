@@ -7,7 +7,7 @@
 	"scripts": {
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build",
-		"prebuild": "rimraf ../core/app",
+		"prebuild": "rimraf ../core/dt_app",
 		"lint": "vue-cli-service lint",
 		"prelint": "npm run prettier",
 		"prettier": "prettier --write 'src/**/*.{vue,ts,tsx,js,jsx,json,scss,css}'"

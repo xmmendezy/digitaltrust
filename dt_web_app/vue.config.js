@@ -4,8 +4,8 @@ const path = require('path');
 const vueSrc = './src';
 
 module.exports = {
-	publicPath: '/app',
-	outputDir: path.resolve(__dirname, '../core/app'),
+	publicPath: '/dt_app',
+	outputDir: path.resolve(__dirname, '../core/dt_app'),
 	devServer: {
 		disableHostCheck: true,
 	},

@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from '@app/http';
+import { Request, Response, NextFunction } from '@app/dt/http';
 import passport from 'passport';
-import { User } from '@app/api/api.entity';
+import { User } from '@app/dt/dt.entity';
 
 @Injectable()
 export class LoginMiddleware implements NestMiddleware {
