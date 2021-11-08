@@ -1,7 +1,7 @@
 <nav class='navbar secundary'>
 	<div class='container'>
 		<div class='navbar-brand'>
-			{{#page '' '@title' '' 'navbar-item title title-page has-text-white'}}{{/page}}
+			{{#page '' '@title' '' 'navbar-item title title-page'}}{{/page}}
 			<span class='navbar-burger burger main' data-target='navbarMenu'>
 				<span></span>
 				<span></span>
@@ -17,11 +17,13 @@
 					<span></span>
 				</span>
 				{{#page 'about' '@navbar.url.a1' '' 'navbar-item is-size-5'}}{{/page}}
-				<a href='{{i18n_to}}/vision' class='navbar-item is-size-5'>
-					{{navbar.url.a5}}
+				{{#page 'price' '@navbar.url.a2' '' 'navbar-item is-size-5'}}{{/page}}
+				<a href='{{i18n_to}}/learn' class='navbar-item is-size-5'>
+					{{navbar.url.a0}}
 				</a>
-				<a target='_blank' href='/dt_app/login?i18n={{i18n}}' class='navbar-item is-size-5 login'>
-					{{navbar.url.a7}}
+				<a target='_blank' href='/td_app/login?i18n={{i18n}}' class='navbar-item is-size-5 login'>
+					{{navbar.url.a4}}
+					<i class='fas fa-sign-in-alt icon-margin'></i>
 				</a>
 			</div>
 		</div>

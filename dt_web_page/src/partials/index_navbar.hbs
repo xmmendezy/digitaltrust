@@ -4,7 +4,7 @@
 			<p class='navbar-item title title-page has-text-white'>
 				{{title}}
 			</p>
-			<span class='navbar-burger burger' data-target='navbarMenu'>
+			<span class='navbar-burger burger main' data-target='navbarMenu'>
 				<span></span>
 				<span></span>
 				<span></span>
@@ -12,30 +12,38 @@
 		</div>
 		<div id='navbarMenu' class='navbar-menu'>
 			<div class='navbar-end'>
+				<p class='navbar-item title title-page has-text-white has-text-left'>
+					{{title}}
+				</p>
+				<span class='navbar-burger burger is-active' data-target='navbarMenu'>
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
 				{{#page 'about' '@navbar.url.a1' '' 'navbar-item is-size-5'}}{{/page}}
 				{{#page 'vision' '@navbar.url.a2' '' 'navbar-item is-size-5'}}{{/page}}
-				<a href='#fqa' class='navbar-item is-size-5' id=''>
+				<a href='#fqa' class='navbar-item is-size-5'>
 					<i class='fas fa-question icon-margin'></i>
 					{{navbar.url.a3}}
 				</a>
-				<a href='#contact' class='navbar-item is-size-5' id=''>
+				<a href='#contact' class='navbar-item is-size-5'>
 					<i class='fab fa-whatsapp icon-margin'></i>
 					{{navbar.url.a4}}
 				</a>
-				<a href='/{{i18n_to}}' class='navbar-item is-size-5' id=''>
+				<a href='/{{i18n_to}}' class='navbar-item is-size-5'>
 					{{navbar.url.a5}}
 				</a>
 				{{#page
-					'friendly'
-					'@navbar.url.a6'
-					''
-					'navbar-item is-size-5 friendly'
-					''
-					''
-					'fas fa-hand-holding-heart
+				'friendly'
+				'@navbar.url.a6'
+				''
+				'navbar-item is-size-5 friendly'
+				''
+				''
+				'fas fa-hand-holding-heart
 				icon-margin'
 				}}{{/page}}
-				<a target='_blank' href='/app/login?i18n={{i18n}}' class='navbar-item is-size-5 login' id=''>
+				<a target='_blank' href='/dt_app/login?i18n={{i18n}}' class='navbar-item is-size-5 login'>
 					{{navbar.url.a7}}
 					<i class='fas fa-sign-in-alt icon-margin'></i>
 				</a>

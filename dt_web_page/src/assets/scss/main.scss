@@ -391,10 +391,14 @@ body {
 	}
 
 	.container {
-		margin-top: 7rem;
+		margin-top: 2rem;
 
 		@include mobile {
 			margin-top: 60vh;
+		}
+
+		&.secundary {
+			margin-top: 1rem !important;
 		}
 	}
 }

@@ -60,7 +60,7 @@ export class DTService {
 			if (suscibe) {
 				return { error: 'no_valid' };
 			}
-			//await SuscribeMail.createQueryBuilder().insert().values({ email }).execute();
+			await SuscribeMail.createQueryBuilder().insert().values({ email }).execute();
 			return { error: '' };
 		} else {
 			return { error: 'no_valid' };

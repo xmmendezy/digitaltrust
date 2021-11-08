@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+	const $navbarBurgersMain = document.querySelector('.navbar-burger.main');
 	if ($navbarBurgers.length > 0) {
 		$navbarBurgers.forEach(el => {
 			el.addEventListener('click', () => {
 				const target = el.dataset.target;
 				const $target = document.getElementById(target);
-				el.classList.toggle('is-active');
+				$navbarBurgersMain.classList.toggle('is-hidden');
 				$target.classList.toggle('is-active');
 			});
 		});
@@ -13,11 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	(window as any).bulmaAccordion.attach();
 
-	const glide = new Glide('.glide', {
-		autoplay: 7000,
-		hoverpause: false,
-	});
-	glide.mount();
+	try {
+		const glide = new Glide('.glide', {
+			autoplay: 7000,
+			hoverpause: false,
+		});
+		glide.mount();
+	} catch (_) {
+		_;
+	}
 });
 
 function contactForm() {
@@ -46,20 +51,27 @@ function suscribeForm() {
 	const suscribe = <HTMLInputElement>document.getElementById('suscribe');
 	console.log(suscribe.value);
 	if (suscribe.value) {
-		fetch('http://127.0.0.1:9001/dt/api/suscribe_mail/' + suscribe.value)
+		fetch('/dt/api/suscribe_mail/' + suscribe.value)
 			.then(res => {
 				res.json().then(data => {
+					console.log(data);
 					if (!data.error) {
-						swal("Good job!", "You clicked the button!", "success");
+						(window as any).Swal.fire({
+							title: 'Success',
+							text: 'You have subscribed to our mailing list',
+							icon: 'success',
+							confirmButtonText: 'Continue',
+							confirmButtonColor: '#458ff6',
+						});
 					}
 				});
-				//suscribe.value = '';
+				suscribe.value = '';
 			})
 			.catch(() => {
-				//suscribe.value = '';
+				suscribe.value = '';
 			});
 	} else {
-		//suscribe.value = '';
+		suscribe.value = '';
 	}
 	return false;
 }

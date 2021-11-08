@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 	const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+	const $navbarBurgersMain = document.querySelector('.navbar-burger.main');
 	if ($navbarBurgers.length > 0) {
 		$navbarBurgers.forEach(el => {
 			el.addEventListener('click', () => {
 				const target = el.dataset.target;
 				const $target = document.getElementById(target);
-				el.classList.toggle('is-active');
+				$navbarBurgersMain.classList.toggle('is-hidden');
 				$target.classList.toggle('is-active');
 			});
 		});

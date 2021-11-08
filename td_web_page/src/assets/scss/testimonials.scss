@@ -1,9 +1,10 @@
 .testimonials {
 	position: relative;
+	margin-bottom: 0;
 
 	.section-inner {
 		padding-top: 0;
-		padding-bottom: 108px;
+		padding-bottom: 3rem;
 	}
 
 	.section-title {
@@ -21,7 +22,7 @@
 }
 
 .testimonials-shape-2 {
-	top: 84px;
+	top: 184px;
 	left: calc(50% + 30px);
 }
 
@@ -95,7 +96,7 @@
 @include tablet {
 	.testimonials {
 		.section-inner {
-			padding-bottom: 166px; /* 126+40px second column offset */
+			padding-bottom: 2rem; /* 126+40px second column offset */
 		}
 
 		.section-title {

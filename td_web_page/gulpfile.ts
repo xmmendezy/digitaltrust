@@ -8,7 +8,6 @@ import cache from 'gulp-cache';
 import { init, write } from 'gulp-sourcemaps';
 import babel from 'gulp-babel';
 import tsc from 'gulp-typescript';
-import sass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
 import minifyCss from 'gulp-clean-css';
 import plumber from 'gulp-plumber';
@@ -41,7 +40,8 @@ const browserSync = create();
 
 handlebars_compile.Handlebars.registerHelper(layouts(handlebars_compile.Handlebars));
 
-(sass as any).compiler = require('node-sass');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const sass = require('gulp-sass')(require('sass'));
 
 let is_production = false;
 let hash = '';

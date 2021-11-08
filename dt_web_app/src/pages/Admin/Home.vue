@@ -570,6 +570,7 @@
 							<p class="title">
 								{{ $t('deposit.title') }}
 								{{ client_data_now ? ' - ' + formatName(client_data_now) : '' }}
+								{{ formatMoney(balance_detail_data.balance) }}
 							</p>
 							<section class="form has-text-centered">
 								<div class="columns">
