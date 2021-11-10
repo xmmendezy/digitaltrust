@@ -3,7 +3,7 @@
 		<div class="body">
 			<b-navbar>
 				<template #brand>
-					<b-navbar-item tag="router-link" :to="{ name: 'Home' }">
+					<b-navbar-item tag="router-link" :to="{ name: is_admin ? 'AdminHome' : 'Home' }">
 						<p class="title has-text-white">{{ $t('title') }}</p>
 					</b-navbar-item>
 				</template>

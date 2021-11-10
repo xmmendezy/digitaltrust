@@ -31,6 +31,7 @@ const src_assets_i18n = src_folder + 'i18n/';
 const src_assets_partials = src_folder + 'partials/';
 const src_assets_pages = src_folder + 'pages/';
 const src_assets_folder = src_folder + 'assets/';
+const prod_dist_folder = '../core/td_view/';
 let dist_folder = './.cache/';
 let dist_assets_folder = dist_folder + 'assets/';
 const node_modules_folder = './node_modules/';
@@ -453,7 +454,7 @@ task('serve', async () => {
 
 // Is production
 task('is_production', async () => {
-	dist_folder = './dist/';
+	dist_folder = prod_dist_folder;
 	dist_assets_folder = dist_folder + 'assets/';
 	dist_node_modules_folder = dist_folder + 'node_modules/';
 	is_production = true;

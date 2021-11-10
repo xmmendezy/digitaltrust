@@ -490,6 +490,7 @@
 							<p class="title">
 								{{ $t('withdrawal.title') }}
 								{{ client_data_now ? ' - ' + formatName(client_data_now) : '' }}
+								{{ balance_detail_data ? formatMoney(balance_detail_data.balance) : '' }}
 							</p>
 							<section class="form has-text-centered">
 								<div class="columns">
@@ -570,7 +571,7 @@
 							<p class="title">
 								{{ $t('deposit.title') }}
 								{{ client_data_now ? ' - ' + formatName(client_data_now) : '' }}
-								{{ formatMoney(balance_detail_data.balance) }}
+								{{ balance_detail_data ? formatMoney(balance_detail_data.balance) : '' }}
 							</p>
 							<section class="form has-text-centered">
 								<div class="columns">
@@ -1224,7 +1225,7 @@ export default class Admin extends PageChildBase {
 
 			.title {
 				color: $dark;
-				font-size: 45px;
+				font-size: 35px;
 				font-weight: bold !important;
 			}
 

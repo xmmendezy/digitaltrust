@@ -5,9 +5,9 @@
 	"author": "Xavier Méndez (xmmendezy@gmail.com)",
 	"license": "ISC",
 	"scripts": {
-		"serve": "gulp",
+		"dev": "gulp",
 		"build": "gulp build",
-		"prebuild": "rimraf dist ../core/view && npm run lint",
+		"prebuild": "rimraf dist ../core/td_view && npm run lint",
 		"lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
 		"prelint": "npm run prettier",
 		"prettier": "prettier --write 'src/**/*.{ts,js,json,scss,css}'"
