@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ApiModule } from './api/api.module';
+import { AppException } from './app.exception';
+import { DTModule } from './dt/dt.module';
+import { TDModule } from './td/td.module';
 import { join } from 'path';
 import ormconfig from '@orm';
 import config from '@config';
@@ -12,13 +13,12 @@ import config from '@config';
 @Module({
 	imports: [
 		ServeStaticModule.forRoot({
-			rootPath: join(__dirname, 'view'),
-			exclude: ['/api*', '/app*'],
-			serveRoot: '/',
+			rootPath: join(__dirname, 'dt_app'),
+			serveRoot: '/dt_app',
 		}),
 		ServeStaticModule.forRoot({
-			rootPath: join(__dirname, 'app'),
-			serveRoot: '/app',
+			rootPath: join(__dirname, 'td_app'),
+			serveRoot: '/td_app',
 		}),
 		TypeOrmModule.forRoot(ormconfig),
 		MailerModule.forRoot({
@@ -36,9 +36,15 @@ import config from '@config';
 				from: `"DigitalTrust" <${config.email.user}>`,
 			},
 		}),
-		ApiModule,
+		DTModule,
+		TDModule,
 	],
-	controllers: [AppController],
-	providers: [AppService],
+	controllers: [],
+	providers: [
+		{
+			provide: APP_FILTER,
+			useClass: AppException,
+		},
+	],
 })
 export class AppModule {}

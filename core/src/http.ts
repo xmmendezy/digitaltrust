@@ -16,9 +16,6 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response, NextFunction } from 'express';
-import { User } from './api/api.entity';
-
-type RequestApi = Request & { user: User };
 
 export {
 	Controller,
@@ -36,7 +33,7 @@ export {
 	UploadedFile,
 	UseInterceptors,
 	FileInterceptor,
-	RequestApi as Request,
+	Request,
 	Response,
 	NextFunction,
 };
