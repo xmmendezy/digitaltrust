@@ -8,12 +8,12 @@
 		"docker": "docker build --platform amd64 -t xmmendezy/dt_core .",
 		"build": "nest build",
 		"prebuild": "rm -rf dist && npm run lint",
-		"postbuild": "cp -r app dist/app && cp -r view dist/view",
+		"postbuild": "cp -r dt_app dist/dt_app && cp -r dt_view dist/dt_view",
 		"predocker": "npm run build",
 		"postdocker": "docker push xmmendezy/dt_core:latest",
-		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+		"lint": "eslint \"src/**/*.ts\" --fix",
 		"prelint": "npm run prettier",
-		"prettier": "prettier --write '{src,test}/**/*.{ts,js,json}'"
+		"prettier": "prettier --write 'src/**/*.{ts,js,json}'"
 	},
 	"dependencies": {
 		"@nestjs-modules/mailer": "^1.6.0",
