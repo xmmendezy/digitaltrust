@@ -30,14 +30,14 @@
 		"f": "Salud y Bienestar"
 	},
 	"benefits": {
-		"a": "Benefits of working with us",
+		"a": "Beneficios de trabajar con nosotros",
 		"list": [
 			{ "a": "fas fa-money-bill-wave-alt", "b": "Competitive salary" },
 			{ "a": "fas fa-chart-pie", "b": "Meaningful equity" },
 			{ "a": "fab fa-btc", "b": "Crypto bonus" },
 			{ "a": "fas fa-heartbeat", "b": "Healthcare" },
 			{ "a": "fas fa-microchip", "b": "Get the equipement you need" },
-			{ "a": "fas fa-laptop-house", "b": "Remote first" },
+			{ "a": "fas fa-laptop-house", "b": "Remote office" },
 			{ "a": "fas fa-globe", "b": "Offsites" }
 		],
 		"help": "Suscripción a boletines y comentarios del mercado",
@@ -46,7 +46,7 @@
 	"service_info": {
 		"a": "Servicio Confiable",
 		"b": [
-			"Sus ganancias son acreditadas automáticamente cada 24h en su cuentaSus ganancias son acreditadas automáticamente cada 24h en su cuenta DigitalTrust",
+			"Sus ganancias son acreditadas automáticamente cada 24h en su cuenta DigitalTrust",
 			"No dude en contactar con nuestro equipo de soporte, sus consultas y solicitudes son atendidas puntualmente.",
 			"Usted puede retirar sus ganancias en cualquier momento las cuales son enviadas a un monedero externo en un máximo de una semana."
 		]
@@ -67,10 +67,6 @@
 			{
 				"a": "¿Cómo gana su empresa?",
 				"b": "Ganamos nuestras comisiones sobre cualquier porcentaje que ganemos por encima y más allá de su dividendo mensualmente."
-			},
-			{
-				"a": "¿Existe un período de espera?",
-				"b": "Sí, un período de retención de 6 meses. ¿Por qué? Nos da tiempo suficiente para obtener los beneficios que le garantizan a usted, el inversor, mensualmente y nos convierte en una empresa rentable. ¿Puedo liquidar antes de los 6 meses? Sí, si surge una emergencia. Necesitaremos una carta escrita a mano que indique el motivo y se le aplicará una multa del 25%."
 			},
 			{
 				"a": "¿Cómo recibiré mis dividendos mensuales?",

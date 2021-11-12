@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
 import { User, Country, Membership, Suscription, HLogin, HQuery, SuscribeMail } from './td.entity';
-import { SignupDto, PreregisterDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, SuscriptionDto } from './td.dto';
+import { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, SuscriptionDto } from './td.dto';
 import { UserRole, IMembership } from './td.interface';
 
 import { DateTime } from 'luxon';
@@ -249,13 +249,6 @@ export class TDService {
 				id: user.id,
 				name: user.name,
 				email: user.email,
-				balance: (
-					await this.record(
-						user,
-						user.DateTime.now().startOf('month'),
-						user.DateTime.now().minus({ days: 1 }),
-					)
-				).balance,
 				lastDeposit: user.lastDeposit,
 			});
 		}
@@ -347,18 +340,15 @@ export class TDService {
 		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
 	}
 
-	public async create_suscription(
-		user: User,
-		date: DateTime,
-		data: DepositDto,
-		membershipId: string,
-	): Promise<{ id: string }> {
-		const membership = await Membership.createQueryBuilder().where('id = :membershipId', { membershipId }).getOne();
+	public async create_suscription(user: User, date: DateTime, data: SuscriptionDto): Promise<{ id: string }> {
+		const membership = await Membership.createQueryBuilder()
+			.where('id = :membershipId', { membershipId: data.membershipId })
+			.getOne();
 		if (membership) {
 			const suscription = new Suscription({
 				userId: user.id,
 				date: date.toSeconds(),
-				membershipId,
+				membershipId: data.membershipId,
 				money: parseFloat(data.money as any),
 				payment_method: data.type,
 				reference: data.reference,
@@ -376,166 +366,5 @@ export class TDService {
 		} else {
 			return { id: '' };
 		}
-	}
-
-	public async get_stripe(data: DepositDto): Promise<{ id: string; reference: string }> {
-		const success_url = `${config.url_root}/app/buy?success_stripe=true&${Object.entries(data)
-			.map(([key, val]) => `${key}=${val}`)
-			.join('&')}`;
-		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
-		const session = await stripe.checkout.sessions.create({
-			payment_method_types: ['card'],
-			line_items: [
-				{
-					price_data: {
-						currency: 'usd',
-						product_data: {
-							name: `Payment - ${membership.name}`,
-						},
-						unit_amount: parseInt(
-							parseFloat(data.money as any)
-								.toFixed(2)
-								.toString()
-								.replace('.', ''),
-						),
-					},
-					quantity: 1,
-				},
-			],
-			mode: 'payment',
-			success_url,
-			cancel_url: `${config.url_root}/app/buy?success_stripe=false`,
-		});
-		return { id: session.id, reference: session.payment_intent as string };
-	}
-
-	public async get_coinpayments(
-		user: User,
-		data: DepositDto & { currency: string },
-	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
-		const success_url = `${config.url_root}/app/buy?success_coinpayments=true&${Object.entries(data)
-			.map(([key, val]) => `${key}=${val}`)
-			.join('&')}`;
-		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
-		const { address } = await coinpayments.getCallbackAddress(data);
-		return await coinpayments.createTransaction({
-			currency1: 'USD',
-			currency2: data.currency,
-			amount: data.money,
-			buyer_email: user.email,
-			item_name: `Payment - ${membership.name}`,
-			address,
-			success_url,
-			cancel_url: `${config.url_root}/app/buy?success_coinpayments=false`,
-		});
-	}
-
-	public async status_coinpayments(txid: string): Promise<any> {
-		return await coinpayments.getTx({ txid });
-	}
-
-	public async get_stripe_donation(data: { money: number }): Promise<{ id: string }> {
-		const session = await stripe.checkout.sessions.create({
-			payment_method_types: ['card'],
-			line_items: [
-				{
-					price_data: {
-						currency: 'usd',
-						product_data: {
-							name: 'Donation',
-						},
-						unit_amount: parseInt(
-							parseFloat(data.money as any)
-								.toFixed(2)
-								.toString()
-								.replace('.', ''),
-						),
-					},
-					quantity: 1,
-				},
-			],
-			mode: 'payment',
-			success_url: `${config.url_root}/app/donations?step=2`,
-			cancel_url: config.url_root,
-		});
-		return { id: session.id };
-	}
-
-	public async get_coinpayments_donation(data: {
-		money: number;
-		currency: string;
-	}): Promise<{ checkout_url: string }> {
-		const { address } = await coinpayments.getCallbackAddress(data);
-		return await coinpayments.createTransaction({
-			currency1: 'USD',
-			currency2: data.currency,
-			amount: data.money,
-			buyer_email: 'admin@digitaltrustonline.net',
-			item_name: 'Donation',
-			address,
-			success_url: config.url_root,
-			cancel_url: config.url_root,
-		});
-	}
-
-	public async get_stripe_support_payment(data: SupportPaymentDto): Promise<{ id: string; reference: string }> {
-		const session = await stripe.checkout.sessions.create({
-			payment_method_types: ['card'],
-			line_items: [
-				{
-					price_data: {
-						currency: 'usd',
-						product_data: {
-							name: 'Payment - Support DigitalTrust Web Service',
-						},
-						unit_amount: parseInt(
-							parseFloat(data.money as any)
-								.toFixed(2)
-								.toString()
-								.replace('.', ''),
-						),
-					},
-					quantity: 1,
-				},
-			],
-			mode: 'payment',
-			success_url: `${config.url_root}/app?success_stripe_support=true`,
-			cancel_url: `${config.url_root}/app?success_stripe_support=false`,
-		});
-		return { id: session.id, reference: session.payment_intent as string };
-	}
-
-	public async get_coinpayments_support_payment(
-		user: User,
-		data: SupportPaymentDto & { currency: string },
-	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
-		const { address } = await coinpayments.getCallbackAddress(data);
-		return await coinpayments.createTransaction({
-			currency1: 'USD',
-			currency2: data.currency,
-			amount: data.money,
-			buyer_email: user.email,
-			item_name: 'Payment - Support DigitalTrust Web Service',
-			address,
-			success_url: `${config.url_root}/app?success_coinpayments_support=true`,
-			cancel_url: `${config.url_root}/app?success_coinpayments_support=false`,
-		});
-	}
-
-	public async preregister(data: PreregisterDto) {
-		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'preregister.hbs'), 'utf8');
-		const template_compile = handlebars.compile(templeate_hbs);
-		return await this.mailerService
-			.sendMail({
-				to: config.email.info,
-				subject: 'Preregister',
-				html: template_compile(data),
-			})
-			.then(() => {
-				return { valid: true };
-			})
-			.catch((e) => {
-				return { valid: false };
-			});
 	}
 }

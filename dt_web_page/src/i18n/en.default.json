@@ -37,7 +37,7 @@
 			{ "a": "fab fa-btc", "b": "Crypto bonus" },
 			{ "a": "fas fa-heartbeat", "b": "Healthcare" },
 			{ "a": "fas fa-microchip", "b": "Get the equipement you need" },
-			{ "a": "fas fa-laptop-house", "b": "Remote first" },
+			{ "a": "fas fa-laptop-house", "b": "Remote office" },
 			{ "a": "fas fa-globe", "b": "Offsites" }
 		],
 		"help": "Newsletters and market commentay signup",
@@ -67,10 +67,6 @@
 			{
 				"a": "How does your company make money?",
 				"b": "We earn our commissions on whatever % we make above and beyond your dividend on a monthly basis."
-			},
-			{
-				"a": "Is there a holding period?",
-				"b": "Yes a 6 month holding period. Why? It gives us enough time to earn the returns guaranteed to you the investor on a monthly basis and makes us a profitable company. Can I liquidate before 6 months? Yes if emergency arises. We will need a hand written letter stating the reason and you will accrue a 25% penalty."
 			},
 			{
 				"a": "How will I receive my monthly dividends?",

@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { AppException } from './app.exception';
 import { DTModule } from './dt/dt.module';
+import { TDModule } from './td/td.module';
 import { join } from 'path';
 import ormconfig from '@orm';
 import config from '@config';
@@ -14,6 +15,10 @@ import config from '@config';
 		ServeStaticModule.forRoot({
 			rootPath: join(__dirname, 'dt_app'),
 			serveRoot: '/dt_app',
+		}),
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, 'td_app'),
+			serveRoot: '/td_app',
 		}),
 		TypeOrmModule.forRoot(ormconfig),
 		MailerModule.forRoot({
@@ -32,6 +37,7 @@ import config from '@config';
 			},
 		}),
 		DTModule,
+		TDModule,
 	],
 	controllers: [],
 	providers: [

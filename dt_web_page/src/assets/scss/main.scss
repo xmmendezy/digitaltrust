@@ -646,6 +646,9 @@ body {
 }
 
 #about {
+	padding-bottom: 0;
+	margin-bottom: 0;
+
 	.about-image > * {
 		width: 100%;
 		margin: 0 !important;
@@ -667,10 +670,28 @@ body {
 }
 
 #timeline {
+	background-color: white;
+	padding-bottom: 8rem;
+	margin-bottom: 0;
+
 	.timeline {
 		@include mobile {
 			padding-left: 1rem;
 			padding-right: 1rem;
+		}
+
+		.timeline-header .tag {
+			color: white;
+			background-color: $main-dark-two;
+		}
+
+		.timeline-marker,
+		.timeline-item::before {
+			background-color: $main-dark-one;
+		}
+
+		.timeline-content {
+			color: $main-dark-two;
 		}
 	}
 }
@@ -729,6 +750,14 @@ body {
 	}
 }
 
+#vision {
+	padding-bottom: 8rem;
+
+	@include mobile {
+		padding: 3rem 1.5rem;
+	}
+}
+
 .footer {
 	background-color: $box;
 	padding: 1rem 3rem;
@@ -781,7 +810,7 @@ body {
 
 	.security {
 		width: 80%;
-		padding: 2rem 0;
+		padding: 1rem 0;
 
 		@include mobile {
 			width: 100%;

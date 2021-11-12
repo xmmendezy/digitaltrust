@@ -6,7 +6,7 @@ import { User } from '@app/td/td.entity';
 @Injectable()
 export class LoginMiddleware implements NestMiddleware {
 	async use(req: Request, res: Response, next: NextFunction) {
-		return await passport.authenticate('local', { session: false }, (err, user: User, info) => {
+		return await passport.authenticate('td_local', { session: false }, (err, user: User, info) => {
 			if (err) {
 				res.json({ error: err });
 				return;

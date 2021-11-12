@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param } from '@app/dt/http';
 import { TDService } from './td.service';
-import { SignupDto, PreregisterDto, UpdateDto, DepositDto, WithdrawalDto, SupportPaymentDto } from './td.dto';
+import { SignupDto, UpdateDto, SuscriptionDto } from './td.dto';
 import { User } from './td.entity';
 import { UserRole, IMembership } from './td.interface';
 
@@ -58,11 +58,6 @@ export class TDController {
 	@Get('ref_user')
 	public async ref_user(@Query() query: { id: string }) {
 		return await this.tdService.ref_user(query.id);
-	}
-
-	@Get('binary_tree')
-	public async binary_tree(@Req() req: Request) {
-		return await this.tdService.binary_tree(req.user);
 	}
 
 	@Get('is_refer')
@@ -140,11 +135,7 @@ export class TDController {
 	}
 
 	@Post('suscription')
-	public async create_suscription(
-		@Req() req: Request,
-		@Query() query: { id: string },
-		@Body() data: { membershipId: string; date?: number },
-	) {
+	public async create_suscription(@Req() req: Request, @Query() query: { id: string }, @Body() data: SuscriptionDto) {
 		let user: User = req.user;
 		if (query.id) {
 			user = await User.createQueryBuilder('user')
@@ -157,234 +148,6 @@ export class TDController {
 		if (data.date) {
 			date = user.DateTime.fromUnix(parseInt(data.date as any));
 		}
-		return await this.tdService.create_suscription(user, date, data.membershipId);
-	}
-
-	@Post('deposit')
-	public async process_deposit(@Req() req: Request, @Body() data: DepositDto) {
-		let user: User = req.user;
-		if (data.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: data.id })
-				.getOne();
-		}
-		let date = user.DateTime.now();
-		if (data.date) {
-			date = user.DateTime.fromUnix(parseInt(data.date as any));
-		}
-		return await this.tdService.process_deposit(user, date, data, req.user.role === UserRole.ADMIN);
-	}
-
-	@Post('support_payment')
-	public async process_support_payment(@Req() req: Request, @Body() data: SupportPaymentDto) {
-		let user: User = req.user;
-		if (data.userId) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: data.userId })
-				.getOne();
-		}
-		return await this.tdService.process_support_payment(user, user.DateTime.now(), data);
-	}
-
-	@Get('withdrawals')
-	public async withdrawals(@Req() req: Request, @Query() query: { id: string; date: number }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		let date = user.DateTime.now().startOf('month');
-		if (query.date) {
-			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
-		}
-		return await this.tdService.withdrawals(user, date);
-	}
-
-	@Get('withdrawals_alert')
-	public async withdrawals_alert(@Req() req: Request, @Query() query: { id: string }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		return await this.tdService.withdrawals_alert(user);
-	}
-
-	@Post('withdrawal')
-	public async request_withdrawal(@Req() req: Request, @Body() data: WithdrawalDto) {
-		let user: User = req.user;
-		if (data.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: data.id })
-				.getOne();
-		}
-		let date = user.DateTime.now();
-		if (data.date) {
-			date = user.DateTime.fromUnix(parseInt(data.date as any));
-		}
-		return await this.tdService.request_withdrawal(user, date, data, req.user.role === UserRole.ADMIN);
-	}
-
-	@Post('process_withdrawal')
-	public async process_withdrawal(@Body() data: { id: string }) {
-		return await this.tdService.process_withdrawal(data.id);
-	}
-
-	@Get('records')
-	public async records(@Req() req: Request, @Query() query: { id: string }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		return await this.tdService.records(user);
-	}
-
-	@Get('balance')
-	public async balance(@Req() req: Request) {
-		return await this.tdService.balance(req.user);
-	}
-
-	@Get('balance_detail')
-	public async balance_detail(@Req() req: Request, @Query() query: { id: string; date: number }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		let date = user.DateTime.now().startOf('month');
-		if (query.date) {
-			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
-		}
-		return await this.tdService.balance_detail(user, date);
-	}
-
-	@Get('balance_send_mail')
-	public async balance_send_mail(@Req() req: Request, @Query() query: { id: string; date: number }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		let date = user.DateTime.now().startOf('month');
-		if (query.date) {
-			date = user.DateTime.fromUnix(parseInt(query.date as any)).startOf('month');
-		}
-		return await this.tdService.balance_send_mail(user, date);
-	}
-
-	@Get('set_reinvestment')
-	public async set_reinvestment(
-		@Req() req: Request,
-		@Query() query: { user_id: string; id: string; reinvestment: string },
-	) {
-		let user: User = req.user;
-		if (query.user_id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.user_id })
-				.getOne();
-		}
-		return await this.tdService.set_reinvestment(user, query.id, query.reinvestment === 'true');
-	}
-
-	@Get('balance_graphic')
-	public async balance_graphic(@Req() req: Request, @Query() query: { id: string }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-		}
-		return await this.tdService.balance_graphic(user);
-	}
-
-	@Post('get_stripe')
-	public async get_stripe(@Body() data: DepositDto) {
-		return await this.tdService.get_stripe(data);
-	}
-
-	@Post('get_coinpayments')
-	public async get_coinpayments(@Req() req: Request, @Body() data: DepositDto & { currency: string }) {
-		let user: User = req.user;
-		if (data.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: data.id })
-				.getOne();
-		}
-		return await this.tdService.get_coinpayments(user, data);
-	}
-
-	@Post('status_coinpayments')
-	public async status_coinpayments(@Body() data: { txid: string }) {
-		return await this.tdService.status_coinpayments(data.txid);
-	}
-
-	@Post('get_stripe_donation')
-	public async get_stripe_donation(@Body() data: { money: number }) {
-		return await this.tdService.get_stripe_donation(data);
-	}
-
-	@Post('get_coinpayments_donation')
-	public async get_coinpayments_donation(@Body() data: { money: number; currency: string }) {
-		return await this.tdService.get_coinpayments_donation(data);
-	}
-
-	@Post('get_stripe_support_payment')
-	public async get_stripe_support_payment(@Body() data: SupportPaymentDto) {
-		return await this.tdService.get_stripe_support_payment(data);
-	}
-
-	@Post('get_coinpayments_support_payment')
-	public async get_coinpayments_support_payment(
-		@Req() req: Request,
-		@Body() data: SupportPaymentDto & { currency: string },
-	) {
-		let user: User = req.user;
-		if (data.userId) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: data.userId })
-				.getOne();
-		}
-		return await this.tdService.get_coinpayments_support_payment(user, data);
-	}
-
-	@Post('preregister')
-	public async preregister(@Body() data: PreregisterDto) {
-		data = new PreregisterDto(data);
-		const errors = data.validate();
-		if (errors.length) {
-			return { error: errors[0] };
-		} else {
-			return await this.tdService.preregister(data);
-		}
+		return await this.tdService.create_suscription(user, date, data);
 	}
 }

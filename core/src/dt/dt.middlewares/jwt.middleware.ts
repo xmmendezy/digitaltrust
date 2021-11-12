@@ -6,7 +6,7 @@ import { User } from '@app/dt/dt.entity';
 @Injectable()
 export class JwtMiddleware implements NestMiddleware {
 	async use(req: Request, res: Response, next: NextFunction) {
-		return await passport.authenticate('jwt', { session: false }, (err, user: User, info) => {
+		return await passport.authenticate('dt_jwt', { session: false }, (err, user: User, info) => {
 			if (err) {
 				res.json({ error: err });
 				return;

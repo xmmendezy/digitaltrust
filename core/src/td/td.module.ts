@@ -2,38 +2,20 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TDController } from './td.controller';
 import { TDService } from './td.service';
-import {
-	User,
-	Country,
-	TimeZone,
-	HQuery,
-	HLogin,
-	Membership,
-	Suscription,
-	SuscribeMail,
-} from './td.entity';
+import { User, Country, TimeZone, HQuery, HLogin, Membership, Suscription, SuscribeMail } from './td.entity';
 import { LoginMiddleware, JwtMiddleware } from './td.middlewares';
 
 import { JwtStrategy, LocalStrategy } from './passport';
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([
-			User,
-			Country,
-			TimeZone,
-			HQuery,
-			HLogin,
-			Membership,
-			Suscription,
-			SuscribeMail,
-		]),
+		TypeOrmModule.forFeature([User, Country, TimeZone, HQuery, HLogin, Membership, Suscription, SuscribeMail]),
 	],
 	controllers: [TDController],
 	providers: [TDService, JwtStrategy, LocalStrategy],
 	exports: [TDService],
 })
-export class DTModule implements NestModule {
+export class TDModule implements NestModule {
 	public configure(consumer: MiddlewareConsumer) {
 		consumer.apply(LoginMiddleware).forRoutes('/td/api/login');
 		consumer

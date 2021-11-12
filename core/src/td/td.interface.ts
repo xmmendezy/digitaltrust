@@ -87,13 +87,4 @@ enum PaymentMethod {
 	WIRE_TRANSFER = 'wire_transfer',
 }
 
-export {
-	IUser,
-	UserRole,
-	UserStatus,
-	ICountry,
-	ITimeZone,
-	IMembership,
-	ISuscription,
-	PaymentMethod,
-};
+export { IUser, UserRole, UserStatus, ICountry, ITimeZone, IMembership, ISuscription, PaymentMethod };

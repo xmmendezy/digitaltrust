@@ -17,7 +17,7 @@ export class LocalStrategy extends Strategy {
 				done: (error: any, user?: any, options?: IVerifyOptions) => void,
 			) => await this.login(username, password, done),
 		);
-		passport.use(this);
+		passport.use('dt_local', this as Strategy);
 	}
 
 	public async login(

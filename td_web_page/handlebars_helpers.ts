@@ -2,7 +2,7 @@ function image_src(path: string, classess: string, style: string, oas: string): 
 	if (path) {
 		classess = typeof classess === 'string' ? classess : '';
 		style = typeof style === 'string' ? style : '';
-		oas = typeof oas === 'string' ? style : '';
+		oas = typeof oas === 'string' ? oas : '';
 		return `<img src="/assets/images/${path}" alt="image" class="${classess}" style="${style}" data-aos="${oas}">`;
 	} else {
 		return '';

@@ -15,7 +15,7 @@ export class JwtStrategy extends Strategy {
 			},
 			async (req, payload, next) => await this.verify(req, payload, next),
 		);
-		passport.use(this);
+		passport.use('td_jwt', this as Strategy);
 	}
 
 	public async verify(req, payload, done) {

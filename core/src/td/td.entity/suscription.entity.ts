@@ -3,7 +3,7 @@ import { BaseEntity } from '@app/util/base.util';
 import { ISuscription, PaymentMethod } from '../td.interface';
 
 @Entity({
-	name: 'dt_suscription',
+	name: 'td_suscription',
 })
 export class Suscription extends BaseEntity implements ISuscription {
 	constructor(data: ISuscription) {
