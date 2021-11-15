@@ -20,6 +20,7 @@
 		"bulma-floating-button": "^1.0.3",
 		"bulma-pricingtable": "^0.2.0",
 		"bulma-timeline": "^3.0.4",
+		"sweetalert2": "^11.1.9",
 		"video.js": "^7.15.4"
 	},
 	"devDependencies": {

@@ -6,20 +6,12 @@ import { UserRole, IMembership } from './td.interface';
 
 import { DateTime } from 'luxon';
 import jwt from 'jsonwebtoken';
-import Stripe from 'stripe';
-import Coinpayments from 'coinpayments';
 import { MailerService } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
 
 import config from '@config';
-
-const stripe = new Stripe(config.stripe_secret_key, {
-	apiVersion: '2020-08-27',
-});
-
-const coinpayments = new Coinpayments({ key: config.coinpayments_public_key, secret: config.coinpayments_secret_key });
 
 @Injectable()
 export class TDService {
@@ -77,10 +69,6 @@ export class TDService {
 		}
 		await user.time_login();
 		await user.time_query();
-		//if (ref_is_admin && data.freeSupport) {
-		//	user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
-		//}
-		user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
 		await user.save();
 		return await this.createToken(user);
 	}

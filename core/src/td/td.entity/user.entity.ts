@@ -30,7 +30,6 @@ export class User extends BaseEntity implements IUser {
 			this.firstDeposit = data.firstDeposit;
 			this.lastDeposit = data.lastDeposit;
 			this.seeWelcome = data.seeWelcome;
-			this.nextSupportPayment = data.nextSupportPayment;
 			this.country = data.country as Country;
 			if (data.id_time_zone) {
 				this.id_time_zone = data.id_time_zone;
@@ -40,9 +39,6 @@ export class User extends BaseEntity implements IUser {
 			this.country.id_time_zone = this.id_time_zone;
 			this.state = data.state;
 			this.address = data.address;
-			this.paypal_account = data.paypal_account || data.email;
-			this.stripe_account = data.stripe_account || data.email;
-			this.coinpayments_account = data.coinpayments_account || data.email;
 			this.banck_name = data.banck_name || '';
 			this.banck_address = data.banck_address || '';
 			this.banck_account_name = data.banck_account_name || '';
@@ -139,12 +135,6 @@ export class User extends BaseEntity implements IUser {
 	})
 	public seeWelcome: boolean;
 
-	@Column({
-		type: 'float8',
-		default: 0,
-	})
-	public nextSupportPayment: number;
-
 	@OneToMany(() => HLogin, (h_login) => h_login.user)
 	public h_login: HLogin[];
 
@@ -168,21 +158,6 @@ export class User extends BaseEntity implements IUser {
 		default: '',
 	})
 	public address: string;
-
-	@Column({
-		default: '',
-	})
-	public paypal_account: string;
-
-	@Column({
-		default: '',
-	})
-	public stripe_account: string;
-
-	@Column({
-		default: '',
-	})
-	public coinpayments_account: string;
 
 	@Column({
 		default: '',

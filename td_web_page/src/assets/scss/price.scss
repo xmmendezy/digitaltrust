@@ -1,3 +1,37 @@
 .pricing-plan  {
 	border-radius: 15px;
 }
+
+.plan-item {
+	@include tablet {
+		max-width: calc(33vw - 10rem);
+	}
+	overflow-wrap: break-word;
+	margin: auto;
+	background: none !important;
+}
+
+.hidden {
+	background: none !important;
+	border: none !important;
+
+	.plan-header,
+	.plan-price,
+	.plan-price-currency,
+	.plan-item {
+		background: none !important;
+		color: transparent !important;
+		border: none !important;
+	}
+}
+
+.promo {
+	.plan-price-amount {
+		font-size: 1.7rem !important;
+	}
+
+	.plan-item .plan-price-amount {
+		color: $primary;
+		font-weight: bold;
+	}
+}

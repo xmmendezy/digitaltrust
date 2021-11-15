@@ -75,6 +75,16 @@
 	}
 }
 
+.footer-brand {
+	img {
+		height: 8rem;
+	}
+}
+
+.footer-copyright {
+	display: grid;
+}
+
 @include tablet {
 	.site-footer-inner {
 		justify-content: space-between;
@@ -82,9 +92,12 @@
 
 	.footer-brand,
 	.footer-links,
-	.footer-social-links,
-	.footer-copyright {
+	.footer-social-links {
 		flex: 50%;
+	}
+
+	.footer-copyright {
+		flex: 30%;
 	}
 
 	.footer-brand,

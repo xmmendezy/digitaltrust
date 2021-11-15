@@ -15,11 +15,11 @@
 			<br>
 			<br>
 			<br>
-			<div class="pricing-table" data-aos="slide-left">
+			<div class="pricing-table" data-aos="slide-right">
 				<div class="pricing-plan is-primary">
 					<div class="plan-header">Curso Básico</div>
 					<div class="plan-price"><span class="plan-price-amount">
-							<span class="plan-price-currency">$</span>42</span>/Mes</div>
+							<span class="plan-price-currency">$</span>65</span>/Mes</div>
 					<div class="plan-items">
 						<div class="plan-item">Ebook</div>
 						<div class="plan-item">Comunidad de Telegram</div>
@@ -28,16 +28,17 @@
 						<div class="plan-item">-</div>
 						<div class="plan-item">-</div>
 						<div class="plan-item">-</div>
+						<div class="plan-item">-</div>
 					</div>
 					<div class="plan-footer">
-						<button class="button is-fullwidth has-text-white">Suscribirse</button>
+						<button class="button is-fullwidth has-text-white" onclick="notReady()">Suscribirse</button>
 					</div>
 				</div>
 
 				<div class="pricing-plan is-primary">
 					<div class="plan-header">Curso Intermedio</div>
 					<div class="plan-price"><span class="plan-price-amount">
-							<span class="plan-price-currency">$</span>75</span>/Mes</div>
+							<span class="plan-price-currency">$</span>469</span>/Semestre</div>
 					<div class="plan-items">
 						<div class="plan-item">Ebook</div>
 						<div class="plan-item">Comunidad de Telegram</div>
@@ -45,17 +46,18 @@
 						<div class="plan-item">2 señales semanales*</div>
 						<div class="plan-item">Comunidad de Facebook</div>
 						<div class="plan-item">Acceso a blog privado</div>
+						<div class="plan-item">1 hora de clases virtuales diarias</div>
 						<div class="plan-item">-</div>
 					</div>
 					<div class="plan-footer">
-						<button class="button is-fullwidth has-text-white">Suscribirse</button>
+						<button class="button is-fullwidth has-text-white" onclick="notReady()">Suscribirse</button>
 					</div>
 				</div>
 
 				<div class="pricing-plan is-primary">
 					<div class="plan-header">Curso Avanzado</div>
 					<div class="plan-price"><span class="plan-price-amount">
-							<span class="plan-price-currency">$</span>107</span>/Mes</div>
+							<span class="plan-price-currency">$</span>927</span>/Año</div>
 					<div class="plan-items">
 						<div class="plan-item">Ebook</div>
 						<div class="plan-item">Comunidad de Telegram</div>
@@ -63,15 +65,11 @@
 						<div class="plan-item">6 o más señales semanales*</div>
 						<div class="plan-item">Comunidad de Facebook</div>
 						<div class="plan-item">Acceso a blog privado</div>
-						<div class="plan-item">1 hora de clases diarias</div>
+						<div class="plan-item">1 hora de clases virtuales diarias</div>
+						<div class="plan-item">1 hora de clases presenciales semanales (solo Costa Rica)</div>
 					</div>
 					<div class="plan-footer">
-						<button class="button is-fullwidth has-text-white">Suscribirse</button>
-						<div class="plan-item"></div>
-						<div class="plan-item">O 6 meses por <span class="has-text-primary is-size-4">$497</span>
-						</div>
-						<div class="plan-item"></div>
-						<button class="button has-text-white">¡Mejor esto!</button>
+						<button class="button is-fullwidth has-text-white" onclick="notReady()">Suscribirse</button>
 					</div>
 				</div>
 			</div>
@@ -80,23 +78,31 @@
 					duration: 1200,
 				});
 			</script>
-			<br>
-			<br>
-			<br>
-			<br>
-			<div class="columns">
-				<div class="column is-3"></div>
-				<div class="column pricing-table" data-aos="slide-up">
-					<div class="pricing-plan is-primary">
-						<div class="plan-header">Consigue solo el Ebook</div>
-						<div class="plan-price"><span class="plan-price-amount">
-								<span class="plan-price-currency">$</span>27,60</span></div>
-						<div class="plan-footer">
-							<button class="button is-fullwidth has-text-white">Comprar ahora</button>
-						</div>
+			<div class="pricing-table" data-aos="slide-up">
+				<div class="pricing-plan hidden">
+					<div class="plan-header">-</div>
+					<div class="plan-price">-</div>
+					<div class="plan-items">
+						<div class="plan-item">------------------------</div>
 					</div>
 				</div>
-				<div class="column is-3"></div>
+
+				<div class="pricing-plan is-primary promo">
+					<div class="plan-header">Promoción</div>
+					<div class="plan-price">
+						<span class="plan-price-amount">
+							Primeros 100 inscritos con el 24% de descuento
+						</span>
+					</div>
+					<div class="plan-items">
+						<div class="plan-item">En los cursos Intermedio o Avanzado</div>
+						<div class="plan-item">Curso Intermedio: $<span class="plan-price-amount">351
+							</span></div>
+						<div class="plan-item">Curso Avanzado: $<span class="plan-price-amount">695
+							</span></div>
+						<div class="plan-item">Promoción valida hasta el 15 de enero del 2022</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
