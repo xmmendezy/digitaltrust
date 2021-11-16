@@ -29,6 +29,16 @@ nav.navbar {
 			}
 		}
 	}
+
+	&.third {
+		background-color: white;
+
+		.title-page,
+		.navbar-burger,
+		a.navbar-item {
+			color: $primary;
+		}
+	}
 }
 
 a.navbar-item {

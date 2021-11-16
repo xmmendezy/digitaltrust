@@ -1,0 +1,21 @@
+.learn-main {
+	background: white;
+
+	.learn-text-main {
+		margin: auto;
+
+		p {
+			margin-top: 5rem;
+		}
+	}
+}
+.learn-examples {
+	gap: 8rem;
+	margin-top: 8rem;
+	align-items: center;
+	justify-content: center;
+
+	.learn-example {
+		max-height: 30rem;
+	}
+}
