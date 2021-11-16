@@ -7,7 +7,7 @@ const ormconfig: TypeOrmModuleOptions = {
 	username: process.env.ORMCONFIG_USERNAME,
 	password: process.env.ORMCONFIG_PASSWORD,
 	database: process.env.ORMCONFIG_DATABASE,
-	synchronize: true,
+	synchronize: false,
 	entities: [__dirname + '/**/*.entity.{ts,js}'],
 	ssl: {
 		rejectUnauthorized: false,
