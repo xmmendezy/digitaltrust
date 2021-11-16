@@ -10,8 +10,8 @@
 		"predev": "npm run build",
 		"build": "nest build",
 		"prebuild": "rm -rf dist && npm run lint",
-		"postbuild": "cp -r dt_app dist/dt_app && cp -r dt_view dist/dt_view && cp -r td_app dist/td_app && cp -r td_view dist/td_view",
-		"static": "cd ../dt_web_page && npm run build && cd ../dt_web_app && npm run build && cd ../td_web_page && npm run build && cd ../td_web_app && npm run build",
+		"postbuild": "cp -r dt_app dist/dt_app && cp -r dt_view dist/dt_view && cp -r td_view dist/td_view",
+		"static": "cd ../dt_web_page && npm run build && cd ../dt_web_app && npm run build && cd ../td_web_page && npm run build",
 		"lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
 		"prelint": "npm run prettier",
 		"prettier": "prettier --write '{src,test}/**/*.{ts,js,json}'"

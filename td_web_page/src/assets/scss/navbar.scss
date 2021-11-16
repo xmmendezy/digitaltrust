@@ -31,12 +31,23 @@ nav.navbar {
 	}
 
 	&.third {
-		background-color: white;
+		background-color: $black;
 
 		.title-page,
 		.navbar-burger,
 		a.navbar-item {
 			color: $primary;
+		}
+
+		.navbar-end {
+			a.navbar-item,
+			.navbar-burger {
+				color: $primary;
+
+				@include touch {
+					color: $black;
+				}
+			}
 		}
 	}
 }

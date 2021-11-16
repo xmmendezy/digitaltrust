@@ -34,6 +34,7 @@
 				</article>
 			</div>
 		</div>
+		<b-image class="digital-group" :src="require('../../assets/images/logo-digitalgroup.png')"></b-image>
 	</div>
 </template>
 

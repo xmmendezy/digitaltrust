@@ -84,6 +84,7 @@
 		<div class="points_2">
 			<Points />
 		</div>
+		<b-image class="digital-group" :src="require('../assets/images/logo-digitalgroup.png')"></b-image>
 	</section>
 </template>
 

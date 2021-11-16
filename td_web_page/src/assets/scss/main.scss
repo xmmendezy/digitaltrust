@@ -189,20 +189,28 @@ body {
 }
 
 .hero-body {
-	@include mobile {
-		padding: 3rem 0.5rem;
-	}
-}
-
-.hero-body .container {
-	margin-top: 7rem;
-
-	@include mobile {
-		margin-top: 60vh;
-	}
-
 	&.secundary {
-		margin-top: 0 !important;
+		padding-top: 0 !important;
+
+		.container {
+			margin-top: 8rem;
+
+			@include mobile {
+				margin-top: 6rem;
+			}
+		}
+	}
+
+	.container {
+		margin-top: 2rem;
+
+		@include mobile {
+			margin-top: 60vh;
+		}
+
+		&.secundary {
+			margin-top: 1rem !important;
+		}
 	}
 }
 
