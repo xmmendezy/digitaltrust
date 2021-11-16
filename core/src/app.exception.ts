@@ -17,7 +17,7 @@ export class AppException extends HttpException {
 				let redirect = '/dt_app';
 				if (domain.match('(.*)\bdigitaltrustonline\b.*')) {
 					redirect = '/dt_app';
-				} else if (domain.match('(.*)\btradingdiital\b.*')) {
+				} else if (domain.match('(.*)\btradingdigital\b.*')) {
 					redirect = '/td_app';
 				} else if (domain.match('(.*)\blocalhost\b.*')) {
 					redirect = '/dt_app';
@@ -44,7 +44,7 @@ export class AppException extends HttpException {
 				let root_dir = 'dt_view';
 				if (domain.match('(.*)\bdigitaltrustonline\b.*')) {
 					root_dir = 'dt_view';
-				} else if (domain.match('(.*)\btradingdiital\b.*')) {
+				} else if (domain.match('(.*)\btradingdigital\b.*')) {
 					root_dir = 'td_view';
 				} else if (domain.match('(.*)\blocalhost\b.*')) {
 					root_dir = 'dt_view';
