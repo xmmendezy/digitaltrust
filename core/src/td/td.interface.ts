@@ -25,14 +25,10 @@ interface IUser {
 	readonly firstDeposit?: number;
 	readonly lastDeposit?: number;
 	readonly seeWelcome?: boolean;
-	readonly nextSupportPayment?: number;
 	readonly country?: any;
 	readonly id_time_zone?: string;
 	readonly state?: string;
 	readonly address?: string;
-	readonly paypal_account?: string;
-	readonly stripe_account?: string;
-	readonly coinpayments_account?: string;
 	readonly banck_name?: string;
 	readonly banck_address?: string;
 	readonly banck_account_name?: string;

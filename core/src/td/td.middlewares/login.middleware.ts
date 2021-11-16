@@ -1,5 +1,5 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from '@app/dt/http';
+import { Request, Response, NextFunction } from '@app/td/http';
 import passport from 'passport';
 import { User } from '@app/td/td.entity';
 

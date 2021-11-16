@@ -42,6 +42,8 @@ import handlebars from 'handlebars';
 
 import config from '@config';
 
+const url_root = config.url_root ? config.url_root : 'https://digitaltrustonline.net';
+
 const stripe = new Stripe(config.stripe_secret_key, {
 	apiVersion: '2020-08-27',
 });
@@ -1258,7 +1260,7 @@ export class DTService {
 	}
 
 	public async get_stripe(data: DepositDto): Promise<{ id: string; reference: string }> {
-		const success_url = `${config.url_root}/app/buy?success_stripe=true&${Object.entries(data)
+		const success_url = `${url_root}/dt_app/buy?success_stripe=true&${Object.entries(data)
 			.map(([key, val]) => `${key}=${val}`)
 			.join('&')}`;
 		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
@@ -1283,7 +1285,7 @@ export class DTService {
 			],
 			mode: 'payment',
 			success_url,
-			cancel_url: `${config.url_root}/app/buy?success_stripe=false`,
+			cancel_url: `${url_root}/dt_app/buy?success_stripe=false`,
 		});
 		return { id: session.id, reference: session.payment_intent as string };
 	}
@@ -1292,7 +1294,7 @@ export class DTService {
 		user: User,
 		data: DepositDto & { currency: string },
 	): Promise<{ txn_id: string; checkout_url: string; status_url: string }> {
-		const success_url = `${config.url_root}/app/buy?success_coinpayments=true&${Object.entries(data)
+		const success_url = `${url_root}/dt_app/buy?success_coinpayments=true&${Object.entries(data)
 			.map(([key, val]) => `${key}=${val}`)
 			.join('&')}`;
 		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
@@ -1305,7 +1307,7 @@ export class DTService {
 			item_name: `Payment - ${membership.name}`,
 			address,
 			success_url,
-			cancel_url: `${config.url_root}/app/buy?success_coinpayments=false`,
+			cancel_url: `${url_root}/dt_app/buy?success_coinpayments=false`,
 		});
 	}
 
@@ -1334,8 +1336,8 @@ export class DTService {
 				},
 			],
 			mode: 'payment',
-			success_url: `${config.url_root}/app/donations?step=2`,
-			cancel_url: config.url_root,
+			success_url: `${url_root}/dt_app/donations?step=2`,
+			cancel_url: url_root,
 		});
 		return { id: session.id };
 	}
@@ -1352,8 +1354,8 @@ export class DTService {
 			buyer_email: 'admin@digitaltrustonline.net',
 			item_name: 'Donation',
 			address,
-			success_url: config.url_root,
-			cancel_url: config.url_root,
+			success_url: url_root,
+			cancel_url: url_root,
 		});
 	}
 
@@ -1378,8 +1380,8 @@ export class DTService {
 				},
 			],
 			mode: 'payment',
-			success_url: `${config.url_root}/app?success_stripe_support=true`,
-			cancel_url: `${config.url_root}/app?success_stripe_support=false`,
+			success_url: `${url_root}/dt_app?success_stripe_support=true`,
+			cancel_url: `${url_root}/dt_app?success_stripe_support=false`,
 		});
 		return { id: session.id, reference: session.payment_intent as string };
 	}
@@ -1396,8 +1398,8 @@ export class DTService {
 			buyer_email: user.email,
 			item_name: 'Payment - Support DigitalTrust Web Service',
 			address,
-			success_url: `${config.url_root}/app?success_coinpayments_support=true`,
-			cancel_url: `${config.url_root}/app?success_coinpayments_support=false`,
+			success_url: `${url_root}/dt_app?success_coinpayments_support=true`,
+			cancel_url: `${url_root}/dt_app?success_coinpayments_support=false`,
 		});
 	}
 
