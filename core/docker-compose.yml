@@ -14,21 +14,7 @@ services:
       - .env.production
     networks:
       - webnet
-    depends_on:
-      - postgres
-  postgres:
-    container_name: postgres_main
-    image: postgres:12
-    networks:
-      - webnet
-    env_file:
-      - .env.production
-    ports:
-      - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data
 networks:
   webnet:
 volumes:
-  pgdata:
   main:

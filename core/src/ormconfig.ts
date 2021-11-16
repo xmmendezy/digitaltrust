@@ -9,6 +9,10 @@ const ormconfig: TypeOrmModuleOptions = {
 	database: process.env.ORMCONFIG_DATABASE,
 	synchronize: true,
 	entities: [__dirname + '/**/*.entity.{ts,js}'],
+	ssl: {
+		rejectUnauthorized: false,
+		cert: process.env.ORMCONFIG_SSL_CERT.replace(/\\n/g, '\n'),
+	},
 } as TypeOrmModuleOptions;
 
 export default ormconfig;
