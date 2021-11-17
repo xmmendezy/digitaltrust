@@ -2,7 +2,7 @@ import { ConfigStore } from './store.utils';
 
 // prettier-ignore
 const url_origin = [
-	'https://digitaltrustonline.net',
+	'https://www.digitaltrustonline.net',
 	'http://127.0.0.1:9001',
 ][
 	process.env.NODE_ENV === 'production'
