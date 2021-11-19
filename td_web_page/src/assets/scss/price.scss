@@ -1,3 +1,7 @@
+.pricing-table {
+	margin-top: 5rem;
+}
+
 .pricing-plan  {
 	border-radius: 15px;
 }
@@ -26,12 +30,39 @@
 }
 
 .promo {
-	.plan-price-amount {
-		font-size: 1.7rem !important;
+	margin-top: 5rem;
+
+	.title-promo {
+		color: $black;
 	}
 
-	.plan-item .plan-price-amount {
-		color: $primary;
-		font-weight: bold;
+	.description-promo {
+		color: $black;
+		font-size: 1rem;
+	}
+
+	.count-content {
+		justify-content: center;
+
+		.count-users {
+			.countDown__digit_new_placeholder,
+			.countDown__digit_last_placeholder_inner {
+				color: #333;
+			}
+
+			.countDown__interval_basic_cont_description {
+				font-size: 1rem;
+			}
+		}
+	}
+
+	.countDown__cont {
+		@include mobile {
+			font-size: 8px !important;
+
+			.countDown__interval_basic_cont_description {
+				font-size: 2em;
+			}
+		}
 	}
 }

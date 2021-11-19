@@ -13,6 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	(window as any).bulmaAccordion.attach();
+
+	if (document.querySelector('.count-down')) {
+		const count = new (window as any).Countdown({
+			cont: document.querySelector('.count-down'),
+			date: 1644901200000,
+			outputTranslation: {
+				day: 'Días',
+				hour: 'Horas',
+				minute: 'Minutos',
+				second: 'Segundos',
+			},
+			endCallback: null,
+			outputFormat: 'day|hour|minute|second',
+		});
+		count.start();
+	}
 });
 
 function suscribeForm() {

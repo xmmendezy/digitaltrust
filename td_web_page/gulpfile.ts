@@ -299,7 +299,7 @@ task('ts', () => {
 });
 
 task('sitemap', () => {
-	return src([dist_folder + '*.html', dist_folder + 'es/*.html'], {
+	return src([dist_folder + '**/*.html'], {
 		read: false,
 		since: lastRun('sitemap'),
 	})
