@@ -60,6 +60,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dt_app/css/setting.af29b931.css"
   },
   {
+    "revision": "715cd07da0b57b494a9e2f48380756c4",
+    "url": "/dt_app/doc0.pdf"
+  },
+  {
     "revision": "dc72d5e1d5c11b03d65b6ad83963c2dc",
     "url": "/dt_app/doc1.pdf"
   },
