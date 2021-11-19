@@ -99,3 +99,9 @@
 		border-top: 1px solid $black;
 	}
 }
+
+.calendar-economic {
+	@include mobile {
+		width: 80vw;
+	}
+}

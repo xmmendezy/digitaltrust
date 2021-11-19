@@ -758,88 +758,6 @@ body {
 	}
 }
 
-.footer {
-	background-color: $box;
-	padding: 1rem 3rem;
-
-	@include mobile {
-		padding: 2rem 1.5rem;
-	}
-
-	.title-page {
-		font-size: 24px !important;
-		margin: 0 !important;
-	}
-
-	.description {
-		margin-top: 1rem;
-		width: 40%;
-
-		@include touch {
-			width: 100%;
-		}
-	}
-
-	.social {
-		p {
-			padding-bottom: 1.5rem;
-		}
-
-		span {
-			padding-right: 1.5rem;
-		}
-
-		a {
-			color: white;
-
-			&:hover {
-				color: white;
-			}
-		}
-
-		svg {
-			margin: auto;
-			margin-left: 1.5rem;
-		}
-
-		.svg-inline--fa {
-			width: 1.5rem !important;
-			height: 1.5rem !important;
-		}
-	}
-
-	.security {
-		width: 80%;
-		padding: 1rem 0;
-
-		@include mobile {
-			width: 100%;
-		}
-
-		a {
-			color: white;
-
-			&:hover {
-				color: white;
-			}
-		}
-
-		span {
-			padding-right: 1.5rem;
-		}
-
-		svg {
-			margin: auto;
-			margin-left: 1.5rem;
-		}
-
-		.svg-inline--fa {
-			width: 2rem !important;
-			height: 2rem !important;
-		}
-	}
-}
-
 .wbutton {
 	background-color: $box;
 	color: $white;
@@ -888,3 +806,5 @@ body {
 		}
 	}
 }
+
+@import './footer.scss';
