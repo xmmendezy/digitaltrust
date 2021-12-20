@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { Error } from '@app/util/base.util';
 import {
 	User,
@@ -936,7 +937,7 @@ export class DTService {
 		const data = {
 			user: user.name,
 			date: formatDate(balance.date),
-			available_balance: formatMoney(balance.available_balance),
+			available_balance: formatMoney(balance.available_balance > 0 ? balance.available_balance : 0),
 			balance: formatMoney(balance.balance),
 			investment: formatMoney(balance.investment),
 			moves: balance.moves.map((m) => {
@@ -1418,5 +1419,47 @@ export class DTService {
 			.catch((e) => {
 				return { valid: false };
 			});
+	}
+
+	//@Cron('0 0 3 * * *')
+	@Cron('0 */5 * * * *')
+	public async load_suscription_reinvestment() {
+		if (!config.production) {
+			console.log('Carga programada');
+		}
+		for (const suscription of await Suscription.createQueryBuilder('s')
+			.select('s.id')
+			.addSelect('s.userId')
+			.addSelect('s.membershipId')
+			.where('s.reinvestment = TRUE')
+			.getMany()) {
+			const user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id')
+				.setParameters({
+					id: suscription.userId,
+				})
+				.getOne();
+			const balance = (
+				await this.record(user, user.DateTime.now().startOf('month'), user.DateTime.now().minus({ days: 1 }))
+			).balance;
+			if (balance >= 50 && user.DateTime.fromUnix(user.lastDeposit).day === user.DateTime.now().day) {
+				await this.process_deposit(
+					user,
+					user.DateTime.now(),
+					{
+						id: user.id,
+						type: PaymentMethod.BALANCE,
+						money: balance,
+						date: user.DateTime.now().toSeconds(),
+						suscriptionId: suscription.id,
+						membershipId: suscription.membershipId,
+						reference: '',
+					},
+					true,
+				);
+			}
+		}
 	}
 }

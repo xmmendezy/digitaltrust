@@ -3,6 +3,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppException } from './app.exception';
 import { DTModule } from './dt/dt.module';
 import { TDModule } from './td/td.module';
@@ -36,6 +37,7 @@ import config from '@config';
 				from: `"DigitalTrust" <${config.email.user}>`,
 			},
 		}),
+		ScheduleModule.forRoot(),
 		DTModule,
 		TDModule,
 	],
