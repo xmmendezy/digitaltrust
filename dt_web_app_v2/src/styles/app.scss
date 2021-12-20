@@ -1,0 +1,30 @@
+* {
+	user-select: auto !important;
+}
+
+@keyframes icon-spin {
+	0% {
+		-webkit-transform: rotate(0);
+		transform: rotate(0);
+	}
+	100% {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+.trading-app-page {
+	position: relative;
+	padding: 1rem 1rem;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow-y: none;
+}
+
+@media screen and (max-width: 768px) {
+	.trading-app-page {
+		padding: 0.5rem 0.5rem;
+	}
+}

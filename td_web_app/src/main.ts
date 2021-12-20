@@ -5,6 +5,7 @@ import { setupLayouts } from 'virtual:generated-layouts';
 import routes from 'virtual:generated-pages';
 import Oruga from '@oruga-ui/oruga-next';
 import OrugaConfig from './oruga';
+import Multiselect from '@vueform/multiselect';
 import App from './app.vue';
 import './styles/index.scss';
 
@@ -22,6 +23,8 @@ router.afterEach((to, from) => {
 });
 
 app.use(router);
+
+app.component('Multiselect', Multiselect);
 
 app.use(createHead());
 

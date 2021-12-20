@@ -1,12 +1,13 @@
 // Import Bulma and custom styles
 @import '~bulma/bulma.sass';
 @import '~bulma-floating-button/dist/css/bulma-floating-button.min.css';
-@import '~@oruga-ui/theme-bulma/dist/bulma.css';
+@import '~@oruga-ui/theme-bulma/dist/scss/bulma.scss';
 @import '~@vueform/multiselect/themes/default.css';
 
 html,
 body {
 	overflow: hidden;
+	background-color: #232928;
 }
 
 ::-webkit-scrollbar {

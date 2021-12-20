@@ -10,7 +10,7 @@
 							<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
 								<div class="column balance-text">{{ $t('balance.a') }}</div>
 								<div class="column balance-money is-4">
-									{{ formatMoney(balance_detail_data.available_balance) }}
+									{{ formatMoney(balance_detail_data.available_balance > 0 ? balance_detail_data.available_balance : 0) }}
 								</div>
 							</div>
 							<div class="columns has-text-left">

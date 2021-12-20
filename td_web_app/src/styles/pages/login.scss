@@ -1,0 +1,43 @@
+.login {
+	.logo {
+		width: 60%;
+
+		img {
+			width: 50%;
+		}
+	}
+
+	.card-main {
+		width: 40vw;
+		height: 65vh;
+		overflow-y: auto;
+
+		@include mobile {
+			width: 100vw;
+			height: 100vh;
+			border-radius: 0;
+		}
+
+		@include tablet-only {
+			width: 60vw;
+			height: 65vh;
+		}
+
+		.card-content {
+			@include mobile {
+				overflow-y: auto;
+				height: calc(95vh - 64px - 1rem);
+			}
+
+			.form {
+				width: 60%;
+				margin: auto;
+				padding-top: 2rem;
+			}
+		}
+	}
+
+	.modal-card {
+		border-radius: 1rem;
+	}
+}

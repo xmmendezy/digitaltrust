@@ -4,9 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminHeader: typeof import('./src/components/AdminHeader.vue')['default']
     Header: typeof import('./src/components/header.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MainHeader: typeof import('./src/components/MainHeader.vue')['default']
+    'MainHeader copy': typeof import('./src/components/MainHeader copy.vue')['default']
   }
 }
 

@@ -3,8 +3,8 @@
 
 // Set your colors
 $border: #afc5c2;
-$gray: #ebf0ef;
-$black: #ffffff;
+$gray: #c2c1c1;
+$black: #4a4a4a;
 $dark: #00d9bf;
 $selected: #5cfdea2c;
 $box: #2cd8c480;
@@ -21,22 +21,22 @@ $main-invert: $primary-invert;
 $main-light: $primary-light;
 $main-dark: $primary-dark;
 
-$main-light-one: #14ecd3;
+$main-light-one: #1f9183;
 $main-light-one-invert: findColorInvert($main-light-one);
 $main-light-one-light: findLightColor($main-light-one);
 $main-light-one-dark: findDarkColor($main-light-one);
 
-$main-light-two: #38f7e0;
+$main-light-two: #2ac5b3;
 $main-light-two-invert: findColorInvert($main-light-two);
 $main-light-two-light: findLightColor($main-light-two);
 $main-light-two-dark: findDarkColor($main-light-two);
 
-$main-dark-one: #02af9b;
+$main-dark-one: #0e443e;
 $main-dark-one-invert: findColorInvert($main-dark-one);
 $main-dark-one-light: finddarkColor($main-dark-one);
 $main-dark-one-dark: findDarkColor($main-dark-one);
 
-$main-dark-two: #029180;
+$main-dark-two: #0a302b;
 $main-dark-two-invert: findColorInvert($main-dark-two);
 $main-dark-two-light: finddarkColor($main-dark-two);
 $main-dark-two-dark: findDarkColor($main-dark-two);
@@ -165,3 +165,6 @@ $navbar-breakpoint: 1px;
 // Card
 $card-shadow: 0 2em 20em -0.125em rgba($primary, 0.4), 0 0px 0 1px rgba($primary, 0.2);
 $card-radius: 1rem;
+
+// Select
+$floating-in-height: 3.25em;

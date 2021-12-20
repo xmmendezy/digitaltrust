@@ -10,6 +10,9 @@
 			<li>
 				<router-link to="/setting">Configuración</router-link>
 			</li>
+			<li>
+				<router-link to="/login">Salir</router-link>
+			</li>
 		</ul>
 	</div>
 </template>

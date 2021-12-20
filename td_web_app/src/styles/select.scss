@@ -1,8 +1,18 @@
 .multiselect {
 	box-shadow: none !important;
+	height: $floating-in-height;
+	border-color: $border;
 
 	.multiselect-tag {
 		background: $primary !important;
+	}
+
+	.multiselect-search,
+	.multiselect-single-label,
+	.multiselect-tags,
+	.multiselect-placeholder {
+		padding-top: calc(#{$floating-in-height} / 2 - (#{$size-large} * 3 / 4) / 2);
+		padding-bottom: 1px;
 	}
 
 	.multiselect-options {

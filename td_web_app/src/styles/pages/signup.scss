@@ -1,0 +1,43 @@
+.signup {
+	.logo {
+		width: 70%;
+
+		img {
+			width: 50%;
+		}
+	}
+
+	.card-main {
+		width: 50vw;
+		height: 80vh;
+		overflow-y: auto;
+
+		@include mobile {
+			width: 100vw;
+			height: 100vh;
+			border-radius: 0;
+		}
+
+		@include tablet-only {
+			width: 70vw;
+			height: 80vh;
+		}
+
+		.card-content {
+			@include mobile {
+				overflow-y: auto;
+				height: calc(95vh - 64px - 1rem);
+			}
+
+			.form {
+				width: 70%;
+				margin: auto;
+				padding-top: 2rem;
+			}
+		}
+	}
+
+	.modal-card {
+		border-radius: 1rem;
+	}
+}
