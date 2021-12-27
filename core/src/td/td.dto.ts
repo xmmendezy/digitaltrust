@@ -177,7 +177,10 @@ class NoticeDto extends BaseDTO {
 
 	id!: string;
 
-	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, { always: true, message: 'validator.editor.b' })
+	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, {
+		always: true,
+		message: 'validator.editor.b',
+	})
 	@IsNotEmpty({ message: 'validator.editor.a' })
 	title!: string;
 
@@ -199,7 +202,10 @@ class BlogDto extends BaseDTO {
 
 	id!: string;
 
-	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, { always: true, message: 'validator.editor.b' })
+	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, {
+		always: true,
+		message: 'validator.editor.b',
+	})
 	@IsNotEmpty({ message: 'validator.editor.a' })
 	title!: string;
 
