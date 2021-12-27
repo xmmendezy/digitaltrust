@@ -34,7 +34,7 @@ import config from '@config';
 				},
 			},
 			defaults: {
-				from: `"DigitalTrust" <${config.email.user}>`,
+				from: `"DigitalGroup.co" <${config.email.user}>`,
 			},
 		}),
 		ScheduleModule.forRoot(),

@@ -7,6 +7,12 @@ export default {
 	stripe_secret_key: process.env.STRIPE_SECRET_KEY,
 	coinpayments_public_key: process.env.COINPAYMENTS_PUBLIC_KEY,
 	coinpayments_secret_key: process.env.COINPAYMENTS_SECRET_KEY,
+	td: {
+		coinbase_secret_key: process.env.TD_COINBASE_SECRET_KEY,
+		_4geeks_client_id: process.env.TD_4GEEKS_CLIENT_ID,
+		_4geeks_secret_key: process.env.TD_4GEEKS_SECRET_KEY,
+		email_notification: process.env.TD_EMAIL_NOTIFICATION,
+	},
 	email: {
 		info: process.env.EMAIL_INFO,
 		user: process.env.EMAIL_USER,

@@ -1,4 +1,13 @@
-import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, VersionColumn, BaseEntity } from 'typeorm';
+import {
+	PrimaryGeneratedColumn,
+	CreateDateColumn,
+	UpdateDateColumn,
+	VersionColumn,
+	BaseEntity,
+	Column,
+	BeforeUpdate,
+	BeforeInsert,
+} from 'typeorm';
 import { validateSync, ValidationError } from 'class-validator';
 import {
 	DateTime as LuxonDateTime,
@@ -32,7 +41,7 @@ function deepCopy<T>(target: any): T {
 	}
 }
 
-abstract class Base extends BaseEntity {
+abstract class BaseDT extends BaseEntity {
 	@PrimaryGeneratedColumn('uuid')
 	public id: string;
 
@@ -44,6 +53,38 @@ abstract class Base extends BaseEntity {
 
 	@VersionColumn({ default: 1 })
 	public version: number;
+
+	public errors: string[] = [];
+}
+
+abstract class BaseTD extends BaseEntity {
+	@PrimaryGeneratedColumn('uuid')
+	public id: string;
+
+	@Column({
+		type: 'float8',
+		nullable: true,
+		default: 0,
+	})
+	public created: number;
+
+	@Column({
+		type: 'float8',
+		nullable: true,
+		default: 0,
+	})
+	public updated: number;
+
+	@BeforeInsert()
+	public setCreatedAt() {
+		this.created = LuxonDateTime.utc().toSeconds();
+		this.updated = this.created;
+	}
+
+	@BeforeUpdate()
+	public setUpdatedAt() {
+		this.created = LuxonDateTime.utc().toSeconds();
+	}
 
 	public errors: string[] = [];
 }
@@ -103,7 +144,8 @@ const Duration: DurationFunc = {
 };
 
 export {
-	Base as BaseEntity,
+	BaseDT as BaseEntityDT,
+	BaseTD as BaseEntityTD,
 	BaseDTO,
 	Error,
 	DateTimeFunc,

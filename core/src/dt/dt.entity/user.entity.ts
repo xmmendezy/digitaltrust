@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import bcrypt from 'bcryptjs';
 
-import { BaseEntity, DateTimeFunc, DateTimeOptions, DateObject } from '@app/util/base.util';
+import { BaseEntityDT, DateTimeFunc, DateTimeOptions, DateObject } from '@app/util/base.util';
 import { IUser, UserRole, UserStatus } from '../dt.interface';
 import { Country } from './country.entity';
 import { TimeZone } from './time_zone.entity';
@@ -11,7 +11,7 @@ import { DateTime } from 'luxon';
 @Entity({
 	name: 'dt_user',
 })
-export class User extends BaseEntity implements IUser {
+export class User extends BaseEntityDT implements IUser {
 	constructor(data: IUser) {
 		super();
 		if (data) {

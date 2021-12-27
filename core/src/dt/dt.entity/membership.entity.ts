@@ -1,11 +1,11 @@
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 import { IMembership } from '../dt.interface';
 
 @Entity({
 	name: 'dt_membership',
 })
-export class Membership extends BaseEntity implements IMembership {
+export class Membership extends BaseEntityDT implements IMembership {
 	@Column({
 		nullable: false,
 	})

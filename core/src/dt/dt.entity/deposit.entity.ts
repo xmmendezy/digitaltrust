@@ -1,11 +1,11 @@
 import { Entity, Column } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 import { IDeposit, PaymentMethod } from '../dt.interface';
 
 @Entity({
 	name: 'dt_deposit',
 })
-export class Deposit extends BaseEntity implements IDeposit {
+export class Deposit extends BaseEntityDT implements IDeposit {
 	constructor(data: IDeposit) {
 		super();
 		if (data) {

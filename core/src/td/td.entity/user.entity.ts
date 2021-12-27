@@ -1,9 +1,11 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import bcrypt from 'bcryptjs';
 
-import { BaseEntity, DateTimeFunc, DateTimeOptions, DateObject } from '@app/util/base.util';
+import { BaseEntityTD, DateTimeFunc, DateTimeOptions, DateObject } from '@app/util/base.util';
 import { IUser, UserRole, UserStatus } from '../td.interface';
 import { Country } from './country.entity';
+import { Course } from './course.entity';
+import { Invoice } from './invoice.entity';
 import { TimeZone } from './time_zone.entity';
 import { HLogin, HQuery } from './history.entity';
 import { DateTime } from 'luxon';
@@ -11,14 +13,13 @@ import { DateTime } from 'luxon';
 @Entity({
 	name: 'td_user',
 })
-export class User extends BaseEntity implements IUser {
+export class User extends BaseEntityTD implements IUser {
 	constructor(data: IUser) {
 		super();
 		if (data) {
 			this.id = data.id;
 			this.username = data.username;
 			this.email = data.email;
-			this.telephone = data.telephone;
 			this.password = data.password;
 			this.change_password = data.change_password;
 			this.lastname = data.lastname;
@@ -27,9 +28,6 @@ export class User extends BaseEntity implements IUser {
 			this.status = data.status;
 			this.lastLogin = data.lastLogin;
 			this.lastChangePassword = data.lastChangePassword;
-			this.firstDeposit = data.firstDeposit;
-			this.lastDeposit = data.lastDeposit;
-			this.seeWelcome = data.seeWelcome;
 			this.country = data.country as Country;
 			if (data.id_time_zone) {
 				this.id_time_zone = data.id_time_zone;
@@ -37,16 +35,6 @@ export class User extends BaseEntity implements IUser {
 				this.id_time_zone = this.country.time_zones[0].id;
 			}
 			this.country.id_time_zone = this.id_time_zone;
-			this.state = data.state;
-			this.address = data.address;
-			this.banck_name = data.banck_name || '';
-			this.banck_address = data.banck_address || '';
-			this.banck_account_name = data.banck_account_name || '';
-			this.banck_account = data.banck_account || '';
-			this.banck_routing_name = data.banck_routing_name || '';
-			this.banck_account_username = data.banck_account_username || '';
-			this.banck_swift_code = data.banck_swift_code || '';
-			this.banck_iban = data.banck_iban || '';
 			this.ref = data.ref;
 		}
 	}
@@ -62,12 +50,6 @@ export class User extends BaseEntity implements IUser {
 		unique: true,
 	})
 	public email: string;
-
-	@Column({
-		nullable: true,
-		unique: true,
-	})
-	public telephone: string;
 
 	@Column({
 		nullable: false,
@@ -104,36 +86,28 @@ export class User extends BaseEntity implements IUser {
 	public status: UserStatus;
 
 	@Column({
+		type: 'float8',
 		nullable: true,
 	})
-	public lastLogin: Date;
-
-	@Column({
-		nullable: true,
-	})
-	public lastQuery: Date;
-
-	@Column({
-		nullable: true,
-	})
-	public lastChangePassword: Date;
+	public lastLogin: number;
 
 	@Column({
 		type: 'float8',
 		nullable: true,
 	})
-	public firstDeposit: number;
+	public lastQuery: number;
 
 	@Column({
 		type: 'float8',
 		nullable: true,
 	})
-	public lastDeposit: number;
+	public nextPayment: number;
 
 	@Column({
-		default: true,
+		type: 'float8',
+		nullable: true,
 	})
-	public seeWelcome: boolean;
+	public lastChangePassword: number;
 
 	@OneToMany(() => HLogin, (h_login) => h_login.user)
 	public h_login: HLogin[];
@@ -144,60 +118,16 @@ export class User extends BaseEntity implements IUser {
 	@ManyToOne(() => Country, (country) => country.users)
 	public country: Country;
 
+	@ManyToOne(() => Course, (course) => course.users)
+	public course: Course;
+
+	@OneToMany(() => Invoice, (invoices) => invoices.user)
+	public invoices: Invoice[];
+
 	@Column({
 		default: '',
 	})
 	public id_time_zone: string;
-
-	@Column({
-		default: '',
-	})
-	public state: string;
-
-	@Column({
-		default: '',
-	})
-	public address: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_name: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_address: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_account_name: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_account: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_routing_name: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_account_username: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_swift_code: string;
-
-	@Column({
-		default: '',
-	})
-	public banck_iban: string;
 
 	@Column({
 		default: '',
@@ -263,16 +193,6 @@ export class User extends BaseEntity implements IUser {
 					this.errors.push('u16');
 				}
 			}
-			if (this.telephone) {
-				if (
-					await User.createQueryBuilder()
-						.where('telephone = :telephone', { telephone: this.telephone })
-						.andWhere('id != :id', { id: this.id })
-						.getCount()
-				) {
-					this.errors.push('u17');
-				}
-			}
 		}
 		return super.save();
 	}
@@ -287,7 +207,7 @@ export class User extends BaseEntity implements IUser {
 
 	public async set_password(password: string) {
 		this.password = await User.hash_password(password);
-		this.lastChangePassword = this.DateTime.utc().toJSDate();
+		this.lastChangePassword = this.DateTime.utc().toSeconds();
 	}
 
 	public async compare_password(password: string): Promise<boolean> {
@@ -299,7 +219,7 @@ export class User extends BaseEntity implements IUser {
 	}
 
 	public async time_login() {
-		this.lastLogin = this.DateTime.utc().toJSDate();
+		this.lastLogin = this.DateTime.utc().toSeconds();
 		await HLogin.createQueryBuilder()
 			.insert()
 			.values([
@@ -312,7 +232,7 @@ export class User extends BaseEntity implements IUser {
 	}
 
 	public async time_query() {
-		this.lastQuery = this.DateTime.utc().toJSDate();
+		this.lastQuery = this.DateTime.utc().toSeconds();
 		await HQuery.createQueryBuilder()
 			.insert()
 			.values([

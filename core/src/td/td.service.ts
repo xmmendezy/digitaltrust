@@ -1,17 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, Membership, Suscription, HLogin, HQuery, SuscribeMail } from './td.entity';
-import { SignupDto, UserDto, TokenDto, UpdateDto, IRefer, IClient, SuscriptionDto } from './td.dto';
-import { UserRole, IMembership } from './td.interface';
+import { User, Country, HLogin, HQuery, SuscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
+import {
+	SignupDto,
+	UserDto,
+	TokenDto,
+	UpdateDto,
+	IRefer,
+	IClient,
+	ISubscribeCourse,
+	NoticeDto,
+	BlogDto,
+	I4GeeksCharge,
+} from './td.dto';
 
-import { DateTime } from 'luxon';
 import jwt from 'jsonwebtoken';
 import { MailerService } from '@nestjs-modules/mailer';
 import { join } from 'path';
 import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
+import axios from 'axios';
+import gpayments from 'gpayments';
 
 import config from '@config';
+import { UserRole, UserStatus } from './td.interface';
+
+const gpApi = gpayments({
+	clientId: config.td._4geeks_client_id,
+	clientSecret: config.td._4geeks_secret_key,
+});
 
 @Injectable()
 export class TDService {
@@ -52,13 +69,6 @@ export class TDService {
 			data.ref = '';
 		}
 		const user = new User({ ...data, country });
-		if (
-			await User.createQueryBuilder('user')
-				.where('user.telephone = :telephone', { telephone: user.telephone })
-				.getCount()
-		) {
-			return { error: 'validator.auth.j' };
-		}
 		if (await User.createQueryBuilder('user').where('user.email = :email', { email: user.email }).getCount()) {
 			return { error: 'validator.auth.k' };
 		}
@@ -71,6 +81,221 @@ export class TDService {
 		await user.time_query();
 		await user.save();
 		return await this.createToken(user);
+	}
+
+	public async newClientNotification(user: User) {
+		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'td_new_client.hbs'), 'utf8');
+		const template_compile = handlebars.compile(templeate_hbs);
+		return await this.mailerService
+			.sendMail({
+				to: config.td.email_notification,
+				subject: 'TradingDigital - Nuevo cliente',
+				html: template_compile({
+					name: user.name,
+					email: user.email,
+					course: user.course.name,
+				}),
+			})
+			.then(() => {
+				return { error: '' };
+			})
+			.catch(() => {
+				return { error: 'e000' };
+			});
+	}
+
+	public async get_subscribe_course(user: User): Promise<ISubscribeCourse | Error> {
+		const course = await Course.createQueryBuilder('course')
+			.leftJoinAndSelect('course.users', 'user')
+			.where('user.id = :id', { id: user.id })
+			.getOne();
+		if (course) {
+			const invoice = await Invoice.createQueryBuilder('invoice')
+				.leftJoinAndSelect('invoice.user', 'user')
+				.where('user.id = :id', { id: user.id })
+				.orderBy('invoice.created', 'DESC')
+				.getOne();
+			return {
+				id: course.id,
+				name: course.name,
+				price: course.price,
+				months: course.months,
+				blog: course.blog,
+				payed: invoice.payed,
+				nextPayment: user.nextPayment,
+			};
+		} else {
+			return { error: 'course.a' };
+		}
+	}
+
+	public async post_subscribe_course(user: User, id: string): Promise<Course | Error> {
+		const course = await Course.createQueryBuilder('course')
+			.leftJoinAndSelect('course.users', 'user')
+			.where('course.id = :id', { id })
+			.getOne();
+		if (course) {
+			if (course.users.find((u) => u.id === user.id)) {
+				return { error: 'course.b' };
+			} else {
+				user.course = course;
+				user.nextPayment = user.DateTime.utc().minus({ minutes: 5 }).toSeconds();
+				await user.save();
+				const invoice = new Invoice({ user, course });
+				await invoice.save();
+				return course;
+			}
+		} else {
+			return { error: 'course.a' };
+		}
+	}
+
+	public async status(user: User) {
+		if (
+			await Invoice.createQueryBuilder('invoice')
+				.leftJoinAndSelect('invoice.user', 'user')
+				.leftJoinAndSelect('invoice.course', 'course')
+				.where('user.id = :id', { id: user.id })
+				.andWhere('invoice.payed = FALSE')
+				.getCount()
+		) {
+			return { payed: false };
+		} else {
+			return { payed: true };
+		}
+	}
+
+	public async post_paypal(user: User, reference: string) {
+		const invoice = await Invoice.createQueryBuilder('invoice')
+			.leftJoinAndSelect('invoice.user', 'user')
+			.leftJoinAndSelect('invoice.course', 'course')
+			.where('user.id = :id', { id: user.id })
+			.andWhere('invoice.payed = FALSE')
+			.getOne();
+		if (invoice && reference) {
+			invoice.payment_method = 'paypal';
+			invoice.payed = true;
+			invoice.reference = reference;
+			invoice.coinbase_url = '';
+			await invoice.save();
+			user.nextPayment = user.DateTime.utc().plus({ months: invoice.course.months }).toSeconds();
+			user.status = UserStatus.CONFIRM;
+			await user.save();
+			await this.newClientNotification(user);
+			return { error: '' };
+		} else {
+			return { error: 'invoice.a' };
+		}
+	}
+
+	public async get_coinbase(user: User) {
+		const invoice = await Invoice.createQueryBuilder('invoice')
+			.leftJoinAndSelect('invoice.user', 'user')
+			.leftJoinAndSelect('invoice.course', 'course')
+			.where('user.id = :id', { id: user.id })
+			.andWhere('invoice.payed = FALSE')
+			.getOne();
+		if (invoice) {
+			if (invoice.coinbase_url) {
+				return { error: '', url: invoice.coinbase_url };
+			} else {
+				const data = {
+					business_name: 'TradingDigital',
+					customer_email: user.email,
+					customer_name: user.name,
+					local_price: {
+						amount: invoice.course.price,
+						currency: 'USD',
+					},
+					memo: 'TradingDigital - ' + invoice.course.name,
+				};
+				const res = await axios
+					.post<{
+						data: {
+							code: string;
+							hosted_url: string;
+						};
+					}>('https://api.commerce.coinbase.com/invoices', data, {
+						headers: { 'X-CC-Api-Key': config.td.coinbase_secret_key, 'X-CC-Version': '2018-03-22' },
+					})
+					.then((res) => {
+						if (res.status === 201) {
+							return {
+								code: res.data.data.code,
+								hosted_url: res.data.data.hosted_url,
+							};
+						} else {
+							return {
+								code: '',
+								hosted_url: '',
+							};
+						}
+					});
+				if (res.code) {
+					invoice.payment_method = 'coinbase';
+					invoice.reference = res.code;
+					invoice.coinbase_url = res.hosted_url;
+					await invoice.save();
+					return { error: '', url: res.hosted_url };
+				} else {
+					return { error: 'invoice.a' };
+				}
+			}
+		} else {
+			return { error: 'invoice.a' };
+		}
+	}
+
+	public async post_coinbase(reference: string) {
+		const invoice = await Invoice.createQueryBuilder('invoice')
+			.leftJoinAndSelect('invoice.user', 'user')
+			.leftJoinAndSelect('invoice.course', 'course')
+			.where('invoice.reference = :reference', { reference })
+			.getOne();
+		if (invoice && reference) {
+			invoice.payment_method = 'coinbase';
+			invoice.payed = true;
+			await invoice.save();
+			const user = invoice.user;
+			user.nextPayment = user.DateTime.utc().plus({ months: invoice.course.months }).toSeconds();
+			user.status = UserStatus.CONFIRM;
+			await user.save();
+			await this.newClientNotification(user);
+		}
+	}
+
+	public async post_4geeks(user: User, data: I4GeeksCharge) {
+		const invoice = await Invoice.createQueryBuilder('invoice')
+			.leftJoinAndSelect('invoice.user', 'user')
+			.leftJoinAndSelect('invoice.course', 'course')
+			.where('user.id = :id', { id: user.id })
+			.andWhere('invoice.payed = FALSE')
+			.getOne();
+		if (invoice) {
+			const reference: string = await gpApi.charges
+				.create(data)
+				.then((res) => res.charge_id)
+				.catch((e) => {
+					console.log(e);
+					return '';
+				});
+			if (reference) {
+				invoice.payment_method = '4geeks';
+				invoice.payed = true;
+				invoice.reference = reference;
+				invoice.coinbase_url = '';
+				await invoice.save();
+				user.nextPayment = user.DateTime.utc().plus({ months: invoice.course.months }).toSeconds();
+				user.status = UserStatus.CONFIRM;
+				await user.save();
+				await this.newClientNotification(user);
+				return { error: '' };
+			} else {
+				return { error: 'invoice.b' };
+			}
+		} else {
+			return { error: 'invoice.b' };
+		}
 	}
 
 	public async createToken(user: User | UserDto): Promise<TokenDto> {
@@ -107,12 +332,12 @@ export class TDService {
 			][Math.floor(Math.random() * 10)];
 			await user.set_password(password);
 			await user.save();
-			const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'new_password.hbs'), 'utf8');
+			const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'td_new_password.hbs'), 'utf8');
 			const template_compile = handlebars.compile(templeate_hbs);
 			return await this.mailerService
 				.sendMail({
 					to: email,
-					subject: 'DigitalTrust - New password',
+					subject: 'TradingDigital - Nueva contraseña',
 					html: template_compile({
 						password,
 					}),
@@ -120,7 +345,8 @@ export class TDService {
 				.then(() => {
 					return { error: '' };
 				})
-				.catch(() => {
+				.catch((e) => {
+					console.log(e);
 					return { error: 'e000' };
 				});
 		} else {
@@ -140,23 +366,7 @@ export class TDService {
 				return { error: 'validator.auth.i' };
 			}
 		}
-		const keys = [
-			'firstname',
-			'lastname',
-			'state',
-			'address',
-			'paypal_account',
-			'stripe_account',
-			'coinpayments_account',
-			'banck_name',
-			'banck_address',
-			'banck_account_name',
-			'banck_account',
-			'banck_routing_name',
-			'banck_account_username',
-			'banck_swift_code',
-			'banck_iban',
-		];
+		const keys = ['firstname', 'lastname'];
 		const errors: string[] = [];
 		for (const key in data) {
 			if (Object.prototype.hasOwnProperty.call(data, key) && keys.find((k) => k === key)) {
@@ -165,16 +375,6 @@ export class TDService {
 		}
 		if (data.password !== 'Secret00__') {
 			user.set_password(data.password);
-		}
-		if (
-			await User.createQueryBuilder('user')
-				.where('user.telephone = :telephone', { telephone: data.telephone })
-				.andWhere('user.id != :id', { id: user.id })
-				.getCount()
-		) {
-			errors.push('validator.auth.j');
-		} else {
-			user.telephone = data.telephone;
 		}
 		if (
 			await User.createQueryBuilder('user')
@@ -200,20 +400,12 @@ export class TDService {
 		if (user.errors.length) {
 			return { error: user.errors[0] };
 		}
-		return { ...new UserDto(user), errors } as UserDto;
-	}
-
-	public async see_welcome(user: User): Promise<void> {
-		user.seeWelcome = false;
-		await user.save();
+		return { ...new UserDto(user), error: '' } as UserDto;
 	}
 
 	public async ref_user(id: string): Promise<IRefer> {
 		const user = await User.findOne(id);
 		if (user) {
-			if ((await User.createQueryBuilder('user').where('user.ref = :id', { id: user.id }).getCount()) >= 2) {
-				return { id: '', name: '' };
-			}
 			return { id: user.id, name: user.name };
 		} else {
 			return { id: '', name: '' };
@@ -226,18 +418,28 @@ export class TDService {
 		});
 	}
 
+	public async courses(): Promise<Course[]> {
+		return await Course.createQueryBuilder().orderBy('months').getMany();
+	}
+
 	public async clients(): Promise<IClient[]> {
 		const clients: IClient[] = [];
 		for (const user of await User.createQueryBuilder('user')
-			.leftJoinAndSelect('user.country', 'country')
-			.leftJoinAndSelect('country.time_zones', 'time_zones')
+			.leftJoinAndSelect('user.course', 'course')
 			.where('user.role = :role', { role: 'user' })
 			.getMany()) {
 			clients.push({
 				id: user.id,
 				name: user.name,
 				email: user.email,
-				lastDeposit: user.lastDeposit,
+				course: user.course.name,
+				created: user.created,
+				payed: !(await Invoice.createQueryBuilder('invoice')
+					.leftJoinAndSelect('invoice.user', 'user')
+					.leftJoinAndSelect('invoice.course', 'course')
+					.where('user.id = :id', { id: user.id })
+					.andWhere('invoice.payed = FALSE')
+					.getCount()),
 			});
 		}
 		return clients;
@@ -258,101 +460,93 @@ export class TDService {
 		await User.createQueryBuilder().delete().where('id = :id', { id }).execute();
 	}
 
-	public async memberships(user: User): Promise<Membership[]> {
-		if (user.role === UserRole.ADMIN) {
-			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
-		} else {
-			let memberships: Membership[] = [];
-			if (await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getCount()) {
-				memberships = await Membership.createQueryBuilder()
-					.where('is_active = :is_active', { is_active: false })
-					.andWhere('id in (:...ids)', {
-						ids: (
-							await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
-						).map((s) => s.membershipId),
-					})
-					.orderBy('interest', 'ASC')
-					.getMany();
-			}
-			memberships.push(
-				...(await Membership.createQueryBuilder()
-					.where('is_active = :is_active', { is_active: true })
-					.orderBy('interest', 'ASC')
-					.getMany()),
-			);
-			return memberships;
-		}
-	}
-
-	public async update_memberships(user: User, data: IMembership[]): Promise<Membership[]> {
-		if (user.role === UserRole.ADMIN) {
-			const memberships = await Membership.createQueryBuilder().getMany();
-			for (const membership_n of data) {
-				const membership = memberships.find((m) => m.id === membership_n.id);
-				if (membership) {
-					if (
-						membership_n.description_en !== membership.description_en ||
-						membership_n.description_es !== membership.description_es ||
-						membership_n.is_active !== membership.is_active
-					) {
-						membership.description_en = membership_n.description_en;
-						membership.description_es = membership_n.description_es;
-						membership.is_active = membership_n.is_active;
-						await membership.save();
-					}
-				} else {
-					if (
-						membership_n.name &&
-						membership_n.description_en &&
-						membership_n.description_es &&
-						membership_n.money_a &&
-						membership_n.money_b &&
-						membership_n.months &&
-						membership_n.interest &&
-						membership_n.is_active
-					) {
-						await Membership.createQueryBuilder()
-							.insert()
-							.values({ ...membership_n, interest: membership_n.interest / 100 })
-							.execute();
-					}
-				}
-			}
-			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
-		} else {
-			return [];
-		}
-	}
-
-	public async suscriptions(user: User): Promise<Suscription[]> {
-		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
-	}
-
-	public async create_suscription(user: User, date: DateTime, data: SuscriptionDto): Promise<{ id: string }> {
-		const membership = await Membership.createQueryBuilder()
-			.where('id = :membershipId', { membershipId: data.membershipId })
-			.getOne();
-		if (membership) {
-			const suscription = new Suscription({
-				userId: user.id,
-				date: date.toSeconds(),
-				membershipId: data.membershipId,
-				money: parseFloat(data.money as any),
-				payment_method: data.type,
-				reference: data.reference,
+	public async get_notices(user: User) {
+		const notices_query = Notice.createQueryBuilder('notice').leftJoinAndSelect('notice.courses', 'course');
+		if (user.role === UserRole.USER) {
+			notices_query.where('course.id = :id', { id: user.course.id });
+			const notices = (await notices_query.orderBy('notice.created', 'DESC').getMany()).map((n) => ({
+				id: n.id,
+				title: n.title,
+				courses: n.courses.map((c) => c.id),
+				description: n.description,
+				url: n.url,
+				created: n.created,
+			}));
+			(await this.get_blogs(user)).map((b) => {
+				notices.push({
+					id: b.id,
+					title: b.title,
+					courses: b.courses,
+					description: b.description,
+					url: '/blog?id=' + b.id,
+					created: b.created,
+				});
 			});
-			await suscription.save();
-			if (suscription.errors.length) {
-				return { id: '' };
-			}
-			user.lastDeposit = date.toSeconds();
-			if (!user.firstDeposit) {
-				user.firstDeposit = date.toSeconds();
-			}
-			await user.save();
-			return { id: suscription.id };
+			return notices.sort((na, nb) => nb.created - na.created);
 		} else {
-			return { id: '' };
+			return (await notices_query.orderBy('notice.created', 'DESC').getMany()).map((n) => ({
+				id: n.id,
+				title: n.title,
+				courses: n.courses.map((c) => c.id),
+				description: n.description,
+				url: n.url,
+				created: n.created,
+			}));
 		}
+	}
+
+	public async notice(data: NoticeDto) {
+		const courses = await Course.createQueryBuilder('course').whereInIds(data.courses).getMany();
+		let notice: Notice;
+		if (data.id) {
+			notice = await Notice.findOne(data.id);
+			notice = new Notice({ ...notice, ...data, courses });
+			notice.id = data.id;
+		} else {
+			notice = new Notice({ ...data, courses });
+		}
+		await notice.save();
+		return { error: '' };
+	}
+
+	public async delete_notice(id: string) {
+		const notice = await Notice.findOne(id);
+		await notice.remove();
+		return { error: '' };
+	}
+
+	public async get_blogs(user: User) {
+		const blogs_query = Blog.createQueryBuilder('blog').leftJoinAndSelect('blog.courses', 'course');
+		if (user.role === UserRole.USER) {
+			blogs_query.where('course.id = :id', { id: user.course.id });
+		}
+		return (await blogs_query.orderBy('blog.created', 'DESC').getMany()).map((b) => ({
+			id: b.id,
+			title: b.title,
+			courses: b.courses.map((c) => c.id),
+			description: b.description,
+			content: b.content,
+			created: b.created,
+		}));
+	}
+
+	public async blog(data: BlogDto) {
+		const courses = await Course.createQueryBuilder('course').whereInIds(data.courses).getMany();
+		let blog: Blog;
+		if (data.id) {
+			blog = await Blog.findOne(data.id);
+			blog = new Blog({ ...blog, ...data, courses });
+			blog.id = data.id;
+		} else {
+			blog = new Blog({ ...data, courses });
+		}
+		await blog.save();
+		return { error: '' };
+	}
+
+	public async delete_blog(id: string) {
+		const blog = await Blog.findOne(id);
+		await blog.remove();
+		return { error: '' };
 	}
 }

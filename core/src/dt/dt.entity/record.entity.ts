@@ -1,11 +1,11 @@
 import { Entity, Column } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 import { IRecord } from '../dt.interface';
 
 @Entity({
 	name: 'dt_record',
 })
-export class Record extends BaseEntity implements IRecord {
+export class Record extends BaseEntityDT implements IRecord {
 	constructor(data: IRecord) {
 		super();
 		if (data) {
