@@ -5,7 +5,7 @@ import { useDataStore, UserRole } from './store';
 
 const router = createRouter({
 	routes: setupLayouts(routes),
-	history: createWebHistory('/td_app'),
+	history: createWebHistory('/td_app/'),
 });
 
 router.beforeEach(async (to, from, next) => {

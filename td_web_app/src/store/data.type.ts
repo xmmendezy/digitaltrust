@@ -209,6 +209,7 @@ export interface ISubscribeCourse {
 	price: number;
 	months: number;
 	blog: boolean;
+	telegram: string;
 	payed: boolean;
 	nextPayment: number;
 }

@@ -92,7 +92,10 @@ const toLogin = () => {
 		.then(error => {
 			emit('loading');
 			if (!error) {
-				router.push(store.user?.role === UserRole.ADMIN ? '/admin' : '/');
+				store.status().then(v => {
+					store.payed = v.payed;
+					router.push(store.user?.role === UserRole.ADMIN ? '/admin' : '/');
+				});
 			}
 		})
 		.catch(() => {

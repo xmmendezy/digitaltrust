@@ -8,7 +8,7 @@ import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
 
 export default defineConfig({
-	base: '/td_app',
+	base: '/td_app/',
 	build: {
 		outDir: path.resolve(__dirname, '../core/td_app'),
 	},

@@ -121,6 +121,7 @@ export class TDService {
 				price: course.price,
 				months: course.months,
 				blog: course.blog,
+				telegram: course.telegram,
 				payed: invoice.payed,
 				nextPayment: user.nextPayment,
 			};
@@ -204,7 +205,7 @@ export class TDService {
 					customer_email: user.email,
 					customer_name: user.name,
 					local_price: {
-						amount: invoice.course.price,
+						amount: invoice.course.price * 0.75,
 						currency: 'USD',
 					},
 					memo: 'TradingDigital - ' + invoice.course.name,
@@ -276,7 +277,6 @@ export class TDService {
 				.create(data)
 				.then((res) => res.charge_id)
 				.catch((e) => {
-					console.log(e);
 					return '';
 				});
 			if (reference) {
@@ -478,7 +478,7 @@ export class TDService {
 					title: b.title,
 					courses: b.courses,
 					description: b.description,
-					url: '/blog?id=' + b.id,
+					url: '/td_app/blog?id=' + b.id,
 					created: b.created,
 				});
 			});

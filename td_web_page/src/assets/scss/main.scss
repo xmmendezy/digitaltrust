@@ -439,6 +439,15 @@ body {
 	}
 }
 
+.wbutton {
+	width: unset !important;
+
+	span {
+		font-size: 0.9rem;
+		padding-left: 0.5rem;
+	}
+}
+
 @import './features.scss';
 @import './testimonials.scss';
 @import './footer.scss';

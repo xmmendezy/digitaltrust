@@ -35,7 +35,7 @@
 					</li>
 					<li>
 						<span class="fa-li"><i class="fab fa-telegram"></i></span>
-						<a href="https://t.me/tradingdigitalschool" target="_blank"> Comunidad de Telegram </a>
+						<a :href="store.course_data?.telegram" target="_blank"> Comunidad de Telegram </a>
 					</li>
 				</ul>
 			</div>

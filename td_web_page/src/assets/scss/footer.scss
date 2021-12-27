@@ -26,7 +26,7 @@
 	position: relative; /* To display all elements above the background color */
 	display: flex;
 	flex-wrap: wrap;
-	padding: 48px 3rem;
+	padding: 100px 3rem;
 
 	@include mobile {
 		padding-bottom: 6rem;

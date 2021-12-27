@@ -353,7 +353,7 @@ const paypal = () => {
 									{
 										amount: {
 											value: (
-												courses.value.find(c => c.id === course.value)?.price || 1
+												(courses.value.find(c => c.id === course.value)?.price || 1) * 0.75
 											).toString(),
 										},
 									},
@@ -403,7 +403,7 @@ const _4geeks = () => {
 	if (c) {
 		store
 			.post_4geeks({
-				amount: c.price,
+				amount: c.price * 0.75,
 				description: 'TradingDigital - ' + c.name,
 				entity_description: 'TradingDigital - ' + c.name,
 				currency: 'usd',

@@ -30,6 +30,11 @@ export class Course extends BaseEntityTD implements ICourse {
 	})
 	public blog: boolean;
 
+	@Column({
+		default: '',
+	})
+	public telegram: string;
+
 	@OneToMany(() => User, (user) => user.course)
 	public users: User[];
 
