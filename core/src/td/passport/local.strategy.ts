@@ -28,6 +28,7 @@ export class LocalStrategy extends Strategy {
 		return await User.createQueryBuilder('user')
 			.leftJoinAndSelect('user.country', 'country')
 			.leftJoinAndSelect('country.time_zones', 'time_zones')
+			.leftJoinAndSelect('user.course', 'course')
 			.where('user.username = :username')
 			.orWhere('user.email = :username')
 			.setParameters({ username })

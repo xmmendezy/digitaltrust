@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 import { ICountry } from '../dt.interface';
 import { TimeZone } from './time_zone.entity';
 import { User } from './user.entity';
@@ -7,7 +7,7 @@ import { User } from './user.entity';
 @Entity({
 	name: 'dt_country',
 })
-export class Country extends BaseEntity implements ICountry {
+export class Country extends BaseEntityDT implements ICountry {
 	@Column({
 		nullable: false,
 	})
