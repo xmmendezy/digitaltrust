@@ -3,11 +3,12 @@
 @import '~bulma-floating-button/dist/css/bulma-floating-button.min.css';
 @import '~@oruga-ui/theme-bulma/dist/scss/bulma.scss';
 @import '~@vueform/multiselect/themes/default.css';
+@import '~@vueup/vue-quill/dist/vue-quill.snow.css';
 
 html,
 body {
 	overflow: hidden;
-	background-color: #232928;
+	background-color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -31,7 +32,6 @@ body {
 	font-weight: 300;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
 	color: $black !important;
 	width: 99% !important;
 

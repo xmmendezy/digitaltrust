@@ -1,12 +1,24 @@
 import { bulmaConfig } from '@oruga-ui/theme-bulma';
 
-console.log(bulmaConfig.input);
-
 export default {
 	...bulmaConfig,
 	iconPack: 'fas',
 	field: {
 		...bulmaConfig.field,
-		rootClass: 'field is-floating-in-label',
+		rootClass: (_: any, c: any) => {
+			if (c.props.rootClass === 'no') {
+				return 'field has-text-left';
+			} else {
+				return 'field is-floating-in-label';
+			}
+		},
+	},
+	table: {
+		...bulmaConfig.table,
+		mobileCards: false,
+	},
+	modal: {
+		...bulmaConfig.modal,
+		canCancel: ['escape', 'x'],
 	},
 };

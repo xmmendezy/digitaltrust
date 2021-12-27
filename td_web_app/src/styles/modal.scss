@@ -1,0 +1,27 @@
+.modal-card {
+	width: 80vw;
+	height: 80vh;
+
+	@include mobile {
+		width: 100vw;
+		height: 100vh;
+	}
+
+	&.alert {
+		width: 50vw;
+		height: 30vh;
+
+		@include mobile {
+			width: 100vw;
+			height: 40vh;
+
+			&.large {
+				height: 50vh;
+			}
+		}
+
+		&.large {
+			height: 40vh;
+		}
+	}
+}

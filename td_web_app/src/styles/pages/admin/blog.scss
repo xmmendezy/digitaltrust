@@ -1,0 +1,61 @@
+.admin-blog {
+	.columns-content {
+		display: flex;
+		gap: 0.5rem;
+		width: 100%;
+
+		@include touch {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+
+		.column-content {
+			display: block;
+			flex-basis: 0;
+			flex-grow: 1;
+
+			&.main {
+				flex: none;
+				width: 75%;
+
+				@include touch {
+					flex: auto;
+					width: 100%;
+				}
+			}
+
+			@include touch {
+				&:not(:first-child) {
+					padding-top: 2rem;
+				}
+
+				&:not(:last-child) {
+					padding-bottom: 2rem;
+					border-top: 3px solid $border;
+				}
+			}
+
+			@include desktop {
+				overflow-y: auto;
+				height: calc(80vh - 64px - 3rem);
+			}
+
+			.card {
+				margin: auto;
+				margin-top: 1rem;
+				width: 90%;
+				border: 1px solid rgb(22 102 93 / 40%);
+				box-shadow: none;
+
+				.card-content {
+					height: unset !important;
+				}
+			}
+
+			.blog-main {
+				width: 90%;
+				margin: 1rem auto;
+			}
+		}
+	}
+}

@@ -1,0 +1,26 @@
+.field {
+	&.editor {
+		height: 15rem;
+
+		.ql-toolbar {
+			padding-top: 2rem;
+		}
+
+		&.description {
+			margin-top: 2rem;
+			height: 10rem;
+		}
+
+		&.content {
+			margin-top: 7rem;
+			height: 30rem;
+		}
+	}
+
+	&.no {
+		.label {
+			padding-left: 0.75rem;
+			font-size: calc(1rem * 3 / 4);
+		}
+	}
+}

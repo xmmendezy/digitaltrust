@@ -1,0 +1,6 @@
+.ebook {
+	@include desktop {
+		overflow-y: auto;
+		height: calc(90vh - 64px - 3rem);
+	}
+}

@@ -1,11 +1,17 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import ViteComponents from 'unplugin-vue-components/vite';
-import VitePages from 'vite-plugin-pages';
+import Components from 'unplugin-vue-components/vite';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import Pages from 'vite-plugin-pages';
 import Layouts from 'vite-plugin-vue-layouts';
 
 export default defineConfig({
+	base: '/td_app',
+	build: {
+		outDir: path.resolve(__dirname, '../core/td_app'),
+	},
 	resolve: {
 		alias: {
 			'~/': `${path.resolve(__dirname, 'src')}/`,
@@ -15,18 +21,28 @@ export default defineConfig({
 			'~@vueform': 'node_modules/@vueform',
 			'~@fontsource': 'node_modules/@fontsource',
 			'~@fortawesome': 'node_modules/@fortawesome',
-			'~vue3-openlayers': 'node_modules/vue3-openlayers',
+			'~@vueup': 'node_modules/@vueup',
 		},
 	},
 	plugins: [
 		vue(),
-		VitePages(),
+		Pages(),
 		Layouts({
 			layoutsDir: 'src/layouts',
 			defaultLayout: 'default',
 		}),
-		ViteComponents({
+		Components({
 			dts: true,
+			resolvers: IconsResolver({
+				prefix: false,
+				alias: {
+					fas: 'fa-solid',
+				},
+			}) as any,
+		}),
+		Icons({
+			compiler: 'vue3',
+			autoInstall: true,
 		}),
 	],
 	optimizeDeps: {

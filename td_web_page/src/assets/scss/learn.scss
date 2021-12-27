@@ -15,9 +15,27 @@
 		}
 	}
 
+	.download {
+		margin: auto;
+		margin-top: 2rem;
+
+		p {
+			margin-top: 2rem;
+		}
+	}
+
+	.download-m {
+		margin: auto;
+		margin-top: 1rem;
+
+		p {
+			margin-top: 2rem;
+		}
+	}
+
 	.btn-send {
 		margin: auto;
-		margin-top: 3rem;
+		margin-top: 1rem;
 		background-color: $main-dark-two;
 	}
 }

@@ -9,7 +9,7 @@
 
 	.card-main {
 		width: 50vw;
-		height: 80vh;
+		height: 90vh;
 		overflow-y: auto;
 
 		@include mobile {
@@ -20,24 +20,28 @@
 
 		@include tablet-only {
 			width: 70vw;
-			height: 80vh;
+			height: 90vh;
 		}
 
 		.card-content {
 			@include mobile {
 				overflow-y: auto;
-				height: calc(95vh - 64px - 1rem);
+				height: 95vh;
 			}
 
 			.form {
 				width: 70%;
 				margin: auto;
 				padding-top: 2rem;
+
+				@include mobile {
+					width: 90%;
+				}
+
+				.card-content {
+					height: unset !important;
+				}
 			}
 		}
-	}
-
-	.modal-card {
-		border-radius: 1rem;
 	}
 }

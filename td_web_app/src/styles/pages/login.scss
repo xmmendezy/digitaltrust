@@ -11,6 +11,7 @@
 		width: 40vw;
 		height: 65vh;
 		overflow-y: auto;
+		margin: auto;
 
 		@include mobile {
 			width: 100vw;
@@ -26,7 +27,7 @@
 		.card-content {
 			@include mobile {
 				overflow-y: auto;
-				height: calc(95vh - 64px - 1rem);
+				height: 95vh;
 			}
 
 			.form {
