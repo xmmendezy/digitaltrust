@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, HLogin, HQuery, SuscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
+import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
 import {
 	SignupDto,
 	UserDto,
@@ -8,6 +8,7 @@ import {
 	UpdateDto,
 	IRefer,
 	IClient,
+	ISubscribeMail,
 	ISubscribeCourse,
 	NoticeDto,
 	BlogDto,
@@ -21,6 +22,7 @@ import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
 import axios from 'axios';
 import gpayments from 'gpayments';
+import { DateTime } from 'luxon';
 
 import config from '@config';
 import { UserRole, UserStatus } from './td.interface';
@@ -38,11 +40,14 @@ export class TDService {
 		const re =
 			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
-			const suscibe = await SuscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
+			const suscibe = await SubscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
 				return { error: 'no_valid' };
 			}
-			await SuscribeMail.createQueryBuilder().insert().values({ email }).execute();
+			await SubscribeMail.createQueryBuilder()
+				.insert()
+				.values({ email, created: DateTime.utc().toSeconds(), updated: DateTime.utc().toSeconds() })
+				.execute();
 			return { error: '' };
 		} else {
 			return { error: 'no_valid' };
@@ -443,6 +448,28 @@ export class TDService {
 			});
 		}
 		return clients;
+	}
+
+	public async subscribe_mails(): Promise<ISubscribeMail[]> {
+		const subscribe_mails: ISubscribeMail[] = [];
+		for (const user of await User.createQueryBuilder('user')
+			.where('user.role = :role', { role: 'user' })
+			.getMany()) {
+			subscribe_mails.push({
+				id: user.id,
+				email: user.email,
+			});
+		}
+		const check = subscribe_mails.map((sm) => sm.email);
+		for (const subscribe_mail of await SubscribeMail.createQueryBuilder().getMany()) {
+			if (!check.includes(subscribe_mail.email)) {
+				subscribe_mails.push({
+					id: subscribe_mail.id,
+					email: subscribe_mail.email,
+				});
+			}
+		}
+		return subscribe_mails;
 	}
 
 	public async client(id: string): Promise<UserDto> {

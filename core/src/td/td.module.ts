@@ -2,7 +2,7 @@ import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/c
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TDController } from './td.controller';
 import { TDService } from './td.service';
-import { User, Country, TimeZone, HQuery, HLogin, SuscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
+import { User, Country, TimeZone, HQuery, HLogin, SubscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
 import { LoginMiddleware, JwtMiddleware } from './td.middlewares';
 
 import { JwtStrategy, LocalStrategy } from './passport';
@@ -15,7 +15,7 @@ import { JwtStrategy, LocalStrategy } from './passport';
 			TimeZone,
 			HQuery,
 			HLogin,
-			SuscribeMail,
+			SubscribeMail,
 			Course,
 			Invoice,
 			Notice,

@@ -109,6 +109,15 @@ export class TDController {
 		}
 	}
 
+	@Get('subscribe_mails')
+	public async subscribe_mails(@Req() req: Request) {
+		if (req.user.role === 'admin') {
+			return await this.tdService.subscribe_mails();
+		} else {
+			return [];
+		}
+	}
+
 	@Get('client')
 	public async client(@Req() req: Request, @Query() query: { id: string }) {
 		if (req.user.role === 'admin') {
