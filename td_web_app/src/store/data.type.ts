@@ -223,6 +223,11 @@ export interface IClient {
 	payed: boolean;
 }
 
+export interface ISubscribeMail {
+	id: string;
+	email: string;
+}
+
 export interface ComponentQuillEditor {
 	editor: Ref<Element | undefined>;
 	getEditor: () => Element;
@@ -262,7 +267,10 @@ export class NoticeDto extends ClassBase {
 
 	id!: string;
 
-	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, { always: true, message: 'validator.editor.b' })
+	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, {
+		always: true,
+		message: 'validator.editor.b',
+	})
 	@IsNotEmpty({ message: 'validator.editor.a' })
 	title!: string;
 
@@ -330,7 +338,10 @@ export class BlogDto extends ClassBase {
 
 	id!: string;
 
-	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, { always: true, message: 'validator.editor.b' })
+	@Matches(/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9¿¡][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ0-9_\-,.¿?¡!\s]{3,70}$/, {
+		always: true,
+		message: 'validator.editor.b',
+	})
 	@IsNotEmpty({ message: 'validator.editor.a' })
 	title!: string;
 

@@ -446,6 +446,16 @@ body {
 		font-size: 0.9rem;
 		padding-left: 0.5rem;
 	}
+
+	@include mobile {
+		max-width: 70vw !important;
+		height: 3rem !important;
+
+		span {
+			max-width: 60vw !important;
+			white-space: initial;
+		}
+	}
 }
 
 @import './features.scss';

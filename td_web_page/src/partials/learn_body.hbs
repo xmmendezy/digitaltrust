@@ -3,9 +3,10 @@
 		<div class='container secundary'>
 			<div class="columns">
 				<div class="column">
-					{{#image_src 'learn_1.png' 'learn_1' '' 'slide-right'}}{{/image_src}}
+					<video id="learnmp4" class="video-js vjs-default-skin" src="/assets/images/learn.mp4">
+					</video>
 				</div>
-				<div class="column learn-text-main">
+				<div class="column is-4 learn-text-main">
 					<h1 class="title has-text-primary">¿Qué vas a aprender con estos cursos?</h1>
 					<p class="has-text-primary has-text-justified">
 						Un solo operador con gran conocimiento en la estrategia de acción del precio con una experiencia
@@ -18,9 +19,18 @@
 					</p>
 				</div>
 			</div>
+			<script src="/node_modules/video.js/dist/video.min.js"></script>
 			<script>
 				AOS.init({
 					duration: 1200,
+				});
+				videojs('learnmp4', {
+					controls: false,
+					loop: true,
+					autoplay: true,
+					muted: false,
+					preload: true,
+					fluid: true
 				});
 			</script>
 		</div>

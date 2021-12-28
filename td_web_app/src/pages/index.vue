@@ -25,7 +25,7 @@
 				<ul class="elements fa-ul">
 					<li>
 						<span class="fa-li"><i class="fas fa-book"></i></span>
-						<router-link to="/ebook/1"> Ebook </router-link>
+						<router-link to="/ebook/1"> Ebook - La biblia de las candelas </router-link>
 					</li>
 					<li>
 						<span class="fa-li"><i class="fab fa-facebook"></i></span>

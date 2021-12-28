@@ -13,6 +13,7 @@ import {
 	ICourse,
 	ISubscribeCourse,
 	IClient,
+	ISubscribeMail,
 	I4GeeksCharge,
 	Response,
 } from './data.type';
@@ -207,6 +208,9 @@ export const useDataStore = defineStore('data', {
 		},
 		async clients() {
 			return await this.http('clients', true).get<IClient[]>('');
+		},
+		async subscribe_mails() {
+			return await this.http('subscribe_mails', true).get<ISubscribeMail[]>('');
 		},
 		async notice(data: NoticeDto) {
 			const errors = data.validate();

@@ -232,8 +232,7 @@ const jcbCardPlaceholder = computed(() => {
 });
 
 const getCreditCardImage = computed(() => {
-	const path = new URL(`/td_app/images/${cardType.value}.png`, import.meta.url).href;
-	return path;
+	return `/td_app/images/${cardType.value}.png`;
 });
 
 const acceptedTypes = [
@@ -328,8 +327,7 @@ const currentCardBackground = computed(() => {
 	const numberImage = parseInt(props.backgroundImage as any);
 
 	if (isBackgroundImageFromAssets.value) {
-		const path = new URL(`/td_app/images/${numberImage}.jpg`, import.meta.url).href;
-		return path;
+		return `/td_app/images/${numberImage}.jpg`;
 	}
 
 	if (props.backgroundImage && !Number.isFinite(numberImage)) {
@@ -339,8 +337,7 @@ const currentCardBackground = computed(() => {
 	if (props.hasRandomBackgrounds) {
 		const random = Math.floor(Math.random() * 25 + 1);
 
-		const path = new URL(`/td_app/images/${random}.jpg`, import.meta.url).href;
-		return path;
+		return `/td_app/images/${random}.jpg`;
 	}
 
 	return null;

@@ -155,6 +155,11 @@ interface IClient {
 	payed: boolean;
 }
 
+interface ISubscribeMail {
+	id: string;
+	email: string;
+}
+
 interface ISubscribeCourse {
 	id: string;
 	name: string;
@@ -236,6 +241,7 @@ export {
 	BlogDto,
 	IRefer,
 	IClient,
+	ISubscribeMail,
 	ISubscribeCourse,
 	I4GeeksCharge,
 };

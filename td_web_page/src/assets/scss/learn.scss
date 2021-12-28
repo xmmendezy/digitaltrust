@@ -15,6 +15,35 @@
 		}
 	}
 
+	.video-js {
+		display: block;
+		height: 50vh;
+		width: 100%;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		background-color: rgba(0, 0, 0, 0) !important;
+
+		@include mobile {
+			height: 150%;
+		}
+
+		.vjs-tech {
+			background-color: rgba(0, 0, 0, 0) !important;
+		}
+
+		&.vjs-error {
+			display: none;
+		}
+
+		.vjs-loading-spinner,
+		.vjs-big-play-button,
+		.vjs-modal-dialog,
+		.vjs-text-track-display,
+		.vjs-control-bar {
+			display: none;
+		}
+	}
+
 	.download {
 		margin: auto;
 		margin-top: 2rem;
