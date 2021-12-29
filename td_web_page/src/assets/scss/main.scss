@@ -448,13 +448,8 @@ body {
 	}
 
 	@include mobile {
-		max-width: 70vw !important;
-		height: 3rem !important;
-
-		span {
-			max-width: 60vw !important;
-			white-space: initial;
-		}
+		width: 60px !important;
+		height: 60px !important;
 	}
 }
 
