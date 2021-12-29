@@ -35,7 +35,9 @@
 					preload: true,
 					fluid: true
 				})
-				video.muted(false);
+				if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+					video.muted(false);
+				}
 			</script>
 		</div>
 	</div>
