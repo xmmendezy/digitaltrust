@@ -39,8 +39,19 @@
 		.vjs-big-play-button,
 		.vjs-modal-dialog,
 		.vjs-text-track-display,
-		.vjs-control-bar {
+		.vjs-control {
 			display: none;
+		}
+
+		.vjs-control-bar > div.vjs-volume-panel.vjs-control.vjs-volume-panel-horizontal {
+			&,
+			& button {
+				display: block;
+			}
+
+			& button {
+				border: none;
+			}
 		}
 	}
 

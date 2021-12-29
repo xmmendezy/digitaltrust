@@ -3,9 +3,9 @@
 		<div class='container secundary'>
 			<div class="columns">
 				<div class="column">
-					<video id="learnmp4" class="video-js vjs-default-skin">
+					<video id="learnmp4" class="video-js vjs-default-skin" playsinline>
 						<source src="/assets/images/learn.mp4" type="video/mp4" />
-						<source src="/assets/images/learn.webm" type="video/webm" />
+						<source src="/assets/images/learn.webm" type="video/webm">
 					</video>
 				</div>
 				<div class="column is-4 learn-text-main">
@@ -26,14 +26,16 @@
 				AOS.init({
 					duration: 1200,
 				});
-				videojs('learnmp4', {
-					controls: false,
+				const video = videojs('learnmp4', {
+					controls: true,
 					loop: true,
 					autoplay: true,
-					muted: false,
+					playsinline: true,
+					muted: true,
 					preload: true,
 					fluid: true
-				});
+				})
+				video.muted(false);
 			</script>
 		</div>
 	</div>
