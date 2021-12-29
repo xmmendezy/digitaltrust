@@ -22,7 +22,7 @@
 						</div>
 					</div>
 				</article>
-				<ul class="elements fa-ul">
+				<ul class="elements fa-ul has-text-left">
 					<li>
 						<span class="fa-li"><i class="fas fa-book"></i></span>
 						<router-link to="/ebook/1"> Ebook - La biblia de las candelas </router-link>
@@ -38,6 +38,41 @@
 						<a :href="store.course_data?.telegram" target="_blank"> Comunidad de Telegram </a>
 					</li>
 				</ul>
+				<template v-if="store.course_data && store.course_data.id !== 'b19b80ca-bfe2-4b58-8a24-8b0723e5c2ec'">
+					<p class="mt-5 mb-0 is-size-5 has-text-weight-bold">Enlaces de interes</p>
+					<ul class="elements fa-ul mt-3 has-text-left">
+						<li>
+							<span class="fa-li"><i class="fas fa-star"></i></span>
+							<a href="https://www.investing.com/economic-calendar/" target="_blank">
+								Economic Calendar
+							</a>
+						</li>
+						<li>
+							<span class="fa-li"><i class="fas fa-star"></i></span>
+							<a href="https://www.forexfactory.com" target="_blank">
+								Forexfactory
+							</a>
+						</li>
+						<li>
+							<span class="fa-li"><i class="fas fa-star"></i></span>
+							<a href="https://www.dailyfx.com/sentiment" target="_blank">
+								Dailyfx
+							</a>
+						</li>
+						<li>
+							<span class="fa-li"><i class="fas fa-star"></i></span>
+							<a href="https://www.myfxbook.com/es/forex-calculators/position-size" target="_blank">
+								Forex Calculators
+							</a>
+						</li>
+						<li>
+							<span class="fa-li"><i class="fas fa-star"></i></span>
+							<a href="https://es.tradingview.com/u/DigitalTrust/" target="_blank">
+								DigitalTrust en TradingView
+							</a>
+						</li>
+					</ul>
+				</template>
 			</div>
 			<div class="column-content main">
 				<p class="has-text-centered">Comunicados</p>
