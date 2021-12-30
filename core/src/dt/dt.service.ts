@@ -421,12 +421,20 @@ export class DTService {
 			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
 		} else {
 			let memberships: Membership[] = [];
-			if (await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getCount()) {
+			if (
+				await Suscription.createQueryBuilder()
+					.where('"userId" = :id', { id: user.id })
+					.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+					.getCount()
+			) {
 				memberships = await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: false })
 					.andWhere('id in (:...ids)', {
 						ids: (
-							await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
+							await Suscription.createQueryBuilder()
+								.where('"userId" = :id', { id: user.id })
+								.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+								.getMany()
 						).map((s) => s.membershipId),
 					})
 					.orderBy('interest', 'ASC')
@@ -483,7 +491,10 @@ export class DTService {
 	}
 
 	public async suscriptions(user: User): Promise<Suscription[]> {
-		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		return await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+			.getMany();
 	}
 
 	public async create_suscription(user: User, date: DateTime, membershipId: string): Promise<{ id: string }> {
@@ -699,7 +710,10 @@ export class DTService {
 	}
 
 	public async records(user: User): Promise<RecordDto[]> {
-		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		const suscriptions = await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+			.getMany();
 		if (suscriptions.length) {
 			const records: Record[] = [];
 			const record = (await this.record(
@@ -762,7 +776,10 @@ export class DTService {
 			earning: 0,
 			investment: 0,
 		};
-		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		const suscriptions = await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+			.getMany();
 		if (suscriptions.length) {
 			const memberships = await Membership.createQueryBuilder()
 				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
@@ -790,7 +807,10 @@ export class DTService {
 			suscriptions: [],
 			moves: [],
 		};
-		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		const suscriptions = await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: date.toSeconds() })
+			.getMany();
 		if (suscriptions.length) {
 			const memberships = await Membership.createQueryBuilder()
 				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
@@ -1039,7 +1059,12 @@ export class DTService {
 				: user.DateTime.fromDate(user.created);
 		}
 		if (!suscriptions.length) {
-			suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+			suscriptions = await Suscription.createQueryBuilder()
+				.where('"userId" = :id', { id: user.id })
+				.andWhere('date_end >= :date', { date: date_end.toSeconds() })
+				.getMany();
+		} else {
+			suscriptions = suscriptions.filter((s) => s.date_end >= date_end.toSeconds());
 		}
 		if (suscriptions.length) {
 			const days = date_end.day - date_begin.day + 1;
@@ -1227,8 +1252,8 @@ export class DTService {
 						user,
 						date_begin.minus({ month: 1 }).startOf('month'),
 						date_begin.minus({ month: 1 }).endOf('month'),
-						suscriptions,
-						memberships,
+						[],
+						[],
 						true,
 					);
 					irecord.balance = new Decimal(irecord.balance).plus(prev_record.balance).toNumber();
