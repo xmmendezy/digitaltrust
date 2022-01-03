@@ -89,24 +89,48 @@ export class TDService {
 	}
 
 	public async newClientNotification(user: User) {
-		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'td_new_client.hbs'), 'utf8');
-		const template_compile = handlebars.compile(templeate_hbs);
-		return await this.mailerService
-			.sendMail({
-				to: config.td.email_notification,
-				subject: 'TradingDigital - Nuevo cliente',
-				html: template_compile({
-					name: user.name,
-					email: user.email,
-					course: user.course.name,
-				}),
-			})
-			.then(() => {
-				return { error: '' };
-			})
-			.catch(() => {
-				return { error: 'e000' };
-			});
+		if (
+			(await Invoice.createQueryBuilder('invoice')
+				.leftJoinAndSelect('invoice.user', 'user')
+				.where('user.id = :id', { id: user.id })
+				.getCount()) === 1
+		) {
+			await this.mailerService
+				.sendMail({
+					to: config.td.email_notification,
+					subject: 'TradingDigital - Nuevo cliente',
+					html: handlebars.compile(
+						readFileSync(join(__dirname, '..', 'mails', 'td_new_client_admin.hbs'), 'utf8'),
+					)({
+						name: user.name,
+						email: user.email,
+						course: user.course.name,
+					}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+			await this.mailerService
+				.sendMail({
+					to: user.email,
+					subject: 'TradingDigital - Bienvenid@',
+					html: handlebars.compile(readFileSync(join(__dirname, '..', 'mails', 'td_new_client.hbs'), 'utf8'))(
+						{
+							name: user.name,
+							course: user.course.name,
+						},
+					),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		}
 	}
 
 	public async get_subscribe_course(user: User): Promise<ISubscribeCourse | Error> {
