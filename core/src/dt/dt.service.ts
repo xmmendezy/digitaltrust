@@ -809,7 +809,7 @@ export class DTService {
 		};
 		const suscriptions = await Suscription.createQueryBuilder()
 			.where('"userId" = :id', { id: user.id })
-			.andWhere('date_end >= :date', { date: date.toSeconds() })
+			//.andWhere('date_end >= :date', { date: date.toSeconds() })
 			.getMany();
 		if (suscriptions.length) {
 			const memberships = await Membership.createQueryBuilder()
@@ -853,7 +853,7 @@ export class DTService {
 					balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
 				}
 			}
-			for (const suscription of suscriptions) {
+			for (const suscription of suscriptions.filter((s) => s.date_end >= date.toSeconds())) {
 				balance.suscriptions.push({
 					id: suscription.id,
 					investment: (
