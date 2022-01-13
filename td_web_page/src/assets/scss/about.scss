@@ -90,8 +90,26 @@
 	}
 }
 
-#about_card {
-	margin-top: 15rem;
+#about-main {
+	background: $black;
+
+	.hero-body {
+		@include touch {
+			padding: 3rem 2rem;
+		}
+	}
+
+	.about-text-main {
+		margin: auto;
+
+		p {
+			margin-top: 5rem;
+		}
+	}
+}
+
+#about-card {
+	margin-top: 5rem;
 
 	@include mobile {
 		margin-top: calc(100vh + 10rem);
