@@ -49,12 +49,10 @@ function contactForm() {
 
 function suscribeForm() {
 	const suscribe = <HTMLInputElement>document.getElementById('suscribe');
-	console.log(suscribe.value);
 	if (suscribe.value) {
 		fetch('/dt/api/suscribe_mail/' + suscribe.value)
 			.then(res => {
 				res.json().then(data => {
-					console.log(data);
 					if (!data.error) {
 						(window as any).Swal.fire({
 							title: 'Success',

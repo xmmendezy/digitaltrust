@@ -135,6 +135,7 @@
 		text-align: left;
 		padding: 12px 0;
 		box-sizing: border-box;
+		color: $primary;
 	}
 
 	li::before {
@@ -146,7 +147,7 @@
 		padding-right: 12px;
 		font-variant-numeric: tabular-nums;
 		align-self: flex-start;
-		background-image: linear-gradient(to bottom, $dark, $primary);
+		background-image: linear-gradient(to bottom, $primary, $background);
 		background-attachment: fixed;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;

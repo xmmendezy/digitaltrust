@@ -387,7 +387,6 @@ const coinbase = () => {
 	store
 		.get_coinbase()
 		.then(url => {
-			console.log('url', url);
 			if (url) {
 				window.open(url, '_blank');
 			}

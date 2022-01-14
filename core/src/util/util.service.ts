@@ -8,7 +8,6 @@ export class UtilService {
 		html?: boolean;
 		subject?: string;
 	}): Promise<boolean> {
-		console.log(data);
 		return true;
 	}
 }

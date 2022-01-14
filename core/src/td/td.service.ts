@@ -375,7 +375,6 @@ export class TDService {
 					return { error: '' };
 				})
 				.catch((e) => {
-					console.log(e);
 					return { error: 'e000' };
 				});
 		} else {
