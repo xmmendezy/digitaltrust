@@ -23,23 +23,6 @@ export class AppException extends HttpException {
 					redirect = '/dt_app';
 				}
 				response.redirect(redirect);
-				/* const url = '/' + request.url.split('/app/')[1];
-				if (url.includes('.') && existsSync(root_dir + url)) {
-					response.contentType((mime as any).getType(root_dir + url));
-					response.sendFile(url, {
-						root: root_dir,
-					});
-				} else if (existsSync(root_dir + '/index.html')) {
-					response.sendFile('index.html', {
-						root: root_dir,
-					});
-				} else {
-					response.status(status).json({
-						statusCode: status,
-						timestamp: new Date().toISOString(),
-						path: request.url,
-					});
-				} */
 			} else {
 				let root_dir = 'dt_view';
 				if (domain.match('(.*)digitaltrustonline.*')) {
@@ -49,7 +32,7 @@ export class AppException extends HttpException {
 				} else if (domain.match('(.*)localhost.*')) {
 					root_dir = 'dt_view';
 				}
-				let url = request.url;
+				let url = request.url.split('?')[0];
 				if (url.endsWith('/es')) {
 					url = url + '/';
 				}
