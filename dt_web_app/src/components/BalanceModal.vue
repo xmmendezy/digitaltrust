@@ -7,7 +7,7 @@
 				<b-tabs>
 					<b-tab-item :label="$t('helper.summary')">
 						<div class="box-balance">
-							<div v-if="balance_detail_data.available_balance" class="columns has-text-left">
+							<!-- <div v-if="balance_detail_data.available_balance" class="columns has-text-left">
 								<div class="column balance-text">{{ $t('balance.a') }}</div>
 								<div class="column balance-money is-4">
 									{{
@@ -18,9 +18,9 @@
 										)
 									}}
 								</div>
-							</div>
+							</div> -->
 							<div class="columns has-text-left">
-								<div class="column balance-text">{{ $t('balance.b') }}</div>
+								<div class="column balance-text">{{ $t('balance.a') }}</div>
 								<div class="column balance-money is-4">
 									{{ formatMoney(balance_detail_data.balance) }}
 								</div>

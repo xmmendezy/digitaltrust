@@ -97,6 +97,10 @@ export default abstract class ComponentBase extends Vue {
 
 	public formatMoney(n: number) {
 		if (n) {
+			n = parseFloat(n as any);
+			if (n < 0) {
+				n = n * -1;
+			}
 			const x = n.toFixed(2).toString().split('.');
 			let x1 = x[0];
 			const rgx = /(\d+)(\d{3})/;
