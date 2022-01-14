@@ -1446,8 +1446,7 @@ export class DTService {
 			});
 	}
 
-	//@Cron('0 0 3 * * *')
-	@Cron('0 */5 * * * *')
+	@Cron('0 0 3 * * *')
 	public async load_suscription_reinvestment() {
 		if (!config.production) {
 			console.log('Carga programada');
