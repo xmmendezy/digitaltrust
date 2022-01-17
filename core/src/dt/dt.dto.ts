@@ -387,6 +387,8 @@ interface IBalanceDetail {
 	earning_extra: number;
 	withdrawal: number;
 	investment: number;
+	last_withdrawal: number;
+	total_withdrawal: number;
 	suscriptions: {
 		id: string;
 		investment: number;

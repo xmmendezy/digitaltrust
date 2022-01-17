@@ -198,6 +198,8 @@
 		"d": "Ganancia por referidos",
 		"e": "Capital de inversión",
 		"f": "Retiros",
+		"g": "Último retiro",
+		"h": "Total de retiros",
 		"suscription": {
 			"a": "Inversión",
 			"b": "Fecha de inicio",

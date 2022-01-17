@@ -31,6 +31,22 @@
 									{{ formatMoney(balance_detail_data.investment) }}
 								</div>
 							</div>
+							<div class="columns has-text-left">
+								<div class="column balance-text">{{ $t('balance.g') }}</div>
+								<div class="column balance-money is-4">
+									{{
+										store.api.DateTime.fromUnix(balance_detail_data.last_withdrawal)
+											.setLocale($i18n.locale)
+											.toFormat('dd/LLL/yyyy HH:mm')
+									}}
+								</div>
+							</div>
+							<div class="columns has-text-left">
+								<div class="column balance-text">{{ $t('balance.h') }}</div>
+								<div class="column balance-money is-4">
+									{{ formatMoney(balance_detail_data.total_withdrawal) }}
+								</div>
+							</div>
 						</div>
 						<div
 							v-for="suscription in balance_detail_data.suscriptions"

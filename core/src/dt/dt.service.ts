@@ -804,6 +804,8 @@ export class DTService {
 			earning: 0,
 			earning_extra: 0,
 			investment: 0,
+			last_withdrawal: 0,
+			total_withdrawal: 0,
 			suscriptions: [],
 			moves: [],
 		};
@@ -910,6 +912,11 @@ export class DTService {
 			);
 		}
 		balance.moves.sort((a, b) => b.date - a.date);
+		const withdrawals = balance.moves.map((m) => m).filter((m) => m.type === 'withdrawal');
+		if (withdrawals.length) {
+			balance.last_withdrawal = withdrawals[0].date;
+		}
+		balance.total_withdrawal = withdrawals.reduce((a, b) => a + b.money, 0);
 		return balance;
 	}
 

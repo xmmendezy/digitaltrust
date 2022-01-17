@@ -198,6 +198,8 @@
 		"d": "Earning from referrals",
 		"e": "Investment capital",
 		"f": "Withdrawal",
+		"g": "Last withdrawal",
+		"h": "Total withdrawal",
 		"suscription": {
 			"a": "Investment capital",
 			"b": "Start date",
