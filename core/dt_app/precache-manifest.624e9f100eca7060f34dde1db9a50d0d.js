@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "68b65593df3d32565542",
+    "revision": "2870cd7d1c92eff1c90c",
     "url": "/dt_app/css/admin-home.456e4c3a.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dt_app/css/app-main.c26da5e3.css"
   },
   {
-    "revision": "e6d58eaf62b86aa2ddfd",
+    "revision": "d8606aeddfc1486dba3c",
     "url": "/dt_app/css/app.a9e4d795.css"
   },
   {
@@ -40,7 +40,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dt_app/css/donations.00736bcb.css"
   },
   {
-    "revision": "540f42d9471c739866b5",
+    "revision": "f73ced2f25350e9108f1",
     "url": "/dt_app/css/home.a19f6492.css"
   },
   {
@@ -240,12 +240,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dt_app/img/logo4.18bff83d.png"
   },
   {
-    "revision": "83894cc08639d69a18d22aaa47f39250",
+    "revision": "65e0dc441c59835bf3e19720e52a5777",
     "url": "/dt_app/index.html"
   },
   {
-    "revision": "68b65593df3d32565542",
-    "url": "/dt_app/js/admin-home.7a322e6e.js"
+    "revision": "2870cd7d1c92eff1c90c",
+    "url": "/dt_app/js/admin-home.5215536b.js"
   },
   {
     "revision": "69b27c70d22c8902f28a",
@@ -264,8 +264,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dt_app/js/app-main.c580442d.js"
   },
   {
-    "revision": "e6d58eaf62b86aa2ddfd",
-    "url": "/dt_app/js/app.1297150f.js"
+    "revision": "d8606aeddfc1486dba3c",
+    "url": "/dt_app/js/app.3bb9ad14.js"
   },
   {
     "revision": "fd3c194360ad98e74771",
@@ -284,8 +284,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dt_app/js/donations.aec630da.js"
   },
   {
-    "revision": "540f42d9471c739866b5",
-    "url": "/dt_app/js/home.2c7a0c73.js"
+    "revision": "f73ced2f25350e9108f1",
+    "url": "/dt_app/js/home.8d236df4.js"
   },
   {
     "revision": "73e694c50e7e685ffbfe",

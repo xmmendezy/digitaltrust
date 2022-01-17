@@ -35,9 +35,11 @@
 								<div class="column balance-text">{{ $t('balance.g') }}</div>
 								<div class="column balance-money is-4">
 									{{
-										store.api.DateTime.fromUnix(balance_detail_data.last_withdrawal)
-											.setLocale($i18n.locale)
-											.toFormat('dd/LLL/yyyy HH:mm')
+										balance_detail_data.last_withdrawal
+											? store.api.DateTime.fromUnix(balance_detail_data.last_withdrawal)
+													.setLocale($i18n.locale)
+													.toFormat('dd/LLL/yyyy HH:mm')
+											: '---'
 									}}
 								</div>
 							</div>
