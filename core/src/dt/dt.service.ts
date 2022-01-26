@@ -912,7 +912,10 @@ export class DTService {
 			);
 		}
 		balance.moves.sort((a, b) => b.date - a.date);
-		const withdrawals = balance.moves.map((m) => m).filter((m) => m.type === 'withdrawal').filter((m) => m.method !== 'investment');
+		const withdrawals = balance.moves
+			.map((m) => m)
+			.filter((m) => m.type === 'withdrawal')
+			.filter((m) => m.method !== 'investment');
 		if (withdrawals.length) {
 			balance.last_withdrawal = withdrawals[0].date;
 		}
