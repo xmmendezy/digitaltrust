@@ -17,6 +17,11 @@ $primary-invert: findColorInvert($primary);
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
 
+$secundary: #232928;
+$secundary-invert: findColorInvert($secundary);
+$secundary-light: findLightColor($secundary);
+$secundary-dark: findDarkColor($secundary);
+
 $main: $primary;
 $main-invert: $primary-invert;
 $main-light: $primary-light;
@@ -94,6 +99,12 @@ $colors: mergeColorMaps(
 			$primary-invert,
 			$primary-light,
 			$primary-dark,
+		),
+		'secundary': (
+			$secundary,
+			$secundary-invert,
+			$secundary-light,
+			$secundary-dark,
 		),
 		'main': (
 			$main,
@@ -178,12 +189,22 @@ $footer-padding: 3rem 5rem;
 
 @import './navbar.scss';
 
+html {
+	width: 100vw !important;
+}
+
 body {
 	font-family: 'Poppins';
 	font-weight: 300;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
+	color: $primary !important;
+	background: $black !important;
+	width: 100vw !important;
+}
+
+.background {
 	color: $black !important;
 	background: $background !important;
 }
@@ -204,10 +225,6 @@ body {
 	.container {
 		margin-top: 2rem;
 
-		@include mobile {
-			margin-top: 60vh;
-		}
-
 		&.secundary {
 			margin-top: 1rem !important;
 		}
@@ -218,12 +235,11 @@ body {
 	margin-bottom: 8rem;
 
 	@include mobile {
-		margin-bottom: 3rem;
+		margin-bottom: 2rem;
 	}
 }
 
 .title-underline {
-	color: $black !important;
 	font-size: 38px !important;
 	padding-bottom: 1rem;
 	margin-top: 2rem !important;
@@ -291,171 +307,19 @@ body {
 	position: static;
 }
 
-#info {
-	position: relative;
-	margin: 0 !important;
-	padding: 0 !important;
-	height: auto;
-
-	.content > * {
-		margin: 0 !important;
-		margin-top: -10vh !important;
-		padding: 0 !important;
-
-		@include tablet {
-			width: 100%;
-		}
-	}
-
-	.video-js {
-		display: block;
-		position: absolute;
-		min-height: 120%;
-		min-width: 100%;
-		bottom: 0;
-		left: 0;
-		margin-top: 0 !important;
-		background-color: rgba(0, 0, 0, 0) !important;
-
-		@include mobile {
-			min-height: 150%;
-		}
-
-		.vjs-tech {
-			background-color: rgba(0, 0, 0, 0) !important;
-		}
-
-		&.vjs-error {
-			display: none;
-		}
-	}
-
-	img.background {
-		background-image: linear-gradient(180deg, $background, #23292891, rgba(255, 255, 255, 0)) !important;
-	}
-
-	.content .over {
-		display: block;
-		position: absolute;
-		min-height: 100%;
-		min-width: 100%;
-		bottom: 0;
-		left: 0;
-		//transform: translate(-50%, 50%);
-		background-image: linear-gradient(
-			180deg,
-			rgba(255, 255, 255, 0),
-			rgba(255, 255, 255, 0),
-			#23292891,
-			$background,
-			$background
-		) !important;
-	}
-
-	.page-title {
-		display: block;
-		position: absolute;
-		bottom: 25%;
-		width: 50vw;
-		height: 30vh;
-		padding-left: calc(5vw) !important;
-
-		@include widescreen {
-			bottom: 30%;
-		}
-
-		h1,
-		p {
-			text-align: left;
-		}
-
-		h1 {
-			color: $black;
-		}
-
-		p {
-			padding-top: 2rem;
-		}
-
-		@include mobile {
-			bottom: -40%;
-			width: 70vw;
-			height: 20vh;
-			padding-left: calc(10vw) !important;
-		}
-	}
-}
-
-@mixin shadow {
-	box-shadow: 0 24px 48px $black;
-}
-
-@mixin shadow-sm {
-	box-shadow: 0 16px 24px $black;
-}
-
-#fqa {
-	position: relative;
-	margin-bottom: 0;
-
-	@include tablet {
-		width: 100vw !important;
-		margin-bottom: 3rem;
-		padding-top: 5rem;
-		padding-bottom: 5rem;
-
-		.columns {
-			margin: auto;
-			width: 70vw !important;
-		}
-	}
-
-	@include mobile {
-		.column-trading {
-			height: 60vh;
-		}
-	}
-
-	.accordions {
-		.accordion {
-			.accordion-header {
-				background-color: #00000000;
-				padding-top: 1rem;
-				padding-bottom: 1rem;
-				text-align: left;
-			}
-
-			.accordion-header + .accordion-body {
-				border-left: none;
-				border-right: none;
-				border-radius: 0;
-			}
-
-			.accordion-content {
-				color: $black;
-				text-align: justify;
-			}
-		}
-	}
-}
-
 .wbutton {
-	width: unset !important;
+	color: $black;
+	background: $primary;
 
-	span {
-		font-size: 0.9rem;
-		padding-left: 0.5rem;
-	}
-
-	@include mobile {
-		width: 60px !important;
-		height: 60px !important;
+	&:hover,
+	&:focus {
+		color: $gray;
 	}
 }
 
+@import './index.scss';
 @import './features.scss';
-@import './testimonials.scss';
 @import './footer.scss';
 @import './about.scss';
-@import './price.scss';
+@import './courses.scss';
 @import './learn.scss';

@@ -1,6 +1,7 @@
 .site-footer {
 	position: relative;
 	color: white;
+	background: $background !important;
 
 	&::before {
 		content: '';
@@ -26,7 +27,7 @@
 	position: relative; /* To display all elements above the background color */
 	display: flex;
 	flex-wrap: wrap;
-	padding: 100px 3rem;
+	padding: 0 3rem 100px 3rem;
 
 	@include mobile {
 		padding-bottom: 6rem;

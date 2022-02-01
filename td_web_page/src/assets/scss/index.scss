@@ -1,0 +1,89 @@
+.index-main {
+	background: $black;
+
+	.hero-body {
+		@include touch {
+			padding: 3rem 2rem;
+		}
+	}
+
+	.index-text-main {
+		margin: auto;
+
+		p {
+			margin-top: 2rem;
+		}
+	}
+
+	.index-learn {
+		height: 30rem;
+		vertical-align: middle;
+	}
+
+	.slider-container {
+		@include mobile {
+			width: 90vw !important;
+			display: block;
+		}
+	}
+
+	.slider-navigation-previous,
+	.slider-navigation-next {
+		@include mobile {
+			display: none !important;
+		}
+	}
+
+	.btn-send {
+		margin: auto;
+		margin-top: 1rem;
+		background-color: $main-dark-two;
+	}
+}
+
+.index-fqa {
+	position: relative;
+	margin-bottom: 0;
+
+	@include tablet {
+		width: 100vw !important;
+		margin-bottom: 3rem;
+		padding-top: 5rem;
+		padding-bottom: 5rem;
+
+		.columns {
+			margin: auto;
+			width: 70vw !important;
+		}
+	}
+
+	@include mobile {
+		.column-trading {
+			height: 60vh;
+		}
+	}
+
+	.accordions {
+		.accordion {
+			.accordion-header {
+				color: $primary;
+				background-color: $black;
+				padding-top: 1rem;
+				padding-bottom: 1rem;
+				text-align: left;
+			}
+
+			.accordion-header + .accordion-body {
+				border-left: none;
+				border-right: none;
+				border-radius: 0;
+			}
+
+			.accordion-content {
+				color: $secundary;
+				background-color: $black;
+				text-align: justify;
+			}
+		}
+	}
+}
