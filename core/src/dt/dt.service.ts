@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { Error } from '@app/util/base.util';
 import {
 	User,
@@ -420,12 +421,20 @@ export class DTService {
 			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
 		} else {
 			let memberships: Membership[] = [];
-			if (await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getCount()) {
+			if (
+				await Suscription.createQueryBuilder()
+					.where('"userId" = :id', { id: user.id })
+					.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+					.getCount()
+			) {
 				memberships = await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: false })
 					.andWhere('id in (:...ids)', {
 						ids: (
-							await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany()
+							await Suscription.createQueryBuilder()
+								.where('"userId" = :id', { id: user.id })
+								.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+								.getMany()
 						).map((s) => s.membershipId),
 					})
 					.orderBy('interest', 'ASC')
@@ -482,7 +491,10 @@ export class DTService {
 	}
 
 	public async suscriptions(user: User): Promise<Suscription[]> {
-		return await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		return await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+			.getMany();
 	}
 
 	public async create_suscription(user: User, date: DateTime, membershipId: string): Promise<{ id: string }> {
@@ -698,7 +710,10 @@ export class DTService {
 	}
 
 	public async records(user: User): Promise<RecordDto[]> {
-		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		const suscriptions = await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+			.getMany();
 		if (suscriptions.length) {
 			const records: Record[] = [];
 			const record = (await this.record(
@@ -761,7 +776,10 @@ export class DTService {
 			earning: 0,
 			investment: 0,
 		};
-		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		const suscriptions = await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			.andWhere('date_end >= :date', { date: user.DateTime.now().toSeconds() })
+			.getMany();
 		if (suscriptions.length) {
 			const memberships = await Membership.createQueryBuilder()
 				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
@@ -786,10 +804,15 @@ export class DTService {
 			earning: 0,
 			earning_extra: 0,
 			investment: 0,
+			last_withdrawal: 0,
+			total_withdrawal: 0,
 			suscriptions: [],
 			moves: [],
 		};
-		const suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+		const suscriptions = await Suscription.createQueryBuilder()
+			.where('"userId" = :id', { id: user.id })
+			//.andWhere('date_end >= :date', { date: date.toSeconds() })
+			.getMany();
 		if (suscriptions.length) {
 			const memberships = await Membership.createQueryBuilder()
 				.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
@@ -832,7 +855,7 @@ export class DTService {
 					balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
 				}
 			}
-			for (const suscription of suscriptions) {
+			for (const suscription of suscriptions.filter((s) => s.date_end >= date.toSeconds())) {
 				balance.suscriptions.push({
 					id: suscription.id,
 					investment: (
@@ -889,6 +912,14 @@ export class DTService {
 			);
 		}
 		balance.moves.sort((a, b) => b.date - a.date);
+		const withdrawals = balance.moves
+			.map((m) => m)
+			.filter((m) => m.type === 'withdrawal')
+			.filter((m) => m.method !== 'investment');
+		if (withdrawals.length) {
+			balance.last_withdrawal = withdrawals[0].date;
+		}
+		balance.total_withdrawal = withdrawals.reduce((a, b) => a + b.money, 0);
 		return balance;
 	}
 
@@ -936,7 +967,7 @@ export class DTService {
 		const data = {
 			user: user.name,
 			date: formatDate(balance.date),
-			available_balance: formatMoney(balance.available_balance),
+			available_balance: formatMoney(balance.available_balance > 0 ? balance.available_balance : 0),
 			balance: formatMoney(balance.balance),
 			investment: formatMoney(balance.investment),
 			moves: balance.moves.map((m) => {
@@ -1038,7 +1069,12 @@ export class DTService {
 				: user.DateTime.fromDate(user.created);
 		}
 		if (!suscriptions.length) {
-			suscriptions = await Suscription.createQueryBuilder().where('"userId" = :id', { id: user.id }).getMany();
+			suscriptions = await Suscription.createQueryBuilder()
+				.where('"userId" = :id', { id: user.id })
+				.andWhere('date_end >= :date', { date: date_end.toSeconds() })
+				.getMany();
+		} else {
+			suscriptions = suscriptions.filter((s) => s.date_end >= date_end.toSeconds());
 		}
 		if (suscriptions.length) {
 			const days = date_end.day - date_begin.day + 1;
@@ -1226,8 +1262,8 @@ export class DTService {
 						user,
 						date_begin.minus({ month: 1 }).startOf('month'),
 						date_begin.minus({ month: 1 }).endOf('month'),
-						suscriptions,
-						memberships,
+						[],
+						[],
 						true,
 					);
 					irecord.balance = new Decimal(irecord.balance).plus(prev_record.balance).toNumber();
@@ -1418,5 +1454,46 @@ export class DTService {
 			.catch((e) => {
 				return { valid: false };
 			});
+	}
+
+	@Cron('0 0 3 * * *')
+	public async load_suscription_reinvestment() {
+		if (!config.production) {
+			console.log('Carga programada');
+		}
+		for (const suscription of await Suscription.createQueryBuilder('s')
+			.select('s.id')
+			.addSelect('s.userId')
+			.addSelect('s.membershipId')
+			.where('s.reinvestment = TRUE')
+			.getMany()) {
+			const user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id')
+				.setParameters({
+					id: suscription.userId,
+				})
+				.getOne();
+			const balance = (
+				await this.record(user, user.DateTime.now().startOf('month'), user.DateTime.now().minus({ days: 1 }))
+			).balance;
+			if (balance >= 50 && user.DateTime.fromUnix(user.lastDeposit).day === user.DateTime.now().day) {
+				await this.process_deposit(
+					user,
+					user.DateTime.now(),
+					{
+						id: user.id,
+						type: PaymentMethod.BALANCE,
+						money: balance,
+						date: user.DateTime.now().toSeconds(),
+						suscriptionId: suscription.id,
+						membershipId: suscription.membershipId,
+						reference: '',
+					},
+					true,
+				);
+			}
+		}
 	}
 }

@@ -1,10 +1,10 @@
 import { Column, Entity } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 
 @Entity({
 	name: 'dt_suscribe_mail',
 })
-export class SuscribeMail extends BaseEntity {
+export class SuscribeMail extends BaseEntityDT {
 	@Column({
 		nullable: false,
 		unique: true,

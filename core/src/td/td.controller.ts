@@ -1,8 +1,7 @@
-import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param } from '@app/dt/http';
+import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param } from '@app/td/http';
 import { TDService } from './td.service';
-import { SignupDto, UpdateDto, SuscriptionDto } from './td.dto';
+import { SignupDto, UpdateDto, NoticeDto, BlogDto, I4GeeksCharge } from './td.dto';
 import { User } from './td.entity';
-import { UserRole, IMembership } from './td.interface';
 
 @Controller('td/api')
 export class TDController {
@@ -29,6 +28,42 @@ export class TDController {
 		}
 	}
 
+	@Get('subscribe_course')
+	public async get_subscribe_course(@Req() req: Request) {
+		return await this.tdService.get_subscribe_course(req.user);
+	}
+
+	@Post('subscribe_course')
+	public async post_subscribe_course(@Req() req: Request, @Body() data: { course: string }) {
+		return await this.tdService.post_subscribe_course(req.user, data.course);
+	}
+
+	@Get('status')
+	public async status(@Req() req: Request) {
+		return await this.tdService.status(req.user);
+	}
+
+	@Post('paypal')
+	public async post_paypal(@Req() req: Request, @Body() data: { reference: string }) {
+		return await this.tdService.post_paypal(req.user, data.reference);
+	}
+
+	@Get('coinbase')
+	public async get_coinbase(@Req() req: Request) {
+		return await this.tdService.get_coinbase(req.user);
+	}
+
+	@Post('coinbase')
+	public async post_coinbase(@Body() data: { code: string }) {
+		console.log(data);
+		return await this.tdService.post_coinbase(data.code);
+	}
+
+	@Post('4geeks')
+	public async post_4geeks(@Req() req: Request, @Body() data: I4GeeksCharge) {
+		return await this.tdService.post_4geeks(req.user, data);
+	}
+
 	@Post('login')
 	public async login(@Req() req: Request) {
 		return await this.tdService.createToken(req.user);
@@ -50,11 +85,6 @@ export class TDController {
 		}
 	}
 
-	@Patch('see_welcome')
-	public async see_welcome(@Req() req: Request) {
-		return await this.tdService.see_welcome(req.user);
-	}
-
 	@Get('ref_user')
 	public async ref_user(@Query() query: { id: string }) {
 		return await this.tdService.ref_user(query.id);
@@ -65,10 +95,24 @@ export class TDController {
 		return await this.tdService.is_refer(req.user);
 	}
 
+	@Get('courses')
+	public async courses(@Req() req: Request) {
+		return await this.tdService.courses();
+	}
+
 	@Get('clients')
 	public async clients(@Req() req: Request) {
 		if (req.user.role === 'admin') {
 			return await this.tdService.clients();
+		} else {
+			return [];
+		}
+	}
+
+	@Get('subscribe_mails')
+	public async subscribe_mails(@Req() req: Request) {
+		if (req.user.role === 'admin') {
+			return await this.tdService.subscribe_mails();
 		} else {
 			return [];
 		}
@@ -111,43 +155,61 @@ export class TDController {
 		}
 	}
 
-	@Get('memberships')
-	public async memberships(@Req() req: Request) {
-		return await this.tdService.memberships(req.user);
+	@Get('notice')
+	public async get_notices(@Req() req: Request) {
+		return await this.tdService.get_notices(req.user);
 	}
 
-	@Post('memberships')
-	public async update_memberships(@Req() req: Request, @Body() data: IMembership[]) {
-		return await this.tdService.update_memberships(req.user, data);
+	@Post('notice')
+	public async notice(@Req() req: Request, @Body() data: NoticeDto) {
+		data = new NoticeDto(data);
+		const errors = data.validate();
+		if (errors.length) {
+			return { error: errors[0] };
+		} else {
+			if (req.user.role === 'admin') {
+				return await this.tdService.notice(data);
+			} else {
+				return { error: 'login.error.u1' };
+			}
+		}
 	}
 
-	@Get('suscriptions')
-	public async suscriptions(@Req() req: Request, @Query() query: { id: string }) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
+	@Delete('notice/:id')
+	public async delete_notice(@Req() req: Request, @Param('id') id: string) {
+		if (req.user.role === 'admin') {
+			return await this.tdService.delete_notice(id);
+		} else {
+			return { error: 'login.error.u1' };
 		}
-		return await this.tdService.suscriptions(user);
 	}
 
-	@Post('suscription')
-	public async create_suscription(@Req() req: Request, @Query() query: { id: string }, @Body() data: SuscriptionDto) {
-		let user: User = req.user;
-		if (query.id) {
-			user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
+	@Get('blog')
+	public async get_blogs(@Req() req: Request) {
+		return await this.tdService.get_blogs(req.user);
+	}
+
+	@Post('blog')
+	public async blog(@Req() req: Request, @Body() data: BlogDto) {
+		data = new BlogDto(data);
+		const errors = data.validate();
+		if (errors.length) {
+			return { error: errors[0] };
+		} else {
+			if (req.user.role === 'admin') {
+				return await this.tdService.blog(data);
+			} else {
+				return { error: 'login.error.u1' };
+			}
 		}
-		let date = user.DateTime.now();
-		if (data.date) {
-			date = user.DateTime.fromUnix(parseInt(data.date as any));
+	}
+
+	@Delete('blog/:id')
+	public async delete_blog(@Req() req: Request, @Param('id') id: string) {
+		if (req.user.role === 'admin') {
+			return await this.tdService.delete_blog(id);
+		} else {
+			return { error: 'login.error.u1' };
 		}
-		return await this.tdService.create_suscription(user, date, data);
 	}
 }

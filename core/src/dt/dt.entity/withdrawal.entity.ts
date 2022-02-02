@@ -1,11 +1,11 @@
 import { Entity, Column } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 import { IWithdrawal, WithdrawalMethod } from '../dt.interface';
 
 @Entity({
 	name: 'dt_withdrawal',
 })
-export class Withdrawal extends BaseEntity implements IWithdrawal {
+export class Withdrawal extends BaseEntityDT implements IWithdrawal {
 	constructor(data: IWithdrawal) {
 		super();
 		if (data) {

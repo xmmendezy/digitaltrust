@@ -1,11 +1,11 @@
 import { Entity, Column } from 'typeorm';
-import { BaseEntity } from '@app/util/base.util';
+import { BaseEntityDT } from '@app/util/base.util';
 import { ISuscription } from '../dt.interface';
 
 @Entity({
 	name: 'dt_suscription',
 })
-export class Suscription extends BaseEntity implements ISuscription {
+export class Suscription extends BaseEntityDT implements ISuscription {
 	constructor(data: ISuscription) {
 		super();
 		if (data) {
