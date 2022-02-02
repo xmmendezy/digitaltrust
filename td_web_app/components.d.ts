@@ -6,14 +6,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdminHeader: typeof import('./src/components/AdminHeader.vue')['default']
     FasCheck: typeof import('~icons/fa-solid/check')['default']
-    FasHeart: typeof import('~icons/fa-solid/heart')['default']
-    FasLike: typeof import('~icons/fa-solid/like')['default']
     FasPlus: typeof import('~icons/fa-solid/plus')['default']
     FasTimes: typeof import('~icons/fa-solid/times')['default']
-    Header: typeof import('./src/components/header.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MainHeader: typeof import('./src/components/MainHeader.vue')['default']
-    'MainHeader copy': typeof import('./src/components/MainHeader copy.vue')['default']
     VuePaycard: typeof import('./src/components/VuePaycard.vue')['default']
   }
 }
