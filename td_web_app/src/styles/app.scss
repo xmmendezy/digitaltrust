@@ -21,10 +21,6 @@
 	justify-content: center;
 	align-items: center;
 	overflow-y: none;
-
-	&:not(.auth) {
-		background-color: #232928;
-	}
 }
 
 @media screen and (max-width: 768px) {

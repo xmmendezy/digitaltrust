@@ -1,9 +1,61 @@
 .pricing-table {
-	margin-top: 5rem;
+	margin: 5rem auto;
+
+	@include tablet {
+		width: 70vw;
+	}
 }
 
 .pricing-plan  {
-	border-radius: 15px;
+	border-radius: 0 !important;
+	margin: 0 !important;
+}
+
+.plan-header {
+	border-radius: 15px !important;
+}
+
+.price-1 {
+	background: $primary !important;
+	color: $black !important;
+
+	@include tablet {
+		border-top-left-radius: 15px !important;
+		border-bottom-left-radius: 15px !important;
+	}
+
+	@include mobile {
+		border-top-left-radius: 15px !important;
+		border-top-right-radius: 15px !important;
+	}
+
+	.plan-header,
+	.plan-price {
+		background: $primary !important;
+		color: $black !important;
+	}
+
+	.plan-item,
+	.plan-price-currency {
+		color: $black !important;
+	}
+}
+
+.price-2 {
+	@include tablet {
+		border-top-right-radius: 15px !important;
+		border-bottom-right-radius: 15px !important;
+	}
+
+	@include mobile {
+		border-bottom-left-radius: 15px !important;
+		border-bottom-right-radius: 15px !important;
+	}
+}
+
+.price-1,
+.price-2 {
+	border: 2px solid $primary !important;
 }
 
 .plan-item {
@@ -13,18 +65,4 @@
 	overflow-wrap: break-word;
 	margin: auto;
 	background: none !important;
-}
-
-.hidden {
-	background: none !important;
-	border: none !important;
-
-	.plan-header,
-	.plan-price,
-	.plan-price-currency,
-	.plan-item {
-		background: none !important;
-		color: transparent !important;
-		border: none !important;
-	}
 }

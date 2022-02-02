@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<o-steps
-					v-if="!paypal_payment && !_4geeksActive"
+					v-if="!_4geeksActive"
 					v-model="activeStep"
 					class="mt-5"
 					icon-prev="chevron-left"
@@ -96,74 +96,6 @@
 						</form>
 					</o-step-item>
 
-					<o-step-item step="4" label="Pagar">
-						<form class="form mt-3">
-							<article class="card">
-								<div class="card-content media">
-									<div class="media-content">
-										<div class="content">
-											<p>
-												<strong>Paypal</strong>
-											</p>
-										</div>
-									</div>
-									<div class="media-right">
-										<o-field>
-											<o-switch
-												:modelValue="payment_method === 'paypal'"
-												:disabled="payment_method === 'paypal'"
-												variant="primary"
-												@input="payment_method = 'paypal'"
-											></o-switch>
-										</o-field>
-									</div>
-								</div>
-							</article>
-							<article class="card">
-								<div class="card-content media">
-									<div class="media-content">
-										<div class="content">
-											<p>
-												<strong>Coinbase</strong>
-											</p>
-										</div>
-									</div>
-									<div class="media-right">
-										<o-field>
-											<o-switch
-												:modelValue="payment_method === 'coinbase'"
-												:disabled="payment_method === 'coinbase'"
-												variant="primary"
-												@input="payment_method = 'coinbase'"
-											></o-switch>
-										</o-field>
-									</div>
-								</div>
-							</article>
-							<article class="card">
-								<div class="card-content media">
-									<div class="media-content">
-										<div class="content">
-											<p>
-												<strong>4Geeks</strong>
-											</p>
-										</div>
-									</div>
-									<div class="media-right">
-										<o-field>
-											<o-switch
-												:modelValue="payment_method === '4geeks'"
-												:disabled="payment_method === '4geeks'"
-												variant="primary"
-												@input="payment_method = '4geeks'"
-											></o-switch>
-										</o-field>
-									</div>
-								</div>
-							</article>
-						</form>
-					</o-step-item>
-
 					<template #navigation="{ previous, next }">
 						<div class="buttons is-justify-content-center mt-6">
 							<o-button
@@ -192,14 +124,6 @@
 								variant="primary"
 								icon-pack="fas"
 								icon-left="chevron-right"
-								@click.prevent="next.action"
-							/>
-							<o-button
-								v-if="
-									(!previous.disabled && next.disabled && payment_method) ||
-									(store.authenticated && !store.payed && payment_method)
-								"
-								variant="primary"
 								@click="toPay"
 							>
 								Pagar el curso
@@ -207,8 +131,6 @@
 						</div>
 					</template>
 				</o-steps>
-
-				<div id="paypal-button-container" class="mt-6"></div>
 
 				<div v-if="_4geeksActive">
 					<vue-paycard :value-fields="valueCard" :labels="labelscard" />
@@ -254,30 +176,12 @@
 				</div>
 			</div>
 		</div>
-
-		<o-modal v-model:active="isAlertPaymentActive" :width="640" scroll="clip">
-			<div class="modal-card alert">
-				<header class="modal-card-head">
-					<p class="modal-card-title">¿Usted ya ha pagado el curso?</p>
-				</header>
-				<section class="modal-card-body has-text-justified">
-					<p>
-						Si ha utilizado Coinbase es posible que demore un poco hasta que el sistema este actualizado, si
-						este es el caso le recomendamos volver a ingresar más tarde.
-					</p>
-				</section>
-				<footer class="modal-card-foot is-justify-content-flex-end">
-					<o-button @click="isAlertPaymentActive = false">De acuerdo</o-button>
-				</footer>
-			</div>
-		</o-modal>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import { useDataStore, SignupDto, ICourse } from '~/store';
-import { loadScript, PayPalNamespace } from '@paypal/paypal-js';
 import { useRouter } from 'vue-router';
 
 const store = useDataStore();
@@ -286,23 +190,17 @@ const router = useRouter();
 const emit = defineEmits(['loading']);
 
 const activeStep = ref(1);
-const isAlertPaymentActive = ref(false);
 const _4geeksActive = ref(false);
 
 onMounted(() => {
 	if (store.authenticated && !store.payed) {
-		activeStep.value = 4;
-		isAlertPaymentActive.value = true;
+		_4geeksActive.value = true;
 	}
 });
-
-const paypal_payment = ref(false);
 
 const signup = reactive<SignupDto>(new SignupDto());
 
 const course = ref(store.course || '');
-
-const payment_method = ref<'paypal' | 'coinbase' | '4geeks' | ''>('');
 
 const valueCard = reactive({
 	cardName: '',
@@ -330,70 +228,12 @@ store.courses().then(cs => {
 });
 
 const parsePrice = (course: ICourse) => {
-	return '$' + course.price + '/' + { 1: 'Mes', 6: 'Semestre', 12: 'Año' }[course.months];
+	return '$' + course.price + '/90 días';
 };
 
 const updateCardNumber = (e: any) => {
 	valueCard.cardNumber = e.target.value.replace(/ /g, '');
 	valueCard.cardNumber = (valueCard.cardNumber.match(/.{1,4}/g) || ['']).join(' ');
-};
-
-const paypal = () => {
-	emit('loading');
-	loadScript({ 'client-id': store.config.PayPal.client_id || '' })
-		.then((paypal: PayPalNamespace | null) => {
-			if (paypal && paypal.Buttons) {
-				paypal_payment.value = true;
-				paypal
-					.Buttons({
-						createOrder: (_, actions) => {
-							_;
-							return actions.order.create({
-								purchase_units: [
-									{
-										amount: {
-											value: (
-												(courses.value.find(c => c.id === course.value)?.price || 1) * 0.75
-											).toString(),
-										},
-									},
-								],
-							});
-						},
-						onApprove: async (data, _) => {
-							_;
-							await store.post_paypal(data.orderID).then(async () => {
-								await store.status().then(async v => {
-									store.payed = v.payed;
-									router.push('/');
-								});
-							});
-						},
-					})
-					.render('#paypal-button-container');
-			} else {
-				store.notification('e000', 'danger');
-				router.push('/');
-			}
-		})
-		.catch(() => {
-			store.notification('e000', 'danger');
-			router.push('/');
-		});
-};
-
-const coinbase = () => {
-	emit('loading');
-	store
-		.get_coinbase()
-		.then(url => {
-			if (url) {
-				window.open(url, '_blank');
-			}
-		})
-		.finally(() => {
-			emit('loading');
-		});
 };
 
 const _4geeks = () => {
@@ -426,14 +266,8 @@ const _4geeks = () => {
 const toPay = () => {
 	emit('loading');
 	if (store.authenticated && !store.payed) {
-		if (payment_method.value === 'paypal') {
-			paypal();
-		} else if (payment_method.value === 'coinbase') {
-			coinbase();
-		} else if (payment_method.value === '4geeks') {
-			emit('loading');
-			_4geeksActive.value = true;
-		}
+		emit('loading');
+		_4geeksActive.value = true;
 	} else {
 		store
 			.signup(signup)
@@ -442,15 +276,7 @@ const toPay = () => {
 				if (!error) {
 					store.subscribeCourse(course.value).then(error => {
 						if (!error) {
-							emit('loading');
-							if (payment_method.value === 'paypal') {
-								paypal();
-							} else if (payment_method.value === 'coinbase') {
-								coinbase();
-							} else if (payment_method.value === '4geeks') {
-								emit('loading');
-								_4geeksActive.value = true;
-							}
+							_4geeksActive.value = true;
 						}
 					});
 				}

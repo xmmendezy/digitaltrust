@@ -121,7 +121,7 @@ store.notices().then(ns => {
 
 const parsePrice = (course?: ISubscribeCourse) => {
 	if (course) {
-		return '$' + course.price + '/' + { 1: 'Mes', 6: 'Semestre', 12: 'Año' }[course.months];
+		return '$' + course.price + '/90 días';
 	} else {
 		return '---';
 	}

@@ -11,6 +11,7 @@ $selected: #5cfdea2c;
 $box: #2cd8c480;
 $box-hover: rgba(0, 0, 0, 0.05);
 $background: #232928;
+$background-2: #385a54;
 
 $primary: #16665d;
 $primary-invert: findColorInvert($primary);
@@ -209,9 +210,22 @@ body {
 	background: $background !important;
 }
 
+.background-2 {
+	color: $black !important;
+	background: $background-2 !important;
+}
+
+.reverse-mobile {
+	@include mobile {
+		flex-direction: column-reverse;
+		display: flex;
+	}
+}
+
 .hero-body {
 	&.secundary {
 		padding-top: 0 !important;
+		padding-bottom: 0 !important;
 
 		.container {
 			margin-top: 8rem;

@@ -11,7 +11,9 @@
 		margin: auto;
 
 		p {
-			margin-top: 2rem;
+			@include tablet {
+				margin-top: 2rem;
+			}
 		}
 	}
 
@@ -35,8 +37,7 @@
 	}
 
 	.btn-send {
-		margin: auto;
-		margin-top: 1rem;
+		margin: 1rem auto !important;
 		background-color: $main-dark-two;
 	}
 }

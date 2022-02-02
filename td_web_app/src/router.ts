@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { setupLayouts } from 'virtual:generated-layouts';
 import routes from 'virtual:generated-pages';
 import { useDataStore, UserRole } from './store';
+import { DateTime } from 'luxon';
 
 const router = createRouter({
 	routes: setupLayouts(routes),
@@ -26,6 +27,7 @@ router.beforeEach(async (to, from, next) => {
 					store.payed = v.payed;
 				});
 			}
+			console.log('Hola');
 			if (store.payed) {
 				if (to.meta.isFree || to.meta.isAdmin) {
 					next('/');
@@ -33,11 +35,18 @@ router.beforeEach(async (to, from, next) => {
 					next();
 				}
 			} else {
-				if (to.path === '/signup') {
-					next();
-				} else {
-					next('/signup');
-				}
+				await store.myCourse().then(c => {
+					if (to.path === '/signup') {
+						next();
+					} else {
+						console.log(DateTime.now().minus({ days: 5 }).toMillis() > c.nextPayment);
+						if (DateTime.now().minus({ days: 5 }).toMillis() > c.nextPayment) {
+							next('/signup');
+						} else {
+							next();
+						}
+					}
+				});
 			}
 		}
 	} else {

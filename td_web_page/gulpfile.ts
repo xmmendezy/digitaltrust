@@ -380,7 +380,7 @@ task('images-dev', () => {
 });
 
 task('videos', () => {
-	return src([src_assets_folder + 'images/**/*.+(mp4)'], { since: lastRun('videos') })
+	return src([src_assets_folder + 'images/**/*.+(mp4|webm)'], { since: lastRun('videos') })
 		.pipe(dest(dist_assets_folder + 'images'))
 		.pipe(browserSync.stream());
 });
@@ -431,7 +431,7 @@ task('watch', () => {
 		'change',
 		browserSync.reload,
 	);
-	watch(src_assets_folder + 'images/**/*.+(mp4)', series('videos')).on(
+	watch(src_assets_folder + 'images/**/*.+(mp4|webm)', series('videos')).on(
 		'change',
 		browserSync.reload,
 	);

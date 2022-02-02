@@ -1,87 +1,113 @@
+<script>
+	AOS.init({
+		duration: 1200,
+	});
+</script>
+
 <section class='hero'>
 	<div class='hero-body'>
 		<div class='container secundary'>
-			<h1 class="title-underline">Curso de Educación Forex.</h1>
-			<p class="has-text-left">
-				Inicie el primer paso para ser un full time TRADER
-			</p>
-			<p class="has-text-left mt-5">
-				El trading es una habilidad que cualquiera puede desarrollar con la dedicación y el estudio adecuado, en
-				TradingDigital.net enseñamos una estrategia puntual para que logres obtener toda la información de
-				manera más rápida y precisa para un excelente resultado que llevara su inversión a otro nivel con el
-				trading.
-			</p>
-
-			<p class="has-text-left mt-5">
-				Revisa todo lo que vas a aprender con nosotros en:
-			</p>
-			{{#page 'learn' '@navbar.url.a3' '' 'button is-white has-text-primary is-size-5 mt-5'}}{{/page}}
-			<div class="pricing-table" data-aos="slide-right">
-				<div class="pricing-plan is-primary">
+			<p class="title has-text-secundary mt-0">Curso de Educación Forex.</p>
+			<a class="button is-primary is-outlined btn-send" href="#why">¿Qué curso es el más adecuado
+				para mi?</a>
+			<div class="pricing-table" data-aos="zoom-in">
+				<div class="pricing-plan price-1">
 					<div class="plan-header">Curso Básico</div>
 					<div class="plan-price"><span class="plan-price-amount">
-							<span class="plan-price-currency">$</span>230</span>/Trimestre</div>
+							<span class="plan-price-currency">$</span>352</span></div>
 					<div class="plan-items">
 						<div class="plan-item">Ebook - La biblia de las candelas</div>
+						<div class="plan-item">90 días de acceso</div>
 						<div class="plan-item">Grupo privado de Facebook</div>
 						<div class="plan-item">Comunidad de Telegram</div>
 						<div class="plan-item">Análisis del mercado diario</div>
+						<div class="plan-item">Acceso a blog privado</div>
 						<div class="plan-item">1 señal semanal</div>
 						<div class="plan-item">1 hora de clase virtuales por 3 días a la semana</div>
-						<div class="plan-item">-</div>
-						<div class="plan-item">-</div>
-						<div class="plan-item">-</div>
+						<div class="plan-item">Soporte 24/7</div>
 					</div>
 					<div class="plan-footer">
-						<a class="button is-fullwidth has-text-white" href="/td_app/signup">Suscribirse</a>
+						<a class="button is-fullwidth has-text-primary" href="/td_app/signup">Suscribirse</a>
 					</div>
 				</div>
 
-				<div class="pricing-plan is-primary">
-					<div class="plan-header">Curso Intermedio</div>
-					<div class="plan-price"><span class="plan-price-amount">
-							<span class="plan-price-currency">$</span>469</span>/Semestre</div>
-					<div class="plan-items">
-						<div class="plan-item">2 Ebooks - La biblia de las candelas | La acción del precio</div>
-						<div class="plan-item">Comunidad de Telegram</div>
-						<div class="plan-item">Infografías educativas</div>
-						<div class="plan-item">Comunidad de Facebook</div>
-						<div class="plan-item">Acceso a blog privado</div>
-						<div class="plan-item">1 hora de clases virtuales diarias</div>
-						<div class="plan-item">Compartiremos operaciones dentro de nuestra comunidad de alumnos.</div>
-						<div class="plan-item">-</div>
-						<div class="plan-item">-</div>
-					</div>
-					<div class="plan-footer">
-						<a class="button is-fullwidth has-text-white" href="/td_app/signup">Suscribirse</a>
-					</div>
-				</div>
-
-				<div class="pricing-plan is-primary">
+				<div class="pricing-plan is-primary price-2">
 					<div class="plan-header">Curso Avanzado</div>
 					<div class="plan-price"><span class="plan-price-amount">
-							<span class="plan-price-currency">$</span>927</span>/Año</div>
+							<span class="plan-price-currency">$</span>617</span></div>
 					<div class="plan-items">
-						<div class="plan-item">Ebooks - La biblia de las candelas | La acción del precio, y muchos más</div>
+						<div class="plan-item">2 Ebooks - La biblia de las candelas | La acción del precio</div>
+						<div class="plan-item">90 días de acceso</div>
 						<div class="plan-item">Comunidad de Telegram</div>
 						<div class="plan-item">Infografías educativas</div>
 						<div class="plan-item">Comunidad de Facebook</div>
-						<div class="plan-item">1 hora de clases virtuales diarias</div>
-						<div class="plan-item">Compartiremos operaciones dentro de nuestra comunidad de alumnos.</div>
 						<div class="plan-item">Acceso a blog privado</div>
-						<div class="plan-item">1 hora de clases presenciales 2 días a la semana (solo Costa Rica)</div>
-						<div class="plan-item">Certificado del Curso.</div>
+						<div class="plan-item">1 hora de clases virtuales por 5 días a la semana</div>
+						<div class="plan-item">Compartiremos todas nuestras operaciones dentro de nuestra comunidad de
+							estudiantes para que puedan generar dinero en sus cuentas mientras aprenden.</div>
+						<div class="plan-item">Soporte 24/7</div>
 					</div>
 					<div class="plan-footer">
 						<a class="button is-fullwidth has-text-white" href="/td_app/signup">Suscribirse</a>
 					</div>
 				</div>
 			</div>
-			<script>
-				AOS.init({
-					duration: 1200,
-				});
-			</script>
+		</div>
+	</div>
+</section>
+
+{{> telegram }}
+
+<section id="why" class='hero'>
+	<div class='hero-body'>
+		<div class='container secundary'>
+			<div class="columns reverse-mobile">
+				<div class="column is-6 index-text-main" data-aos="zoom-in">
+					<p class="subtitle has-text-primary is-uppercase has-text-weight-bold">¿Qué curso es el más adecuado
+						para mi?</p>
+					<p class="has-text-secundary has-text-justified">
+						Si quieres aprender Forex desde cero.
+						El curso más recomendado es el Básico, donde aprenderás todas las bases de forex y a cómo poder
+						aperturar una cuenta en los brokers recomendados donde también recibirás nuestro primer libro
+						digital La Biblia de las Candela, más clases en vivo 3 días a la semana con duración de 1 hora
+						en la apertura de los mercados de la sesión de New York, repasando así, cada uno de los temas
+						del libro digital que estaremos estudiando paso a paso. Adicional para que puedas conocer cómo
+						opera nuestro trader profesional durante la sesión en vivo compartiendo entradas de sus
+						operaciones donde ustedes podrán ver sus análisis con transparencia, generando así excelentes
+						resultados. Recordemos que los mercados siempre son variables y no siempre utilizamos la misma
+						estrategia para poder operar.
+					</p>
+				</div>
+				<div class="column">
+					{{#image_src 'courses_1.jpg' '' '' 'zoom-in'}}{{/image_src}}
+				</div>
+			</div>
+
+			<div class="columns">
+				<div class="column">
+					{{#image_src 'courses_2.jpg' '' '' 'zoom-in'}}{{/image_src}}
+				</div>
+				<div class="column is-6 index-text-main" data-aos="zoom-in">
+					<p class="subtitle has-text-primary is-uppercase has-text-weight-bold">Si quieres aprender Conceptos
+						Básicos de Análisis Técnico y Análisis Fundamental.</p>
+					<p class="has-text-secundary has-text-justified">
+						Si quieres complementar el conocimiento ya adquirido en el curso básico o que ya has obtenido
+						con anterioridad complementando con clases de análisis fundamental y análisis técnico
+						recomendamos el curso de Nivel Avanzado. Donde vas a recibir todos nuestros libros digitales que
+						nuestro profesor Eric Villanueva ha adquirido con el tiempo de todos sus seis años de
+						experiencia entre ellos podemos mencionar 1. La biblia de las candelas, 2. La acción del precio,
+						3. Los secretos para controlar las emociones del trading. Entre muchos más.
+
+						También vas a recibir clases 5 días a la semana en vivo durante las sesiones del mercado de New
+						York de Lunes a Viernes, explicando a detalle sus análisis personales y cada uno de los temas
+						que usted estará estudiando en los libros digitales, repasando cada una de los temas para que
+						los pueda practicar junto con el profesor y así poder evacuar cada pregunta o consulta que tenga
+						durantes las sesiones.
+					</p>
+				</div>
+			</div>
+
+			<a class="button is-primary is-outlined btn-send" href="/learn">{{navbar.url.a3}}</a>
 		</div>
 	</div>
 </section>

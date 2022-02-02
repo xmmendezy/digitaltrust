@@ -10,6 +10,7 @@
 		width: 90vw;
 		height: 80vh;
 		overflow-y: hidden;
+		border: 0.5px solid $gray;
 
 		@include mobile {
 			width: 100vw;

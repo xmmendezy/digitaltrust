@@ -41,7 +41,10 @@
 						bajo la guía de un profesional que te explique cómo funciona el Mercado, las trampas que debes
 						evitar y más importante como evitar que el mercado se vaya en tu contra.
 					</p>
-					<a class="button is-primary is-outlined btn-send" href="/courses">¡Aprender ahora!</a>
+					<div class="buttons">
+						<a class="button is-primary is-outlined btn-send" href="/courses">¡Aprender ahora!</a>
+						<a class="button is-primary is-outlined btn-send" href="/about">{{ navbar.url.a1 }}</a>
+					</div>
 				</div>
 				<div class="column">
 					{{#image_src 'index_learn.jpeg' 'index-learn' '' 'zoom-out'}}{{/image_src}}
@@ -51,6 +54,8 @@
 	</div>
 </section>
 
+{{> telegram }}
+
 <section class='hero index-main'>
 	<div class='hero-body'>
 		<div class='container secundary'>
@@ -59,95 +64,102 @@
 			</p>
 			<div id="carousel" class="slider pt-4">
 				<div class="item-1">
-					<div class="card">
-						<div class="card-image">
-							<figure class="image is-16by9 is-covered">
-								{{#image_src 'sl_1.jpeg' '' '' ''}}{{/image_src}}
-							</figure>
-						</div>
-						<div class="card-content">
-							<div class="item__title">
-								<a class="has-text-secundary" href="https://www.forexfactory.com"
-									target="_blank">ForexFactory</a>
+					<a class="has-text-secundary" href="https://www.forexfactory.com" target="_blank">
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-16by9 is-covered">
+									{{#image_src 'sl_1.jpeg' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="item__title">
+									ForexFactory
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 				<div class="item-2">
-					<div class="card">
-						<div class="card-image">
-							<figure class="image is-16by9 is-covered">
-								{{#image_src 'sl_2.png' '' '' ''}}{{/image_src}}
-							</figure>
-						</div>
-						<div class="card-content">
-							<div class="item__title">
-								<a class="has-text-secundary" href="https://www.myfxbook.com"
-									target="_blank">myfxbook</a>
+					<a class="has-text-secundary" href="https://www.myfxbook.com" target="_blank">
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-16by9 is-covered">
+									{{#image_src 'sl_2.png' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="item__title">
+									myfxbook
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 				<div class="item-3">
-					<div class="card">
-						<div class="card-image">
-							<figure class="image is-16by9 is-covered">
-								{{#image_src 'sl_3.png' '' '' ''}}{{/image_src}}
-							</figure>
-						</div>
-						<div class="card-content">
-							<div class="item__title">
-								<a class="has-text-secundary" href="https://es.tradingview.com"
-									target="_blank">TradingView</a>
+					<a class="has-text-secundary" href="https://es.tradingview.com" target="_blank">
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-16by9 is-covered">
+									{{#image_src 'sl_3.png' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="item__title">
+									TradingView
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 				<div class="item-4">
-					<div class="card">
-						<div class="card-image">
-							<figure class="image is-16by9 is-covered">
-								{{#image_src 'sl_4.jpeg' '' '' ''}}{{/image_src}}
-							</figure>
-						</div>
-						<div class="card-content">
-							<div class="item__title">
-								<a class="has-text-secundary" href="https://www.investing.com/economic-calendar/"
-									target="_blank">Investing.com</a>
+					<a class="has-text-secundary" href="https://www.investing.com/economic-calendar/" target="_blank">
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-16by9 is-covered">
+									{{#image_src 'sl_4.jpeg' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="item__title">
+									Investing.com
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 				<div class="item-5">
-					<div class="card">
-						<div class="card-image">
-							<figure class="image is-16by9 is-covered">
-								{{#image_src 'sl_5.jpeg' '' '' ''}}{{/image_src}}
-							</figure>
-						</div>
-						<div class="card-content">
-							<div class="item__title">
-								<a class="has-text-secundary" href="https://fbs.com" target="_blank">FBS - Online
+					<a class="has-text-secundary" href="https://fbs.com" target="_blank">
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-16by9 is-covered">
+									{{#image_src 'sl_5.jpeg' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="item__title">
+									FBS - Online
 									Forex
-									Broker</a>
+									Broker
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 				<div class="item-6">
-					<div class="card">
-						<div class="card-image">
-							<figure class="image is-16by9 is-covered">
-								{{#image_src 'sl_6.png' '' '' ''}}{{/image_src}}
-							</figure>
-						</div>
-						<div class="card-content">
-							<div class="item__title">
-								<a class="has-text-secundary" href="https://www.icmarkets.com/global/en/"
-									target="_blank">ICMarkets</a>
+					<a class="has-text-secundary" href="https://www.icmarkets.com/global/en/" target="_blank">
+						<div class="card">
+							<div class="card-image">
+								<figure class="image is-16by9 is-covered">
+									{{#image_src 'sl_6.png' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="card-content">
+								<div class="item__title">
+									ICMarkets
+								</div>
 							</div>
 						</div>
-					</div>
+					</a>
 				</div>
 			</div>
 		</div>
