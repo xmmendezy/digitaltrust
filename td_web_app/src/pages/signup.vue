@@ -242,7 +242,7 @@ const _4geeks = () => {
 	if (c) {
 		store
 			.post_4geeks({
-				amount: c.price * 0.75,
+				amount: c.price,
 				description: 'TradingDigital - ' + c.name,
 				entity_description: 'TradingDigital - ' + c.name,
 				currency: 'usd',
