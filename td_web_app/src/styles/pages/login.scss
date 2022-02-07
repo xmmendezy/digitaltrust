@@ -1,4 +1,6 @@
 .login {
+	width: 100vw;
+
 	.logo {
 		width: 60%;
 
@@ -8,10 +10,11 @@
 	}
 
 	.card-main {
-		width: 40vw;
+		width: 30vw;
 		height: 65vh;
 		overflow-y: auto;
 		margin: auto;
+		background: unset;
 
 		@include mobile {
 			width: 100vw;
@@ -25,15 +28,23 @@
 		}
 
 		.card-content {
+			margin-top: 3rem;
+			background: white;
+
 			@include mobile {
 				overflow-y: auto;
 				height: 95vh;
 			}
 
 			.form {
-				width: 60%;
-				margin: auto;
+				width: 100%;
+				margin: 0;
 				padding-top: 2rem;
+
+				.field {
+					margin-right: auto;
+					margin-left: auto;
+				}
 			}
 		}
 	}

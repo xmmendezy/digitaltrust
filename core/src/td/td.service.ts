@@ -38,8 +38,7 @@ export class TDService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	public async suscribe_mail(email: string): Promise<Error> {
-		const re =
-			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
 			const suscibe = await SubscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
@@ -625,6 +624,35 @@ export class TDService {
 		if (user.role === UserRole.ADMIN) {
 			message_data.own = false;
 			message_data.user = await User.createQueryBuilder('user').where('user.id = :id', { id: data.id }).getOne();
+			await this.mailerService
+				.sendMail({
+					to: user.email,
+					subject: 'TradingDigital - Nuevo mensaje del profesor',
+					html: handlebars.compile(
+						readFileSync(join(__dirname, '..', 'mails', 'td_new_message.hbs'), 'utf8'),
+					)({}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		} else {
+			await this.mailerService
+				.sendMail({
+					to: config.td.email_notification,
+					subject: 'TradingDigital - Nuevo mensaje de ' + user.name,
+					html: handlebars.compile(
+						readFileSync(join(__dirname, '..', 'mails', 'td_new_message.hbs'), 'utf8'),
+					)({}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
 		}
 		const message = new Message(message_data);
 		await message.save();

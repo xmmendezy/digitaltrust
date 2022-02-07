@@ -1,48 +1,34 @@
 <template>
 	<div class="login has-text-centered">
-		<div class="columns">
-			<div class="column">
-				<div class="card card-main">
-					<div class="card-content">
-						<div class="is-flex is-justify-content-center">
-							<div class="logo">
-								<img class="is-justify-content-center" alt="TradingDigital" src="../assets/logo.png" />
-								<p class="is-size-3 has-text-weight-bold is-justify-content-center">TradingDigital</p>
-							</div>
-						</div>
-						<form class="form">
-							<o-field label="Usuario">
-								<o-input v-model="login.username" maxlength="30" @keyup.enter="toLogin"></o-input>
-							</o-field>
-
-							<o-field label="Contraseña">
-								<o-input
-									v-model="login.password"
-									type="password"
-									password-reveal
-									@keyup.enter="toLogin"
-								>
-								</o-input>
-							</o-field>
-							<o-field>
-								<o-button variant="white" @click="isModalForgotPassword = !isModalForgotPassword">
-									He olvidado mi contraseña
-								</o-button>
-							</o-field>
-							<div class="pt-5 pb-5 is-justify-content-center">
-								<o-button variant="primary" rounded @click="toLogin">Ingresar</o-button>
-							</div>
-							<o-field>
-								<o-button variant="white" tag="router-link" to="/signup">
-									¿Aún no tienes cuenta?
-								</o-button>
-							</o-field>
-						</form>
+		<div class="card card-main">
+			<div class="card-content">
+				<div class="is-flex is-justify-content-center">
+					<div class="logo">
+						<img class="is-justify-content-center" alt="TradingDigital" src="../assets/logo.png" />
+						<p class="is-size-3 has-text-weight-bold is-justify-content-center">TradingDigital</p>
 					</div>
 				</div>
-			</div>
-			<div class="column is-hidden-mobile">
-				<img class="is-justify-content-center" alt="TradingDigital" src="../assets/login.png" />
+				<form class="form">
+					<o-field label="Usuario">
+						<o-input v-model="login.username" maxlength="30" @keyup.enter="toLogin"></o-input>
+					</o-field>
+
+					<o-field label="Contraseña">
+						<o-input v-model="login.password" type="password" password-reveal @keyup.enter="toLogin">
+						</o-input>
+					</o-field>
+					<o-field>
+						<o-button variant="white" @click="isModalForgotPassword = !isModalForgotPassword">
+							He olvidado mi contraseña
+						</o-button>
+					</o-field>
+					<div class="pt-5 pb-5 is-justify-content-center">
+						<o-button variant="primary" rounded @click="toLogin">Ingresar</o-button>
+					</div>
+					<o-field>
+						<o-button variant="white" tag="router-link" to="/signup"> ¿Aún no tienes cuenta? </o-button>
+					</o-field>
+				</form>
 			</div>
 		</div>
 
@@ -119,6 +105,12 @@ const resetPassword = () => {
 		});
 };
 </script>
+
+<style lang="scss">
+.login {
+	background: url('../assets/login.jpg') no-repeat center;
+}
+</style>
 
 <route>
 {
