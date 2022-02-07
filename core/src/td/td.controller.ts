@@ -212,4 +212,19 @@ export class TDController {
 			return { error: 'login.error.u1' };
 		}
 	}
+
+	@Get('message')
+	public async get_messages(@Req() req: Request) {
+		return await this.tdService.get_messages(req.user.id);
+	}
+
+	@Get('message/:id')
+	public async get_messages_user(@Req() req: Request, @Param('id') id: string) {
+		return await this.tdService.get_messages(id);
+	}
+
+	@Post('message')
+	public async message(@Req() req: Request, @Body() data: { id?: string; content: string }) {
+		return await this.tdService.message(req.user, data);
+	}
 }

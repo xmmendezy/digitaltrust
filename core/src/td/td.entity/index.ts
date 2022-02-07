@@ -7,3 +7,4 @@ export * from './country.entity';
 export * from './suscribe.entity';
 export * from './notice.entity';
 export * from './blog.entity';
+export * from './message.entity';

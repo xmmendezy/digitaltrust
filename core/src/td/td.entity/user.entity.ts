@@ -6,6 +6,7 @@ import { IUser, UserRole, UserStatus } from '../td.interface';
 import { Country } from './country.entity';
 import { Course } from './course.entity';
 import { Invoice } from './invoice.entity';
+import { Message } from './message.entity';
 import { TimeZone } from './time_zone.entity';
 import { HLogin, HQuery } from './history.entity';
 import { DateTime } from 'luxon';
@@ -121,8 +122,11 @@ export class User extends BaseEntityTD implements IUser {
 	@ManyToOne(() => Course, (course) => course.users)
 	public course: Course;
 
-	@OneToMany(() => Invoice, (invoices) => invoices.user)
+	@OneToMany(() => Invoice, (invoice) => invoice.user)
 	public invoices: Invoice[];
+
+	@OneToMany(() => Message, (message) => message.user)
+	public messages: Message[];
 
 	@Column({
 		default: '',
