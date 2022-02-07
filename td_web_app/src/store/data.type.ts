@@ -389,6 +389,14 @@ export interface IBlog {
 	created: number;
 }
 
+export interface IMessage {
+	id: string;
+	name: string;
+	own: boolean;
+	content: string;
+	created: number;
+}
+
 export interface I4GeeksCharge {
 	amount: number;
 	description: string;

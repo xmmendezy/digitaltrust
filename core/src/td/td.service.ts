@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
+import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog, Message } from './td.entity';
+import { IMessage } from './td.interface';
 import {
 	SignupDto,
 	UserDto,
@@ -191,7 +192,13 @@ export class TDService {
 		) {
 			return { payed: false };
 		} else {
-			return { payed: true };
+			if (user.DateTime.now().toSeconds() >= user.nextPayment) {
+				const invoice = new Invoice({ user, course: user.course });
+				await invoice.save();
+				return { payed: false };
+			} else {
+				return { payed: true };
+			}
 		}
 	}
 
@@ -453,6 +460,8 @@ export class TDService {
 	public async clients(): Promise<IClient[]> {
 		const clients: IClient[] = [];
 		for (const user of await User.createQueryBuilder('user')
+			.leftJoinAndSelect('user.country', 'country')
+			.leftJoinAndSelect('country.time_zones', 'time_zones')
 			.leftJoinAndSelect('user.course', 'course')
 			.where('user.role = :role', { role: 'user' })
 			.getMany()) {
@@ -462,12 +471,7 @@ export class TDService {
 				email: user.email,
 				course: user.course.name,
 				created: user.created,
-				payed: !(await Invoice.createQueryBuilder('invoice')
-					.leftJoinAndSelect('invoice.user', 'user')
-					.leftJoinAndSelect('invoice.course', 'course')
-					.where('user.id = :id', { id: user.id })
-					.andWhere('invoice.payed = FALSE')
-					.getCount()),
+				payed: (await this.status(user)).payed,
 			});
 		}
 		return clients;
@@ -597,6 +601,33 @@ export class TDService {
 	public async delete_blog(id: string) {
 		const blog = await Blog.findOne(id);
 		await blog.remove();
+		return { error: '' };
+	}
+
+	public async get_messages(user: string) {
+		return (
+			await Message.createQueryBuilder('message')
+				.leftJoinAndSelect('message.user', 'user')
+				.where('user.id = :id', { id: user })
+				.orderBy('message.created', 'ASC')
+				.getMany()
+		).map((m) => ({
+			id: m.id,
+			own: m.own,
+			content: m.content,
+			created: m.created,
+			name: m.user.name,
+		}));
+	}
+
+	public async message(user: User, data: { id?: string; content: string }) {
+		const message_data: IMessage = { content: data.content, user, own: true };
+		if (user.role === UserRole.ADMIN) {
+			message_data.own = false;
+			message_data.user = await User.createQueryBuilder('user').where('user.id = :id', { id: data.id }).getOne();
+		}
+		const message = new Message(message_data);
+		await message.save();
 		return { error: '' };
 	}
 }

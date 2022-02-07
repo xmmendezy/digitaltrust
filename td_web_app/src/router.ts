@@ -27,7 +27,6 @@ router.beforeEach(async (to, from, next) => {
 					store.payed = v.payed;
 				});
 			}
-			console.log('Hola');
 			if (store.payed) {
 				if (to.meta.isFree || to.meta.isAdmin) {
 					next('/');
@@ -39,8 +38,7 @@ router.beforeEach(async (to, from, next) => {
 					if (to.path === '/signup') {
 						next();
 					} else {
-						console.log(DateTime.now().minus({ days: 5 }).toMillis() > c.nextPayment);
-						if (DateTime.now().minus({ days: 5 }).toMillis() > c.nextPayment) {
+						if (DateTime.now().minus({ days: 5 }).toSeconds() > c.nextPayment) {
 							next('/signup');
 						} else {
 							next();

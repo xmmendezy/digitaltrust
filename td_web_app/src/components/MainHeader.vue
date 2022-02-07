@@ -8,6 +8,9 @@
 				<router-link to="/blog">Blog</router-link>
 			</li>
 			<li>
+				<router-link to="/message">Mensajes</router-link>
+			</li>
+			<li>
 				<router-link to="/setting">Configuración</router-link>
 			</li>
 			<li>

@@ -171,8 +171,20 @@
 								></o-input>
 							</o-field>
 						</div>
-						<o-button variant="primary" @click="_4geeks"> Pagar </o-button>
+						<div class="buttons is-centered mb-0">
+							<o-button variant="primary" @click="_4geeks"> Pagar </o-button>
+						</div>
+						<div class="buttons is-centered mt-0">
+							<o-button variant="white" @click="exit"> Salir </o-button>
+						</div>
 					</form>
+					<p class="mt-5">
+						<fas-exclamation-circle class="icon has-text-danger" style="vertical-align: text-bottom" />
+						<span
+							>Si tienes problemas con el pago, ¡contactanos por
+							<a href="https://t.me/soportealclientetrading" target="_blank">telegram</a>!</span
+						>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -236,9 +248,31 @@ const updateCardNumber = (e: any) => {
 	valueCard.cardNumber = (valueCard.cardNumber.match(/.{1,4}/g) || ['']).join(' ');
 };
 
-const _4geeks = () => {
-	emit('loading');
+const register = async () => {
+	await store
+		.signup(signup)
+		.then(error => {
+			emit('loading');
+			if (!error) {
+				store.subscribeCourse(course.value).then(error => {});
+			}
+		})
+		.catch(() => {
+			emit('loading');
+		});
+};
+
+const _4geeks = async () => {
 	const c = courses.value.find(c => c.id === course.value);
+	if (!store.authenticated) {
+		if (!signup.validate().length) {
+			emit('loading');
+			await register();
+		} else {
+			router.push('/login');
+		}
+	}
+	emit('loading');
 	if (c) {
 		store
 			.post_4geeks({
@@ -264,26 +298,14 @@ const _4geeks = () => {
 };
 
 const toPay = () => {
-	emit('loading');
-	if (store.authenticated && !store.payed) {
-		emit('loading');
-		_4geeksActive.value = true;
+	_4geeksActive.value = true;
+};
+
+const exit = () => {
+	if (store.authenticated) {
+		store.logout();
 	} else {
-		store
-			.signup(signup)
-			.then(error => {
-				emit('loading');
-				if (!error) {
-					store.subscribeCourse(course.value).then(error => {
-						if (!error) {
-							_4geeksActive.value = true;
-						}
-					});
-				}
-			})
-			.catch(() => {
-				emit('loading');
-			});
+		router.push('/login');
 	}
 };
 </script>

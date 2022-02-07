@@ -9,6 +9,7 @@ import {
 	INotice,
 	BlogDto,
 	IBlog,
+	IMessage,
 	IToken,
 	ICourse,
 	ISubscribeCourse,
@@ -266,6 +267,13 @@ export const useDataStore = defineStore('data', {
 		},
 		async delete_blog(id: string) {
 			const res = await this.http('blog', true).delete<Response>(id);
+			return res.error;
+		},
+		async messages(id: string = '') {
+			return await this.http('message', true).get<IMessage[]>(id);
+		},
+		async message(message: { id?: string; content: string }) {
+			const res = await this.http('message', true).post<Response>('', message);
 			return res.error;
 		},
 	},

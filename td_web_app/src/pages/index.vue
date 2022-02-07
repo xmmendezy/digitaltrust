@@ -11,12 +11,11 @@
 									<br />
 									<small>{{ parsePrice(store.course_data) }}</small>
 									<br />
-									<small
-										>Próximo pago:
-										{{
-											store?.course_data ? parseDate(store.course_data.nextPayment) : '---'
-										}}</small
-									>
+									<small>
+										Próximo pago:
+										{{ store?.course_data ? parseDate(store.course_data.nextPayment) : '---' }}
+										<a v-if="toPay" href="/td_app/signup" target="_blank">¡Pagar ahora!</a>
+									</small>
 								</p>
 							</div>
 						</div>
@@ -49,15 +48,11 @@
 						</li>
 						<li>
 							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://www.forexfactory.com" target="_blank">
-								Forexfactory
-							</a>
+							<a href="https://www.forexfactory.com" target="_blank"> Forexfactory </a>
 						</li>
 						<li>
 							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://www.dailyfx.com/sentiment" target="_blank">
-								Dailyfx
-							</a>
+							<a href="https://www.dailyfx.com/sentiment" target="_blank"> Dailyfx </a>
 						</li>
 						<li>
 							<span class="fa-li"><i class="fas fa-star"></i></span>
@@ -105,7 +100,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useDataStore, ISubscribeCourse, INotice } from '~/store';
-import { fromUnixTime, format } from 'date-fns';
+import { fromUnixTime, format, getUnixTime } from 'date-fns';
 
 const store = useDataStore();
 
@@ -113,11 +108,18 @@ const emit = defineEmits(['loading']);
 
 const notices = ref<Array<INotice>>([]);
 
+const toPay = ref(false);
+
 emit('loading');
-store.notices().then(ns => {
-	notices.value = ns;
-	emit('loading');
-});
+store
+	.notices()
+	.then(ns => {
+		notices.value = ns;
+		toPay.value = store.course_data ? getUnixTime(new Date()) > store.course_data.nextPayment : false;
+	})
+	.finally(() => {
+		emit('loading');
+	});
 
 const parsePrice = (course?: ISubscribeCourse) => {
 	if (course) {

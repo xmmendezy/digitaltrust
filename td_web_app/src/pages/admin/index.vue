@@ -23,6 +23,10 @@
 						<fas-check v-if="props.row.payed" class="has-text-success" />
 						<fas-times v-else />
 					</o-table-column>
+
+					<o-table-column field="message" label="Mensajes" width="300" position="centered" v-slot="props">
+						<router-link :to="'/admin/message/' + props.row.id"><fas-envelope-open-text /></router-link>
+					</o-table-column>
 				</o-table>
 			</o-tab-item>
 			<o-tab-item value="1" label="Subscritos a la lista de mails">
