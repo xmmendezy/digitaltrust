@@ -19,7 +19,7 @@
 					</article>
 				</div>
 				<div class="column-content main">
-					<article v-if="blog" class="blog-main">
+					<article v-if="blog" class="blog-main content">
 						<nav class="level is-mobile">
 							<div class="level-left">
 								<p class="has-text-left">
@@ -30,7 +30,9 @@
 								{{ parseDate(blog.created) }}
 							</div>
 						</nav>
-						<div class="blog-description ql-editor" v-html="blog.content"></div>
+						<div class="ql-container">
+							<div class="blog-description ql-editor" v-html="blog.content"></div>
+						</div>
 					</article>
 				</div>
 			</div>

@@ -5,7 +5,11 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AdminHeader: typeof import('./src/components/AdminHeader.vue')['default']
+    FasCheck: typeof import('~icons/fa-solid/check')['default']
+    FasEnvelopeOpenText: typeof import('~icons/fa-solid/envelope-open-text')['default']
     FasExclamationCircle: typeof import('~icons/fa-solid/exclamation-circle')['default']
+    FasPlus: typeof import('~icons/fa-solid/plus')['default']
+    FasTimes: typeof import('~icons/fa-solid/times')['default']
     MainHeader: typeof import('./src/components/MainHeader.vue')['default']
     VuePaycard: typeof import('./src/components/VuePaycard.vue')['default']
   }

@@ -23,16 +23,24 @@
 	}
 
 	.slider-container {
+		transition: all 14000ms !important;
+
 		@include mobile {
 			width: 90vw !important;
 			display: block;
 		}
 	}
 
+	.slider-pagination,
 	.slider-navigation-previous,
 	.slider-navigation-next {
-		@include mobile {
-			display: none !important;
+		display: none !important;
+	}
+
+	.carousel {
+		.carousel-image img {
+			height: 4rem;
+			width: 4rem;
 		}
 	}
 
