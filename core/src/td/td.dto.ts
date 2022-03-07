@@ -52,6 +52,27 @@ class SignupDto extends BaseDTO {
 	ref!: string;
 }
 
+interface IClientDto extends ISignupDto {
+	course: string;
+	course_price: string;
+	payed: boolean;
+}
+
+class ClientDto extends SignupDto {
+	constructor(data: IClientDto) {
+		super(data);
+		this.course = data.course;
+		this.course_price = data.course_price;
+		this.payed = data.payed;
+	}
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	course!: string;
+
+	course_price!: string;
+	payed!: boolean;
+}
+
 class UserDto {
 	constructor(data: User | UserDto) {
 		this.id = data.id;
@@ -236,6 +257,7 @@ export {
 	SignupDto,
 	UserDto,
 	TokenDto,
+	ClientDto,
 	UpdateDto,
 	NoticeDto,
 	BlogDto,

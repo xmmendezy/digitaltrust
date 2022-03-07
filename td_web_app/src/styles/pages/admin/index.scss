@@ -1,7 +1,51 @@
-.admin {
+.admin-index {
+	height: 65vh;
+
 	.b-table {
 		padding: 2rem 1rem;
 		overflow-y: auto;
-		height: calc(80vh - 64px - 3rem) !important;
+		height: 55vh;
+	}
+
+	.columns-content {
+		display: flex;
+		gap: 0.5rem;
+		width: 100%;
+
+		@include touch {
+			display: block;
+		}
+
+		.column-content {
+			display: block;
+			flex-basis: 0;
+			flex-grow: 1;
+
+			@include touch {
+				&:not(:first-child) {
+					padding-top: 2rem;
+					border-top: 3px solid $border;
+				}
+
+				&:not(:last-child) {
+					padding-bottom: 2rem;
+				}
+			}
+
+			@include desktop {
+				overflow-y: auto;
+				height: calc(80vh - 64px - 8rem);
+
+				&:not(:first-child) {
+					border-left: 3px solid $border;
+				}
+			}
+
+			.form {
+				margin: auto;
+				margin-top: 3rem;
+				width: 80%;
+			}
+		}
 	}
 }

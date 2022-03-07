@@ -235,9 +235,15 @@ const countries = store.countries.map(c => ({ value: c.id, label: c.name }));
 
 const courses = ref<Array<ICourse>>([]);
 
-store.courses().then(cs => {
-	courses.value = cs;
-});
+if (store.authenticated) {
+	store.myCourse().then(cs => {
+		courses.value = [cs];
+	});
+} else {
+	store.courses().then(cs => {
+		courses.value = cs;
+	});
+}
 
 const parsePrice = (course: ICourse) => {
 	return '$' + course.price + '/90 días';

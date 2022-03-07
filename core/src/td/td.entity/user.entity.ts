@@ -122,6 +122,11 @@ export class User extends BaseEntityTD implements IUser {
 	@ManyToOne(() => Course, (course) => course.users)
 	public course: Course;
 
+	@Column({
+		default: '',
+	})
+	public course_price: string;
+
 	@OneToMany(() => Invoice, (invoice) => invoice.user)
 	public invoices: Invoice[];
 

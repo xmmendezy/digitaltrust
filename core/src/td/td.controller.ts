@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param } from '@app/td/http';
 import { TDService } from './td.service';
-import { SignupDto, UpdateDto, NoticeDto, BlogDto, I4GeeksCharge } from './td.dto';
+import { SignupDto, UpdateDto, NoticeDto, BlogDto, I4GeeksCharge, ClientDto } from './td.dto';
 import { User } from './td.entity';
 
 @Controller('td/api')
@@ -124,6 +124,22 @@ export class TDController {
 			return await this.tdService.client(query.id);
 		} else {
 			return [];
+		}
+	}
+
+	@Post('client')
+	public async add_client(@Req() req: Request, @Body() data: ClientDto) {
+		data = new ClientDto(data);
+		data.ref = 'admin';
+		const errors = data.validate();
+		if (errors.length) {
+			return { error: errors[0] };
+		} else {
+			if (req.user.role === 'admin') {
+				return await this.tdService.add_client(data);
+			} else {
+				return { error: 'login.error.u1' };
+			}
 		}
 	}
 

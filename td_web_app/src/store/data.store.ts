@@ -5,6 +5,7 @@ import {
 	ILogin,
 	SignupDto,
 	UpdateDto,
+	ClientDto,
 	NoticeDto,
 	INotice,
 	BlogDto,
@@ -70,7 +71,7 @@ export const useDataStore = defineStore('data', {
 			}
 			return http;
 		},
-		notification(message: string, status: 'link' | 'danger' | 'warning') {
+		notification(message: string, status: 'success' | 'link' | 'danger' | 'warning') {
 			const { oruga } = useProgrammatic();
 			const message_error = data_errors[message];
 			oruga.notification.open({
@@ -158,6 +159,10 @@ export const useDataStore = defineStore('data', {
 			const res = await this.http('subscribe_course', true).get<Response<ISubscribeCourse>>('');
 			if (res.error) {
 				this.notification(res.error, 'warning');
+				console.log(res.error);
+				if (res.error === 'login.error.u1') {
+					this.logout();
+				}
 				return res;
 			} else {
 				this.course = res.id;
@@ -275,6 +280,19 @@ export const useDataStore = defineStore('data', {
 		async message(message: { id?: string; content: string }) {
 			const res = await this.http('message', true).post<Response>('', message);
 			return res.error;
+		},
+		async addClient(data: ClientDto) {
+			const errors = data.validate();
+			if (!errors.length) {
+				const res = await this.http('client', true).post<Response>('', data);
+				if (res.error) {
+					this.notification(res.error, 'warning');
+				}
+				return res.error;
+			} else {
+				this.notification(errors[0], 'warning');
+				return errors[0];
+			}
 		},
 	},
 });

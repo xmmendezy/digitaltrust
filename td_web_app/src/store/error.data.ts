@@ -15,6 +15,7 @@ const data_errors: { [key: string]: string } = {
 	'validator.auth.k': 'Correo no disponible, ya registrado',
 	'validator.auth.l': 'El usuario debe tener solo caracteres alfanuméricos',
 	'validator.auth.m': 'Usuario no disponible, ya registrado',
+	'validator.auth.n': 'Precio personalizado no valido',
 	'course.a': 'No se ha encontrado el curso',
 	'course.b': 'El usuario no puede tener más de un curso',
 	'invoice.a': 'No se ha podido procesar su pago, por favor contacte a servicio al cliente',

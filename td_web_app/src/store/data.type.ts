@@ -90,6 +90,48 @@ export class SignupDto extends ClassBase {
 	get equalsPassword(): boolean {
 		return this.password === this.password_confirm;
 	}
+
+	public empty() {
+		this.username = '';
+		this.firstname = '';
+		this.lastname = '';
+		this.email = '';
+		this.password = '';
+		this.password_confirm = '';
+		this.country = '';
+		this.ref = '';
+	}
+}
+
+export class ClientDto extends SignupDto {
+	constructor() {
+		super();
+		this.course = '';
+		this.course_price = '';
+		this.payed = false;
+	}
+
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	course!: string;
+
+	course_price!: string;
+
+	payed!: boolean;
+
+	public validate(): string[] {
+		const errors = super.validate();
+		if (this.course_price && !parseFloat(this.course_price)) {
+			errors.push('validator.auth.n');
+		}
+		return Array.from(new Set(errors));
+	}
+
+	public empty() {
+		super.empty();
+		this.course = '';
+		this.course_price = '';
+		this.payed = false;
+	}
 }
 
 export enum UserRole {

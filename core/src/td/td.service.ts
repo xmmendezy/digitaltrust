@@ -14,6 +14,7 @@ import {
 	NoticeDto,
 	BlogDto,
 	I4GeeksCharge,
+	ClientDto,
 } from './td.dto';
 
 import jwt from 'jsonwebtoken';
@@ -38,7 +39,8 @@ export class TDService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	public async suscribe_mail(email: string): Promise<Error> {
-		const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re =
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
 			const suscibe = await SubscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
@@ -147,7 +149,7 @@ export class TDService {
 			return {
 				id: course.id,
 				name: course.name,
-				price: course.price,
+				price: parseFloat(user.course_price) || course.price,
 				months: course.months,
 				blog: course.blog,
 				telegram: course.telegram,
@@ -468,12 +470,43 @@ export class TDService {
 				id: user.id,
 				name: user.name,
 				email: user.email,
-				course: user.course.name,
+				course: user.course ? user.course.name : 'Sin curso',
 				created: user.created,
 				payed: (await this.status(user)).payed,
 			});
 		}
 		return clients;
+	}
+
+	public async add_client(data: ClientDto): Promise<Error> {
+		const course = await Course.createQueryBuilder('course').where('course.id = :id', { id: data.course }).getOne();
+		if (course) {
+			const token = await this.signup(data);
+			if (token instanceof TokenDto) {
+				const user = await User.createQueryBuilder('user')
+					.leftJoinAndSelect('user.country', 'country')
+					.leftJoinAndSelect('country.time_zones', 'time_zones')
+					.where('user.id = :id', { id: token.user.id })
+					.getOne();
+				user.course = course;
+				user.course_price = data.course_price;
+				if (data.payed) {
+					user.nextPayment = user.DateTime.utc()
+						.plus({ month: course.months })
+						.minus({ minutes: 5 })
+						.toSeconds();
+				} else {
+					user.nextPayment = user.DateTime.utc().minus({ minutes: 5 }).toSeconds();
+				}
+
+				await user.save();
+				return { error: '' };
+			} else {
+				return token;
+			}
+		} else {
+			return { error: 'course.a' };
+		}
 	}
 
 	public async subscribe_mails(): Promise<ISubscribeMail[]> {
