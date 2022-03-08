@@ -68,4 +68,10 @@ interface IBlog {
 	content: string;
 }
 
-export { IUser, UserRole, UserStatus, ICountry, ITimeZone, ICourse, IInvoice, INotice, IBlog };
+interface IMessage {
+	user: IUser;
+	own: boolean;
+	content: string;
+}
+
+export { IUser, UserRole, UserStatus, ICountry, ITimeZone, ICourse, IInvoice, INotice, IBlog, IMessage };

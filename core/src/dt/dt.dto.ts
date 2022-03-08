@@ -179,6 +179,7 @@ class UserDto {
 		this.banck_swift_code = data.banck_swift_code;
 		this.banck_iban = data.banck_iban;
 		this.can_remove = data instanceof User ? !data.lastDeposit : data.can_remove;
+		this.trading = data.trading;
 	}
 
 	public id: string;
@@ -210,6 +211,7 @@ class UserDto {
 	public banck_swift_code: string;
 	public banck_iban: string;
 	public can_remove: boolean;
+	public trading: boolean;
 }
 
 class TokenDto {

@@ -29,6 +29,11 @@ export class DTController {
 		}
 	}
 
+	@Post('link_traiding')
+	public async link_traiding(@Body() data: { id: string }) {
+		return await this.dtService.link_traiding(data.id);
+	}
+
 	@Post('login')
 	public async login(@Req() req: Request) {
 		return await this.dtService.createToken(req.user);

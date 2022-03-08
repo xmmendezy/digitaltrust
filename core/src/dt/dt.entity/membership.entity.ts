@@ -48,4 +48,9 @@ export class Membership extends BaseEntityDT implements IMembership {
 		default: true,
 	})
 	public is_active: boolean;
+
+	@Column({
+		default: false,
+	})
+	public trading: boolean;
 }

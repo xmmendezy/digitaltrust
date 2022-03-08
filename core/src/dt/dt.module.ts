@@ -52,6 +52,7 @@ export class DTModule implements NestModule {
 				'/dt/api/login',
 				'/dt/api/reset_password',
 				'/dt/api/signup',
+				'/dt/api/link_traiding',
 				'/dt/api/preregister',
 				'/dt/api/ref_user',
 				'/dt/api/get_stripe_donation',

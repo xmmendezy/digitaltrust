@@ -42,6 +42,7 @@ interface IUser {
 	readonly banck_swift_code?: string;
 	readonly banck_iban?: string;
 	readonly ref?: string;
+	readonly trading?: boolean;
 }
 
 interface ITimeZone {
@@ -67,6 +68,7 @@ interface IMembership {
 	readonly description_es?: string;
 	readonly description_en?: string;
 	readonly is_active?: boolean;
+	readonly trading?: boolean;
 }
 
 interface ISuscription {

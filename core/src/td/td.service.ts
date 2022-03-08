@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
-import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog } from './td.entity';
+import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog, Message } from './td.entity';
+import { ICourse, IMessage } from './td.interface';
 import {
 	SignupDto,
 	UserDto,
@@ -13,6 +14,7 @@ import {
 	NoticeDto,
 	BlogDto,
 	I4GeeksCharge,
+	ClientDto,
 } from './td.dto';
 
 import jwt from 'jsonwebtoken';
@@ -37,7 +39,8 @@ export class TDService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	public async suscribe_mail(email: string): Promise<Error> {
-		const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re =
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
 			const suscibe = await SubscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
@@ -146,11 +149,11 @@ export class TDService {
 			return {
 				id: course.id,
 				name: course.name,
-				price: course.price,
+				price: parseFloat(user.course_price) || course.price,
 				months: course.months,
 				blog: course.blog,
 				telegram: course.telegram,
-				payed: invoice.payed,
+				payed: invoice ? invoice.payed : true,
 				nextPayment: user.nextPayment,
 			};
 		} else {
@@ -190,7 +193,13 @@ export class TDService {
 		) {
 			return { payed: false };
 		} else {
-			return { payed: true };
+			if (user.DateTime.now().toSeconds() >= user.nextPayment) {
+				const invoice = new Invoice({ user, course: user.course });
+				await invoice.save();
+				return { payed: false };
+			} else {
+				return { payed: true };
+			}
 		}
 	}
 
@@ -446,12 +455,25 @@ export class TDService {
 	}
 
 	public async courses(): Promise<Course[]> {
-		return await Course.createQueryBuilder().orderBy('months').getMany();
+		return await Course.createQueryBuilder().orderBy('created').getMany();
+	}
+
+	public async update_courses(data: ICourse[]): Promise<Course[]> {
+		for (const c of data) {
+			const course = await Course.createQueryBuilder('course').where('course.id = :id', { id: c.id }).getOne();
+			course.name = c.name;
+			course.price = parseFloat(c.price as any);
+			course.months = parseInt(c.months as any);
+			await course.save();
+		}
+		return await Course.createQueryBuilder().orderBy('created').getMany();
 	}
 
 	public async clients(): Promise<IClient[]> {
 		const clients: IClient[] = [];
 		for (const user of await User.createQueryBuilder('user')
+			.leftJoinAndSelect('user.country', 'country')
+			.leftJoinAndSelect('country.time_zones', 'time_zones')
 			.leftJoinAndSelect('user.course', 'course')
 			.where('user.role = :role', { role: 'user' })
 			.getMany()) {
@@ -459,17 +481,90 @@ export class TDService {
 				id: user.id,
 				name: user.name,
 				email: user.email,
-				course: user.course.name,
+				course: user.course ? user.course.name : 'Sin curso',
 				created: user.created,
-				payed: !(await Invoice.createQueryBuilder('invoice')
-					.leftJoinAndSelect('invoice.user', 'user')
-					.leftJoinAndSelect('invoice.course', 'course')
-					.where('user.id = :id', { id: user.id })
-					.andWhere('invoice.payed = FALSE')
-					.getCount()),
+				payed: (await this.status(user)).payed,
+				next_payment: user.nextPayment,
 			});
 		}
 		return clients;
+	}
+
+	public async client(id: string): Promise<ClientDto> {
+		const user = await User.createQueryBuilder('user')
+			.leftJoin('user.course', 'course')
+			.leftJoin('user.country', 'country')
+			.addSelect('course.id')
+			.addSelect('country.id')
+			.where('user.id = :id', { id })
+			.getOne();
+		return new ClientDto({
+			...user,
+			password: 'Secret00__',
+			country: user.country.id,
+			course: user.course ? user.course.id : '',
+			payed: true,
+		});
+	}
+
+	public async add_client(data: ClientDto): Promise<Error> {
+		const course = await Course.createQueryBuilder('course').where('course.id = :id', { id: data.course }).getOne();
+		if (course) {
+			const token = await this.signup(data);
+			if (token instanceof TokenDto) {
+				const user = await User.createQueryBuilder('user')
+					.leftJoinAndSelect('user.country', 'country')
+					.leftJoinAndSelect('country.time_zones', 'time_zones')
+					.where('user.id = :id', { id: token.user.id })
+					.getOne();
+				user.course = course;
+				user.course_price = data.course_price;
+				if (data.payed) {
+					user.nextPayment = user.DateTime.utc()
+						.plus({ month: course.months })
+						.minus({ minutes: 5 })
+						.toSeconds();
+				} else {
+					user.nextPayment = user.DateTime.utc().minus({ minutes: 5 }).toSeconds();
+				}
+
+				await user.save();
+				return { error: '' };
+			} else {
+				return token;
+			}
+		} else {
+			return { error: 'course.a' };
+		}
+	}
+
+	public async update_client(data: ClientDto): Promise<Error> {
+		const user = await User.createQueryBuilder('user')
+			.leftJoin('user.course', 'course')
+			.leftJoin('user.country', 'country')
+			.addSelect('course.id')
+			.addSelect('country.id')
+			.where('user.id = :id', { id: data.id })
+			.getOne();
+		const res = await this.update(user, data);
+		if ((res as Error).error) {
+			return res as Error;
+		} else {
+			const user = await User.createQueryBuilder('user')
+				.leftJoin('user.course', 'course')
+				.addSelect('course.id')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+			const course = await Course.createQueryBuilder('course')
+				.select('course.id')
+				.where('course.id = :id', { id: data.course })
+				.getOne();
+			if (!user.course || data.course !== user.course.id) {
+				user.course = course;
+				await user.save();
+			}
+			return { error: '' };
+		}
 	}
 
 	public async subscribe_mails(): Promise<ISubscribeMail[]> {
@@ -492,15 +587,6 @@ export class TDService {
 			}
 		}
 		return subscribe_mails;
-	}
-
-	public async client(id: string): Promise<UserDto> {
-		return new UserDto(
-			await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.where('user.id = :id', { id })
-				.getOne(),
-		);
 	}
 
 	public async remove_client(id: string) {
@@ -596,6 +682,62 @@ export class TDService {
 	public async delete_blog(id: string) {
 		const blog = await Blog.findOne(id);
 		await blog.remove();
+		return { error: '' };
+	}
+
+	public async get_messages(user: string) {
+		return (
+			await Message.createQueryBuilder('message')
+				.leftJoinAndSelect('message.user', 'user')
+				.where('user.id = :id', { id: user })
+				.orderBy('message.created', 'ASC')
+				.getMany()
+		).map((m) => ({
+			id: m.id,
+			own: m.own,
+			content: m.content,
+			created: m.created,
+			name: m.user.name,
+		}));
+	}
+
+	public async message(user: User, data: { id?: string; content: string }) {
+		const message_data: IMessage = { content: data.content, user, own: true };
+		if (user.role === UserRole.ADMIN) {
+			message_data.own = false;
+			message_data.user = await User.createQueryBuilder('user').where('user.id = :id', { id: data.id }).getOne();
+			await this.mailerService
+				.sendMail({
+					to: user.email,
+					subject: 'TradingDigital - Nuevo mensaje del profesor',
+					html: handlebars.compile(
+						readFileSync(join(__dirname, '..', 'mails', 'td_new_message.hbs'), 'utf8'),
+					)({}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		} else {
+			await this.mailerService
+				.sendMail({
+					to: config.td.email_notification,
+					subject: 'TradingDigital - Nuevo mensaje de ' + user.name,
+					html: handlebars.compile(
+						readFileSync(join(__dirname, '..', 'mails', 'td_new_message.hbs'), 'utf8'),
+					)({}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		}
+		const message = new Message(message_data);
+		await message.save();
 		return { error: '' };
 	}
 }

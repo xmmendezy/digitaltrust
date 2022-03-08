@@ -83,7 +83,7 @@ abstract class BaseTD extends BaseEntity {
 
 	@BeforeUpdate()
 	public setUpdatedAt() {
-		this.created = LuxonDateTime.utc().toSeconds();
+		this.updated = LuxonDateTime.utc().toSeconds();
 	}
 
 	public errors: string[] = [];

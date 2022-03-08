@@ -52,6 +52,7 @@ export class User extends BaseEntityDT implements IUser {
 			this.banck_swift_code = data.banck_swift_code || '';
 			this.banck_iban = data.banck_iban || '';
 			this.ref = data.ref;
+			this.trading = data.trading;
 		}
 	}
 
@@ -228,6 +229,11 @@ export class User extends BaseEntityDT implements IUser {
 		default: '',
 	})
 	public ref: string;
+
+	@Column({
+		default: false,
+	})
+	public trading: boolean;
 
 	get name(): string {
 		if (this.firstname && this.lastname) {

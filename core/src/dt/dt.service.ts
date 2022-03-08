@@ -30,6 +30,7 @@ import {
 	SupportPaymentDto,
 } from './dt.dto';
 import { IRecord, PaymentMethod, UserRole, WithdrawalMethod, IMembership } from './dt.interface';
+import { User as UserTrading } from '@app/td/td.entity';
 
 import { Decimal } from 'decimal.js';
 import { DateTime } from 'luxon';
@@ -56,7 +57,8 @@ export class DTService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	public async suscribe_mail(email: string): Promise<Error> {
-		const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re =
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
 			const suscibe = await SuscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
@@ -112,6 +114,35 @@ export class DTService {
 		user.nextSupportPayment = user.DateTime.now().plus({ years: 1 }).toSeconds();
 		await user.save();
 		return await this.createToken(user);
+	}
+
+	public async link_traiding(id: string): Promise<TokenDto | Error> {
+		const user_trading = await UserTrading.createQueryBuilder('user')
+			.leftJoinAndSelect('user.country', 'country')
+			.where('user.id = :id', { id })
+			.getOne();
+		const userdto = await this.signup(
+			new SignupDto({
+				...user_trading,
+				country: user_trading.country.id,
+				freeSupport: true,
+				telephone: 'TradingDigital',
+				state: 'TradingDigital',
+				address: 'TradingDigital',
+				password: 'Hola1234',
+			}),
+		);
+		if (userdto instanceof TokenDto) {
+			const user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: userdto.user.id })
+				.getOne();
+			user.password = user_trading.password;
+			user.trading = true;
+			await user.save();
+		}
+		return userdto;
 	}
 
 	public async createToken(user: User | UserDto): Promise<TokenDto> {
@@ -417,7 +448,11 @@ export class DTService {
 
 	public async memberships(user: User): Promise<Membership[]> {
 		if (user.role === UserRole.ADMIN) {
-			return await Membership.createQueryBuilder().orderBy('interest', 'ASC').getMany();
+			return await Membership.createQueryBuilder()
+				.orderBy('is_active', 'DESC')
+				.addOrderBy('trading', 'DESC')
+				.addOrderBy('interest', 'ASC')
+				.getMany();
 		} else {
 			let memberships: Membership[] = [];
 			if (
@@ -428,6 +463,7 @@ export class DTService {
 			) {
 				memberships = await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: false })
+					.where('trading = :trading', { trading: user.trading })
 					.andWhere('id in (:...ids)', {
 						ids: (
 							await Suscription.createQueryBuilder()
@@ -442,6 +478,7 @@ export class DTService {
 			memberships.push(
 				...(await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: true })
+					.where('trading = :trading', { trading: user.trading })
 					.orderBy('interest', 'ASC')
 					.getMany()),
 			);
@@ -458,11 +495,13 @@ export class DTService {
 					if (
 						membership_n.description_en !== membership.description_en ||
 						membership_n.description_es !== membership.description_es ||
-						membership_n.is_active !== membership.is_active
+						membership_n.is_active !== membership.is_active ||
+						membership_n.trading !== membership.trading
 					) {
 						membership.description_en = membership_n.description_en;
 						membership.description_es = membership_n.description_es;
 						membership.is_active = membership_n.is_active;
+						membership.trading = membership_n.trading;
 						await membership.save();
 					}
 				} else {
@@ -474,7 +513,8 @@ export class DTService {
 						membership_n.money_b &&
 						membership_n.months &&
 						membership_n.interest &&
-						membership_n.is_active
+						membership_n.is_active &&
+						membership_n.trading
 					) {
 						await Membership.createQueryBuilder()
 							.insert()
@@ -1008,9 +1048,7 @@ export class DTService {
 		return { valid: !suscription.errors.length };
 	}
 
-	public async balance_graphic(
-		user: User,
-	): Promise<{
+	public async balance_graphic(user: User): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

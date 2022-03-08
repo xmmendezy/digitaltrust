@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param } from '@app/td/http';
 import { TDService } from './td.service';
-import { SignupDto, UpdateDto, NoticeDto, BlogDto, I4GeeksCharge } from './td.dto';
+import { SignupDto, UpdateDto, NoticeDto, BlogDto, I4GeeksCharge, ClientDto } from './td.dto';
 import { User } from './td.entity';
+import { ICourse } from './td.interface';
 
 @Controller('td/api')
 export class TDController {
@@ -96,14 +97,14 @@ export class TDController {
 	}
 
 	@Get('courses')
-	public async courses(@Req() req: Request) {
+	public async courses() {
 		return await this.tdService.courses();
 	}
 
-	@Get('clients')
-	public async clients(@Req() req: Request) {
+	@Patch('courses')
+	public async update_courses(@Req() req: Request, @Body() data: ICourse[]) {
 		if (req.user.role === 'admin') {
-			return await this.tdService.clients();
+			return await this.tdService.update_courses(data);
 		} else {
 			return [];
 		}
@@ -118,31 +119,53 @@ export class TDController {
 		}
 	}
 
-	@Get('client')
-	public async client(@Req() req: Request, @Query() query: { id: string }) {
+	@Get('clients')
+	public async clients(@Req() req: Request) {
 		if (req.user.role === 'admin') {
-			return await this.tdService.client(query.id);
+			return await this.tdService.clients();
 		} else {
 			return [];
 		}
 	}
 
-	@Patch('client')
-	public async update_client(@Req() req: Request, @Query() query: { id: string }, @Body() data: UpdateDto) {
-		data = new UpdateDto(data);
+	@Get('client')
+	public async client(@Req() req: Request, @Query() query: { id: string }) {
+		if (req.user.role === 'admin') {
+			return await this.tdService.client(query.id);
+		} else {
+			return {};
+		}
+	}
+
+	@Post('client')
+	public async add_client(@Req() req: Request, @Body() data: ClientDto) {
+		data = new ClientDto(data);
+		data.ref = 'admin';
 		const errors = data.validate();
 		if (errors.length) {
 			return { error: errors[0] };
 		} else {
-			const user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-			if (!user) {
+			if (req.user.role === 'admin') {
+				return await this.tdService.add_client(data);
+			} else {
 				return { error: 'login.error.u1' };
 			}
-			return await this.tdService.update(user, data);
+		}
+	}
+
+	@Patch('client')
+	public async update_client(@Req() req: Request, @Body() data: ClientDto) {
+		data = new ClientDto(data);
+		data.ref = 'admin';
+		const errors = data.validate();
+		if (errors.length) {
+			return { error: errors[0] };
+		} else {
+			if (req.user.role === 'admin') {
+				return await this.tdService.update_client(data);
+			} else {
+				return { error: 'login.error.u1' };
+			}
 		}
 	}
 
@@ -211,5 +234,20 @@ export class TDController {
 		} else {
 			return { error: 'login.error.u1' };
 		}
+	}
+
+	@Get('message')
+	public async get_messages(@Req() req: Request) {
+		return await this.tdService.get_messages(req.user.id);
+	}
+
+	@Get('message/:id')
+	public async get_messages_user(@Req() req: Request, @Param('id') id: string) {
+		return await this.tdService.get_messages(id);
+	}
+
+	@Post('message')
+	public async message(@Req() req: Request, @Body() data: { id?: string; content: string }) {
+		return await this.tdService.message(req.user, data);
 	}
 }
