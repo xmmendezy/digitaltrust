@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Error } from '@app/util/base.util';
 import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog, Message } from './td.entity';
-import { IMessage } from './td.interface';
+import { ICourse, IMessage } from './td.interface';
 import {
 	SignupDto,
 	UserDto,
@@ -153,7 +153,7 @@ export class TDService {
 				months: course.months,
 				blog: course.blog,
 				telegram: course.telegram,
-				payed: invoice.payed,
+				payed: invoice ? invoice.payed : true,
 				nextPayment: user.nextPayment,
 			};
 		} else {
@@ -455,7 +455,18 @@ export class TDService {
 	}
 
 	public async courses(): Promise<Course[]> {
-		return await Course.createQueryBuilder().orderBy('months').getMany();
+		return await Course.createQueryBuilder().orderBy('created').getMany();
+	}
+
+	public async update_courses(data: ICourse[]): Promise<Course[]> {
+		for (const c of data) {
+			const course = await Course.createQueryBuilder('course').where('course.id = :id', { id: c.id }).getOne();
+			course.name = c.name;
+			course.price = parseFloat(c.price as any);
+			course.months = parseInt(c.months as any);
+			await course.save();
+		}
+		return await Course.createQueryBuilder().orderBy('created').getMany();
 	}
 
 	public async clients(): Promise<IClient[]> {
@@ -473,9 +484,27 @@ export class TDService {
 				course: user.course ? user.course.name : 'Sin curso',
 				created: user.created,
 				payed: (await this.status(user)).payed,
+				next_payment: user.nextPayment,
 			});
 		}
 		return clients;
+	}
+
+	public async client(id: string): Promise<ClientDto> {
+		const user = await User.createQueryBuilder('user')
+			.leftJoin('user.course', 'course')
+			.leftJoin('user.country', 'country')
+			.addSelect('course.id')
+			.addSelect('country.id')
+			.where('user.id = :id', { id })
+			.getOne();
+		return new ClientDto({
+			...user,
+			password: 'Secret00__',
+			country: user.country.id,
+			course: user.course ? user.course.id : '',
+			payed: true,
+		});
 	}
 
 	public async add_client(data: ClientDto): Promise<Error> {
@@ -509,6 +538,35 @@ export class TDService {
 		}
 	}
 
+	public async update_client(data: ClientDto): Promise<Error> {
+		const user = await User.createQueryBuilder('user')
+			.leftJoin('user.course', 'course')
+			.leftJoin('user.country', 'country')
+			.addSelect('course.id')
+			.addSelect('country.id')
+			.where('user.id = :id', { id: data.id })
+			.getOne();
+		const res = await this.update(user, data);
+		if ((res as Error).error) {
+			return res as Error;
+		} else {
+			const user = await User.createQueryBuilder('user')
+				.leftJoin('user.course', 'course')
+				.addSelect('course.id')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+			const course = await Course.createQueryBuilder('course')
+				.select('course.id')
+				.where('course.id = :id', { id: data.course })
+				.getOne();
+			if (!user.course || data.course !== user.course.id) {
+				user.course = course;
+				await user.save();
+			}
+			return { error: '' };
+		}
+	}
+
 	public async subscribe_mails(): Promise<ISubscribeMail[]> {
 		const subscribe_mails: ISubscribeMail[] = [];
 		for (const user of await User.createQueryBuilder('user')
@@ -529,15 +587,6 @@ export class TDService {
 			}
 		}
 		return subscribe_mails;
-	}
-
-	public async client(id: string): Promise<UserDto> {
-		return new UserDto(
-			await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.where('user.id = :id', { id })
-				.getOne(),
-		);
 	}
 
 	public async remove_client(id: string) {

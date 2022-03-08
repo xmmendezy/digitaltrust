@@ -2,6 +2,7 @@ import { Controller, Get, Post, Patch, Delete, Body, Req, Request, Query, Param 
 import { TDService } from './td.service';
 import { SignupDto, UpdateDto, NoticeDto, BlogDto, I4GeeksCharge, ClientDto } from './td.dto';
 import { User } from './td.entity';
+import { ICourse } from './td.interface';
 
 @Controller('td/api')
 export class TDController {
@@ -96,14 +97,14 @@ export class TDController {
 	}
 
 	@Get('courses')
-	public async courses(@Req() req: Request) {
+	public async courses() {
 		return await this.tdService.courses();
 	}
 
-	@Get('clients')
-	public async clients(@Req() req: Request) {
+	@Patch('courses')
+	public async update_courses(@Req() req: Request, @Body() data: ICourse[]) {
 		if (req.user.role === 'admin') {
-			return await this.tdService.clients();
+			return await this.tdService.update_courses(data);
 		} else {
 			return [];
 		}
@@ -118,12 +119,21 @@ export class TDController {
 		}
 	}
 
+	@Get('clients')
+	public async clients(@Req() req: Request) {
+		if (req.user.role === 'admin') {
+			return await this.tdService.clients();
+		} else {
+			return [];
+		}
+	}
+
 	@Get('client')
 	public async client(@Req() req: Request, @Query() query: { id: string }) {
 		if (req.user.role === 'admin') {
 			return await this.tdService.client(query.id);
 		} else {
-			return [];
+			return {};
 		}
 	}
 
@@ -144,21 +154,18 @@ export class TDController {
 	}
 
 	@Patch('client')
-	public async update_client(@Req() req: Request, @Query() query: { id: string }, @Body() data: UpdateDto) {
-		data = new UpdateDto(data);
+	public async update_client(@Req() req: Request, @Body() data: ClientDto) {
+		data = new ClientDto(data);
+		data.ref = 'admin';
 		const errors = data.validate();
 		if (errors.length) {
 			return { error: errors[0] };
 		} else {
-			const user = await User.createQueryBuilder('user')
-				.leftJoinAndSelect('user.country', 'country')
-				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: query.id })
-				.getOne();
-			if (!user) {
+			if (req.user.role === 'admin') {
+				return await this.tdService.update_client(data);
+			} else {
 				return { error: 'login.error.u1' };
 			}
-			return await this.tdService.update(user, data);
 		}
 	}
 

@@ -43,6 +43,7 @@ interface IUser {
 	banck_iban: string;
 	can_remove: boolean;
 	created: string | Date;
+	trading: boolean;
 }
 
 class UpdateDto extends ClassBase {

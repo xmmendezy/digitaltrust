@@ -182,6 +182,9 @@ export const useDataStore = defineStore('data', {
 		async courses() {
 			return await this.http('courses').get<ICourse[]>('');
 		},
+		async updateCourses(data: ICourse[]) {
+			return await this.http('courses', true).patch<ICourse[]>('', data);
+		},
 		async status() {
 			return await this.http('status', true).get<{ payed: boolean }>('');
 		},
@@ -281,10 +284,31 @@ export const useDataStore = defineStore('data', {
 			const res = await this.http('message', true).post<Response>('', message);
 			return res.error;
 		},
+		async getClient(id: string) {
+			const res = await this.http('client', true).get<Response<ClientDto>>('?id=' + id);
+			if (res.error) {
+				this.notification(res.error, 'warning');
+				return res;
+			}
+			return res;
+		},
 		async addClient(data: ClientDto) {
 			const errors = data.validate();
 			if (!errors.length) {
 				const res = await this.http('client', true).post<Response>('', data);
+				if (res.error) {
+					this.notification(res.error, 'warning');
+				}
+				return res.error;
+			} else {
+				this.notification(errors[0], 'warning');
+				return errors[0];
+			}
+		},
+		async updateClient(data: ClientDto) {
+			const errors = data.validate();
+			if (!errors.length) {
+				const res = await this.http('client', true).patch<Response>('', data);
 				if (res.error) {
 					this.notification(res.error, 'warning');
 				}

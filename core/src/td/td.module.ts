@@ -52,7 +52,7 @@ export class TDModule implements NestModule {
 				'/td/api/signup',
 				'/td/api/preregister',
 				'/td/api/ref_user',
-				'/td/api/courses',
+				{ path: '/td/api/courses', method: RequestMethod.GET },
 				{ path: '/td/api/coinbase', method: RequestMethod.POST },
 			)
 			.forRoutes(TDController);

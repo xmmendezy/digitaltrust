@@ -53,6 +53,7 @@ class SignupDto extends BaseDTO {
 }
 
 interface IClientDto extends ISignupDto {
+	id?: string;
 	course: string;
 	course_price: string;
 	payed: boolean;
@@ -61,10 +62,15 @@ interface IClientDto extends ISignupDto {
 class ClientDto extends SignupDto {
 	constructor(data: IClientDto) {
 		super(data);
+		if (data.id) {
+			this.id = data.id;
+		}
 		this.course = data.course;
 		this.course_price = data.course_price;
 		this.payed = data.payed;
 	}
+
+	id!: string;
 
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	course!: string;
@@ -173,6 +179,7 @@ interface IClient {
 	email: string;
 	course: string;
 	created: number;
+	next_payment: number;
 	payed: boolean;
 }
 

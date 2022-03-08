@@ -10,6 +10,7 @@ declare module 'vue' {
     FasExclamationCircle: typeof import('~icons/fa-solid/exclamation-circle')['default']
     FasPlus: typeof import('~icons/fa-solid/plus')['default']
     FasTimes: typeof import('~icons/fa-solid/times')['default']
+    FasUser: typeof import('~icons/fa-solid/user')['default']
     MainHeader: typeof import('./src/components/MainHeader.vue')['default']
     VuePaycard: typeof import('./src/components/VuePaycard.vue')['default']
   }

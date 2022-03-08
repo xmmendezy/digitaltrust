@@ -92,6 +92,15 @@
 						<b-switch v-model="props.row.is_active" type="is-success"> </b-switch>
 					</div>
 				</b-table-column>
+
+				<b-table-column
+					field="trading"
+					label="TradingDigital"
+					header-class="header header-center has-text-center"
+					v-slot="props"
+				>
+					<b-switch v-model="props.row.trading" type="is-success"> </b-switch>
+				</b-table-column>
 			</b-table>
 			<b-loading :is-full-page="true" v-model="is_loading"></b-loading>
 		</article>
@@ -137,6 +146,7 @@ export default class Membership extends PageChildBase {
 					months: 0,
 					interest: 0,
 					is_active: true,
+					trading: false,
 				} as any,
 				...this.memberships_data,
 			];
@@ -220,6 +230,10 @@ export default class Membership extends PageChildBase {
 			}
 
 			&:nth-child(7) {
+				background: linear-gradient(135deg, #438fdc, #438fdd) !important;
+			}
+
+			&:nth-child(8) {
 				background: linear-gradient(135deg, #438fdc, #438fdd) !important;
 			}
 

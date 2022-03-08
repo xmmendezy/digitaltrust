@@ -113,6 +113,14 @@ const routes: Array<RouteConfig> = [
 				},
 			},
 			{
+				path: '/link_traiding',
+				name: 'LinkTrading',
+				component: () => import(/* webpackChunkName: "link_traiding" */ '@app/pages/LinkTrading.vue'),
+				meta: {
+					free_page: true,
+				},
+			},
+			{
 				path: '/donations',
 				name: 'Donations',
 				component: () => import(/* webpackChunkName: "donations" */ '@app/pages/Donations.vue'),

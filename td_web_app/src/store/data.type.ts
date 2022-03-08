@@ -111,6 +111,8 @@ export class ClientDto extends SignupDto {
 		this.payed = false;
 	}
 
+	id!: string;
+
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	course!: string;
 
@@ -124,6 +126,22 @@ export class ClientDto extends SignupDto {
 			errors.push('validator.auth.n');
 		}
 		return Array.from(new Set(errors));
+	}
+
+	public set(data: ClientDto) {
+		this.id = data.id;
+		this.username = data.username;
+		this.firstname = data.firstname;
+		this.lastname = data.lastname;
+		this.email = data.email;
+		this.password = data.password;
+		this.password_confirm = data.password;
+		this.country = data.country;
+		this.ref = data.ref;
+		this.course = data.course;
+		this.course_price = data.course_price;
+		this.payed = data.payed;
+		return this;
 	}
 
 	public empty() {
@@ -263,6 +281,7 @@ export interface IClient {
 	course: string;
 	created: number;
 	payed: boolean;
+	next_payment: number;
 }
 
 export interface ISubscribeMail {

@@ -62,6 +62,9 @@
 		"ref_error": "The invitation received is invalid, you can still register",
 		"created_date": "Register date"
 	},
+	"trading": {
+		"a": "Creating your DigitalTrust account"
+	},
 	"home": {
 		"balance_now": {
 			"title": "Balance",

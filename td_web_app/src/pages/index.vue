@@ -21,6 +21,13 @@
 						</div>
 					</div>
 				</article>
+				<div v-if="store.user" class="mt-5 is-size-5">
+					<a
+						:href="'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id"
+						target="_blank"
+						><i class="fas fa-coins"></i> Invertir en DigitalTrust</a
+					>
+				</div>
 				<ul class="elements fa-ul has-text-left">
 					<li>
 						<span class="fa-li"><i class="fas fa-book"></i></span>

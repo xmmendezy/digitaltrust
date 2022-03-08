@@ -53,6 +53,7 @@ export default class ApiStore extends VuexModule {
 		return {
 			signup: `${ApiStore.config.Api}/signup`,
 			preregister: `${ApiStore.config.Api}/preregister`,
+			link_traiding: `${ApiStore.config.Api}/link_traiding`,
 			login: `${ApiStore.config.Api}/login`,
 			user: `${ApiStore.config.Api}/user`,
 			see_welcome: `${ApiStore.config.Api}/see_welcome`,
@@ -263,6 +264,24 @@ export default class ApiStore extends VuexModule {
 				this.set_auth_data(response.data);
 				await this.setCountry();
 				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async link_traiding(id: string): Promise<string> {
+		return await ApiStore.http
+			.post(this.url.link_traiding, { id })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				this.set_auth_data(response.data);
+				await this.setCountry();
+				return '';
 			})
 			.catch(e => {
 				return get_errors(e);
