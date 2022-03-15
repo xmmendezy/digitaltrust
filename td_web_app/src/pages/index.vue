@@ -21,14 +21,26 @@
 						</div>
 					</div>
 				</article>
-				<div v-if="store.user" class="mt-5 is-size-5">
-					<a
-						:href="'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id"
-						target="_blank"
-						><i class="fas fa-coins"></i> Invertir en DigitalTrust</a
-					>
+				<div v-if="store.user" class="mt-4 is-size-5">
+					<div class="columns is-justify-content-center mt-2">
+						<div class="column is-8">
+							<p class="subtitle is-size-6">
+								Manejamos su capital y le pagamos de un 5% a un 7% mensual.
+								<o-button
+									class="button is-ghost"
+									tag="a"
+									:href="
+										'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id
+									"
+									target="_blank"
+								>
+									<i class="fas fa-coins"></i> Invertir en DigitalTrust
+								</o-button>
+							</p>
+						</div>
+					</div>
 				</div>
-				<ul class="elements fa-ul has-text-left">
+				<ul class="elements fa-ul has-text-left mt-2">
 					<li>
 						<span class="fa-li"><i class="fas fa-book"></i></span>
 						<router-link to="/ebook/1"> Ebook - La biblia de las candelas </router-link>
@@ -46,34 +58,45 @@
 				</ul>
 				<template v-if="store.course_data && store.course_data.id !== 'b19b80ca-bfe2-4b58-8a24-8b0723e5c2ec'">
 					<p class="mt-5 mb-0 is-size-5 has-text-weight-bold">Enlaces de interes</p>
-					<ul class="elements fa-ul mt-3 has-text-left">
-						<li>
-							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://www.investing.com/economic-calendar/" target="_blank">
-								Economic Calendar
-							</a>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://www.forexfactory.com" target="_blank"> Forexfactory </a>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://www.dailyfx.com/sentiment" target="_blank"> Dailyfx </a>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://www.myfxbook.com/es/forex-calculators/position-size" target="_blank">
-								Forex Calculators
-							</a>
-						</li>
-						<li>
-							<span class="fa-li"><i class="fas fa-star"></i></span>
-							<a href="https://es.tradingview.com/u/DigitalTrust/" target="_blank">
-								DigitalTrust en TradingView
-							</a>
-						</li>
-					</ul>
+					<div class="columns">
+						<div class="column">
+							<ul class="elements fa-ul mt-3 has-text-left">
+								<li>
+									<span class="fa-li"><i class="fas fa-star"></i></span>
+									<a href="https://www.investing.com/economic-calendar/" target="_blank">
+										Economic Calendar
+									</a>
+								</li>
+								<li>
+									<span class="fa-li"><i class="fas fa-star"></i></span>
+									<a href="https://www.forexfactory.com" target="_blank"> Forexfactory </a>
+								</li>
+								<li>
+									<span class="fa-li"><i class="fas fa-star"></i></span>
+									<a href="https://www.dailyfx.com/sentiment" target="_blank"> Dailyfx </a>
+								</li>
+							</ul>
+						</div>
+						<div class="column">
+							<ul class="elements fa-ul mt-3 has-text-left">
+								<li>
+									<span class="fa-li"><i class="fas fa-star"></i></span>
+									<a
+										href="https://www.myfxbook.com/es/forex-calculators/position-size"
+										target="_blank"
+									>
+										Forex Calculators
+									</a>
+								</li>
+								<li>
+									<span class="fa-li"><i class="fas fa-star"></i></span>
+									<a href="https://es.tradingview.com/u/DigitalTrust/" target="_blank">
+										DigitalTrust en TradingView
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
 				</template>
 			</div>
 			<div class="column-content main">
