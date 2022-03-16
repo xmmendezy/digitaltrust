@@ -44,6 +44,13 @@
 			></b-menu-item>
 			<b-menu-item
 				v-if="is_admin"
+				icon="star"
+				tag="router-link"
+				:to="{ name: 'AdminVIP' }"
+				label="VIP"
+			></b-menu-item>
+			<b-menu-item
+				v-if="is_admin"
 				icon="clipboard-check"
 				tag="router-link"
 				:to="{ name: 'AdminMembership' }"

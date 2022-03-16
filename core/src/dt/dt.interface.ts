@@ -43,6 +43,7 @@ interface IUser {
 	readonly banck_iban?: string;
 	readonly ref?: string;
 	readonly trading?: boolean;
+	readonly vip?: boolean;
 }
 
 interface ITimeZone {

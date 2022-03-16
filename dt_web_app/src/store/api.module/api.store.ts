@@ -64,6 +64,7 @@ export default class ApiStore extends VuexModule {
 			memberships: `${ApiStore.config.Api}/memberships`,
 			suscriptions: `${ApiStore.config.Api}/suscriptions`,
 			clients: `${ApiStore.config.Api}/clients`,
+			clients_vip: `${ApiStore.config.Api}/clients_vip`,
 			client: `${ApiStore.config.Api}/client`,
 			binary_tree: `${ApiStore.config.Api}/binary_tree`,
 			records: `${ApiStore.config.Api}/records`,
@@ -486,6 +487,22 @@ export default class ApiStore extends VuexModule {
 	public async clients(): Promise<IClient[]> {
 		return await ApiStore.http
 			.get(`${this.url.clients}`, { headers: this.headers })
+			.then(response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
+			});
+	}
+
+	@action
+	public async clients_vip(): Promise<IClient[]> {
+		return await ApiStore.http
+			.get(`${this.url.clients_vip}`, { headers: this.headers })
 			.then(response => {
 				const error = get_errors(response);
 				if (error) {

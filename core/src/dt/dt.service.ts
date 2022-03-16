@@ -130,6 +130,7 @@ export class DTService {
 				state: 'TradingDigital',
 				address: 'TradingDigital',
 				password: 'Hola1234',
+				vip: false,
 			}),
 		);
 		if (userdto instanceof TokenDto) {
@@ -298,12 +299,13 @@ export class DTService {
 		});
 	}
 
-	public async clients(): Promise<IClient[]> {
+	public async clients(vip = false): Promise<IClient[]> {
 		const clients: IClient[] = [];
 		for (const user of await User.createQueryBuilder('user')
 			.leftJoinAndSelect('user.country', 'country')
 			.leftJoinAndSelect('country.time_zones', 'time_zones')
 			.where('user.role = :role', { role: 'user' })
+			.andWhere('user.vip = :vip', { vip })
 			.getMany()) {
 			clients.push({
 				id: user.id,
@@ -1123,6 +1125,8 @@ export class DTService {
 					.where('id in (:...ids)', { ids: suscriptions.map((s) => s.membershipId) })
 					.getMany();
 			}
+			let date_begin_s = user.DateTime.now().toSeconds();
+			let date_begin_w = user.DateTime.now().toSeconds();
 			for (const suscription of suscriptions) {
 				const deposits: Deposit[] = [];
 				if (
@@ -1162,6 +1166,9 @@ export class DTService {
 								})
 								.getMany()),
 						);
+					}
+					if (date_begin_s > suscription.date_begin) {
+						date_begin_s = suscription.date_begin;
 					}
 				}
 				if (deposits.length) {
@@ -1259,6 +1266,11 @@ export class DTService {
 					}
 				}
 			}
+			if (date_begin_s < date_begin.toSeconds()) {
+				date_begin_w = date_begin.toSeconds();
+			} else {
+				date_begin_w = date_begin_s;
+			}
 			const withdrawals: Withdrawal[] = await Withdrawal.createQueryBuilder()
 				.where('"userId" = :id')
 				.andWhere('date >= :date_begin')
@@ -1267,7 +1279,7 @@ export class DTService {
 				.setParameters({
 					id: user.id,
 					status: true,
-					date_begin: date_begin.toSeconds(),
+					date_begin: date_begin_w,
 					date_end:
 						date_end.toSeconds() === date_end.endOf('month').toSeconds()
 							? date_end.toSeconds()
@@ -1281,10 +1293,11 @@ export class DTService {
 			}
 			if (
 				date_begin.toSeconds() >
-				(user.firstDeposit
-					? user.DateTime.fromUnix(user.firstDeposit)
-					: user.DateTime.fromDate(user.created)
-				).toSeconds()
+					(user.firstDeposit
+						? user.DateTime.fromUnix(user.firstDeposit)
+						: user.DateTime.fromDate(user.created)
+					).toSeconds() &&
+				date_begin.toSeconds() > date_begin_s
 			) {
 				let prev_record: IRecord = await Record.createQueryBuilder()
 					.where('"userId" = :id')

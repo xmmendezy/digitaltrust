@@ -851,7 +851,7 @@ export default class Admin extends PageChildBase {
 	}
 
 	private async get_clients() {
-		this.load_form_api(await this.store.api.clients(), (data: IClient[]) => {
+		this.load_form_api(await this.store.api.clients_vip(), (data: IClient[]) => {
 			this.client_data = data;
 		});
 	}
@@ -1140,7 +1140,7 @@ export default class Admin extends PageChildBase {
 <style lang="scss">
 @import '../../styles/initial_variables.scss';
 
-.vip {
+.admin {
 	height: calc(100vh - 6rem);
 	overflow-y: scroll;
 	padding-right: 1rem;

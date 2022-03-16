@@ -235,6 +235,11 @@ export class User extends BaseEntityDT implements IUser {
 	})
 	public trading: boolean;
 
+	@Column({
+		default: false,
+	})
+	public vip: boolean;
+
 	get name(): string {
 		if (this.firstname && this.lastname) {
 			return `${this.firstname} ${this.lastname}`;
