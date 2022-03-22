@@ -68,7 +68,7 @@
 						</form>
 					</o-step-item>
 
-					<o-step-item step="3" label="Curso" :visible="!store.authenticated">
+					<o-step-item step="3" label="Curso" :visible="!store.authenticated && !digital_trust">
 						<form class="form mt-3">
 							<article class="card" v-for="c in courses" :key="c.id">
 								<div class="card-content media">
@@ -119,6 +119,15 @@
 								icon-left="chevron-right"
 								@click.prevent="next.action"
 							/>
+							<o-button
+								v-if="activeStep === 2 && digital_trust"
+								variant="primary"
+								icon-pack="fas"
+								icon-left="chevron-right"
+								@click="register"
+							>
+								Registrarse
+							</o-button>
 							<o-button
 								v-if="activeStep === 3 && course"
 								variant="primary"
@@ -194,12 +203,15 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import { useDataStore, SignupDto, ICourse } from '~/store';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const store = useDataStore();
 const router = useRouter();
+const route = useRoute();
 
 const emit = defineEmits(['loading']);
+
+const digital_trust = route.query?.digital_trust === 'true';
 
 const activeStep = ref(1);
 const _4geeksActive = ref(false);
@@ -260,7 +272,15 @@ const register = async () => {
 		.then(error => {
 			emit('loading');
 			if (!error) {
-				store.subscribeCourse(course.value).then(error => {});
+				if (digital_trust && store.user) {
+					window.location.replace(
+						'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id,
+					);
+				} else if (course.value) {
+					store.subscribeCourse(course.value).then(error => {});
+				} else {
+					router.push('/');
+				}
 			}
 		})
 		.catch(() => {
