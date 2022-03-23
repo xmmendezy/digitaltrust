@@ -70,7 +70,7 @@ export class User extends BaseEntityDT implements IUser {
 
 	@Column({
 		nullable: true,
-		unique: true,
+		unique: false,
 	})
 	public telephone: string;
 
@@ -234,6 +234,11 @@ export class User extends BaseEntityDT implements IUser {
 		default: false,
 	})
 	public trading: boolean;
+
+	@Column({
+		default: false,
+	})
+	public vip: boolean;
 
 	get name(): string {
 		if (this.firstname && this.lastname) {

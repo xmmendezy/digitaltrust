@@ -37,6 +37,7 @@ export class User extends BaseEntityTD implements IUser {
 			}
 			this.country.id_time_zone = this.id_time_zone;
 			this.ref = data.ref;
+			this.digital_trust = data.digital_trust;
 		}
 	}
 
@@ -142,6 +143,11 @@ export class User extends BaseEntityTD implements IUser {
 		default: '',
 	})
 	public ref: string;
+
+	@Column({
+		default: false,
+	})
+	public digital_trust: boolean;
 
 	get name(): string {
 		if (this.firstname && this.lastname) {

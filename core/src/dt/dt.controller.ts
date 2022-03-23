@@ -84,6 +84,15 @@ export class DTController {
 		}
 	}
 
+	@Get('clients_vip')
+	public async clients_vip(@Req() req: Request) {
+		if (req.user.role === 'admin') {
+			return await this.dtService.clients(true);
+		} else {
+			return [];
+		}
+	}
+
 	@Get('client')
 	public async client(@Req() req: Request, @Query() query: { id: string }) {
 		if (req.user.role === 'admin') {
@@ -94,7 +103,7 @@ export class DTController {
 	}
 
 	@Patch('client')
-	public async update_client(@Req() req: Request, @Query() query: { id: string }, @Body() data: UpdateDto) {
+	public async update_client(@Query() query: { id: string }, @Body() data: UpdateDto) {
 		data = new UpdateDto(data);
 		const errors = data.validate();
 		if (errors.length) {

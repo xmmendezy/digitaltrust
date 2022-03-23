@@ -15,6 +15,7 @@ interface ISignupDto {
 	country: string;
 	ref: string;
 	freeSupport: boolean;
+	vip: boolean;
 }
 
 class SignupDto extends BaseDTO {
@@ -31,6 +32,7 @@ class SignupDto extends BaseDTO {
 		this.country = data.country;
 		this.ref = data.ref;
 		this.freeSupport = data.freeSupport;
+		this.vip = data.vip;
 	}
 
 	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
@@ -69,6 +71,8 @@ class SignupDto extends BaseDTO {
 	ref!: string;
 
 	freeSupport!: boolean;
+
+	vip!: boolean;
 }
 
 interface IPreregisterDto {
