@@ -2,7 +2,7 @@
 	<div class="index">
 		<div class="columns-content">
 			<div class="column-content has-text-centered">
-				<article class="card">
+				<article v-if="store.course && store.course !== 'none'" class="card">
 					<div class="card-content media">
 						<div class="media-content">
 							<div class="content">
@@ -25,7 +25,8 @@
 					<div class="columns is-justify-content-center mt-2">
 						<div class="column is-8">
 							<p class="subtitle is-size-6">
-								Manejamos su capital y le pagamos de un 5% a un 7% mensual.
+								{{ digital_trust_text }}
+								<br v-if="store.course && store.course === 'none'" />
 								<o-button
 									class="button is-ghost"
 									tag="a"
@@ -34,13 +35,24 @@
 									"
 									target="_blank"
 								>
-									<i class="fas fa-coins"></i> Invertir en DigitalTrust
+									<i class="fas fa-coins"></i> {{ digital_trust_link }}
+								</o-button>
+							</p>
+						</div>
+					</div>
+					<div v-if="store.course && store.course === 'none'" class="columns is-justify-content-center mt-6">
+						<div class="column is-8">
+							<p class="subtitle is-size-6">
+								Inscribirse a un curso y comenzar a aprender
+								<br />
+								<o-button class="button is-ghost" tag="router-link" to="/signup?signup_course=true">
+									<i class="fas fa-users-class"></i> Ver los cursos
 								</o-button>
 							</p>
 						</div>
 					</div>
 				</div>
-				<ul class="elements fa-ul has-text-left mt-2">
+				<ul v-if="store.course && store.course !== 'none'" class="elements fa-ul has-text-left mt-2">
 					<li>
 						<span class="fa-li"><i class="fas fa-book"></i></span>
 						<router-link to="/ebook/1"> Ebook - La biblia de las candelas </router-link>
@@ -99,7 +111,7 @@
 					</div>
 				</template>
 			</div>
-			<div class="column-content main">
+			<div v-if="store.course && store.course !== 'none'" class="column-content main">
 				<p class="has-text-centered">Comunicados</p>
 				<article class="card" v-for="notice in notices" :key="notice.id">
 					<div class="card-content media">
@@ -128,7 +140,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useDataStore, ISubscribeCourse, INotice } from '~/store';
 import { fromUnixTime, format, getUnixTime } from 'date-fns';
 
@@ -140,16 +152,34 @@ const notices = ref<Array<INotice>>([]);
 
 const toPay = ref(false);
 
-emit('loading');
-store
-	.notices()
-	.then(ns => {
-		notices.value = ns;
-		toPay.value = store.course_data ? getUnixTime(new Date()) > store.course_data.nextPayment : false;
-	})
-	.finally(() => {
-		emit('loading');
-	});
+const digital_trust_text = computed(() => {
+	if (store.user && store.user.digital_trust) {
+		return 'Ir a DigitalTrust donde manejamos su capital y le pagamos de un 5% a un 7% mensual.';
+	} else {
+		return 'Manejamos su capital y le pagamos de un 5% a un 7% mensual.';
+	}
+});
+
+const digital_trust_link = computed(() => {
+	if (store.user && store.user.digital_trust) {
+		return 'Ver mis inversiones en DigitalTrust';
+	} else {
+		return 'Invertir en DigitalTrust';
+	}
+});
+
+if (store.course && store.course !== 'none') {
+	emit('loading');
+	store
+		.notices()
+		.then(ns => {
+			notices.value = ns;
+			toPay.value = store.course_data ? getUnixTime(new Date()) > store.course_data.nextPayment : false;
+		})
+		.finally(() => {
+			emit('loading');
+		});
+}
 
 const parsePrice = (course?: ISubscribeCourse) => {
 	if (course) {

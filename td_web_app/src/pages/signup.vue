@@ -68,7 +68,11 @@
 						</form>
 					</o-step-item>
 
-					<o-step-item step="3" label="Curso" :visible="!store.authenticated && !digital_trust">
+					<o-step-item
+						step="3"
+						label="Curso"
+						:visible="(!store.authenticated && !digital_trust) || (store.authenticated && signup_course)"
+					>
 						<form class="form mt-3">
 							<article class="card" v-for="c in courses" :key="c.id">
 								<div class="card-content media">
@@ -112,7 +116,8 @@
 										signup.username &&
 										signup.email &&
 										signup.password &&
-										signup.password_confirm)
+										signup.password_confirm &&
+										!digital_trust)
 								"
 								variant="primary"
 								icon-pack="fas"
@@ -129,7 +134,7 @@
 								Registrarse
 							</o-button>
 							<o-button
-								v-if="activeStep === 3 && course"
+								v-if="activeStep === 3 && course && course !== 'none'"
 								variant="primary"
 								icon-pack="fas"
 								icon-left="chevron-right"
@@ -212,6 +217,7 @@ const route = useRoute();
 const emit = defineEmits(['loading']);
 
 const digital_trust = route.query?.digital_trust === 'true';
+const signup_course = route.query?.signup_course === 'true';
 
 const activeStep = ref(1);
 const _4geeksActive = ref(false);
@@ -219,6 +225,10 @@ const _4geeksActive = ref(false);
 onMounted(() => {
 	if (store.authenticated && !store.payed) {
 		_4geeksActive.value = true;
+		if (signup_course) {
+			_4geeksActive.value = false;
+			activeStep.value = 3;
+		}
 	}
 });
 
@@ -247,9 +257,11 @@ const countries = store.countries.map(c => ({ value: c.id, label: c.name }));
 
 const courses = ref<Array<ICourse>>([]);
 
-if (store.authenticated) {
+if (store.authenticated && !signup_course) {
 	store.myCourse().then(cs => {
-		courses.value = [cs];
+		if (cs) {
+			courses.value = [cs];
+		}
 	});
 } else {
 	store.courses().then(cs => {
@@ -267,6 +279,9 @@ const updateCardNumber = (e: any) => {
 };
 
 const register = async () => {
+	if (digital_trust) {
+		signup.digital_trust = true;
+	}
 	await store
 		.signup(signup)
 		.then(error => {
@@ -296,6 +311,13 @@ const _4geeks = async () => {
 			await register();
 		} else {
 			router.push('/login');
+		}
+	}
+	if (signup_course) {
+		if (course.value) {
+			store.subscribeCourse(course.value).then(error => {});
+		} else {
+			return;
 		}
 	}
 	emit('loading');
@@ -329,7 +351,11 @@ const toPay = () => {
 
 const exit = () => {
 	if (store.authenticated) {
-		store.logout();
+		if (signup_course) {
+			router.push('/');
+		} else {
+			store.logout();
+		}
 	} else {
 		router.push('/login');
 	}

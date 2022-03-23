@@ -122,18 +122,22 @@
 									/>
 								</o-field>
 
-								<o-field label="Precio personalizado">
+								<o-field v-if="client.course" label="Precio personalizado">
 									<o-input
 										v-model="client.course_price"
 										maxlength="30"
 										placeholder="Vacío: precio por defecto"
 									></o-input>
 								</o-field>
+
+								<o-field v-if="client.course" label="Curso pagado">
+									<o-switch v-model="client.payed"> </o-switch>
+								</o-field>
 							</form>
 						</div>
 						<div class="column-content">
 							<p>Datos del Usuario</p>
-							<form class="form">
+							<form class="form mb-4">
 								<o-field label="Nombre de usuario">
 									<o-input v-model="client.username" maxlength="10"></o-input>
 								</o-field>
@@ -155,6 +159,14 @@
 										password-reveal
 									>
 									</o-input>
+								</o-field>
+							</form>
+
+							<p>Servicios extra</p>
+							<form class="form">
+								<o-field label="DigitalTrust">
+									<fas-check v-if="client.digital_trust" class="has-text-success" />
+									<fas-times v-else />
 								</o-field>
 							</form>
 						</div>
@@ -209,7 +221,7 @@
 									/>
 								</o-field>
 
-								<o-field label="Precio personalizado">
+								<o-field v-if="client.course" label="Precio personalizado">
 									<o-input
 										v-model="client.course_price"
 										maxlength="30"
@@ -217,7 +229,7 @@
 									></o-input>
 								</o-field>
 
-								<o-field label="Curso pagado">
+								<o-field v-if="client.course" label="Curso pagado">
 									<o-switch v-model="client.payed"> </o-switch>
 								</o-field>
 							</form>

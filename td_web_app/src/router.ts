@@ -34,11 +34,11 @@ router.beforeEach(async (to, from, next) => {
 					next();
 				}
 			} else {
-				await store.myCourse().then(c => {
+				await store.myCourse().then(() => {
 					if (to.path === '/signup') {
 						next();
 					} else {
-						if (DateTime.now().minus({ days: 5 }).toSeconds() > c.nextPayment) {
+						if (store.course_data && DateTime.now().minus({ days: 5 }).toSeconds() > store.course_data.nextPayment) {
 							next('/signup');
 						} else {
 							next();

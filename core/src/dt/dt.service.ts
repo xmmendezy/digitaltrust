@@ -91,13 +91,13 @@ export class DTService {
 			data.ref = '';
 		}
 		const user = new User({ ...data, country });
-		if (
+		/* if (
 			await User.createQueryBuilder('user')
 				.where('user.telephone = :telephone', { telephone: user.telephone })
 				.getCount()
 		) {
 			return { error: 'validator.auth.j' };
-		}
+		} */
 		if (await User.createQueryBuilder('user').where('user.email = :email', { email: user.email }).getCount()) {
 			return { error: 'validator.auth.k' };
 		}
@@ -121,7 +121,7 @@ export class DTService {
 			.leftJoinAndSelect('user.country', 'country')
 			.where('user.id = :id', { id })
 			.getOne();
-		const userdto = await this.signup(
+		let userdto = await this.signup(
 			new SignupDto({
 				...user_trading,
 				country: user_trading.country.id,
@@ -141,7 +141,19 @@ export class DTService {
 				.getOne();
 			user.password = user_trading.password;
 			user.trading = true;
+			user_trading.digital_trust = true;
+			await user_trading.save();
 			await user.save();
+		} else {
+			if (userdto.error === 'validator.auth.m') {
+				userdto = await this.createToken(
+					await User.createQueryBuilder('user')
+						.leftJoinAndSelect('user.country', 'country')
+						.leftJoinAndSelect('country.time_zones', 'time_zones')
+						.where('user.username = :username', { username: user_trading.username })
+						.getOne(),
+				);
+			}
 		}
 		return userdto;
 	}

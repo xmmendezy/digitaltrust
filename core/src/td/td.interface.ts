@@ -24,6 +24,7 @@ interface IUser {
 	readonly country?: any;
 	readonly id_time_zone?: string;
 	readonly ref?: string;
+	readonly digital_trust?: boolean;
 }
 
 interface ITimeZone {

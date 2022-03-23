@@ -43,6 +43,7 @@ export class SignupDto extends ClassBase {
 		this.password_confirm = '';
 		this.country = '';
 		this.ref = '';
+		this.digital_trust = false;
 	}
 
 	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
@@ -76,6 +77,8 @@ export class SignupDto extends ClassBase {
 
 	ref!: string;
 
+	digital_trust!: boolean;
+
 	public validate(): string[] {
 		const errors = super.validate();
 		if (!this.equalsPassword) {
@@ -100,6 +103,7 @@ export class SignupDto extends ClassBase {
 		this.password_confirm = '';
 		this.country = '';
 		this.ref = '';
+		this.digital_trust = false;
 	}
 }
 
@@ -113,7 +117,6 @@ export class ClientDto extends SignupDto {
 
 	id!: string;
 
-	@IsNotEmpty({ message: 'validator.auth.a' })
 	course!: string;
 
 	course_price!: string;
@@ -141,6 +144,7 @@ export class ClientDto extends SignupDto {
 		this.course = data.course;
 		this.course_price = data.course_price;
 		this.payed = data.payed;
+		this.digital_trust = data.digital_trust;
 		return this;
 	}
 
@@ -177,6 +181,7 @@ export interface IUser {
 	lastLogin: number;
 	country__id: string;
 	created: number;
+	digital_trust: boolean;
 }
 
 export class UpdateDto extends ClassBase {

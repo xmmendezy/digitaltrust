@@ -185,20 +185,23 @@ export class TDService {
 	public async status(user: User) {
 		if (
 			await Invoice.createQueryBuilder('invoice')
-				.leftJoinAndSelect('invoice.user', 'user')
-				.leftJoinAndSelect('invoice.course', 'course')
+				.leftJoin('invoice.user', 'user')
 				.where('user.id = :id', { id: user.id })
 				.andWhere('invoice.payed = FALSE')
 				.getCount()
 		) {
 			return { payed: false };
 		} else {
-			if (user.DateTime.now().toSeconds() >= user.nextPayment) {
-				const invoice = new Invoice({ user, course: user.course });
-				await invoice.save();
-				return { payed: false };
+			if (user.course) {
+				if (user.DateTime.now().toSeconds() >= user.nextPayment) {
+					const invoice = new Invoice({ user, course: user.course });
+					await invoice.save();
+					return { payed: false };
+				} else {
+					return { payed: true };
+				}
 			} else {
-				return { payed: true };
+				return { payed: false };
 			}
 		}
 	}
@@ -503,20 +506,23 @@ export class TDService {
 			password: 'Secret00__',
 			country: user.country.id,
 			course: user.course ? user.course.id : '',
-			payed: true,
+			payed: false,
 		});
 	}
 
 	public async add_client(data: ClientDto): Promise<Error> {
-		const course = await Course.createQueryBuilder('course').where('course.id = :id', { id: data.course }).getOne();
-		if (course) {
-			const token = await this.signup(data);
-			if (token instanceof TokenDto) {
-				const user = await User.createQueryBuilder('user')
-					.leftJoinAndSelect('user.country', 'country')
-					.leftJoinAndSelect('country.time_zones', 'time_zones')
-					.where('user.id = :id', { id: token.user.id })
-					.getOne();
+		let course: Course;
+		if (data.course) {
+			course = await Course.createQueryBuilder('course').where('course.id = :id', { id: data.course }).getOne();
+		}
+		const token = await this.signup(data);
+		if (token instanceof TokenDto) {
+			const user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: token.user.id })
+				.getOne();
+			if (course) {
 				user.course = course;
 				user.course_price = data.course_price;
 				if (data.payed) {
@@ -527,14 +533,11 @@ export class TDService {
 				} else {
 					user.nextPayment = user.DateTime.utc().minus({ minutes: 5 }).toSeconds();
 				}
-
-				await user.save();
-				return { error: '' };
-			} else {
-				return token;
 			}
+			await user.save();
+			return { error: '' };
 		} else {
-			return { error: 'course.a' };
+			return token;
 		}
 	}
 
@@ -552,17 +555,56 @@ export class TDService {
 		} else {
 			const user = await User.createQueryBuilder('user')
 				.leftJoin('user.course', 'course')
+				.leftJoin('user.country', 'country')
+				.leftJoin('country.time_zones', 'time_zone')
 				.addSelect('course.id')
+				.addSelect('country.id')
+				.addSelect('country.locale')
+				.addSelect('time_zone.id')
+				.addSelect('time_zone.value')
 				.where('user.id = :id', { id: data.id })
 				.getOne();
-			const course = await Course.createQueryBuilder('course')
-				.select('course.id')
-				.where('course.id = :id', { id: data.course })
-				.getOne();
-			if (!user.course || data.course !== user.course.id) {
-				user.course = course;
-				await user.save();
+			let course: Course;
+			if (data.course) {
+				course = await Course.createQueryBuilder('course')
+					.select('course.id')
+					.addSelect('course.months')
+					.where('course.id = :id', { id: data.course })
+					.getOne();
 			}
+			if (data.course && (!user.course || (user.course && data.course !== user.course.id))) {
+				user.course = course;
+				user.course_price = data.course_price;
+			}
+			if (data.course) {
+				if (data.payed) {
+					await Invoice.createQueryBuilder()
+						.update()
+						.where('id in (:...ids)', {
+							ids: (
+								await Invoice.createQueryBuilder('invoice')
+									.leftJoin('invoice.user', 'user')
+									.where('user.id = :id', { id: user.id })
+									.getMany()
+							).map((inv) => inv.id),
+						})
+						.set({
+							payed: true,
+						})
+						.execute();
+					user.nextPayment = user.DateTime.utc()
+						.plus({ month: course.months })
+						.minus({ minutes: 5 })
+						.toSeconds();
+				} else {
+					user.nextPayment = user.DateTime.utc().minus({ minutes: 5 }).toSeconds();
+				}
+			} else {
+				user.course = null;
+				user.course_price = '';
+				user.nextPayment = 0;
+			}
+			await user.save();
 			return { error: '' };
 		}
 	}

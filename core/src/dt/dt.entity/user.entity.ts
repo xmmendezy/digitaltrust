@@ -70,7 +70,7 @@ export class User extends BaseEntityDT implements IUser {
 
 	@Column({
 		nullable: true,
-		unique: true,
+		unique: false,
 	})
 	public telephone: string;
 

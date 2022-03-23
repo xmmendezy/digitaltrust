@@ -156,16 +156,20 @@ export const useDataStore = defineStore('data', {
 			}
 		},
 		async myCourse() {
+			if (this.course) {
+				return this.course_data;
+			}
 			const res = await this.http('subscribe_course', true).get<Response<ISubscribeCourse>>('');
 			if (res.error) {
+				this.course = 'none';
 				this.notification(res.error, 'warning');
-				console.log(res.error);
 				if (res.error === 'login.error.u1') {
 					this.logout();
 				}
 				return res;
 			} else {
 				this.course = res.id;
+				this.course_data = res;
 				return res;
 			}
 		},

@@ -11,6 +11,7 @@ interface ISignupDto {
 	password: string;
 	country: string;
 	ref: string;
+	digital_trust: boolean;
 }
 
 class SignupDto extends BaseDTO {
@@ -23,6 +24,7 @@ class SignupDto extends BaseDTO {
 		this.password = data.password;
 		this.country = data.country;
 		this.ref = data.ref;
+		this.digital_trust = data.digital_trust;
 	}
 
 	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
@@ -50,6 +52,8 @@ class SignupDto extends BaseDTO {
 	country!: string;
 
 	ref!: string;
+
+	digital_trust!: boolean;
 }
 
 interface IClientDto extends ISignupDto {
@@ -72,10 +76,10 @@ class ClientDto extends SignupDto {
 
 	id!: string;
 
-	@IsNotEmpty({ message: 'validator.auth.a' })
 	course!: string;
 
 	course_price!: string;
+
 	payed!: boolean;
 }
 
@@ -93,6 +97,7 @@ class UserDto {
 		this.lastLogin = data.lastLogin;
 		this.country__id = data instanceof User ? data.country.id : data.country__id;
 		this.created = data.created;
+		this.digital_trust = data.digital_trust;
 	}
 
 	public id: string;
@@ -109,6 +114,7 @@ class UserDto {
 	public seeWelcome: boolean;
 	public country__id: string;
 	public created: number;
+	public digital_trust: boolean;
 }
 
 class TokenDto {

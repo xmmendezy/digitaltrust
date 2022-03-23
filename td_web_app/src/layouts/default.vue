@@ -35,8 +35,5 @@ const changeLoading = () => {
 	isLoading.value = !isLoading.value;
 };
 
-store.myCourse().then(c => {
-	store.course = c.id;
-	store.course_data = c;
-});
+store.myCourse();
 </script>

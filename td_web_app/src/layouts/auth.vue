@@ -18,8 +18,6 @@ const changeLoading = () => {
 };
 
 if (store.authenticated) {
-	store.myCourse().then(c => {
-		store.course = c.id;
-	});
+	store.myCourse()
 }
 </script>

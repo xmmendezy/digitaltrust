@@ -43,7 +43,7 @@ export default class Login extends PageChildBase {
 			if (await this.store.api.isLogged()) {
 				this.$i18n.locale = this.store.api.country.locale || 'en';
 				this.toastSuccess(`${this.$t('helper.welcome')}, ${this.store.api.name}`);
-				this.$router.push({ name: 'Home' });
+				this.$router.push({ name: 'BuyMore' });
 			} else {
 				this.$router.push({ path: '/login' });
 			}
