@@ -121,7 +121,7 @@ export class DTService {
 			.leftJoinAndSelect('user.country', 'country')
 			.where('user.id = :id', { id })
 			.getOne();
-		let userdto = await this.signup(
+		let token = await this.signup(
 			new SignupDto({
 				...user_trading,
 				country: user_trading.country.id,
@@ -133,20 +133,21 @@ export class DTService {
 				vip: false,
 			}),
 		);
-		if (userdto instanceof TokenDto) {
+		if (token instanceof TokenDto) {
 			const user = await User.createQueryBuilder('user')
 				.leftJoinAndSelect('user.country', 'country')
 				.leftJoinAndSelect('country.time_zones', 'time_zones')
-				.where('user.id = :id', { id: userdto.user.id })
+				.where('user.id = :id', { id: token.user.id })
 				.getOne();
 			user.password = user_trading.password;
 			user.trading = true;
+			token.user.trading = true;
 			user_trading.digital_trust = true;
 			await user_trading.save();
 			await user.save();
 		} else {
-			if (userdto.error === 'validator.auth.m') {
-				userdto = await this.createToken(
+			if (token.error === 'validator.auth.m') {
+				token = await this.createToken(
 					await User.createQueryBuilder('user')
 						.leftJoinAndSelect('user.country', 'country')
 						.leftJoinAndSelect('country.time_zones', 'time_zones')
@@ -155,7 +156,7 @@ export class DTService {
 				);
 			}
 		}
-		return userdto;
+		return token;
 	}
 
 	public async createToken(user: User | UserDto): Promise<TokenDto> {

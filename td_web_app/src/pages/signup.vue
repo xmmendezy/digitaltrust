@@ -280,6 +280,7 @@ const updateCardNumber = (e: any) => {
 
 const register = async () => {
 	if (digital_trust) {
+		emit('loading');
 		signup.digital_trust = true;
 	}
 	await store
