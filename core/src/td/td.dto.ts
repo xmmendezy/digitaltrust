@@ -7,11 +7,13 @@ interface ISignupDto {
 	username: string;
 	firstname: string;
 	lastname: string;
+	telegram: string;
 	email: string;
 	password: string;
 	country: string;
 	ref: string;
 	digital_trust: boolean;
+	social_trading: boolean;
 }
 
 class SignupDto extends BaseDTO {
@@ -20,11 +22,13 @@ class SignupDto extends BaseDTO {
 		this.username = data.username;
 		this.firstname = data.firstname;
 		this.lastname = data.lastname;
+		this.telegram = data.telegram;
 		this.email = data.email;
 		this.password = data.password;
 		this.country = data.country;
 		this.ref = data.ref;
 		this.digital_trust = data.digital_trust;
+		this.social_trading = data.social_trading;
 	}
 
 	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
@@ -53,7 +57,11 @@ class SignupDto extends BaseDTO {
 
 	ref!: string;
 
+	telegram!: string;
+
 	digital_trust!: boolean;
+
+	social_trading!: boolean;
 }
 
 interface IClientDto extends ISignupDto {
@@ -90,6 +98,7 @@ class UserDto {
 		this.email = data.email;
 		this.firstname = data.firstname;
 		this.lastname = data.lastname;
+		this.telegram = data.telegram;
 		this.change_password = data.change_password;
 		this.id_time_zone = data instanceof User ? (data as User).id_time_zone : data.id_time_zone;
 		this.role = data.role;
@@ -98,6 +107,7 @@ class UserDto {
 		this.country__id = data instanceof User ? data.country.id : data.country__id;
 		this.created = data.created;
 		this.digital_trust = data.digital_trust;
+		this.social_trading = data.social_trading;
 	}
 
 	public id: string;
@@ -106,6 +116,7 @@ class UserDto {
 	public telephone: string;
 	public lastname: string;
 	public firstname: string;
+	public telegram: string;
 	public change_password: boolean;
 	public id_time_zone: string;
 	public role: UserRole;
@@ -115,6 +126,7 @@ class UserDto {
 	public country__id: string;
 	public created: number;
 	public digital_trust: boolean;
+	public social_trading: boolean;
 }
 
 class TokenDto {
@@ -134,6 +146,7 @@ interface IUpdateDto {
 	lastname: string;
 	username: string;
 	email: string;
+	telegram: string;
 	password: string;
 	country: string;
 }
@@ -145,6 +158,7 @@ class UpdateDto extends BaseDTO {
 		this.lastname = data.lastname;
 		this.username = data.username;
 		this.email = data.email;
+		this.telegram = data.telegram;
 		this.password = data.password;
 		this.country = data.country;
 	}
@@ -172,6 +186,8 @@ class UpdateDto extends BaseDTO {
 
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	country!: string;
+
+	telegram!: string;
 }
 
 interface IRefer {

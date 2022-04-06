@@ -17,6 +17,7 @@ interface IUser {
 	readonly change_password?: boolean;
 	readonly firstname?: string;
 	readonly lastname?: string;
+	readonly telegram?: string;
 	readonly role?: UserRole;
 	readonly status?: UserStatus;
 	readonly lastLogin?: number;
@@ -25,6 +26,7 @@ interface IUser {
 	readonly id_time_zone?: string;
 	readonly ref?: string;
 	readonly digital_trust?: boolean;
+	readonly social_trading?: boolean;
 }
 
 interface ITimeZone {
@@ -45,6 +47,8 @@ interface ICourse {
 	readonly name?: string;
 	readonly price?: number;
 	readonly months?: number;
+	readonly blog?: boolean;
+	readonly is_active?: boolean;
 }
 
 interface IInvoice {
