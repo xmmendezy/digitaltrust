@@ -23,7 +23,22 @@
 				</article>
 				<div v-if="store.user" class="mt-4 is-size-5">
 					<div class="columns is-justify-content-center mt-2">
-						<div class="column is-8">
+						<div class="column" :class="[store.course && store.course === 'none' ? 'is-6' : 'is-8']">
+							<p class="subtitle is-size-6">
+								{{ social_trading_text }}
+								<br v-if="store.course && store.course === 'none'" />
+								<o-button
+									v-if="!store.user.social_trading"
+									class="button is-ghost"
+									@click="set_social_trading"
+								>
+									<i class="fas fa-star"></i> Ingresa al grupo del Social Trading
+								</o-button>
+							</p>
+						</div>
+					</div>
+					<div class="columns is-justify-content-center mt-2">
+						<div class="column" :class="[store.course && store.course === 'none' ? 'is-6' : 'is-8']">
 							<p class="subtitle is-size-6">
 								{{ digital_trust_text }}
 								<br v-if="store.course && store.course === 'none'" />
@@ -168,18 +183,40 @@ const digital_trust_link = computed(() => {
 	}
 });
 
-if (store.course && store.course !== 'none') {
-	emit('loading');
-	store
-		.notices()
-		.then(ns => {
-			notices.value = ns;
-			toPay.value = store.course_data ? getUnixTime(new Date()) > store.course_data.nextPayment : false;
-		})
-		.finally(() => {
-			emit('loading');
-		});
-}
+const social_trading_text = computed(() => {
+	if (store.user && store.user.social_trading) {
+		return 'Gracias por pertenecer a Social Trading. Te agregaremos al canal privado de Telegram y te enviaremos un correo con todos los detalles e información';
+	} else {
+		return '¡Unete a Social Trading y mantente al día en el mundo del trading!';
+	}
+});
+
+let is_load_notices = false;
+
+const get_notices = () => {
+	if (!is_load_notices) {
+		emit('loading');
+		is_load_notices = true;
+		store
+			.notices()
+			.then(ns => {
+				notices.value = ns;
+				toPay.value = store.course_data ? getUnixTime(new Date()) > store.course_data.nextPayment : false;
+			})
+			.finally(() => {
+				emit('loading');
+				is_load_notices = false;
+			});
+	}
+};
+
+store.$subscribe(() => {
+	if (store.course && store.course !== 'none') {
+		get_notices();
+	}
+});
+
+get_notices();
 
 const parsePrice = (course?: ISubscribeCourse) => {
 	if (course) {
@@ -191,5 +228,12 @@ const parsePrice = (course?: ISubscribeCourse) => {
 
 const parseDate = (date: number) => {
 	return format(fromUnixTime(date), 'dd/MM/yyyy');
+};
+
+const set_social_trading = () => {
+	emit('loading');
+	store.set_social_trading().finally(() => {
+		emit('loading');
+	});
 };
 </script>

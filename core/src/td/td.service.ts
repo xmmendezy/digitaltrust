@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { Error } from '@app/util/base.util';
 import { User, Country, HLogin, HQuery, SubscribeMail, Course, Invoice, Notice, Blog, Message } from './td.entity';
 import { ICourse, IMessage } from './td.interface';
@@ -87,6 +88,9 @@ export class TDService {
 		await user.time_login();
 		await user.time_query();
 		await user.save();
+		if (user.social_trading) {
+			await this.newClientSocialNotification(user);
+		}
 		return await this.createToken(user);
 	}
 
@@ -107,6 +111,7 @@ export class TDService {
 						name: user.name,
 						email: user.email,
 						course: user.course.name,
+						telegram: user.telegram,
 					}),
 				})
 				.then(() => {
@@ -133,6 +138,27 @@ export class TDService {
 					return { error: 'e000' };
 				});
 		}
+	}
+
+	public async newClientSocialNotification(user: User) {
+		await this.mailerService
+			.sendMail({
+				to: config.td.email_notification,
+				subject: 'TradingDigital - Nuevo cliente Social Trading',
+				html: handlebars.compile(
+					readFileSync(join(__dirname, '..', 'mails', 'td_new_client_social_trading.hbs'), 'utf8'),
+				)({
+					name: user.name,
+					email: user.email,
+					telegram: user.telegram,
+				}),
+			})
+			.then(() => {
+				return { error: '' };
+			})
+			.catch(() => {
+				return { error: 'e000' };
+			});
 	}
 
 	public async get_subscribe_course(user: User): Promise<ISubscribeCourse | Error> {
@@ -405,7 +431,7 @@ export class TDService {
 				return { error: 'validator.auth.i' };
 			}
 		}
-		const keys = ['firstname', 'lastname'];
+		const keys = ['firstname', 'lastname', 'telegram'];
 		const errors: string[] = [];
 		for (const key in data) {
 			if (Object.prototype.hasOwnProperty.call(data, key) && keys.find((k) => k === key)) {
@@ -457,8 +483,12 @@ export class TDService {
 		});
 	}
 
-	public async courses(): Promise<Course[]> {
-		return await Course.createQueryBuilder().orderBy('created').getMany();
+	public async courses(all = false): Promise<Course[]> {
+		const query = Course.createQueryBuilder();
+		if (!all) {
+			query.where('is_active is true');
+		}
+		return await query.orderBy('created').getMany();
 	}
 
 	public async update_courses(data: ICourse[]): Promise<Course[]> {
@@ -467,6 +497,7 @@ export class TDService {
 			course.name = c.name;
 			course.price = parseFloat(c.price as any);
 			course.months = parseInt(c.months as any);
+			course.is_active = !!c.is_active;
 			await course.save();
 		}
 		return await Course.createQueryBuilder().orderBy('created').getMany();
@@ -578,20 +609,22 @@ export class TDService {
 			}
 			if (data.course) {
 				if (data.payed) {
-					await Invoice.createQueryBuilder()
-						.update()
-						.where('id in (:...ids)', {
-							ids: (
-								await Invoice.createQueryBuilder('invoice')
-									.leftJoin('invoice.user', 'user')
-									.where('user.id = :id', { id: user.id })
-									.getMany()
-							).map((inv) => inv.id),
-						})
-						.set({
-							payed: true,
-						})
-						.execute();
+					const ids = (
+						await Invoice.createQueryBuilder('invoice')
+							.leftJoin('invoice.user', 'user')
+							.where('user.id = :id', { id: user.id })
+							.getMany()
+					).map((inv) => inv.id);
+					if (ids.length) {
+						await Invoice.createQueryBuilder()
+							.update()
+							.where('id in (:...ids)', { ids })
+							.set({
+								payed: true,
+							})
+							.execute();
+					}
+
 					user.nextPayment = user.DateTime.utc()
 						.plus({ month: course.months })
 						.minus({ minutes: 5 })
@@ -640,26 +673,30 @@ export class TDService {
 	public async get_notices(user: User) {
 		const notices_query = Notice.createQueryBuilder('notice').leftJoinAndSelect('notice.courses', 'course');
 		if (user.role === UserRole.USER) {
-			notices_query.where('course.id = :id', { id: user.course.id });
-			const notices = (await notices_query.orderBy('notice.created', 'DESC').getMany()).map((n) => ({
-				id: n.id,
-				title: n.title,
-				courses: n.courses.map((c) => c.id),
-				description: n.description,
-				url: n.url,
-				created: n.created,
-			}));
-			(await this.get_blogs(user)).map((b) => {
-				notices.push({
-					id: b.id,
-					title: b.title,
-					courses: b.courses,
-					description: b.description,
-					url: '/td_app/blog?id=' + b.id,
-					created: b.created,
+			if (user.course) {
+				notices_query.where('course.id = :id', { id: user.course.id });
+				const notices = (await notices_query.orderBy('notice.created', 'DESC').getMany()).map((n) => ({
+					id: n.id,
+					title: n.title,
+					courses: n.courses.map((c) => c.id),
+					description: n.description,
+					url: n.url,
+					created: n.created,
+				}));
+				(await this.get_blogs(user)).map((b) => {
+					notices.push({
+						id: b.id,
+						title: b.title,
+						courses: b.courses,
+						description: b.description,
+						url: '/td_app/blog?id=' + b.id,
+						created: b.created,
+					});
 				});
-			});
-			return notices.sort((na, nb) => nb.created - na.created);
+				return notices.sort((na, nb) => nb.created - na.created);
+			} else {
+				return [];
+			}
 		} else {
 			return (await notices_query.orderBy('notice.created', 'DESC').getMany()).map((n) => ({
 				id: n.id,
@@ -781,5 +818,74 @@ export class TDService {
 		const message = new Message(message_data);
 		await message.save();
 		return { error: '' };
+	}
+
+	//@Cron('0 0 3 * * *')
+	@Cron('0 */5 * * * *')
+	public async load_suscription_reinvestment() {
+		if (!config.production) {
+			console.log('Carga programada - TradinDigital');
+			return;
+		}
+		let d = DateTime.utc().plus({ days: 5 });
+		let emails = Array.from(
+			new Set(
+				(
+					await User.createQueryBuilder('user')
+						.select('user.email')
+						.where('user.nextPayment >= :d1 and user.nextPayment <= :d2', {
+							d1: d.startOf('day').toSeconds(),
+							d2: d.startOf('day').toSeconds(),
+						})
+						.getMany()
+				).map((u) => u.email),
+			),
+		);
+		if (emails.length) {
+			await this.mailerService
+				.sendMail({
+					to: emails,
+					subject: 'TradingDigital - Se esta acabando su curso',
+					html: handlebars.compile(
+						readFileSync(join(__dirname, '..', 'mails', 'td_course_near_end.hbs'), 'utf8'),
+					)({}),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		}
+		d = DateTime.utc();
+		emails = Array.from(
+			new Set(
+				(
+					await User.createQueryBuilder('user')
+						.select('user.email')
+						.where('user.nextPayment >= :d1 and user.nextPayment <= :d2', {
+							d1: d.startOf('day').toSeconds(),
+							d2: d.startOf('day').toSeconds(),
+						})
+						.getMany()
+				).map((u) => u.email),
+			),
+		);
+		if (emails.length) {
+			await this.mailerService
+				.sendMail({
+					to: emails,
+					subject: 'TradingDigital - ha finalizado su curso',
+					html: handlebars.compile(readFileSync(join(__dirname, '..', 'mails', 'td_course_end.hbs'), 'utf8'))(
+						{},
+					),
+				})
+				.then(() => {
+					return { error: '' };
+				})
+				.catch(() => {
+					return { error: 'e000' };
+				});
+		}
 	}
 }

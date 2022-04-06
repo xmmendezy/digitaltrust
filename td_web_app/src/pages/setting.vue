@@ -22,6 +22,10 @@
 							searchable
 						/>
 					</o-field>
+
+					<o-field label="Usuario Telegram">
+						<o-input v-model="user.telegram" maxlength="30" @keyup.enter="toUpdate"></o-input>
+					</o-field>
 				</form>
 			</div>
 			<div class="column-content">

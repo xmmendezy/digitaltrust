@@ -61,7 +61,7 @@
 				<div class="has-text-right mb-3">
 					<o-button icon-right="save" @click="updateCourses">Guardar</o-button>
 					<p class="has-text-danger mt-2">
-						Los valores y tiempo actualizados serán validos para cada estudiante una vez que acaben su
+						Los valores y tiempos actualizados serán validos para cada estudiante una vez que acaben su
 						período actual
 					</p>
 				</div>
@@ -69,11 +69,20 @@
 					<o-table-column field="name" label="Curso" v-slot="props">
 						<o-input v-model="props.row.name"> </o-input>
 					</o-table-column>
-					<o-table-column field="name" label="Precio" width="300" position="centered" v-slot="props">
+					<o-table-column field="price" label="Precio" width="300" position="centered" v-slot="props">
 						<o-input v-model="props.row.price"> </o-input>
 					</o-table-column>
-					<o-table-column field="name" label="Meses de clase" width="150" position="centered" v-slot="props">
+					<o-table-column
+						field="months"
+						label="Meses de clase"
+						width="150"
+						position="centered"
+						v-slot="props"
+					>
 						<o-input v-model="props.row.months"> </o-input>
+					</o-table-column>
+					<o-table-column field="is_active" label="Activo" width="150" position="centered" v-slot="props">
+						<o-switch v-model="props.row.is_active"> </o-switch>
 					</o-table-column>
 				</o-table>
 			</o-tab-item>
@@ -305,7 +314,7 @@ const parsePrice = (course: ICourse) => {
 	return '$' + course.price + '/90 días';
 };
 
-store.courses().then(cs => {
+store.courses_all().then(cs => {
 	courses_data.value = cs;
 	courses.value = cs.map(c => ({ value: c.id, label: c.name + ' - ' + parsePrice(c) }));
 });

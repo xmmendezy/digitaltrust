@@ -146,6 +146,18 @@ export const useDataStore = defineStore('data', {
 				return errors[0];
 			}
 		},
+		async set_social_trading() {
+			const res = await this.http('user', true).post<Response<IUser>>('social');
+			if (res.error) {
+				this.notification(res.error, 'warning');
+				return res.error;
+			} else {
+				if (this.user) {
+					this.user.social_trading = true;
+				}
+				return '';
+			}
+		},
 		async reset_password(email: string) {
 			const res = await this.http('reset_password', true).get<Response>('?email=' + email);
 			if (res.error) {
@@ -156,7 +168,7 @@ export const useDataStore = defineStore('data', {
 			}
 		},
 		async myCourse() {
-			if (this.course) {
+			if (this.course && this.course_data) {
 				return this.course_data;
 			}
 			const res = await this.http('subscribe_course', true).get<Response<ISubscribeCourse>>('');
@@ -185,6 +197,9 @@ export const useDataStore = defineStore('data', {
 		},
 		async courses() {
 			return await this.http('courses').get<ICourse[]>('');
+		},
+		async courses_all() {
+			return await this.http('courses', true).get<ICourse[]>('all');
 		},
 		async updateCourses(data: ICourse[]) {
 			return await this.http('courses', true).patch<ICourse[]>('', data);

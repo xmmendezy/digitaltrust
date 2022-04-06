@@ -38,6 +38,10 @@
 									searchable
 								/>
 							</o-field>
+
+							<o-field label="Usuario Telegram">
+								<o-input v-model="signup.telegram" icon="at" maxlength="30"></o-input>
+							</o-field>
 						</form>
 					</o-step-item>
 
@@ -71,7 +75,10 @@
 					<o-step-item
 						step="3"
 						label="Curso"
-						:visible="(!store.authenticated && !digital_trust) || (store.authenticated && signup_course)"
+						:visible="
+							(!store.authenticated && !digital_trust && !social_trading) ||
+							(store.authenticated && signup_course)
+						"
 					>
 						<form class="form mt-3">
 							<article class="card" v-for="c in courses" :key="c.id">
@@ -117,7 +124,8 @@
 										signup.email &&
 										signup.password &&
 										signup.password_confirm &&
-										!digital_trust)
+										!digital_trust &&
+										!social_trading)
 								"
 								variant="primary"
 								icon-pack="fas"
@@ -125,7 +133,7 @@
 								@click.prevent="next.action"
 							/>
 							<o-button
-								v-if="activeStep === 2 && digital_trust"
+								v-if="activeStep === 2 && (digital_trust || social_trading)"
 								variant="primary"
 								icon-pack="fas"
 								icon-left="chevron-right"
@@ -217,6 +225,7 @@ const route = useRoute();
 const emit = defineEmits(['loading']);
 
 const digital_trust = route.query?.digital_trust === 'true';
+const social_trading = route.query?.social_trading === 'true';
 const signup_course = route.query?.signup_course === 'true';
 
 const activeStep = ref(1);
@@ -283,6 +292,10 @@ const register = async () => {
 		emit('loading');
 		signup.digital_trust = true;
 	}
+	if (social_trading) {
+		emit('loading');
+		signup.social_trading = true;
+	}
 	await store
 		.signup(signup)
 		.then(error => {
@@ -292,6 +305,8 @@ const register = async () => {
 					window.location.replace(
 						'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id,
 					);
+				} else if (social_trading) {
+					router.push('/');
 				} else if (course.value) {
 					store.subscribeCourse(course.value).then(error => {});
 				} else {

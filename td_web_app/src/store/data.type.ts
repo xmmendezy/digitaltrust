@@ -38,12 +38,14 @@ export class SignupDto extends ClassBase {
 		this.username = '';
 		this.firstname = '';
 		this.lastname = '';
+		this.telegram = '';
 		this.email = '';
 		this.password = '';
 		this.password_confirm = '';
 		this.country = '';
 		this.ref = '';
 		this.digital_trust = false;
+		this.social_trading = false;
 	}
 
 	@Matches(/^[a-z][a-z0-9_-]{3,16}$/, { always: true, message: 'validator.auth.l' })
@@ -77,7 +79,12 @@ export class SignupDto extends ClassBase {
 
 	ref!: string;
 
+	@IsNotEmpty({ message: 'validator.auth.a' })
+	telegram!: string;
+
 	digital_trust!: boolean;
+
+	social_trading!: boolean;
 
 	public validate(): string[] {
 		const errors = super.validate();
@@ -98,12 +105,14 @@ export class SignupDto extends ClassBase {
 		this.username = '';
 		this.firstname = '';
 		this.lastname = '';
+		this.telegram = '';
 		this.email = '';
 		this.password = '';
 		this.password_confirm = '';
 		this.country = '';
 		this.ref = '';
 		this.digital_trust = false;
+		this.social_trading = false;
 	}
 }
 
@@ -171,6 +180,7 @@ export interface IUser {
 	id: string;
 	username: string;
 	password: string;
+	telegram: string;
 	email: string;
 	lastname: string;
 	firstname: string;
@@ -182,6 +192,7 @@ export interface IUser {
 	country__id: string;
 	created: number;
 	digital_trust: boolean;
+	social_trading: boolean;
 }
 
 export class UpdateDto extends ClassBase {
@@ -193,6 +204,7 @@ export class UpdateDto extends ClassBase {
 			this.lastname = data.lastname;
 			this.username = data.username;
 			this.email = data.email;
+			this.telegram = data.telegram;
 			this.password = 'Secret00__';
 			this.password_confirm = 'Secret00__';
 			this.country = data.country__id;
@@ -201,6 +213,7 @@ export class UpdateDto extends ClassBase {
 			this.lastname = '';
 			this.username = '';
 			this.email = '';
+			this.telegram = '';
 			this.password = '';
 			this.password_confirm = '';
 			this.country = '';
@@ -238,6 +251,8 @@ export class UpdateDto extends ClassBase {
 	@IsNotEmpty({ message: 'validator.auth.a' })
 	country!: string;
 
+	telegram!: string;
+
 	public validate(): string[] {
 		const errors = super.validate();
 		if (!this.equalsPassword) {
@@ -266,6 +281,7 @@ export interface ICourse {
 	price: number;
 	months: number;
 	blog: boolean;
+	is_active: boolean;
 }
 
 export interface ISubscribeCourse {
@@ -274,6 +290,7 @@ export interface ISubscribeCourse {
 	price: number;
 	months: number;
 	blog: boolean;
+	is_active: boolean;
 	telegram: string;
 	payed: boolean;
 	nextPayment: number;

@@ -25,6 +25,7 @@ export class User extends BaseEntityTD implements IUser {
 			this.change_password = data.change_password;
 			this.lastname = data.lastname;
 			this.firstname = data.firstname;
+			this.telegram = data.telegram;
 			this.role = data.role;
 			this.status = data.status;
 			this.lastLogin = data.lastLogin;
@@ -38,6 +39,7 @@ export class User extends BaseEntityTD implements IUser {
 			this.country.id_time_zone = this.id_time_zone;
 			this.ref = data.ref;
 			this.digital_trust = data.digital_trust;
+			this.social_trading = data.social_trading;
 		}
 	}
 
@@ -72,6 +74,11 @@ export class User extends BaseEntityTD implements IUser {
 		nullable: false,
 	})
 	public lastname: string;
+
+	@Column({
+		nullable: true,
+	})
+	public telegram: string;
 
 	@Column({
 		type: 'enum',
@@ -148,6 +155,11 @@ export class User extends BaseEntityTD implements IUser {
 		default: false,
 	})
 	public digital_trust: boolean;
+
+	@Column({
+		default: false,
+	})
+	public social_trading: boolean;
 
 	get name(): string {
 		if (this.firstname && this.lastname) {

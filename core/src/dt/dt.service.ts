@@ -1525,7 +1525,7 @@ export class DTService {
 	@Cron('0 */5 * * * *')
 	public async load_suscription_reinvestment() {
 		if (!config.production) {
-			console.log('Carga programada');
+			console.log('Carga programada - DigitalTrust');
 		}
 		for (const suscription of await Suscription.createQueryBuilder('s')
 			.select('s.id')

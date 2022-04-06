@@ -86,6 +86,14 @@ export class TDController {
 		}
 	}
 
+	@Post('user/social')
+	public async set_social_trading(@Req() req: Request) {
+		const user = req.user;
+		user.social_trading = true;
+		await user.save();
+		return { error: '' };
+	}
+
 	@Get('ref_user')
 	public async ref_user(@Query() query: { id: string }) {
 		return await this.tdService.ref_user(query.id);
@@ -99,6 +107,11 @@ export class TDController {
 	@Get('courses')
 	public async courses() {
 		return await this.tdService.courses();
+	}
+
+	@Get('courses/all')
+	public async courses_all() {
+		return await this.tdService.courses(true);
 	}
 
 	@Patch('courses')
