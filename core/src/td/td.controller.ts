@@ -56,7 +56,6 @@ export class TDController {
 
 	@Post('coinbase')
 	public async post_coinbase(@Body() data: { code: string }) {
-		console.log(data);
 		return await this.tdService.post_coinbase(data.code);
 	}
 
