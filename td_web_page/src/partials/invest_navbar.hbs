@@ -1,0 +1,30 @@
+<nav class='navbar third'>
+	<div class='container'>
+		<div class='navbar-brand'>
+			{{#page '' '@title' '' 'navbar-item title title-page'}}{{/page}}
+			<span class='navbar-burger burger main' data-target='navbarMenu'>
+				<span></span>
+				<span></span>
+				<span></span>
+			</span>
+		</div>
+		<div id='navbarMenu' class='navbar-menu'>
+			<div class='navbar-end'>
+				{{#page '' '@title' '' 'navbar-item title title-page has-text-white has-text-left'}}{{/page}}
+				<span class='navbar-burger burger is-active' data-target='navbarMenu'>
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+				{{#page 'learn' '@navbar.url.a3' '' 'navbar-item is-size-5'}}{{/page}}
+				{{#page 'about' '@navbar.url.a1' '' 'navbar-item is-size-5'}}{{/page}}
+				{{#page 'courses' '@navbar.url.a2' '' 'navbar-item is-size-5'}}{{/page}}
+				{{#page 'social_trading' '@navbar.url.a6' '' 'navbar-item is-size-5'}}{{/page}}
+				<a target='_blank' href="/td_app/login" class='navbar-item is-size-5 login'>
+					{{navbar.url.a4}}
+					<i class='fas fa-sign-in-alt icon-margin'></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</nav>

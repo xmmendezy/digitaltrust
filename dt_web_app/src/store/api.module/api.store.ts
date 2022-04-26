@@ -83,6 +83,7 @@ export default class ApiStore extends VuexModule {
 			get_coinpayments: `${ApiStore.config.Api}/get_coinpayments`,
 			get_coinpayments_donation: `${ApiStore.config.Api}/get_coinpayments_donation`,
 			get_coinpayments_support_payment: `${ApiStore.config.Api}/get_coinpayments_support_payment`,
+			get_coinbase: `${ApiStore.config.Api}/get_coinbase`,
 			status_coinpayments: `${ApiStore.config.Api}/status_coinpayments`,
 			support_payment: `${ApiStore.config.Api}/support_payment`,
 		};
@@ -927,6 +928,29 @@ export default class ApiStore extends VuexModule {
 			})
 			.catch(() => {
 				return 0;
+			});
+	}
+
+	@action
+	public async get_coinbase(data: {
+		id?: string;
+		membershipId: string;
+		suscriptionId?: string;
+		type: string;
+		money: number;
+		currency: string;
+	}): Promise<{ error: string; url?: string }> {
+		return await ApiStore.http
+			.post(this.url.get_coinbase, data, { headers: this.headers })
+			.then(async response => {
+				const error = get_errors(response);
+				if (error) {
+					return error;
+				}
+				return response.data;
+			})
+			.catch(e => {
+				return get_errors(e);
 			});
 	}
 }
