@@ -293,7 +293,7 @@ body {
 	.content {
 		position: absolute;
 		top: 0;
-		background-color: $box !important;
+		background-image: linear-gradient(180deg, $box, $box, $box, $primary, $primary) !important;
 
 		@include tablet {
 			width: 100%;
@@ -304,8 +304,9 @@ body {
 		}
 
 		@include mobile {
-			height: 91.5vh;
-			padding-top: 40vh;
+			height: 92vh;
+			width: 100vw;
+			padding-top: 10vh;
 			margin-top: 10vh;
 		}
 
@@ -329,7 +330,6 @@ body {
 		}
 
 		.button {
-			width: 30%;
 			margin-left: auto !important;
 			margin-right: auto !important;
 			margin-top: 3.5rem !important;
@@ -338,7 +338,8 @@ body {
 			height: fit-content;
 
 			@include mobile {
-				width: 50%;
+				width: 80%;
+				white-space: unset;
 			}
 
 			p {
@@ -373,9 +374,14 @@ body {
 	.glide {
 		margin-top: -10vh;
 
-		.glide__slides {
-			@include tablet {
-				height: 110vh;
+		img {
+			height: 92vh;
+		}
+
+		@include tablet {
+			img {
+				width: 100vw;
+				height: 100vh;
 			}
 		}
 	}

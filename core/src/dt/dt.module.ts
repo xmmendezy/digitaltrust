@@ -57,6 +57,7 @@ export class DTModule implements NestModule {
 				'/dt/api/ref_user',
 				'/dt/api/get_stripe_donation',
 				'/dt/api/get_coinpayments_donation',
+				'/dt/api/coinbase',
 			)
 			.forRoutes(DTController);
 	}

@@ -260,6 +260,8 @@
 		"description": "Enter the amount to deposit.",
 		"description_dollar": "Enter the amount to be deposited in dollars.",
 		"has_blockchain": "There is a pending payment process, by continuing the registration will be lost. Are you sure you want to continue?",
+		"has_coinbase": "Los pagos en CoinBase pueden demorar un poco en hacer efecto. Luego de pagar espere a que se acredite, si tiene problemas, contactenos. ¿Seguro quiere continuar?",
+		"error_coinbase": "Ha ocurrido un error con el pago en CoinBase",
 		"completed_description": "Your deposit has been processed. Thank you for trusting DigitalTrust",
 		"success": "Payment processed",
 		"error": "There was an error, please try again",
@@ -293,6 +295,7 @@
 		"paypal": "PayPal",
 		"stripe": "Stripe",
 		"blockchain": "CoinPayments",
+		"coinbase": "CoinBase",
 		"balance": "Reinvestment",
 		"bankcheck": "Bank Check",
 		"wire_transfer": "Wire Transfer",
@@ -302,6 +305,7 @@
 		"paypal": ["fab", "paypal"],
 		"stripe": ["fab", "stripe"],
 		"blockchain": ["fab", "btc"],
+		"coinbase": ["fab", "btc"],
 		"balance": ["fas", "money-bill"]
 	},
 	"validator": {

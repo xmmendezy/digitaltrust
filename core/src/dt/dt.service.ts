@@ -43,6 +43,7 @@ import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
 
 import config from '@config';
+import axios from 'axios';
 
 const url_root = config.url_root ? config.url_root : 'https://digitaltrustonline.net';
 
@@ -57,8 +58,7 @@ export class DTService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	public async suscribe_mail(email: string): Promise<Error> {
-		const re =
-			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
 			const suscibe = await SuscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
@@ -1069,7 +1069,9 @@ export class DTService {
 		return { valid: !suscription.errors.length };
 	}
 
-	public async balance_graphic(user: User): Promise<{
+	public async balance_graphic(
+		user: User,
+	): Promise<{
 		labels: number[];
 		data: number[];
 	}> {
@@ -1416,6 +1418,60 @@ export class DTService {
 			success_url,
 			cancel_url: `${url_root}/dt_app/buy?success_coinpayments=false`,
 		});
+	}
+
+	public async get_coinbase(
+		user: User,
+		data: DepositDto & { currency: string },
+	): Promise<{ error: string; url?: string }> {
+		const success_url = `${url_root}/dt_app/buy?success_coinpayments=true&${Object.entries(data)
+			.map(([key, val]) => `${key}=${val}`)
+			.join('&')}`;
+		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
+		const res = await axios
+			.post<{
+				data: {
+					code: string;
+					hosted_url: string;
+				};
+			}>(
+				'https://api.commerce.coinbase.com/invoices',
+				{
+					business_name: 'DigitalTrust',
+					customer_email: user.email,
+					customer_name: user.name,
+					local_price: {
+						amount: data.money,
+						currency: 'USD',
+					},
+					memo: `Payment - ${membership.name}`,
+				},
+				{
+					headers: { 'X-CC-Api-Key': config.td.coinbase_secret_key, 'X-CC-Version': '2018-03-22' },
+				},
+			)
+			.then((res) => {
+				if (res.status === 201) {
+					return {
+						code: res.data.data.code,
+						hosted_url: res.data.data.hosted_url,
+					};
+				} else {
+					return {
+						code: '',
+						hosted_url: '',
+					};
+				}
+			});
+		if (res.code) {
+			return { error: '', url: res.hosted_url };
+		} else {
+			return { error: 'invoice.a' };
+		}
+	}
+
+	public async post_coinbase(reference: string) {
+		console.log(reference);
 	}
 
 	public async status_coinpayments(txid: string): Promise<any> {

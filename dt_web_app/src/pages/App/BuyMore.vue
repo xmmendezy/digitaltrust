@@ -224,7 +224,7 @@ export default class BuyMore extends PageChildBase {
 
 	private deposit_memberships: MembershipOption[] = [];
 	private deposit_membership_selected: string = '';
-	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain'];
+	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain', 'coinbase'];
 	private deposit_method_selected: string = 'balance';
 	private deposit_blockchains: { name: string; currency: string; coingecko: string; image: string }[] =
 		this.store.util.deposit_blockchains;
@@ -363,15 +363,15 @@ export default class BuyMore extends PageChildBase {
 			this.moneyDepositAvailable = parseFloat(this.balance_detail_data.available_balance.toFixed(2));
 			if (this.moneyDepositAvailable) {
 				if (this.auth_data.user?.trading) {
-					this.deposit_methods = ['balance', 'blockchain'];
+					this.deposit_methods = ['balance', 'coinbase'];
 				} else {
 					this.deposit_methods = ['balance', 'paypal', 'stripe', 'blockchain'];
 				}
 				this.deposit_method_selected = 'balance';
 			} else {
 				if (this.auth_data.user?.trading) {
-					this.deposit_methods = ['blockchain'];
-					this.deposit_method_selected = 'blockchain';
+					this.deposit_methods = ['coinbase'];
+					this.deposit_method_selected = 'coinbase';
 				} else {
 					this.deposit_methods = ['paypal', 'stripe', 'blockchain'];
 					this.deposit_method_selected = 'paypal';
@@ -418,15 +418,15 @@ export default class BuyMore extends PageChildBase {
 				this.maxMoneyDeposit = this.moneyDepositAvailable;
 			}
 			if (this.auth_data.user?.trading) {
-				this.deposit_methods = ['balance', 'blockchain'];
+				this.deposit_methods = ['balance', 'coinbase'];
 			} else {
 				this.deposit_methods = ['balance', 'paypal', 'stripe', 'blockchain'];
 			}
 			this.deposit_method_selected = 'balance';
 		} else {
 			if (this.auth_data.user?.trading) {
-				this.deposit_methods = ['blockchain'];
-				this.deposit_method_selected = 'blockchain';
+				this.deposit_methods = ['coinbase'];
+				this.deposit_method_selected = 'coinbase';
 			} else {
 				this.deposit_methods = ['paypal', 'stripe', 'blockchain'];
 				this.deposit_method_selected = 'paypal';
@@ -530,6 +530,8 @@ export default class BuyMore extends PageChildBase {
 			} else {
 				this.process_blockchain();
 			}
+		} else if (this.deposit_method_selected === 'coinbase') {
+			this.process_coinbase();
 		}
 	}
 
@@ -606,6 +608,34 @@ export default class BuyMore extends PageChildBase {
 						}
 					});
 				});
+			},
+		);
+	}
+
+	private async process_coinbase() {
+		this.load_form_api(
+			await this.store.api.get_coinbase({
+				type: this.deposit_method_selected,
+				membershipId: this.deposit_membership_selected,
+				suscriptionId: this.balance_detail_data.suscriptions.find(
+					s => s.membershipId === this.deposit_membership_selected,
+				)?.id,
+				money: this.moneyDeposit,
+				currency: this.deposit_blockchain_currency.currency,
+			}),
+			data => {
+				if (data.url) {
+					this.$buefy.dialog.confirm({
+						message: this.$t('deposit.has_coinbase') as string,
+						onConfirm: () => {
+							window.open(data.url, '_blank');
+						},
+					});
+				} else {
+					this.$buefy.dialog.confirm({
+						message: this.$t('deposit.error_coinbase') as string,
+					});
+				}
 			},
 		);
 	}

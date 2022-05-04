@@ -360,6 +360,25 @@ export class DTController {
 		return await this.dtService.status_coinpayments(data.txid);
 	}
 
+	@Post('get_coinbase')
+	public async get_coinbase(@Req() req: Request, @Body() data: DepositDto & { currency: string }) {
+		let user: User = req.user;
+		if (data.id) {
+			user = await User.createQueryBuilder('user')
+				.leftJoinAndSelect('user.country', 'country')
+				.leftJoinAndSelect('country.time_zones', 'time_zones')
+				.where('user.id = :id', { id: data.id })
+				.getOne();
+		}
+		return await this.dtService.get_coinbase(user, data);
+	}
+
+	@Post('coinbase')
+	public async post_coinbase(@Body() data: { code: string }) {
+		console.log(data);
+		return await this.dtService.post_coinbase(data.code);
+	}
+
 	@Post('get_stripe_donation')
 	public async get_stripe_donation(@Body() data: { money: number }) {
 		return await this.dtService.get_stripe_donation(data);
