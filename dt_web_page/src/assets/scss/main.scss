@@ -3,11 +3,11 @@
 @import 'bulma/sass/utilities/_all';
 
 // Set your colors
-$border: #d3d8dd;
-$gray: #eaecee;
-$black: white;
-$dark: #334d6e;
-$selected: #458ff62c;
+$border: #113c67;
+$gray: #676d74;
+$black: rgb(58, 58, 58);
+$dark: #0b2c56;
+$selected: #1b509a2c;
 $box: #346fc280;
 $box-hover: rgba(0, 0, 0, 0.05);
 
@@ -165,8 +165,8 @@ $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
 // Footer
-$footer-background-color: $primary;
-$footer-color: $white;
+$footer-background-color: $white;
+$footer-color: $black;
 $footer-padding: 3rem 5rem;
 
 @import 'bulma/bulma.sass';
@@ -186,8 +186,8 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: white !important;
-	background-image: linear-gradient(135deg, $primary, #45bff6, $primary) !important;
+	color: $black;
+	background-color: white;
 }
 
 .hero-body {
@@ -205,13 +205,16 @@ body {
 }
 
 .title-underline {
-	color: $black !important;
 	font-size: 38px !important;
 	padding-bottom: 1rem;
 	margin-top: 2rem !important;
 	margin-bottom: 2rem !important;
 	display: inline-block;
 	border-bottom: 3px solid $black;
+
+	&.has-text-white {
+		border-bottom: 3px solid $white;
+	}
 }
 
 .control.has-floating-label {
@@ -293,7 +296,6 @@ body {
 	.content {
 		position: absolute;
 		top: 0;
-		background-image: linear-gradient(180deg, $box, $box, $box, $primary, $primary) !important;
 
 		@include tablet {
 			width: 100%;
@@ -352,7 +354,6 @@ body {
 			margin: auto;
 			display: inline;
 			text-align: center;
-			background-color: #458ff6;
 			cursor: pointer;
 			border-top-left-radius: 15px;
 			border-bottom-left-radius: 15px;
@@ -479,6 +480,7 @@ body {
 }
 
 #benefits {
+	color: $white;
 	background-color: $main-dark-two;
 
 	@include tablet {
@@ -512,8 +514,6 @@ body {
 }
 
 #our_industries {
-	background-color: white;
-
 	@include tablet {
 		width: 100vw !important;
 		margin-bottom: 3rem;
@@ -676,7 +676,6 @@ body {
 }
 
 #timeline {
-	background-color: white;
 	padding-bottom: 8rem;
 	margin-bottom: 0;
 
