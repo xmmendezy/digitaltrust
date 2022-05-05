@@ -1,5 +1,4 @@
 nav.navbar {
-	background-color: $box;
 	padding: 1.5rem 9rem 0 9rem !important;
 
 	@include touch {
@@ -14,6 +13,10 @@ nav.navbar {
 
 	.navbar-burger {
 		color: $black;
+
+		&.is-active {
+			color: $white;
+		}
 	}
 
 	&.secundary {
@@ -32,10 +35,11 @@ nav.navbar {
 }
 
 a.navbar-item {
-	color: $white;
+	color: $primary;
 	margin-top: 0.5rem;
 	font-size: 16px !important;
 	font-weight: lighter;
+	border-radius: 1rem;
 
 	@include touch {
 		text-align: left;
@@ -73,7 +77,7 @@ a.navbar-item {
 
 	&:hover {
 		color: $white;
-		background-color: $box-hover;
+		background-color: $primary;
 		font-size: 2rem;
 	}
 }

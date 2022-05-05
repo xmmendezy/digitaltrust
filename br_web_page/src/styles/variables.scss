@@ -1,0 +1,87 @@
+// Import Bulma's core
+@import '~bulma/sass/utilities/_all.sass';
+
+// Set your colors
+$border: #f1f1f1;
+$gray: #d9d9d9;
+$black: #ffffff;
+$white: #282727;
+$dark: #dfdcdc;
+
+$primary: #ffffff;
+$primary-invert: findColorInvert($primary);
+$primary-light: findLightColor($primary);
+$primary-dark: findDarkColor($primary);
+
+$success: #58cc80;
+$success-invert: $white;
+$success-light: findLightColor($success);
+$success-dark: findDarkColor($success);
+
+$warning: #ffe066;
+$warning-invert: $black;
+$warning-light: findLightColor($warning);
+$warning-dark: findDarkColor($warning);
+
+$danger: #fa5588;
+$danger-invert: findColorInvert($danger);
+$danger-light: findLightColor($danger);
+$danger-dark: findDarkColor($danger);
+
+$colors: mergeColorMaps(
+	(
+		'white': (
+			$white,
+			$black,
+		),
+		'black': (
+			$black,
+			$white,
+		),
+		'light': (
+			$light,
+			$light-invert,
+		),
+		'dark': (
+			$dark,
+			$dark-invert,
+		),
+		'primary': (
+			$primary,
+			$primary-invert,
+			$primary-light,
+			$primary-dark,
+		),
+		'link': (
+			$link,
+			$link-invert,
+			$link-light,
+			$link-dark,
+		),
+		'info': (
+			$info,
+			$info-invert,
+			$info-light,
+			$info-dark,
+		),
+		'success': (
+			$success,
+			$success-invert,
+			$success-light,
+			$success-dark,
+		),
+		'warning': (
+			$warning,
+			$warning-invert,
+			$warning-light,
+			$warning-dark,
+		),
+		'danger': (
+			$danger,
+			$danger-invert,
+			$danger-light,
+			$danger-dark,
+		),
+	),
+	$custom-colors
+);

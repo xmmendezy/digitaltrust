@@ -224,16 +224,18 @@ body {
 		font-weight: normal;
 		position: absolute;
 		line-height: 1;
+		color: $white;
 	}
 
 	.input,
 	.textarea {
 		background: transparent !important;
-		color: $gray;
+		color: $white;
+		border-color: $white;
 
 		&:hover,
 		&:focus {
-			border-color: $border !important;
+			border-color: $white !important;
 		}
 	}
 
@@ -243,11 +245,34 @@ body {
 		transition-duration: 0.2s;
 
 		&:placeholder-shown + .label.is-floating-label {
-			color: $gray;
+			color: $white;
 			display: block;
 			top: 1.375rem;
 			left: 0.75rem;
 			z-index: 0;
+		}
+
+		&.is-white {
+			border-color: $primary;
+
+			&:hover,
+			&:focus {
+				border-color: $primary !important;
+			}
+
+			&:hover + .label.is-floating-label {
+				border-color: $primary !important;
+				z-index: 2;
+			}
+
+			&:focus,
+			&:not(:placeholder-shown) {
+				border-color: $primary !important;
+
+				& + .label.is-floating-label {
+					border-color: $primary !important;
+				}
+			}
 		}
 
 		&:hover + .label.is-floating-label {
@@ -278,11 +303,64 @@ body {
 
 #info {
 	position: relative;
+	margin: auto;
 	margin-bottom: 0;
 	padding: 0 !important;
+	max-width: 80vw;
+	height: 100vh;
 
-	@include tablet {
-		height: 100vh;
+	.index_1 {
+		height: 60vh;
+		width: auto;
+		padding-top: 10vh;
+
+		@include mobile {
+			height: auto;
+			width: 80vw;
+			padding-top: 5vh;
+		}
+	}
+
+	.index_2,
+	.index_3,
+	.index_4 {
+		position: absolute;
+		height: 120px;
+		width: auto;
+
+		@include mobile {
+			height: 60px;
+		}
+	}
+
+	.index_2 {
+		top: 10rem;
+		left: 5rem;
+
+		@include mobile {
+			top: 4rem;
+			left: 1rem;
+		}
+	}
+
+	.index_3 {
+		bottom: 22rem;
+		left: 15vw;
+
+		@include mobile {
+			bottom: 28rem;
+			left: 30vw;
+		}
+	}
+
+	.index_4 {
+		top: 15rem;
+		left: 28vw;
+
+		@include mobile {
+			top: 6rem;
+			left: 45vw;
+		}
 	}
 
 	.content > * {
@@ -301,51 +379,48 @@ body {
 			width: 100%;
 			height: 100vh;
 			margin: auto;
-			padding-top: 25vh;
 			margin-top: 10vh;
 		}
 
 		@include mobile {
 			height: 92vh;
-			width: 100vw;
-			padding-top: 10vh;
-			margin-top: 10vh;
 		}
 
 		.title-info {
 			color: $black !important;
 			font-weight: bold;
+			font-size: 1.5rem;
 
 			@include tablet {
-				font-size: 40px !important;
+				font-size: 2.5rem;
+				padding-top: 20vh;
 			}
 		}
 
 		.subtitle-info {
 			color: $black;
 			font-weight: bold;
-			padding-top: 1.5rem;
+			font-size: 1rem;
 
 			@include tablet {
-				font-size: 24px !important;
+				padding-top: 1.5rem;
+				font-size: 1.2rem;
 			}
 		}
 
 		.button {
 			margin-left: auto !important;
 			margin-right: auto !important;
-			margin-top: 3.5rem !important;
+			margin-top: 3.5rem;
 			padding: 1rem 2.5rem;
 			font-weight: bold;
 			height: fit-content;
 
 			@include mobile {
-				width: 80%;
+				width: 90%;
+				font-size: 1rem;
 				white-space: unset;
-			}
-
-			p {
-				font-size: 1.25rem;
+				margin-top: 0;
 			}
 		}
 
@@ -371,21 +446,6 @@ body {
 			}
 		}
 	}
-
-	.glide {
-		margin-top: -10vh;
-
-		img {
-			height: 92vh;
-		}
-
-		@include tablet {
-			img {
-				width: 100vw;
-				height: 100vh;
-			}
-		}
-	}
 }
 
 .hero-body {
@@ -399,10 +459,6 @@ body {
 
 	.container {
 		margin-top: 2rem;
-
-		@include mobile {
-			margin-top: 60vh;
-		}
 
 		&.secundary {
 			margin-top: 1rem !important;
@@ -467,14 +523,6 @@ body {
 			li {
 				padding-bottom: 1rem;
 			}
-		}
-	}
-
-	.bbutton {
-		@extend .is-white;
-
-		&:hover {
-			background-color: $box !important;
 		}
 	}
 }
@@ -586,6 +634,11 @@ body {
 	position: relative;
 	margin-bottom: 0;
 
+	.title-underline {
+		color: $white;
+		border-bottom: 3px solid $white;
+	}
+
 	@include tablet {
 		width: 100vw !important;
 		margin-bottom: 3rem;
@@ -614,8 +667,11 @@ body {
 		}
 
 		.contacts {
-			padding-left: 3rem;
 			list-style: none !important;
+
+			@include tablet {
+				padding-left: 3rem;
+			}
 
 			li {
 				padding-bottom: 0.5rem;
@@ -744,14 +800,6 @@ body {
 		@include tablet {
 			width: 70% !important;
 		}
-
-		&.bbutton {
-			@extend .is-white;
-
-			&:hover {
-				background-color: $box !important;
-			}
-		}
 	}
 }
 
@@ -764,7 +812,7 @@ body {
 }
 
 .wbutton {
-	background-color: $box;
+	background-color: $primary;
 	color: $white;
 	border: none !important;
 
@@ -803,6 +851,10 @@ body {
 		text-align: left;
 		border-left: none !important;
 		border-right: none !important;
+
+		&.is-white {
+			border: 1px solid $white;
+		}
 
 		.accordion-content {
 			color: $black;

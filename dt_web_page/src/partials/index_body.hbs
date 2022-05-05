@@ -1,20 +1,20 @@
 <section id="info" class="section">
-	<div class="glide">
-		{{#image_src 'slider-1.jpg' ''}}{{/image_src}}
-	</div>
-
 	<div class="content has-text-centered">
 		<div class="columns">
 			<div class="column">
+				{{#image_src 'index_1.png' 'index_1' '' 'zoom-in'}}{{/image_src}}
+				{{#image_src 'index_2.png' 'index_2' '' 'slide-right'}}{{/image_src}}
+				{{#image_src 'index_3.png' 'index_3' '' 'slide-up'}}{{/image_src}}
+				{{#image_src 'index_4.png' 'index_4' '' 'slide-down'}}{{/image_src}}
 			</div>
-			<div class="column is-8 pl-6 pr-6">
-				<h1 class="title is-2 title-info">
+			<div class="column is-6">
+				<h1 class="title title-info">
 					{{ info.a }}
 				</h1>
 				<p class="subtitle-info">
 					{{ info.b }}
 				</p>
-				<a href="#invest_now" class="button is-primary is-light is-rounded mt-4">
+				<a href="#invest_now" class="button is-primary is-rounded">
 					<p>
 						{{ info.e }}
 					</p>
@@ -23,7 +23,7 @@
 		</div>
 	</div>
 
-	<div class="points_1">
+	<div class="points_1 is-hidden-mobile">
 		{{> points_svg }}
 	</div>
 
@@ -34,35 +34,12 @@
 	<div class="points_3 is-hidden-mobile">
 		{{> points_svg }}
 	</div>
-</section>
 
-<section id="our_industries" class="section mt-6">
-	<div class="columns">
-		<div class="column is-hidden-mobile"></div>
-		<div class="column is-8">
-			<div class="content">
-				<h1 class="title-underline has-text-left">{{ our_industries.a }}</h1>
-				<p class="has-text-left">
-					{{ our_industries.b }}
-				</p>
-				<p class="has-text-left">
-					{{ our_industries.c }}
-				</p>
-			</div>
-		</div>
-		<div class="column is-hidden-mobile"></div>
-	</div>
-	<div class="columns">
-		<div class="column">
-			{{#image_src 'services_desktop.png' 'image_our_industries is-hidden-mobile' '' 'slide-up'}}{{/image_src}}
-			{{#image_src 'services_mobile.png' 'image_our_industries is-hidden-desktop' '' 'slide-right'}}{{/image_src}}
-			<script>
-				AOS.init({
-					duration: 1200,
-				});
-			</script>
-		</div>
-	</div>
+	<script>
+		AOS.init({
+			duration: 1200,
+		});
+	</script>
 </section>
 
 <section class="hero">
@@ -83,10 +60,11 @@
 								</li>
 								{{/each}}
 							</ul>
-							<a href="/dt_app/preregister?i18n={{ i18n }}" class="button bbutton is-rounded is-outlined">
+							<a href="/dt_app/preregister?i18n={{ i18n }}"
+								class="button is-primary is-rounded is-outlined">
 								{{ invest_now.d }}
 							</a>
-							{{#page 'help' '@navbar.url.a8' '' 'button bbutton is-rounded is-outlined help-button'
+							{{#page 'help' '@navbar.url.a8' '' 'button is-primary is-rounded is-outlined help-button'
 							}}{{/page}}
 						</div>
 					</div>
@@ -121,7 +99,7 @@
 						<div class="field">
 							<div class="control has-floating-label"><input class="input is-medium with-floating-label"
 									id="suscribe" placeholder=" " type="text" required="" autocomplete="off"> <label
-									class="label is-floating-label has-text-gray" for="suscribe">e-mail</label>
+									class="label is-floating-label" for="suscribe">e-mail</label>
 							</div>
 						</div>
 					</div>
@@ -191,7 +169,7 @@
 								{{#page 'friendly' '@helper.more' '' 'has-text-white' }}{{/page}}
 							</p>
 							<a target="_blank" href="/dt_app/donations?i18n={{ i18n }}"
-								class="button bbutton is-rounded is-outlined">
+								class="button is-primary is-rounded is-outlined">
 								{{ friendly.d }}
 							</a>
 						</div>
@@ -217,11 +195,11 @@
 				<section class="accordions">
 					{{#each fqa.b}}
 					<article class="accordion">
-						<div class="accordion-header toggle">
+						<div class="accordion-header toggle has-text-white">
 							<p>{{ this.a }}</p>
 						</div>
-						<div class="accordion-body">
-							<div class="accordion-content">
+						<div class="accordion-body is-white">
+							<div class="accordion-content has-text-white">
 								{{ this.b }}
 							</div>
 						</div>
@@ -230,22 +208,6 @@
 				</section>
 			</div>
 		</div>
-	</div>
-
-	<div class="cloud_svg_2">
-		{{> cloud_svg }}
-	</div>
-
-	<div class="cloud_svg_3 is-hidden-mobile">
-		{{> cloud_svg }}
-	</div>
-
-	<div class="points_9">
-		{{> points_svg }}
-	</div>
-
-	<div class="points_10">
-		{{> points_svg }}
 	</div>
 </section>
 
@@ -266,7 +228,7 @@
 					<div class="column">
 						<div class="field">
 							<div class="control has-floating-label">
-								<input class="input is-medium with-floating-label" id="name" placeholder=" " type="text"
+								<input class="input is-medium is-white with-floating-label" id="name" placeholder=" " type="text"
 									required autocomplete="off">
 								<label class="label is-floating-label has-text-gray" for="name">
 									{{ contact.b }}
@@ -275,7 +237,7 @@
 						</div>
 						<div class="field">
 							<div class="control has-floating-label">
-								<input class="input is-medium with-floating-label" id="email" placeholder=" "
+								<input class="input is-medium is-white with-floating-label" id="email" placeholder=" "
 									type="text" required autocomplete="off">
 								<label class="label is-floating-label has-text-gray" for="email">
 									{{ contact.c }}
@@ -285,7 +247,7 @@
 
 						<div class="field">
 							<div class="control has-floating-label">
-								<input class="input is-medium with-floating-label" id="phone" placeholder=" "
+								<input class="input is-medium is-white with-floating-label" id="phone" placeholder=" "
 									type="text" required autocomplete="off">
 								<label class="label is-floating-label has-text-gray" for="phone">
 									{{ contact.d }}
@@ -295,14 +257,14 @@
 
 						<div class="field">
 							<div class="control has-floating-label">
-								<textarea class="textarea is-medium with-floating-label" id="message" placeholder=" "
+								<textarea class="textarea is-medium is-white with-floating-label" id="message" placeholder=" "
 									required autocomplete="off"></textarea>
 								<label class="label is-floating-label has-text-gray" for="message">
 									{{ contact.e }}
 								</label>
 							</div>
 						</div>
-						<button class="button is-primary is-light" onclick="contactForm()">{{ contact.f }}</button>
+						<button class="button is-primary" onclick="contactForm()">{{ contact.f }}</button>
 					</div>
 					<div class="column">
 
