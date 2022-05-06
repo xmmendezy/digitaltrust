@@ -6,6 +6,7 @@ import routes from 'virtual:generated-pages';
 import { createPinia } from 'pinia';
 import Oruga from '@oruga-ui/oruga-next';
 import OrugaConfig from './oruga';
+import { MotionPlugin } from '@vueuse/motion';
 import './styles/index.scss';
 
 export const createApp = ViteSSG(App, { routes: setupLayouts(routes), base: import.meta.env.BASE_URL }, ({ app }) => {
@@ -16,4 +17,6 @@ export const createApp = ViteSSG(App, { routes: setupLayouts(routes), base: impo
 	app.use(createHead());
 
 	app.use(Oruga, OrugaConfig);
+
+	app.use(MotionPlugin);
 });

@@ -7,8 +7,9 @@ $gray: #d9d9d9;
 $black: #ffffff;
 $white: #282727;
 $dark: #dfdcdc;
+$box-shadow: rgba(254, 200, 3, 0.25) 0px 54px 55px;
 
-$primary: #ffffff;
+$primary: #fec903;
 $primary-invert: findColorInvert($primary);
 $primary-light: findLightColor($primary);
 $primary-dark: findDarkColor($primary);
