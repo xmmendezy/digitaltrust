@@ -7,6 +7,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AppException } from './app.exception';
 import { DTModule } from './dt/dt.module';
 import { TDModule } from './td/td.module';
+import { BRModule } from './br/br.module';
 import { join } from 'path';
 import ormconfig from '@orm';
 import config from '@config';
@@ -40,6 +41,7 @@ import config from '@config';
 		ScheduleModule.forRoot(),
 		DTModule,
 		TDModule,
+		BRModule,
 	],
 	controllers: [],
 	providers: [

@@ -493,7 +493,7 @@ export class DTService {
 			memberships.push(
 				...(await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: true })
-					.where('trading = :trading', { trading: user.trading })
+					.andWhere('trading = :trading', { trading: user.trading })
 					.orderBy('interest', 'ASC')
 					.getMany()),
 			);
@@ -880,11 +880,13 @@ export class DTService {
 				suscriptions,
 				memberships,
 			);
-			balance.balance = record.balance;
-			balance.withdrawal = record.withdrawal;
-			balance.earning = record.earning;
-			balance.earning_extra = record.earning_extra;
-			balance.investment = record.investment;
+			if (record) {
+				balance.balance = record.balance;
+				balance.withdrawal = record.withdrawal;
+				balance.earning = record.earning;
+				balance.earning_extra = record.earning_extra;
+				balance.investment = record.investment;
+			}
 			if (user.DateTime.now().startOf('month').toSeconds() === date.startOf('month').toSeconds()) {
 				if (
 					(await Record.createQueryBuilder()
@@ -906,7 +908,11 @@ export class DTService {
 						})
 						.orderBy('date', 'DESC')
 						.getOne();
-					balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
+					if (last_record) {
+						balance.available_balance = new Decimal(last_record.balance)
+							.minus(balance.withdrawal)
+							.toNumber();
+					}
 				}
 			}
 			for (const suscription of suscriptions.filter((s) => s.date_end >= date.toSeconds())) {
@@ -1358,6 +1364,19 @@ export class DTService {
 					await record.save();
 				}
 			}
+		} else {
+			const record: Record = await Record.createQueryBuilder()
+				.where('"userId" = :id')
+				.setParameters({ id: user.id })
+				.orderBy('date', 'DESC', 'NULLS LAST')
+				.getOne();
+			if (record) {
+				irecord.balance = record.balance;
+				irecord.earning = record.earning;
+				irecord.earning_extra = record.earning_extra;
+				irecord.withdrawal = record.withdrawal;
+				irecord.investment = record.investment;
+			}
 		}
 		return irecord;
 	}
@@ -1596,24 +1615,30 @@ export class DTService {
 					id: suscription.userId,
 				})
 				.getOne();
-			const balance = (
-				await this.record(user, user.DateTime.now().startOf('month'), user.DateTime.now().minus({ days: 1 }))
-			).balance;
-			if (balance >= 50 && user.DateTime.fromUnix(user.lastDeposit).day === user.DateTime.now().day) {
-				await this.process_deposit(
-					user,
-					user.DateTime.now(),
-					{
-						id: user.id,
-						type: PaymentMethod.BALANCE,
-						money: balance,
-						date: user.DateTime.now().toSeconds(),
-						suscriptionId: suscription.id,
-						membershipId: suscription.membershipId,
-						reference: '',
-					},
-					true,
-				);
+			if (user) {
+				const balance = (
+					await this.record(
+						user,
+						user.DateTime.now().startOf('month'),
+						user.DateTime.now().minus({ days: 1 }),
+					)
+				).balance;
+				if (balance >= 50 && user.DateTime.fromUnix(user.lastDeposit).day === user.DateTime.now().day) {
+					await this.process_deposit(
+						user,
+						user.DateTime.now(),
+						{
+							id: user.id,
+							type: PaymentMethod.BALANCE,
+							money: balance,
+							date: user.DateTime.now().toSeconds(),
+							suscriptionId: suscription.id,
+							membershipId: suscription.membershipId,
+							reference: '',
+						},
+						true,
+					);
+				}
 			}
 		}
 	}
