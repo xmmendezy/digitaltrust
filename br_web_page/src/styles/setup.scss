@@ -23,14 +23,13 @@ body {
 	}
 }
 
-#main_app {
+#app {
 	font-family: 'Poppins';
 	font-style: normal;
 	font-weight: 300;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: $black !important;
-	width: 99% !important;
 
 	table td:not([align]),
 	table th:not([align]) {

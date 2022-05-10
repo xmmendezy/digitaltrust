@@ -1364,6 +1364,19 @@ export class DTService {
 					await record.save();
 				}
 			}
+		} else {
+			const record: Record = await Record.createQueryBuilder()
+				.where('"userId" = :id')
+				.setParameters({ id: user.id })
+				.orderBy('date', 'DESC', 'NULLS LAST')
+				.getOne();
+			if (record) {
+				irecord.balance = record.balance;
+				irecord.earning = record.earning;
+				irecord.earning_extra = record.earning_extra;
+				irecord.withdrawal = record.withdrawal;
+				irecord.investment = record.investment;
+			}
 		}
 		return irecord;
 	}

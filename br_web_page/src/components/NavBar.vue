@@ -18,7 +18,7 @@
 					href="https://api.whatsapp.com/send?phone=50686788181"
 					target="_blank"
 				>
-					<i class="fab fa-whatsapp"></i> Whatsapp
+					<i class="fab fa-whatsapp mr-1"></i> Whatsapp
 				</a>
 				<div class="navbar-header is-hidden-desktop">
 					<a class="navbar-item mb-5">
