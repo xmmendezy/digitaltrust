@@ -5,7 +5,7 @@
 				<img src="/images/logo.png" width="112" height="28" />
 			</router-link>
 
-			<a class="navbar-burger" @click="toogleMenu">
+			<a class="navbar-burger is-hidden-touch" @click="toogleMenu">
 				<i class="fas navbar-burger-icon" :class="[is_active ? 'fa-times' : 'fa-bars']"></i>
 			</a>
 		</div>
@@ -15,13 +15,7 @@
 				<router-link v-if="route.path !== '/contact'" to="/contact" class="navbar-item is-hidden-touch">
 					Contact us
 				</router-link>
-				<a
-					class="navbar-item is-hidden-touch"
-					href="https://api.whatsapp.com/send?phone=50686788181"
-					target="_blank"
-				>
-					<i class="fab fa-whatsapp mr-1"></i> Whatsapp
-				</a>
+
 				<div class="navbar-header is-hidden-desktop">
 					<a class="navbar-item mb-5">
 						<img src="/images/logo.png" width="112" height="28" />
@@ -29,12 +23,6 @@
 					<router-link v-if="route.path !== '/contact'" to="/contact" class="navbar-item">
 						Contact us
 					</router-link>
-				</div>
-
-				<div class="navbar-footer is-hidden-desktop mb-6">
-					<a class="navbar-item" href="https://api.whatsapp.com/send?phone=50686788181" target="_blank">
-						<i class="fab fa-whatsapp"></i> Whatsapp
-					</a>
 				</div>
 			</div>
 		</div>

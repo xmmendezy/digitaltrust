@@ -251,7 +251,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../../../images/logo.png": [
+  "../../../../../../images/logo.png": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -356,7 +356,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../../../@vite-plugin-vue-layouts/generated-layouts": [
+  "../../../../../../@vite-plugin-vue-layouts/generated-layouts": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -398,7 +398,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../../../images/index_1.png": [
+  "../../../../../../images/index_1.png": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -419,7 +419,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../../../images/index_2.png": [
+  "../../../../../../images/index_2.png": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -1616,7 +1616,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../../../@vite-plugin-pages/generated-pages": [
+  "../../../../../../@vite-plugin-pages/generated-pages": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -1743,35 +1743,35 @@
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
   "~icons/fa-solid/envelope": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "~icons/fa-solid/chevron-right": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "~icons/fa-solid/chevron-left": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "src/components/Switch.vue?vue&type=style&index=0&scoped=true&lang.scss": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "src/components/Switch.vue": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "src/components/Input.vue": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "src/pages/contact.vue?vue&type=style&index=0&scoped=true&lang.scss": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ],
   "src/pages/contact.vue": [
-    "/assets/contact.7fbca9b1.js",
+    "/assets/contact.8c82c697.js",
     "/assets/contact.c8ee3ad2.css"
   ]
 }
