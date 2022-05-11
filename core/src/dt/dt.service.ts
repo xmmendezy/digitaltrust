@@ -43,6 +43,7 @@ import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
 
 import config from '@config';
+import axios from 'axios';
 
 const url_root = config.url_root ? config.url_root : 'https://digitaltrustonline.net';
 
@@ -493,7 +494,7 @@ export class DTService {
 			memberships.push(
 				...(await Membership.createQueryBuilder()
 					.where('is_active = :is_active', { is_active: true })
-					.where('trading = :trading', { trading: user.trading })
+					.andWhere('trading = :trading', { trading: user.trading })
 					.orderBy('interest', 'ASC')
 					.getMany()),
 			);
@@ -880,11 +881,13 @@ export class DTService {
 				suscriptions,
 				memberships,
 			);
-			balance.balance = record.balance;
-			balance.withdrawal = record.withdrawal;
-			balance.earning = record.earning;
-			balance.earning_extra = record.earning_extra;
-			balance.investment = record.investment;
+			if (record) {
+				balance.balance = record.balance;
+				balance.withdrawal = record.withdrawal;
+				balance.earning = record.earning;
+				balance.earning_extra = record.earning_extra;
+				balance.investment = record.investment;
+			}
 			if (user.DateTime.now().startOf('month').toSeconds() === date.startOf('month').toSeconds()) {
 				if (
 					(await Record.createQueryBuilder()
@@ -906,7 +909,11 @@ export class DTService {
 						})
 						.orderBy('date', 'DESC')
 						.getOne();
-					balance.available_balance = new Decimal(last_record.balance).minus(balance.withdrawal).toNumber();
+					if (last_record) {
+						balance.available_balance = new Decimal(last_record.balance)
+							.minus(balance.withdrawal)
+							.toNumber();
+					}
 				}
 			}
 			for (const suscription of suscriptions.filter((s) => s.date_end >= date.toSeconds())) {
@@ -1356,6 +1363,19 @@ export class DTService {
 					await record.save();
 				}
 			}
+		} else {
+			const record: Record = await Record.createQueryBuilder()
+				.where('"userId" = :id')
+				.setParameters({ id: user.id })
+				.orderBy('date', 'DESC', 'NULLS LAST')
+				.getOne();
+			if (record) {
+				irecord.balance = record.balance;
+				irecord.earning = record.earning;
+				irecord.earning_extra = record.earning_extra;
+				irecord.withdrawal = record.withdrawal;
+				irecord.investment = record.investment;
+			}
 		}
 		return irecord;
 	}
@@ -1410,6 +1430,60 @@ export class DTService {
 			success_url,
 			cancel_url: `${url_root}/dt_app/buy?success_coinpayments=false`,
 		});
+	}
+
+	public async get_coinbase(
+		user: User,
+		data: DepositDto & { currency: string },
+	): Promise<{ error: string; url?: string }> {
+		const success_url = `${url_root}/dt_app/buy?success_coinpayments=true&${Object.entries(data)
+			.map(([key, val]) => `${key}=${val}`)
+			.join('&')}`;
+		const membership = await Membership.createQueryBuilder().where('id = :id', { id: data.membershipId }).getOne();
+		const res = await axios
+			.post<{
+				data: {
+					code: string;
+					hosted_url: string;
+				};
+			}>(
+				'https://api.commerce.coinbase.com/invoices',
+				{
+					business_name: 'DigitalTrust',
+					customer_email: user.email,
+					customer_name: user.name,
+					local_price: {
+						amount: data.money,
+						currency: 'USD',
+					},
+					memo: `Payment - ${membership.name}`,
+				},
+				{
+					headers: { 'X-CC-Api-Key': config.td.coinbase_secret_key, 'X-CC-Version': '2018-03-22' },
+				},
+			)
+			.then((res) => {
+				if (res.status === 201) {
+					return {
+						code: res.data.data.code,
+						hosted_url: res.data.data.hosted_url,
+					};
+				} else {
+					return {
+						code: '',
+						hosted_url: '',
+					};
+				}
+			});
+		if (res.code) {
+			return { error: '', url: res.hosted_url };
+		} else {
+			return { error: 'invoice.a' };
+		}
+	}
+
+	public async post_coinbase(reference: string) {
+		console.log(reference);
 	}
 
 	public async status_coinpayments(txid: string): Promise<any> {
@@ -1540,24 +1614,30 @@ export class DTService {
 					id: suscription.userId,
 				})
 				.getOne();
-			const balance = (
-				await this.record(user, user.DateTime.now().startOf('month'), user.DateTime.now().minus({ days: 1 }))
-			).balance;
-			if (balance >= 50 && user.DateTime.fromUnix(user.lastDeposit).day === user.DateTime.now().day) {
-				await this.process_deposit(
-					user,
-					user.DateTime.now(),
-					{
-						id: user.id,
-						type: PaymentMethod.BALANCE,
-						money: balance,
-						date: user.DateTime.now().toSeconds(),
-						suscriptionId: suscription.id,
-						membershipId: suscription.membershipId,
-						reference: '',
-					},
-					true,
-				);
+			if (user) {
+				const balance = (
+					await this.record(
+						user,
+						user.DateTime.now().startOf('month'),
+						user.DateTime.now().minus({ days: 1 }),
+					)
+				).balance;
+				if (balance >= 50 && user.DateTime.fromUnix(user.lastDeposit).day === user.DateTime.now().day) {
+					await this.process_deposit(
+						user,
+						user.DateTime.now(),
+						{
+							id: user.id,
+							type: PaymentMethod.BALANCE,
+							money: balance,
+							date: user.DateTime.now().toSeconds(),
+							suscriptionId: suscription.id,
+							membershipId: suscription.membershipId,
+							reference: '',
+						},
+						true,
+					);
+				}
 			}
 		}
 	}

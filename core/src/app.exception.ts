@@ -29,6 +29,8 @@ export class AppException extends HttpException {
 					root_dir = 'dt_view';
 				} else if (domain.match('(.*)tradingdigital.*')) {
 					root_dir = 'td_view';
+				} else if (domain.match('(.*)blackrockloands.*')) {
+					root_dir = 'br_view';
 				} else if (domain.match('(.*)localhost.*')) {
 					root_dir = 'dt_view';
 				}

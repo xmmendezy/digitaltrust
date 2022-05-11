@@ -8,7 +8,7 @@
 		"docker": "docker build --platform amd64 -t xmmendezy/dt_core .",
 		"build": "nest build",
 		"prebuild": "rm -rf dist && npm run lint",
-		"postbuild": "cp -r dt_app dist/dt_app && cp -r dt_view dist/dt_view &&cp -r td_app dist/td_app &&  cp -r td_view dist/td_view",
+		"postbuild": "cp -r dt_app dist/dt_app && cp -r dt_view dist/dt_view && cp -r td_app dist/td_app && cp -r td_view dist/td_view && cp -r br_view dist/br_view",
 		"predocker": "npm run build",
 		"postdocker": "docker push xmmendezy/dt_core:latest",
 		"lint": "eslint \"src/**/*.ts\" --fix",
