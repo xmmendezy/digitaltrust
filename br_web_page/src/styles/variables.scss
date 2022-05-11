@@ -86,3 +86,12 @@ $colors: mergeColorMaps(
 	),
 	$custom-colors
 );
+
+$label-color: $black;
+$input-color: $black;
+$input-background-color: $white;
+$input-hover-border-color: $primary;
+$input-focus-border-color: $primary;
+
+$pretty--color-default: $black;
+$pretty--color-primary: $primary;

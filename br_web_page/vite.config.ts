@@ -17,6 +17,7 @@ export default defineConfig({
 			'~@oruga-ui': 'node_modules/@oruga-ui',
 			'~@fontsource': 'node_modules/@fontsource',
 			'~@fortawesome': 'node_modules/@fortawesome',
+			'~pretty-checkbox': 'node_modules/pretty-checkbox',
 		},
 	},
 	plugins: [

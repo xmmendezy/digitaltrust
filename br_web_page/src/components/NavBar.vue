@@ -1,9 +1,9 @@
 <template>
 	<nav class="navbar is-white">
 		<div class="navbar-brand">
-			<a class="navbar-item">
+			<router-link to="/" class="navbar-item">
 				<img src="/images/logo.png" width="112" height="28" />
-			</a>
+			</router-link>
 
 			<a class="navbar-burger" @click="toogleMenu">
 				<i class="fas navbar-burger-icon" :class="[is_active ? 'fa-times' : 'fa-bars']"></i>
@@ -12,7 +12,9 @@
 
 		<div class="navbar-menu" :class="{ 'is-active': is_active }">
 			<div class="navbar-end">
-				<a class="navbar-item is-hidden-touch"> Contactenos </a>
+				<router-link v-if="route.path !== '/contact'" to="/contact" class="navbar-item is-hidden-touch">
+					Contact us
+				</router-link>
 				<a
 					class="navbar-item is-hidden-touch"
 					href="https://api.whatsapp.com/send?phone=50686788181"
@@ -24,7 +26,9 @@
 					<a class="navbar-item mb-5">
 						<img src="/images/logo.png" width="112" height="28" />
 					</a>
-					<a class="navbar-item"> Contactenos </a>
+					<router-link v-if="route.path !== '/contact'" to="/contact" class="navbar-item">
+						Contact us
+					</router-link>
 				</div>
 
 				<div class="navbar-footer is-hidden-desktop mb-6">
@@ -38,8 +42,11 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 const is_active = ref(false);
+
+const route = useRoute();
 
 const toogleMenu = () => {
 	is_active.value = !is_active.value;

@@ -4,7 +4,7 @@
 			<div class="box">
 				<article class="media">
 					<div class="media-content has-text-centered">
-						<b-image class="logo" :src="require('../assets/images/logo4.png')"></b-image>
+						<b-image class="logo" :src="require('../assets/images/logo6.png')"></b-image>
 						<p class="subtitle">{{ $t('login.a') }}</p>
 						<section class="form has-text-centered">
 							<b-field>
@@ -215,12 +215,12 @@ export default class Login extends PageChildBase {
 				}
 
 				.logo {
-					width: 15rem;
+					width: 12rem;
 					margin: auto;
 					margin-bottom: 1.5rem;
 
 					@include mobile {
-						width: 10rem;
+						width: 9rem;
 					}
 				}
 

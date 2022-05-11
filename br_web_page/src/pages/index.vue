@@ -7,47 +7,83 @@
 			<img src="/images/index_2.png" class="index-2 coin-3" ref="coin3" />
 		</div>
 		<div class="column text">
-			<h1 class="title is-size-1 has-text-black">BlackRockLoands</h1>
+			<h1 class="title is-size-1 has-text-black">BlackRockLoans</h1>
 			<p class="subtitle has-text-black mt-6">
-				Tu prestamista virtual para lo que necesites: un auto nuevo, iniciar tu negocio, remodelar tu hogar,
-				invertir en educación. Todo desde este lugar.
+				Your virtual lender for whatever you need: a new car, start your business, remodel your home, invest in
+				education. Everything from this place.
 			</p>
-			<a class="button is-primary is-rounded mt-6 is-medium">Contactanos y comencemos con tu prestamo</a>
-		</div>
-	</div>
-
-	<div class="columns partial partial-2">
-		<div class="column text">
-			<p class="title is-size-1 has-text-black">Nuestros servicios de prestamos de dinero en linea</p>
-			<p class="subtitle has-text-black mt-6">
-				En BlackRockLoands somos una financiera de créditos, cuya principal función es la de otorgar prestamos
-				de dinero a personas con necesidad de dinero urgente o para inversión, de una forma segura y confiable.
-				Ofrecemos créditos para todo tipo de clientes, incluso a personas sin experiencia financiera.
-			</p>
-			<img src="/images/index_2.png" class="index-2 coin-4" ref="coin4" />
+			<router-link to="/contact" class="button is-primary is-rounded mt-6 is-medium">
+				Contact us and let's start with your loan
+			</router-link>
 		</div>
 	</div>
 
 	<div class="parallax">
-		<img src="/images/index_3.jpg" class="index-3" />
+		<div class="down"></div>
+		<div class="up"></div>
+	</div>
+
+	<div class="columns partial partial-2">
+		<div class="column text">
+			<p class="title is-size-1 has-text-black">About us</p>
+			<p class="has-text-black has-text-justified-mobile mt-6">
+				We are Blackrockloans.net, a Savings and Credit finance company that believes in work, effort and human
+				development, with a balance between the financial and the social. With the support of its associates, it
+				has consolidated leader in the financial system, with a presence throughout the country, creating
+				employment opportunities, walking steadily towards the future. At 50 years old, he has established
+				himself international level, has 50 offices located around the world, which has allowed it to have a
+				positive impact on the quality of life of communities.
+			</p>
+			<router-link to="/contact" class="button is-primary is-rounded mt-6 is-medium">
+				Contact us and let's start with your loan
+			</router-link>
+		</div>
+	</div>
+
+	<div class="columns partial partial-3">
+		<div class="column">
+			<div class="text">
+				<p class="title is-size-1">Credits</p>
+				<p class="mt-6">
+					We help you achieve your goals with our credits obtain greater liquidity and fulfill your dreams. We
+					offer financing lines according to your need.
+				</p>
+			</div>
+			<router-link to="/contact" class="button button-1 is-black is-rounded mt-6 is-medium" ref="button1">
+				Consumer Credit
+			</router-link>
+			<router-link to="/contact" class="button button-2 is-black is-rounded mt-6 is-medium" ref="button2">
+				Business Credit
+			</router-link>
+			<router-link to="/contact" class="button button-3 is-black is-rounded mt-6 is-medium" ref="button3">
+				Housing Credit
+			</router-link>
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { useHead } from '@vueuse/head';
 import { templateRef } from '@vueuse/core';
 import { useMotion } from '@vueuse/motion';
+
+useHead({
+	title: 'BlackRockLoans',
+});
 
 const coin1 = templateRef<HTMLElement>('coin1');
 const coin2 = templateRef<HTMLElement>('coin2');
 const coin3 = templateRef<HTMLElement>('coin3');
-const coin4 = templateRef<HTMLElement>('coin4');
 
-const refs = [coin1, coin2, coin3];
+const button1 = templateRef<HTMLElement>('button1');
+const button2 = templateRef<HTMLElement>('button2');
+const button3 = templateRef<HTMLElement>('button3');
+
 const delays = [110, 210, 310];
 const durations = [800, 900, 1000];
 
-refs.map((ref, i) => {
-	const { variant } = useMotion(ref, {
+[coin1, coin2, coin3].map((coin, i) => {
+	const { variant } = useMotion(coin, {
 		initial: {
 			y: -500,
 			opacity: 0.5,
@@ -77,27 +113,13 @@ refs.map((ref, i) => {
 	});
 });
 
-const motionCoin4 = () => {
-	const { variant } = useMotion(coin4, {
+[button1, button2, button3].map(button => {
+	useMotion(button, {
 		initial: {
-			y: -500,
-			opacity: 0.5,
+			y: 25,
 		},
 		enter: {
 			y: 0,
-			opacity: 1,
-			transition: {
-				type: 'spring',
-				stiffness: 350,
-				damping: 20,
-				delay: 110,
-				onComplete: () => {
-					variant.value = 'levitate';
-				},
-			},
-		},
-		levitate: {
-			y: 25,
 			transition: {
 				duration: 900,
 				repeat: Infinity,
@@ -106,9 +128,7 @@ const motionCoin4 = () => {
 			},
 		},
 	});
-};
-
-motionCoin4();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -153,15 +173,66 @@ motionCoin4();
 .partial-2 {
 	width: 90vw;
 	margin: auto;
-	margin-bottom: 10vh !important;
+	margin-bottom: 20vh !important;
 
 	@include desktop {
 		width: 70vw;
-		margin-bottom: 5vh !important;
+		margin-bottom: 15vh !important;
 	}
 
 	.title {
 		font-size: 2rem !important;
+	}
+}
+
+.partial-3 {
+	width: 100vw;
+	height: fit-content;
+	margin: 0 !important;
+	padding-bottom: 10vh !important;
+	background: $primary;
+	color: $white;
+
+	@include desktop {
+		padding-top: 15vh !important;
+		padding-bottom: 15vh !important;
+	}
+
+	.text {
+		width: 90vw;
+		margin: auto;
+		margin-top: 5vh !important;
+
+		@include desktop {
+			width: 70vw;
+		}
+
+		.title {
+			font-size: 2rem !important;
+		}
+	}
+
+	.button {
+		display: block;
+		width: 70vw;
+		margin: auto;
+
+		@include desktop {
+			width: 30vw;
+
+			&.button-1 {
+				margin-left: 12rem;
+			}
+
+			&.button-2 {
+				margin-left: auto;
+				margin-right: 12rem;
+			}
+
+			&.button-3 {
+				margin-left: 12rem;
+			}
+		}
 	}
 }
 
@@ -224,25 +295,32 @@ motionCoin4();
 	}
 }
 
-.coin-4 {
-	bottom: 7rem;
-	left: -25rem;
-
-	@include mobile {
-		bottom: 0;
-		left: calc(50vw - 11rem);
-	}
-}
-
 .parallax {
 	width: 100vw;
-	max-height: 50vw;
+	height: 40vh;
+	overflow: hidden;
+	position: relative;
 
-	.index-3 {
+	.down {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: 9;
+		opacity: 0.5;
+		background-image: url('/images/index_3.jpg');
 		background-attachment: fixed;
 		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
+	}
+
+	.up {
+		height: 100%;
+		width: 100%;
+		z-index: 10;
+		background-color: $white;
 	}
 }
 </style>

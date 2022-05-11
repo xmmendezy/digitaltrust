@@ -4,7 +4,12 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    FasChevronLeft: typeof import('~icons/fa-solid/chevron-left')['default']
+    FasChevronRight: typeof import('~icons/fa-solid/chevron-right')['default']
+    FasEnvelope: typeof import('~icons/fa-solid/envelope')['default']
+    Input: typeof import('./src/components/Input.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
+    Switch: typeof import('./src/components/Switch.vue')['default']
   }
 }
 

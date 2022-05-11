@@ -1,6 +1,5 @@
 // Import Bulma and custom styles
 @import '~bulma/bulma.sass';
-@import '~@oruga-ui/theme-bulma/dist/scss/bulma.scss';
 
 html,
 body {
@@ -55,3 +54,5 @@ body {
 .loading-overlay {
 	z-index: 10;
 }
+
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
