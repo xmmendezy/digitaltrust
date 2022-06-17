@@ -1,0 +1,53 @@
+{
+	"name": "dt_web_page_v2",
+	"private": true,
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "vite --open",
+		"build": "vite-ssg build",
+		"prebuild": "rimraf ../core/br_view",
+		"postbuild": "cp -r dist ../core/br_view",
+		"lint": "eslint --ext \".ts,.js,.vue\" --ignore-path .gitignore src",
+		"prelint": "npm run prettier",
+		"prettier": "prettier --write '{src,tests}/**/*.{vue,ts,tsx,js,jsx,json,scss,css}'"
+	},
+	"dependencies": {
+		"@fontsource/poppins": "^4.5.8",
+		"@fortawesome/fontawesome-free": "^5.15.4",
+		"@vueuse/core": "^7.7.1",
+		"@vueuse/head": "^0.7.6",
+		"@vueuse/motion": "2.0.0-beta.12",
+		"bulma": "^0.9.4",
+		"mande": "^1.0.1",
+		"pinia": "^2.0.14",
+		"pretty-checkbox": "^3.0.3",
+		"qs": "^6.10.3",
+		"vue": "^3.2.33",
+		"vue-router": "^4.0.15"
+	},
+	"devDependencies": {
+		"@iconify-json/fa-solid": "^1.1.1",
+		"@types/node": "^16.11.34",
+		"@types/qs": "^6.9.7",
+		"@typescript-eslint/eslint-plugin": "^5.23.0",
+		"@typescript-eslint/parser": "^5.23.0",
+		"@vitejs/plugin-vue": "^2.3.2",
+		"@vue/compiler-sfc": "^3.2.33",
+		"eslint": "^8.15.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-vue": "^8.7.1",
+		"prettier": "^2.6.2",
+		"rimraf": "^3.0.2",
+		"sass": "^1.51.0",
+		"typescript": "^4.6.4",
+		"unplugin-icons": "^0.12.23",
+		"unplugin-vue-components": "^0.17.21",
+		"vite": "^2.9.8",
+		"vite-plugin-pages": "^0.18.2",
+		"vite-plugin-vue-layouts": "^0.5.0",
+		"vite-ssg": "^0.20.0",
+		"vite-ssg-sitemap": "^0.2.6",
+		"vue-tsc": "^0.34.12"
+	}
+}

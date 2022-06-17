@@ -1,0 +1,114 @@
+div[class^='points_'] {
+	opacity: 0.5;
+	position: absolute;
+	overflow: hidden;
+}
+
+div[class^='cloud_svg_'] {
+	opacity: 0.7;
+	z-index: -1;
+	position: absolute;
+	overflow: hidden;
+}
+
+.points_1 {
+	top: 5rem;
+	left: -10rem;
+	transform: rotate(60deg);
+}
+
+.points_2 {
+	bottom: 5rem;
+	left: calc(40vw - 10rem);
+	transform: rotate(-40deg);
+}
+
+.points_3 {
+	top: 15rem;
+	right: 1vw;
+	transform: rotate(-30deg);
+}
+
+.points_4 {
+	top: 10rem;
+	right: 45vw;
+	transform: rotate(-30deg);
+}
+
+.points_5 {
+	top: 35rem;
+	right: -2rem;
+	z-index: -1;
+}
+
+.points_6 {
+	@include mobile {
+		top: 18rem;
+		right: 1rem;
+		transform: rotate(-30deg);
+	}
+
+	@include tablet {
+		top: 5rem;
+		right: 5vw;
+		transform: rotate(-30deg);
+	}
+}
+
+.points_7 {
+	bottom: -2rem;
+	left: -6rem;
+	transform: rotate(-30deg);
+}
+
+.points_8 {
+	@include mobile {
+		top: 8rem;
+		right: 1rem;
+		transform: rotate(30deg);
+	}
+
+	@include tablet {
+		top: 5rem;
+		left: 40vw;
+		transform: rotate(30deg);
+	}
+}
+
+.points_9 {
+	top: 15rem;
+	right: 0;
+}
+
+.points_10 {
+	bottom: 10rem;
+	left: 0;
+}
+
+.points_11 {
+	top: 20rem;
+	left: 5rem;
+}
+
+.points_12 {
+	bottom: 10rem;
+	right: 5rem;
+	transform: rotate(-30deg);
+}
+
+.cloud_svg_1 {
+	top: 15rem;
+	left: -40rem;
+	transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.cloud_svg_2 {
+	bottom: -6rem;
+	left: -42rem;
+}
+
+.cloud_svg_3 {
+	top: 15rem;
+	right: -30rem;
+	transform: matrix(1, 0.04, 0.04, -1, 0, 0);
+}

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { BRController } from './br.controller';
-import { BRService } from './br.service'
+import { BRService } from './br.service';
 
 @Module({
 	controllers: [BRController],

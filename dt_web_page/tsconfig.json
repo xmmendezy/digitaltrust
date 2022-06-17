@@ -19,22 +19,9 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
-		"lib": [
-			"es6",
-			"dom",
-			"dom.iterable"
-		],
-		"typeRoots": [
-			"./node_modules/@types",
-			"./types"
-		]
+		"lib": ["es6", "dom", "dom.iterable"],
+		"typeRoots": ["./node_modules/@types", "./types"]
 	},
-	"include": [
-		"src/**/*.ts",
-		"gulpfile.ts",
-		"types/**/*.d.ts"
-	],
-	"exclude": [
-		"node_modules"
-	]
+	"include": ["src/**/*.ts", "gulpfile.ts", "types/**/*.d.ts"],
+	"exclude": ["node_modules"]
 }

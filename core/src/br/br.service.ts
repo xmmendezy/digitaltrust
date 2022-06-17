@@ -12,7 +12,7 @@ import config from '@config';
 export class BRService {
 	constructor(private readonly mailerService: MailerService) {}
 
-	public async send_data(data:any): Promise<Error> {
+	public async send_data(data: any): Promise<Error> {
 		const templeate_hbs = readFileSync(join(__dirname, '..', 'mails', 'br_new_data.hbs'), 'utf8');
 		const template_compile = handlebars.compile(templeate_hbs);
 		return await this.mailerService
