@@ -1,6 +1,6 @@
 @import './fonts.scss';
 
-@import '~bulma/sass/utilities/_all';
+@import 'bulma/sass/utilities/_all.sass';
 
 // Set your colors
 $border: #113c67;
@@ -711,17 +711,35 @@ body {
 	padding-bottom: 0;
 	margin-bottom: 0;
 
-	.about-image > * {
-		width: 100%;
-		margin: 0 !important;
+	.over {
+		z-index: 10;
+		background: white;
+		box-shadow: 0 0.5em 2em 1em rgba($scheme-invert, 0.1), 0 0px 0 1px rgba($scheme-invert, 0.02);
 	}
 
-	.about-image {
-		display: flex;
-		flex-wrap: wrap;
-		align-content: center;
-		align-items: center;
-		height: 100%;
+	.slider-container {
+		transition: all 3000ms !important;
+	}
+
+	.slider-pagination,
+	.slider-navigation-previous,
+	.slider-navigation-next {
+		display: none !important;
+	}
+
+	.carousel {
+		@include desktop {
+			width: 45vw !important;
+
+			.carousel-image img {
+				height: auto !important;
+				width: 40vw !important;
+			}
+		}
+
+		.slider-item:not(.is-current) {
+			background: blue;
+		}
 	}
 
 	.content {

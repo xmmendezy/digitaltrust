@@ -1,0 +1,37 @@
+<template>
+	<svg
+		width="132"
+		height="115"
+		viewBox="0 0 132 115"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<circle cx="66" cy="5" r="5" fill="#458FF6" />
+		<circle cx="94" cy="5" r="5" fill="#458FF6" />
+		<circle cx="122" cy="5" r="5" fill="#458FF6" />
+		<circle cx="38" cy="5" r="5" fill="#458FF6" />
+		<circle cx="10" cy="5" r="5" fill="#458FF6" />
+		<circle cx="66" cy="31" r="5" fill="#458FF6" />
+		<circle cx="94" cy="31" r="5" fill="#458FF6" />
+		<circle cx="122" cy="31" r="5" fill="#458FF6" />
+		<circle cx="38" cy="31" r="5" fill="#458FF6" />
+		<circle cx="10" cy="31" r="5" fill="#458FF6" />
+		<circle cx="66" cy="57" r="5" fill="#458FF6" />
+		<circle cx="94" cy="57" r="5" fill="#458FF6" />
+		<circle cx="122" cy="57" r="5" fill="#458FF6" />
+		<circle cx="38" cy="57" r="5" fill="#458FF6" />
+		<circle cx="10" cy="57" r="5" fill="#458FF6" />
+		<circle cx="66" cy="83" r="5" fill="#458FF6" />
+		<circle cx="94" cy="83" r="5" fill="#458FF6" />
+		<circle cx="122" cy="83" r="5" fill="#458FF6" />
+		<circle cx="38" cy="83" r="5" fill="#458FF6" />
+		<circle cx="10" cy="83" r="5" fill="#458FF6" />
+		<circle cx="66" cy="109" r="5" fill="#458FF6" />
+		<circle cx="94" cy="109" r="5" fill="#458FF6" />
+		<circle cx="122" cy="109" r="5" fill="#458FF6" />
+		<circle cx="38" cy="109" r="5" fill="#458FF6" />
+		<circle cx="10" cy="109" r="5" fill="#458FF6" />
+	</svg>
+</template>
+
+<script setup lang="ts"></script>

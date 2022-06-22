@@ -1,5 +1,5 @@
 import del from 'del';
-import { readFileSync, readdirSync } from 'fs';
+import { readFileSync, readdirSync, existsSync, mkdirSync } from 'fs';
 import { v4 as uuid } from 'uuid';
 import { Transform } from 'readable-stream';
 import replacestream from 'replacestream';
@@ -115,6 +115,9 @@ function insert_scripts() {
 }
 
 function insert_styles() {
+	if (!existsSync(dist_assets_folder + 'css')) {
+		mkdirSync(dist_assets_folder + 'css');
+	}
 	files_css = readdirSync(dist_assets_folder + 'css');
 	return new Transform({
 		objectMode: true,

@@ -4,7 +4,10 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Image: typeof import('./src/components/Image.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
+    PointSVG: typeof import('./src/components/PointSVG.vue')['default']
+    Tradingview: typeof import('./src/components/Tradingview.vue')['default']
   }
 }
 

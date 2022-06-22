@@ -3,10 +3,7 @@
 		<div class='container secundary'>
 			<section id='about' class='section'>
 				<div class='columns'>
-					<div class='column about-image'>
-						{{#image_src 'image4.png' 'image4' '' 'fade-up-right'}}{{/image_src}}
-					</div>
-					<div class='column is-6' data-aos="flip-left">
+					<div class='column is-6 over' data-aos="flip-right">
 						<div class='content is-medium has-text-centered'>
 							<h1 class='title has-text-black'>
 								{{about.a}}
@@ -20,6 +17,35 @@
 							{{/each}}
 						</div>
 					</div>
+					<div class='column'>
+						<div id="carousel" class="slider carousel pt-4 mt-6">
+							<div class="item-1">
+								<figure class="carousel-image">
+									{{#image_src 'image3.png' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="item-2">
+								<figure class="carousel-image">
+									{{#image_src 'image4.png' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+							<div class="item-3">
+								<figure class="carousel-image">
+									{{#image_src 'image2.png' '' '' ''}}{{/image_src}}
+								</figure>
+							</div>
+						</div>
+						<script>
+							bulmaCarousel.attach('#carousel', {
+								slidesToScroll: 1,
+								slidesToShow: 1,
+								autoplay: true,
+								autoplaySpeed: 4000,
+								loop: true,
+								infinite: true
+							});
+						</script>
+					</div>
 				</div>
 			</section>
 		</div>
@@ -32,7 +58,7 @@
 	});
 </script>
 
-<section id="timeline" class="section">
+<section id="timeline" class="section mt-6">
 	<div class='columns is-desktop'>
 		<div class='column'></div>
 		<div class='column is-7'>

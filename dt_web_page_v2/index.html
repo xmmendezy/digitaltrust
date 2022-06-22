@@ -9,5 +9,78 @@
 	<body>
 		<div id="app"></div>
 		<script type="module" src="/src/main.ts"></script>
+		<script
+			type="text/javascript"
+			src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js"
+			async
+		>
+			{
+			  "colorTheme": "dark",
+			  "dateRange": "12M",
+			  "showChart": true,
+			  "locale": "es",
+			  "width": "100%",
+			  "height": "100%",
+			  "largeChartUrl": "",
+			  "isTransparent": true,
+			  "showSymbolLogo": true,
+			  "plotLineColorGrowing": "white",
+			  "plotLineColorFalling": "white",
+			  "gridLineColor": "white",
+			  "scaleFontColor": "white",
+			  "belowLineFillColorGrowing": "#eaecee2b",
+			  "belowLineFillColorGrowingBottom": "#eaecee2b",
+			  "belowLineFillColorFalling": "white",
+			  "belowLineFillColorFallingBottom": "white",
+			  "symbolActiveColor": "#eaecee2b",
+			  "tabs": [
+			    {
+			      "title": "Vista General",
+			      "symbols": [
+			        {
+			          "s": "BYBIT:BTCUSD",
+			          "d": "BITCOIN / U.S. DOLLAR"
+			        },
+			        {
+			          "s": "KRAKEN:ETHUSD",
+			          "d": "ETHEREUM / U.S. DOLLAR"
+			        },
+			        {
+			          "s": "BITKUB:USDTTHB",
+			          "d": "TETHER / U.S. DOLLAR"
+			        }
+			      ],
+			      "originalTitle": "Indices"
+			    },
+			    {
+			      "title": "Bitcoin",
+			      "symbols": [
+			        {
+			          "s": "BYBIT:BTCUSD",
+			          "d": "BITCOIN / U.S. DOLLAR"
+			        }
+			      ]
+			    },
+			    {
+			      "title": "Ethereum",
+			      "symbols": [
+			        {
+			          "s": "KRAKEN:ETHUSD",
+			          "d": "ETHEREUM / U.S. DOLLAR"
+			        }
+			      ]
+			    },
+			    {
+			      "title": "Tether",
+			      "symbols": [
+			        {
+			          "s": "BITKUB:USDTTHB",
+			          "d": "TETHER / U.S. DOLLAR"
+			        }
+			      ]
+			    }
+			  ]
+			}
+		</script>
 	</body>
 </html>

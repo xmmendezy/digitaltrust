@@ -13,6 +13,8 @@ export default defineConfig({
 		alias: {
 			"~/": `${resolve(__dirname, "src")}/`,
 			"~bulma": "node_modules/bulma",
+			"~bulma-accordion": "node_modules/bulma-accordion",
+			"~bulma-timeline": "node_modules/bulma-timeline",
 			"~bulma-floating-button": "node_modules/bulma-floating-button",
 			"~@oruga-ui": "node_modules/@oruga-ui",
 			"~@fontsource": "node_modules/@fontsource",
