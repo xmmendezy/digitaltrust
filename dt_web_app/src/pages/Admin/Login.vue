@@ -45,7 +45,7 @@ import { LoginDto } from '../../store';
 
 @Component
 export default class Login extends PageChildBase {
-	private login_form: LoginDto = {
+	public login_form: LoginDto = {
 		username: '',
 		password: '',
 	};
@@ -54,7 +54,7 @@ export default class Login extends PageChildBase {
 		await super.created();
 	}
 
-	private async mounted() {
+	public async mounted() {
 		const timer = setInterval(() => {
 			if (this.$refs.input) {
 				clearInterval(timer);
@@ -63,7 +63,7 @@ export default class Login extends PageChildBase {
 		}, 10);
 	}
 
-	private async login() {
+	public async login() {
 		this.load_form_api(await this.store.api.login(this.login_form), () => {}, {
 			e000: () => {
 				this.toastError(this.$t('login.error.e000'));

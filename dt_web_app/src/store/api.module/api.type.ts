@@ -379,6 +379,7 @@ interface IBalance {
 	balance: number;
 	earning: number;
 	investment: number;
+	withdrawal: number;
 }
 
 interface IDeposit {

@@ -219,28 +219,27 @@ interface MembershipOption {
 
 @Component
 export default class BuyMore extends PageChildBase {
-	private memberships_data: IMembership[] = [];
-	private balance_detail_data: IBalanceDetail = null as any;
+	public memberships_data: IMembership[] = [];
+	public balance_detail_data: IBalanceDetail = null as any;
 
-	private deposit_memberships: MembershipOption[] = [];
-	private deposit_membership_selected: string = '';
-	private deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain', 'coinbase'];
-	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; coingecko: string; image: string }[] =
+	public deposit_memberships: MembershipOption[] = [];
+	public deposit_membership_selected: string = '';
+	public deposit_methods: string[] = ['balance', 'paypal', 'stripe', 'blockchain', 'coinbase'];
+	public deposit_method_selected: string = 'balance';
+	public deposit_blockchains: { name: string; currency: string; coingecko: string; image: string }[] =
 		this.store.util.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
-		this.deposit_blockchains[0];
-	private minMoneyDeposit: number = 0;
-	private maxMoneyDeposit: number = 0;
-	private moneyDeposit: number = 0;
-	private moneyDepositAvailable: number = 0;
+	public deposit_blockchain_currency: { name: string; currency: string; image: string } = this.deposit_blockchains[0];
+	public minMoneyDeposit: number = 0;
+	public maxMoneyDeposit: number = 0;
+	public moneyDeposit: number = 0;
+	public moneyDepositAvailable: number = 0;
 
-	private inputKey: number = 0;
-	private paypal_payment: boolean = false;
-	private isLoading: boolean = false;
+	public inputKey: number = 0;
+	public paypal_payment: boolean = false;
+	public isLoading: boolean = false;
 
-	private directDeposit: boolean = false;
-	private deposit_direct_text: string = '';
+	public directDeposit: boolean = false;
+	public deposit_direct_text: string = '';
 
 	public async created() {
 		await super.created();
@@ -352,7 +351,7 @@ export default class BuyMore extends PageChildBase {
 		}
 	}
 
-	private async prepareView() {
+	public async prepareView() {
 		this.load_form_api(await this.store.api.balance_detail({ id: '' }), async (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
 			this.paypal_payment = false;
@@ -395,18 +394,18 @@ export default class BuyMore extends PageChildBase {
 		});
 	}
 
-	private async get_memberships() {
+	public async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
 			this.memberships_data = memberships_data;
 		});
 	}
 
-	private get_name_membership(id: string) {
+	public get_name_membership(id: string) {
 		const membership = this.deposit_memberships.find(s => s.id === id);
 		return membership ? membership.name + ' (' + membership.interest + '%)' : '---';
 	}
 
-	private change_membership(membership: MembershipOption) {
+	public change_membership(membership: MembershipOption) {
 		this.moneyDeposit = membership.min_money;
 		this.minMoneyDeposit = membership.min_money;
 		this.maxMoneyDeposit = membership.max_money;
@@ -434,7 +433,7 @@ export default class BuyMore extends PageChildBase {
 		}
 	}
 
-	private change_payment_method(payment_method: string, membership: MembershipOption) {
+	public change_payment_method(payment_method: string, membership: MembershipOption) {
 		if (payment_method === 'balance') {
 			if (this.moneyDepositAvailable > this.maxMoneyDeposit) {
 				this.maxMoneyDeposit = membership.max_money;
@@ -449,7 +448,7 @@ export default class BuyMore extends PageChildBase {
 		}
 	}
 
-	private async to_pay() {
+	public async to_pay() {
 		if (this.deposit_method_selected === 'balance') {
 			await this.proccess_deposit();
 		} else if (this.deposit_method_selected === 'paypal') {
@@ -535,7 +534,7 @@ export default class BuyMore extends PageChildBase {
 		}
 	}
 
-	private async proccess_deposit(reference: string = 'default') {
+	public async proccess_deposit(reference: string = 'default') {
 		this.isLoading = true;
 		this.load_form_api(
 			await this.store.api.process_deposit({
@@ -561,7 +560,7 @@ export default class BuyMore extends PageChildBase {
 		);
 	}
 
-	private async process_blockchain() {
+	public async process_blockchain() {
 		this.load_form_api(
 			await this.store.api.get_coinpayments({
 				type: this.deposit_method_selected,
@@ -612,7 +611,7 @@ export default class BuyMore extends PageChildBase {
 		);
 	}
 
-	private async process_coinbase() {
+	public async process_coinbase() {
 		this.load_form_api(
 			await this.store.api.get_coinbase({
 				type: this.deposit_method_selected,

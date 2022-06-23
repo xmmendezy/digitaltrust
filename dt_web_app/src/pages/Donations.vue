@@ -145,12 +145,12 @@ import { loadStripe } from '@stripe/stripe-js';
 
 @Component
 export default class Donations extends PageChildBase {
-	private paypalExtend: boolean = false;
-	private DepositStep: number = 0;
-	private has_button_payment: boolean = false;
-	private stripe_button_disabled: boolean = false;
-	private stripe_client_secret: string = '';
-	private deposit_suscription: {
+	public paypalExtend: boolean = false;
+	public DepositStep: number = 0;
+	public has_button_payment: boolean = false;
+	public stripe_button_disabled: boolean = false;
+	public stripe_client_secret: string = '';
+	public deposit_suscription: {
 		name: string;
 		months: number;
 		min_money: number;
@@ -159,14 +159,14 @@ export default class Donations extends PageChildBase {
 		suscriptionId: string;
 		investment: number;
 	}[] = [];
-	private deposit_membership_selected: string = '';
-	private deposit_methods: string[] = ['paypal', 'stripe', 'blockchain'];
-	private deposit_method_selected: string = 'paypal';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+	public deposit_membership_selected: string = '';
+	public deposit_methods: string[] = ['paypal', 'stripe', 'blockchain'];
+	public deposit_method_selected: string = 'paypal';
+	public deposit_blockchains: { name: string; currency: string; image: string }[] =
 		this.store.util.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
+	public deposit_blockchain_currency: { name: string; currency: string; image: string } =
 		this.deposit_blockchains[0];
-	private moneyDonation: number = 100;
+	public moneyDonation: number = 100;
 
 	public async created() {
 		await super.created();
@@ -175,7 +175,7 @@ export default class Donations extends PageChildBase {
 		}
 	}
 
-	private async to_pay() {
+	public async to_pay() {
 		if (this.deposit_method_selected === 'paypal') {
 			loadScript({ 'client-id': this.store.util.PayPal.client_id || '' })
 				.then((paypal: PayPalNamespace | null) => {

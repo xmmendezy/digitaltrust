@@ -114,9 +114,9 @@ import { IMembership } from '../../store';
 
 @Component
 export default class Membership extends PageChildBase {
-	private memberships_data_org: IMembership[] = [];
-	private memberships_data: IMembership[] = [];
-	private is_loading: boolean = false;
+	public memberships_data_org: IMembership[] = [];
+	public memberships_data: IMembership[] = [];
+	public is_loading: boolean = false;
 
 	public async created() {
 		await super.created();
@@ -127,14 +127,14 @@ export default class Membership extends PageChildBase {
 		this.get_memberships();
 	}
 
-	private async get_memberships() {
+	public async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
 			this.memberships_data_org = memberships_data.map(m => ({ ...m }));
 			this.memberships_data = memberships_data.map(m => ({ ...m }));
 		});
 	}
 
-	private async add() {
+	public async add() {
 		if (this.memberships_data.length === this.memberships_data_org.length) {
 			this.memberships_data = [
 				{
@@ -153,7 +153,7 @@ export default class Membership extends PageChildBase {
 		}
 	}
 
-	private async save() {
+	public async save() {
 		if (JSON.stringify(this.memberships_data) !== JSON.stringify(this.memberships_data_org)) {
 			this.is_loading = true;
 			this.load_form_api(

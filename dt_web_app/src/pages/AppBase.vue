@@ -12,7 +12,7 @@ import { Component } from 'vue-property-decorator';
 
 @Component
 export default class AppBase extends PageBase {
-	private error: boolean = false;
+	public error: boolean = false;
 
 	public async created() {
 		await super.created();

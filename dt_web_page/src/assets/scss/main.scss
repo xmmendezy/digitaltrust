@@ -707,14 +707,42 @@ body {
 	}
 }
 
+.hero-about {
+	.hero-body {
+		padding: 3rem 0;
+
+		@include mobile {
+			padding-top: 0;
+		}
+
+		.container {
+			margin-right: 0;
+			margin-left: 0;
+			width: 100%;
+			max-width: 100vw;
+		}
+	}
+}
+
 #about {
 	padding-bottom: 0;
 	margin-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+
+	@include mobile {
+		padding-top: 2rem;
+	}
 
 	.over {
 		z-index: 10;
 		background: white;
-		box-shadow: 0 0.5em 2em 1em rgba($scheme-invert, 0.1), 0 0px 0 1px rgba($scheme-invert, 0.02);
+		padding-left: 6rem;
+		padding-right: 3rem;
+
+		@include mobile {
+			padding-left: 3rem;
+		}
 	}
 
 	.slider-container {
@@ -735,10 +763,6 @@ body {
 				height: auto !important;
 				width: 40vw !important;
 			}
-		}
-
-		.slider-item:not(.is-current) {
-			background: blue;
 		}
 	}
 

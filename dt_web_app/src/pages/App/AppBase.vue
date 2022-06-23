@@ -171,17 +171,17 @@ import Driver from 'driver.js';
 	components: { Menu, pdf },
 })
 export default class AppBase extends PageBase {
-	private error: boolean = false;
-	private isOpenSidebar: boolean = true;
-	private isReduceSidebar: boolean = true;
-	private isOpenModal: boolean = false;
-	private isOpenInfoModal: boolean = false;
-	private isOpenHelpModal: boolean = false;
+	public error: boolean = false;
+	public isOpenSidebar: boolean = true;
+	public isReduceSidebar: boolean = true;
+	public isOpenModal: boolean = false;
+	public isOpenInfoModal: boolean = false;
+	public isOpenHelpModal: boolean = false;
 
-	private isOpenCollapse = -1;
+	public isOpenCollapse = -1;
 
-	private numPages: number = 0;
-	private pdf_src: any = '';
+	public numPages: number = 0;
+	public pdf_src: any = '';
 
 	@Ref('child_page') child_page!: Vue & {
 		moveNext: () => void;
@@ -189,7 +189,7 @@ export default class AppBase extends PageBase {
 		WithdrawalStep: number;
 	};
 
-	private moveNext: () => void = () => {
+	public moveNext: () => void = () => {
 		0;
 	};
 
@@ -212,7 +212,7 @@ export default class AppBase extends PageBase {
 		});
 	}
 
-	private statusSidebar() {
+	public statusSidebar() {
 		const w = window.innerWidth;
 		if (w <= 768) {
 			this.isOpenModal = false;
@@ -229,7 +229,7 @@ export default class AppBase extends PageBase {
 		}
 	}
 
-	private async triggerSidebar() {
+	public async triggerSidebar() {
 		const w = window.innerWidth;
 		if (w <= 768) {
 			this.isOpenModal = !this.isOpenModal;
@@ -242,13 +242,13 @@ export default class AppBase extends PageBase {
 		}
 	}
 
-	private get_helper_texts_i18n(option: string) {
+	public get_helper_texts_i18n(option: string) {
 		return [...Array(parseInt(this.$t('help-center.' + option + '.text_count') as string))].map((_, i) =>
 			this.$t('help-center.' + option + '.texts.' + i),
 		);
 	}
 
-	private async driver_gruide(option: string) {
+	public async driver_gruide(option: string) {
 		this.isOpenHelpModal = false;
 		await this.sleep(100);
 		switch (option) {
@@ -263,7 +263,7 @@ export default class AppBase extends PageBase {
 		}
 	}
 
-	private async drive_guide_a() {
+	public async drive_guide_a() {
 		try {
 			await this.$router.push({ name: 'Home' });
 		} catch (_) {
@@ -321,7 +321,7 @@ export default class AppBase extends PageBase {
 		driver.start();
 	}
 
-	private async drive_guide_b() {
+	public async drive_guide_b() {
 		try {
 			await this.$router.push({ name: 'Home' });
 		} catch (_) {
@@ -446,7 +446,7 @@ export default class AppBase extends PageBase {
 		driver.start();
 	}
 
-	private async drive_guide_c() {
+	public async drive_guide_c() {
 		try {
 			await this.$router.push({ name: 'Home' });
 		} catch (_) {

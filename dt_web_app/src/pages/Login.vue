@@ -99,14 +99,14 @@ import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 	components: { Points, VueHcaptcha },
 })
 export default class Login extends PageChildBase {
-	private isModalForgotPassword: boolean = false;
-	private email_forgot_password: string = '';
+	public isModalForgotPassword: boolean = false;
+	public email_forgot_password: string = '';
 
-	private telephone: string = '+16469803342';
+	public telephone: string = '+16469803342';
 
-	private valid_captcha: boolean = false;
+	public valid_captcha: boolean = false;
 
-	private login_form: LoginDto = {
+	public login_form: LoginDto = {
 		username: '',
 		password: '',
 	};
@@ -123,7 +123,7 @@ export default class Login extends PageChildBase {
 		return this.valid_captcha && !!this.login_form.username && !!this.login_form.password;
 	}
 
-	private async mounted() {
+	public async mounted() {
 		const timer = setInterval(() => {
 			if (this.$refs.input) {
 				clearInterval(timer);
@@ -132,7 +132,7 @@ export default class Login extends PageChildBase {
 		}, 10);
 	}
 
-	private async login() {
+	public async login() {
 		if (!this.valid_form) {
 			return;
 		}

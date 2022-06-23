@@ -68,10 +68,10 @@ import TreeChart from '../../components/TreeChart.vue';
 	components: { TreeChart },
 })
 export default class BinaryTree extends PageChildBase {
-	private url_refer: string = '';
-	private treeData: any = {};
-	private isLoading: boolean = false;
-	private isInfoModalActive: boolean = false;
+	public url_refer: string = '';
+	public treeData: any = {};
+	public isLoading: boolean = false;
+	public isInfoModalActive: boolean = false;
 
 	public async created() {
 		await super.created();

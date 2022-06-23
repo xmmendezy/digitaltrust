@@ -214,7 +214,7 @@
 										<c-input
 											ref="input"
 											v-model="edit_client_form.username"
-											@keyup.enter.native="update()"
+											@keyup.enter.native="update_client()"
 											:placeholder="$t('setting.user.a')"
 										></c-input>
 									</div>
@@ -707,62 +707,66 @@ import BalanceModal from '../../components/BalanceModal.vue';
 	components: { BalanceModal },
 })
 export default class Admin extends PageChildBase {
-	private client_data: IClient[] = [];
-	private memberships_data: IMembership[] = [];
+	public client_data: IClient[] = [];
+	public memberships_data: IMembership[] = [];
 
-	private isOpenNewClientModal: boolean = false;
-	private client_form: SignupDto = new SignupDto();
+	public isOpenNewClientModal: boolean = false;
+	public client_form: SignupDto = new SignupDto();
 
-	private isOpenEditClientModal: boolean = false;
-	private edit_client_form: UpdateDto = new UpdateDto();
-	private id_edit_client: string = '';
-	private default_country: string = '';
+	public isOpenEditClientModal: boolean = false;
+	public edit_client_form: UpdateDto = new UpdateDto();
+	public id_edit_client: string = '';
+	public default_country: string = '';
 
-	private isOpenBalanceDetailClientModal: boolean = false;
-	private records_client_data: IRecord[] = [];
-	private balance_detail_data: IBalanceDetail = null as any;
-	private suscriptions_data: ISuscription[] = [];
-	private isTableBalance: boolean = true;
+	public isOpenBalanceDetailClientModal: boolean = false;
+	public records_client_data: IRecord[] = [];
+	public balance_detail_data: IBalanceDetail = null as any;
+	public suscriptions_data: ISuscription[] = [];
+	public isTableBalance: boolean = true;
 
-	private client_data_now: IUser = null as any;
-	private client_timezone_now: ITimeZone = null as any;
+	public client_data_now: IUser = null as any;
+	public client_timezone_now: ITimeZone = null as any;
 
-	private isOpenWithdrawalsModal: boolean = false;
-	private withdrawals_client_data: IWithdrawal[] = null as any;
+	public isOpenWithdrawalsModal: boolean = false;
+	public withdrawals_client_data: IWithdrawal[] = null as any;
 
-	private isOpenWithdrawalModal: boolean = false;
-	private withdrawal_methods: string[] = ['bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
-	private withdrawal_method_selected: string = 'bankcheck';
-	private moneyWithdrawal: number = 0;
-	private moneyWithdrawalMax: number = 0;
-	private dateWithdrawal: Date = new Date();
-	private referenceWithdrawal: string = '';
+	public isOpenWithdrawalModal: boolean = false;
+	public withdrawal_methods: string[] = ['bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
+	public withdrawal_method_selected: string = 'bankcheck';
+	public moneyWithdrawal: number = 0;
+	public moneyWithdrawalMax: number = 0;
+	public dateWithdrawal: Date = new Date();
+	public referenceWithdrawal: string = '';
 
-	private isOpenDepositModal: boolean = false;
-	private deposit_suscriptions: {
+	public isOpenDepositModal: boolean = false;
+	public deposit_suscriptions: {
 		name: string;
+		months: number;
 		membershipId: string;
 		suscriptionId: string;
+		interest: string;
 		min_money: number;
+		money_a: number;
+		money_b: number;
+		investment: number;
 	}[] = [];
-	private deposit_membership_selected: string = '';
-	private deposit_methods: string[] = ['balance', 'bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
-	private deposit_method_selected: string = 'balance';
-	private deposit_blockchains: { name: string; currency: string; image: string }[] =
+	public deposit_membership_selected: string = '';
+	public deposit_methods: string[] = ['balance', 'bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
+	public deposit_method_selected: string = 'balance';
+	public deposit_blockchains: { name: string; currency: string; image: string }[] =
 		this.store.util.deposit_blockchains;
-	private deposit_blockchain_currency: { name: string; currency: string; image: string } =
-		this.deposit_blockchains[0];
-	private moneyDeposit: number = 0;
-	private moneyDepositMin: number = 100;
-	private moneyDepositMax: number = 100000000;
-	private dateDeposit: Date = new Date();
-	private referenceDeposit: string = '';
+	public deposit_blockchain_currency: { name: string; currency: string; image: string } = this.deposit_blockchains[0];
+	public moneyDeposit: number = 0;
+	public moneyDepositMin: number = 100;
+	public moneyDepositMax: number = 100000000;
+	public dateDeposit: Date = new Date();
+	public referenceDeposit: string = '';
 
-	private telephoneInternational: string = '';
-	private validationTelephone: any;
-	private countryEnabled: string = '';
-	private countriesAllow: string[] = [];
-	private countriesAllowIDS: string[] = [];
+	public telephoneInternational: string = '';
+	public validationTelephone: any;
+	public countryEnabled: string = '';
+	public countriesAllow: string[] = [];
+	public countriesAllowIDS: string[] = [];
 
 	public async created() {
 		await super.created();
@@ -844,19 +848,19 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private async get_memberships() {
+	public async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (memberships_data: IMembership[]) => {
 			this.memberships_data = memberships_data;
 		});
 	}
 
-	private async get_clients() {
+	public async get_clients() {
 		this.load_form_api(await this.store.api.clients_vip(), (data: IClient[]) => {
 			this.client_data = data;
 		});
 	}
 
-	private async new_client() {
+	public async new_client() {
 		this.client_form = new SignupDto();
 		this.client_form.ref = 'admin';
 		this.client_form.freeSupport = true;
@@ -864,7 +868,7 @@ export default class Admin extends PageChildBase {
 		this.isOpenNewClientModal = true;
 	}
 
-	private async register_client() {
+	public async register_client() {
 		const errors: string[] = this.client_form.validate();
 		if (!this.validationTelephone) {
 			errors.push('validator.auth.h');
@@ -888,7 +892,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private async edit_client(id: string) {
+	public async edit_client(id: string) {
 		this.id_edit_client = id;
 		this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
 			this.edit_client_form = new UpdateDto();
@@ -899,7 +903,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	private async update_client() {
+	public async update_client() {
 		if (this.edit_client_form) {
 			const errors: string[] = this.edit_client_form.validate();
 			if (!this.validationTelephone) {
@@ -937,7 +941,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private async delete_client() {
+	public async delete_client() {
 		this.$buefy.dialog.confirm({
 			title: this.$t('setting.remove.a') as string,
 			message: this.$t('setting.remove.b') as string,
@@ -965,7 +969,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	private validateNumber(args: any) {
+	public validateNumber(args: any) {
 		if (args) {
 			this.validationTelephone = args.valid;
 			if (args.number) {
@@ -974,14 +978,14 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private changeCountry(countryCode: any) {
+	public changeCountry(countryCode: any) {
 		this.countryEnabled = this.countriesAllow.find(element => element == countryCode.iso2) ?? '';
 		this.client_form.telephone = '';
 		const indexCountry = this.countriesAllow.findIndex(element => element == countryCode.iso2);
 		this.client_form.country = this.countriesAllowIDS[indexCountry ?? ''] ?? '';
 	}
 
-	private changeCountryUpdate(countryCode: any) {
+	public changeCountryUpdate(countryCode: any) {
 		if (this.edit_client_form) {
 			this.countryEnabled = this.countriesAllow.find(element => element == countryCode.iso2) ?? '';
 			this.edit_client_form.telephone = '';
@@ -990,7 +994,7 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private async get_data_client_now(id: string) {
+	public async get_data_client_now(id: string) {
 		if (!this.client_data_now || this.client_data_now.id !== id) {
 			this.load_form_api(await this.store.api.client(id), async (data: IUser) => {
 				this.client_data_now = data;
@@ -1007,12 +1011,12 @@ export default class Admin extends PageChildBase {
 		}
 	}
 
-	private async balance_detail_client(id: string) {
+	public async balance_detail_client(id: string) {
 		await this.get_data_client_now(id);
 		this.isOpenBalanceDetailClientModal = true;
 	}
 
-	private async withdrawal_client(id: string) {
+	public async withdrawal_client(id: string) {
 		await this.get_data_client_now(id);
 		this.load_form_api(await this.store.api.withdrawals_alert(id), (data: IWithdrawal[]) => {
 			this.withdrawals_client_data = data;
@@ -1020,7 +1024,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	private async withdrawal_accept(id: string) {
+	public async withdrawal_accept(id: string) {
 		this.$buefy.dialog.confirm({
 			message: this.$t('helper.continue_task') as string,
 			confirmText: this.$t('helper.confirm') as string,
@@ -1039,7 +1043,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	private async open_withdrawal(id: string) {
+	public async open_withdrawal(id: string) {
 		await this.get_data_client_now(id);
 		this.load_form_api(await this.store.api.balance_detail({ id }), (data: IBalanceDetail) => {
 			this.balance_detail_data = data;
@@ -1052,7 +1056,7 @@ export default class Admin extends PageChildBase {
 		});
 	}
 
-	private async finish_withdrawal() {
+	public async finish_withdrawal() {
 		this.load_form_api(
 			await this.store.api.request_withdrawal({
 				id: this.client_data_now.id,
@@ -1073,7 +1077,7 @@ export default class Admin extends PageChildBase {
 		);
 	}
 
-	private async open_deposit(id: string) {
+	public async open_deposit(id: string) {
 		await this.get_data_client_now(id);
 		this.load_form_api(await this.store.api.balance_detail({ id }), (data: IBalanceDetail) => {
 			this.balance_detail_data = data;

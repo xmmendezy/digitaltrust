@@ -232,14 +232,14 @@ import { UpdateDto, ICountry } from '../../store';
 
 @Component
 export default class Setting extends PageChildBase {
-	private update_form: UpdateDto = new UpdateDto();
-	private default_country: string = '';
+	public update_form: UpdateDto = new UpdateDto();
+	public default_country: string = '';
 
-	private telephoneInternational: string = '';
-	private validationTelephone: any;
-	private countryEnabled: string = '';
-	private countriesAllow: string[] = [];
-	private countriesAllowIDS: string[] = [];
+	public telephoneInternational: string = '';
+	public validationTelephone: any;
+	public countryEnabled: string = '';
+	public countriesAllow: string[] = [];
+	public countriesAllowIDS: string[] = [];
 
 	public async created() {
 		await super.created();
@@ -259,7 +259,7 @@ export default class Setting extends PageChildBase {
 		});
 	}
 
-	private async update() {
+	public async update() {
 		if (this.update_form) {
 			const errors: string[] = this.update_form.validate();
 			if (!this.validationTelephone) {

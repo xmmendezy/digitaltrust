@@ -269,31 +269,32 @@ import { FlipCountdown } from '../../utils/base.utils';
 	components: { Chart, BalanceModal, FlipCountdown },
 })
 export default class Home extends PageChildBase {
-	private balance_detail_data: IBalanceDetail = null as any;
+	public balance_detail_data: IBalanceDetail = null as any;
 
-	private balance_data: IBalance = {
+	public balance_data: IBalance = {
 		balance: 0,
 		earning: 0,
 		investment: 0,
+		withdrawal: 0,
 	};
 
-	private memberships_data: IMembership[] = [];
-	private suscriptions_data: ISuscription[] = [];
+	public memberships_data: IMembership[] = [];
+	public suscriptions_data: ISuscription[] = [];
 
-	private isValidChart: boolean = true;
+	public isValidChart: boolean = true;
 
-	private isOpenBalanceDetailModal: boolean = false;
+	public isOpenBalanceDetailModal: boolean = false;
 
-	private isOpenWithdrawalModal: boolean = false;
-	private WithdrawalStep: number = 0;
-	private withdrawal_methods: string[] = ['bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
-	private withdrawal_method_selected: string = 'bankcheck';
-	private moneyWithdrawal: number = 0;
-	private moneyWithdrawalMax: number = 0;
+	public isOpenWithdrawalModal: boolean = false;
+	public WithdrawalStep: number = 0;
+	public withdrawal_methods: string[] = ['bankcheck', 'wire_transfer', 'paypal', 'stripe', 'blockchain'];
+	public withdrawal_method_selected: string = 'bankcheck';
+	public moneyWithdrawal: number = 0;
+	public moneyWithdrawalMax: number = 0;
 
-	private blockchains: { name: string; currency: string; coingecko: string; image: string; dollar: string }[] =
+	public blockchains: { name: string; currency: string; coingecko: string; image: string; dollar: string }[] =
 		this.store.util.deposit_blockchains;
-	private is_load_crypto_coin: boolean = false;
+	public is_load_crypto_coin: boolean = false;
 
 	public async created() {
 		await super.created();
@@ -316,7 +317,7 @@ export default class Home extends PageChildBase {
 		this.get_balance();
 	}
 
-	private moveNext: () => void = () => {
+	public moveNext: () => void = () => {
 		0;
 	};
 
@@ -332,19 +333,19 @@ export default class Home extends PageChildBase {
 		}
 	}
 
-	private async get_balance() {
+	public async get_balance() {
 		this.load_form_api(await this.store.api.balance(), (data: IBalance) => {
 			this.balance_data = data;
 		});
 	}
 
-	private async get_memberships() {
+	public async get_memberships() {
 		this.load_form_api(await this.store.api.memberships(), (data: IMembership[]) => {
 			this.memberships_data = data;
 		});
 	}
 
-	private async get_suscriptions() {
+	public async get_suscriptions() {
 		this.load_form_api(await this.store.api.suscriptions(), (data: ISuscription[]) => {
 			this.suscriptions_data = data;
 		});
@@ -365,7 +366,7 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	private async finish_withdrawal() {
+	public async finish_withdrawal() {
 		this.load_form_api(
 			await this.store.api.request_withdrawal({
 				type: this.withdrawal_method_selected,
@@ -383,7 +384,7 @@ export default class Home extends PageChildBase {
 		);
 	}
 
-	private async get_currency_to_dollar(blockchain: {
+	public async get_currency_to_dollar(blockchain: {
 		name: string;
 		currency: string;
 		coingecko: string;
@@ -395,7 +396,7 @@ export default class Home extends PageChildBase {
 		});
 	}
 
-	private get_name_suscription(id: string) {
+	public get_name_suscription(id: string) {
 		const membership = this.memberships_data.find(
 			m => m.id === this.suscriptions_data.find(s => s.id === id)?.membershipId,
 		);

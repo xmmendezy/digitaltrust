@@ -142,19 +142,19 @@ import { SignupDto, ICountry, IRefer } from '../store';
 
 @Component
 export default class Register extends PageChildBase {
-	private signup_form: SignupDto = new SignupDto();
+	public signup_form: SignupDto = new SignupDto();
 
-	private ref_name: string = '';
-	private ref_error: boolean = false;
+	public ref_name: string = '';
+	public ref_error: boolean = false;
 
-	private check1: boolean = false;
-	private check2: boolean = false;
+	public check1: boolean = false;
+	public check2: boolean = false;
 
-	private telephoneInternational: string = '';
-	private validationTelephone: any;
-	private countryEnabled: string = '';
-	private countriesAllow: string[] = [];
-	private countriesAllowIDS: string[] = [];
+	public telephoneInternational: string = '';
+	public validationTelephone: any;
+	public countryEnabled: string = '';
+	public countriesAllow: string[] = [];
+	public countriesAllowIDS: string[] = [];
 
 	public async created() {
 		await super.created();
@@ -185,13 +185,13 @@ export default class Register extends PageChildBase {
 		}
 	}
 
-	private async mounted() {
+	public async mounted() {
 		this.exec_is_render('input', input => {
 			(input as any).focus();
 		});
 	}
 
-	private async signup() {
+	public async signup() {
 		if (this.check1 && this.check2) {
 			const errors: string[] = this.signup_form.validate();
 			if (!this.validationTelephone) {
