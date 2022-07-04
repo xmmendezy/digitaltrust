@@ -58,7 +58,8 @@ export class DTService {
 	constructor(private readonly mailerService: MailerService) {}
 
 	public async suscribe_mail(email: string): Promise<Error> {
-		const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const re =
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (re.test(String(email).toLowerCase())) {
 			const suscibe = await SuscribeMail.createQueryBuilder().where('email = :email', { email }).getOne();
 			if (suscibe) {
@@ -1069,9 +1070,7 @@ export class DTService {
 		return { valid: !suscription.errors.length };
 	}
 
-	public async balance_graphic(
-		user: User,
-	): Promise<{
+	public async balance_graphic(user: User): Promise<{
 		labels: number[];
 		data: number[];
 	}> {

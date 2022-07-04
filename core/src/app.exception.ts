@@ -17,7 +17,11 @@ export class AppException extends HttpException {
 				let redirect = '/dt_app';
 				if (domain.match('(.*)digitaltrustonline.*')) {
 					redirect = '/dt_app';
+				} else if (domain.match('(.*)digitaltrustcompany.*')) {
+					redirect = '/dt_app';
 				} else if (domain.match('(.*)tradingdigital.*')) {
+					redirect = '/td_app';
+				} else if (domain.match('(.*)unotrades.*')) {
 					redirect = '/td_app';
 				} else if (domain.match('(.*)localhost.*')) {
 					redirect = '/dt_app';
@@ -27,7 +31,11 @@ export class AppException extends HttpException {
 				let root_dir = 'dt_view';
 				if (domain.match('(.*)digitaltrustonline.*')) {
 					root_dir = 'dt_view';
+				} else if (domain.match('(.*)digitaltrustcompany.*')) {
+					root_dir = 'dt_view';
 				} else if (domain.match('(.*)tradingdigital.*')) {
+					root_dir = 'td_view';
+				} else if (domain.match('(.*)unotrades.*')) {
 					root_dir = 'td_view';
 				} else if (domain.match('(.*)blackrockloans.*')) {
 					root_dir = 'br_view';
