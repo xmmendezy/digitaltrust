@@ -46,7 +46,7 @@
 									class="button is-ghost"
 									tag="a"
 									:href="
-										'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id
+										'https://www.digitaltrustcompany.com/dt_app/link_traiding?id=' + store.user.id
 									"
 									target="_blank"
 								>

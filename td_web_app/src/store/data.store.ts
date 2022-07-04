@@ -45,7 +45,7 @@ export const useDataStore = defineStore('data', {
 	state: (): State => ({
 		base_url:
 			import.meta.env.PROD || import.meta.env.MODE === 'app'
-				? 'https://www.tradingdigital.net/td/api'
+				? 'https://www.unotrades.com/td/api'
 				: 'http://localhost:9001/td/api',
 		authenticated: false,
 		jwt: undefined,

@@ -303,7 +303,7 @@ const register = async () => {
 			if (!error) {
 				if (digital_trust && store.user) {
 					window.location.replace(
-						'https://www.digitaltrustonline.net/dt_app/link_traiding?id=' + store.user.id,
+						'https://www.digitaltrustcompany.com/dt_app/link_traiding?id=' + store.user.id,
 					);
 				} else if (social_trading) {
 					router.push('/');

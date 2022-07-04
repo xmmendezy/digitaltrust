@@ -251,7 +251,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../images/logo.png": [
+  "../../../../../../../../images/logo.png": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -356,7 +356,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../@vite-plugin-vue-layouts/generated-layouts": [
+  "../../../../../../../../@vite-plugin-vue-layouts/generated-layouts": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -398,7 +398,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../images/index_1.png": [
+  "../../../../../../../../images/index_1.png": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -419,7 +419,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../images/index_2.png": [
+  "../../../../../../../../images/index_2.png": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
@@ -1616,7 +1616,7 @@
     "/assets/fa-solid-900.af639750.ttf",
     "/assets/fa-solid-900.9674eb1b.svg"
   ],
-  "../../../../../../@vite-plugin-pages/generated-pages": [
+  "../../../../../../../../@vite-plugin-pages/generated-pages": [
     "/assets/poppins-devanagari-400-normal.478b3ab7.woff2",
     "/assets/poppins-all-400-normal.c68e1edb.woff",
     "/assets/poppins-latin-ext-400-normal.cb8bdeab.woff2",
